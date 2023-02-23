@@ -1,11 +1,8 @@
-<script setup>
-
-</script>
+<script setup></script>
 
 <template>
   <div class="news">
     <div class="layout-container">
-
       <!--   NEWS TOP ADS   -->
       <div class="news-ads flex align-center justify-between">
         <div>
@@ -13,22 +10,28 @@
           <span>до 31.12.2022</span>
         </div>
         <div>
-          <img src="@/assets/images/news-ads-img.png" alt="">
+          <img src="@/assets/images/news-ads-img.png" alt="" />
         </div>
       </div>
 
       <!--   NEW LIST   -->
       <div class="news-list flex flex-column flex-wrap">
-        <router-link to="/news/1" class="news-list__item flex justify-between align-center">
-          <img src="@/assets/images/news-image.png" alt="">
+        <router-link
+          to="/news/1"
+          class="news-list__item flex justify-between align-center"
+        >
+          <img src="@/assets/images/news-image.png" alt="" />
           <div>
             <p>Подключи интернет для бизнеса выгодно!</p>
             <span>26.12.2022 15:58</span>
           </div>
         </router-link>
 
-        <router-link to="/news/1" class="news-list__item flex justify-between align-center">
-          <img src="@/assets/images/news-image.png" alt="">
+        <router-link
+          to="/news/1"
+          class="news-list__item flex justify-between align-center"
+        >
+          <img src="@/assets/images/news-image.png" alt="" />
           <div>
             <p>Подключи интернет для бизнеса выгодно!</p>
             <span>26.12.2022 15:58</span>
@@ -40,11 +43,9 @@
 </template>
 
 <style lang="scss" scoped>
-
 .news {
-
   &-ads {
-    background: linear-gradient(107.32deg, #4ADAFF -22.08%, #0062CA 122.03%);
+    background: linear-gradient(107.32deg, #4adaff -22.08%, #0062ca 122.03%);
     border-radius: 8px;
     padding: 12px 1rem;
     margin-bottom: 19px;
@@ -97,10 +98,9 @@
         font-weight: 400;
         font-size: 14px;
         line-height: 129%;
-        color: #A3ABB8;
+        color: #a3abb8;
       }
     }
   }
 }
-
 </style>

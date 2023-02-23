@@ -30,6 +30,11 @@
   color: #fff;
 }
 
+.font-15-dark {
+  @extend .font-15;
+  color: #090909;
+}
+
 .font-24{
   font-family: 'sf-pro', sans-serif;
   font-style: normal;
@@ -42,4 +47,18 @@
 .font-24-white {
   @extend .font-24;
   color: #fff;
+}
+
+.font-15-small {
+  font-family: 'sf-pro', sans-serif;
+  font-style: normal;
+  font-weight: 600;
+  font-size: 15px;
+  line-height: 16px;
+  letter-spacing: -0.4px;
+}
+
+.font-15-small-dark {
+  @extend .font-15-small;
+  color: #090909;
 }
