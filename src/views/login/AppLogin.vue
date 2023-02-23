@@ -11,6 +11,7 @@ import {
   setLocalStorageVariable,
 } from "@/utils/localstorage.util";
 import { telegramApi } from "@/services/telegram.service";
+import { setToken } from "@/utils/auth.util";
 
 const ENTER_NUMBER = 1;
 const CONFIRM_NUMBER = 2;
@@ -71,7 +72,7 @@ async function phoneVerify() {
       body: verification,
     });
 
-    setLocalStorageVariable(OLTIN_BALIQ_BOT_TKN, access_token);
+    setToken(access_token);
 
     await telegramApi.login({
       body: {
