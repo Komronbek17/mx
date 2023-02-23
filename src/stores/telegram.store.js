@@ -4,9 +4,9 @@ import { MainButtonController } from "@/utils/telegram/main.button.controller";
 import { BackButtonController } from "@/utils/telegram/back.button.controller";
 
 export const useTelegramStore = defineStore("telegram", () => {
+  const webApp = ref(null);
   const backButtonController = ref(null);
   const mainButtonController = ref(null);
-  const webApp = ref(null);
 
   function initWebApp({ tApp }) {
     webApp.value = tApp;
