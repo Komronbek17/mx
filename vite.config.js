@@ -14,11 +14,8 @@ export default defineConfig({
   css: {
     preprocessorOptions: {
       scss: {
-        additionalData: `@import "@/assets/scss/fonts.scss";`,
-      },
-    },
+        additionalData: `@import "@/assets/scss/fonts.scss";`
+      }
+    }
   },
-  build:{
-    chunkSizeWarningLimit: 1600
-  }
 });
