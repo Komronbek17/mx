@@ -1,14 +1,8 @@
 <script setup>
 import { ref } from "vue";
-import {
-  setLocalStorageVariable,
-  getLocalStorageVariable,
-} from "@/utils/localstorage.util";
-
 import uzIcon from "@/assets/images/lang-uz-icon.svg";
 import enIcon from "@/assets/images/lang-en-icon.svg";
 import ruIcon from "@/assets/images/lang-ru-icon.svg";
-import { useRouter } from "vue-router";
 
 const availableLangs = [
   {
@@ -28,19 +22,10 @@ const availableLangs = [
   },
 ];
 let activeLang = ref("");
-const router = useRouter();
-
-function getLangFromStorage() {
-  activeLang.value = getLocalStorageVariable("lang") || "ru";
-}
 
 function changeLocale(item) {
   activeLang.value = item || "ru";
-  setLocalStorageVariable("lang", item);
-  router.push({ name: "settings" });
 }
-
-getLangFromStorage();
 </script>
 
 <template>
@@ -66,7 +51,7 @@ getLangFromStorage();
 .language {
   &-cards {
     display: grid;
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(3, 1fr);
     column-gap: 1rem;
   }
 
@@ -75,7 +60,7 @@ getLangFromStorage();
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    background: var(--gf-accent-bg);
+    background: #f2fbfd;
     border-radius: 8px;
     padding: 16px 9px;
     row-gap: 1rem;
@@ -88,7 +73,6 @@ getLangFromStorage();
 
     & p {
       @extend .font-15-dark;
-      color: var(--gf-text-09);
     }
 
     &.active {

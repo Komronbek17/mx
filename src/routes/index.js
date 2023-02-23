@@ -10,15 +10,9 @@ import AppSettings from "@/views/settings/AppSettings.vue";
 import AppLanguage from "@/views/settings/AppLanguage.vue";
 import AppBonus from "@/views/bonus/AppBonus.vue";
 import AppGame from "@/views/game/AppGame.vue";
+import AppProfile from "@/views/settings/AppProfile.vue";
 import AppNews from "@/views/news/index.vue";
-import AppProfile from "@/views/profile/index.vue";
-import AppNotification from "@/views/profile/AppNotification.vue";
-import AppProfileEdit from "@/views/profile/AppProfileEdit.vue";
-import AppDaily from "@/views/daily/AppDaily.vue";
 import _id from "@/views/news/_id.vue";
-import { getToken } from "@/utils/auth.util";
-import { isNUNEZ } from "@/utils/inspect.util";
-// import { useTelegramStore } from "@/stores/telegram.store";
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -37,11 +31,6 @@ const router = createRouter({
       path: "/premium",
       name: "premium",
       component: AppPremium,
-    },
-    {
-      path: "/daily",
-      name: "daily",
-      component: AppDaily,
     },
     {
       path: "/prize",
@@ -67,16 +56,6 @@ const router = createRouter({
       path: "/profile",
       name: "profile",
       component: AppProfile,
-    },
-    {
-      path: "/profile/notification",
-      name: "notification",
-      component: AppNotification,
-    },
-    {
-      path: "/profile/edit",
-      name: "profile-edit",
-      component: AppProfileEdit,
     },
     {
       path: "/market",
@@ -105,25 +84,10 @@ const router = createRouter({
     },
     {
       path: "/news/:id",
-      name: "news-show",
+      name: "one-news",
       component: _id,
     },
   ],
-});
-
-router.beforeEach((to, from, next) => {
-  if (to.name === "login") {
-    return next();
-  }
-
-  const hasToken = isNUNEZ(getToken());
-  if (!hasToken) {
-    return next({
-      name: "login",
-    });
-  }
-
-  return next();
 });
 
 export default router;

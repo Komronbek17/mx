@@ -1,88 +1,40 @@
-<script setup>
-import { newsApi } from "@/services/news.service";
-import { onMounted, ref } from "vue";
-
-const news = ref([]);
-
-const pagination = ref({
-  current: 1,
-  limit: 10,
-});
-const loading = ref(false);
-const getNews = async () => {
-  const body = {
-    method: "news.get_all",
-    params: {
-      page: pagination.value.current,
-      limit: pagination.value.limit,
-    },
-  };
-  try {
-    const { data } = await newsApi.fetchNews(body);
-    news.value = [...news.value, ...data.result];
-    console.log(data, "newsApi");
-  } catch (e) {
-    console.log(e, "newsApi");
-  }
-};
-
-function loadMore() {
-  /** This is only for this demo, you could
-   * replace the following with code to hit
-   * an endpoint to pull in more data. **/
-  loading.value = true;
-  setTimeout((e) => {
-    for (let i = 0; i < 1; i++) {
-      pagination.value.current++;
-      getNews();
-    }
-    loading.value = false;
-  }, 2000);
-  /**************************************/
-}
-
-onMounted(() => {
-  getNews();
-
-  const listElm = document.querySelector("#infinite-list");
-  listElm.addEventListener("scroll", (e) => {
-    if (listElm.scrollTop + listElm.clientHeight >= listElm.scrollHeight) {
-      loadMore();
-    }
-  });
-  // Initially load some items.
-  loadMore();
-});
-</script>
+<script setup></script>
 
 <template>
-  <div id="infinite-list" class="news">
+  <div class="news">
     <div class="layout-container">
       <!--   NEWS TOP ADS   -->
-      <!--            <div class="news-ads flex align-center justify-between">-->
-      <!--                <div>-->
-      <!--                    <p>Акция! Успейте забрать ценные призы</p>-->
-      <!--                    <span>до 31.12.2022</span>-->
-      <!--                </div>-->
-      <!--                <div>-->
-      <!--                    <img src="@/assets/images/news-ads-prize.png" alt=""/>-->
-      <!--                </div>-->
-      <!--            </div>-->
+      <div class="news-ads flex align-center justify-between">
+        <div>
+          <p>Акция! Успейте забрать ценные призы</p>
+          <span>до 31.12.2022</span>
+        </div>
+        <div>
+          <img src="@/assets/images/news-ads-img.png" alt="" />
+        </div>
+      </div>
 
       <!--   NEW LIST   -->
       <div class="news-list flex flex-column flex-wrap">
         <router-link
-          v-for="item in news"
-          :key="item.id"
-          :to="{ name: 'news-show', params: { id: item.id } }"
-          class="news-list__item flex align-center"
+          to="/news/1"
+          class="news-list__item flex justify-between align-center"
         >
-          <div class="news-list__item-img">
-            <img :src="item.img" alt="" />
-          </div>
+          <img src="@/assets/images/news-image.png" alt="" />
           <div>
-            <p>{{ item.name }}</p>
-            <span>{{ item.date }}</span>
+            <p>Подключи интернет для бизнеса выгодно!</p>
+            <span>26.12.2022 15:58</span>
+          </div>
+        </router-link>
+
+        <router-link
+          to="/news/1"
+          class="news-list__item flex justify-between align-center"
+        >
+          <img src="@/assets/images/news-image.png" alt="" />
+          <div>
+            <p>Подключи интернет для бизнеса выгодно!</p>
+            <span>26.12.2022 15:58</span>
           </div>
         </router-link>
       </div>
@@ -92,10 +44,8 @@ onMounted(() => {
 
 <style lang="scss" scoped>
 .news {
-  padding: 0;
-
   &-ads {
-    background: var(--gf-blue-gradient-02);
+    background: linear-gradient(107.32deg, #4adaff -22.08%, #0062ca 122.03%);
     border-radius: 8px;
     padding: 12px 1rem;
     margin-bottom: 19px;
@@ -122,31 +72,25 @@ onMounted(() => {
   &-list {
     &__item {
       padding: 12px 0;
-      border-bottom: 1px solid var(--gf-disable-btn);
+      border-bottom: 1px solid #f5f5f5;
       text-decoration: none;
 
       &:last-child {
         border-bottom: none;
       }
 
-      &-img {
+      img {
         width: 66px;
         height: 66px;
+        object-fit: contain;
         padding-right: 1rem;
-
-        img{
-          height: 100%;
-          min-width: 66px;
-          max-width: 66px;
-          object-fit: contain;
-        }
       }
 
       p {
         font-weight: 600;
         font-size: 15px;
         line-height: 133%;
-        color: var(--gf-text-33);
+        color: #333333;
         margin: 0 0 8px 0;
       }
 
@@ -154,7 +98,7 @@ onMounted(() => {
         font-weight: 400;
         font-size: 14px;
         line-height: 129%;
-        color: var(--gf-text-secondary-gray);
+        color: #a3abb8;
       }
     }
   }
