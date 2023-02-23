@@ -11,7 +11,8 @@ import AppLanguage from "@/views/settings/AppLanguage.vue";
 import AppBonus from "@/views/bonus/AppBonus.vue";
 import AppGame from "@/views/game/AppGame.vue";
 import AppProfile from "@/views/settings/AppProfile.vue";
-import AppNews from "@/views/news/AppNews.vue";
+import AppNews from "@/views/news/index.vue"
+import _id from "@/views/news/_id.vue";
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -81,6 +82,11 @@ const router = createRouter({
       name: "news",
       component: AppNews,
     },
+    {
+      path: '/news/:id',
+      name: 'one-news',
+      component: _id
+    }
   ],
 });
 

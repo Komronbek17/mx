@@ -1,3 +1,218 @@
+<script setup>
+
+</script>
+
+
 <template>
-  <div>app bonus</div>
+    <div class="layout-container">
+
+        <div class="bonus-block">
+            <div class="bonus-card">
+                <div class="bonus-card__title">
+                    Баланс:
+                </div>
+                <div class="bonus-card__price">
+                    <img src="@/assets/images/coin.png" alt="">
+                    <p>1000</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="gifts-block">
+            <div class="gift-title">
+                Призы
+            </div>
+            <div class="gift-list">
+                <div class="gift-card">
+                    <div class="gift-card__image">
+                        <img src="@/assets/images/nout.svg" alt="">
+                    </div>
+                    <div class="gift-card__content">
+                        <h5>Наушники </h5>
+                        <div class="price">
+                            <img src="@/assets/images/coin.png" alt="">
+                            <p>1000</p>
+                        </div>
+                    </div>
+                    <div class="gift-card__button">
+                        <p>В корзину</p>
+                    </div>
+                </div>
+                <div class="gift-card">
+                    <div class="gift-card__image">
+                        <img src="@/assets/images/nout.svg" alt="">
+                    </div>
+                    <div class="gift-card__content">
+                        <h5>Наушники </h5>
+                        <div class="price">
+                            <img src="@/assets/images/coin.png" alt="">
+                            <p>1000</p>
+                        </div>
+                    </div>
+                    <div class="gift-card__button">
+                        <p>В корзину</p>
+                    </div>
+                </div>
+                <div class="gift-card">
+                    <div class="gift-card__image">
+                        <img src="@/assets/images/nout.svg" alt="">
+                    </div>
+                    <div class="gift-card__content">
+                        <h5>Наушники </h5>
+                        <div class="price">
+                            <img src="@/assets/images/coin.png" alt="">
+                            <p>1000</p>
+                        </div>
+                    </div>
+                    <div class="gift-card__button">
+                        <p>В корзину</p>
+                    </div>
+                </div>
+                <div class="gift-card">
+                    <div class="gift-card__image">
+                        <img src="@/assets/images/nout.svg" alt="">
+                    </div>
+                    <div class="gift-card__content">
+                        <h5>Наушники </h5>
+                        <div class="price">
+                            <img src="@/assets/images/coin.png" alt="">
+                            <p>1000</p>
+                        </div>
+                    </div>
+                    <div class="gift-card__button">
+                        <p>В корзину</p>
+                    </div>
+                </div>
+                <div class="gift-card">
+                    <div class="gift-card__image">
+                        <img src="@/assets/images/nout.svg" alt="">
+                    </div>
+                    <div class="gift-card__content">
+                        <h5>Наушники </h5>
+                        <div class="price">
+                            <img src="@/assets/images/coin.png" alt="">
+                            <p>1000</p>
+                        </div>
+                    </div>
+                    <div class="gift-card__button">
+                        <p>В корзину</p>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
 </template>
+
+
+<style lang="scss" scoped>
+
+.bonus-block {
+    margin-bottom: 1.5rem;
+}
+
+.bonus-card {
+    display: flex;
+    flex-direction: column;
+    padding: 12px 16px;
+    gap: 10px;
+    border-radius: .5rem;
+    background: url("@/assets/images/home-card-layout.png");
+
+    &__title {
+        @extend .font-15-white;
+    }
+
+    &__price {
+        display: flex;
+        column-gap: .5rem;
+
+        p {
+            @extend .font-24-white;
+        }
+
+        img {
+            width: 30px;
+            height: 30px;
+            max-width: 100%;
+            object-fit: contain;
+        }
+    }
+}
+
+.gift-title {
+    @extend .font-h5;
+    margin-bottom: 25px;
+}
+
+.gift-list {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+    flex-wrap: wrap;
+}
+
+.gift-card {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    row-gap: 1rem;
+    padding: 16px 10px;
+    background: #F5F5F5;
+    border-radius: 8px;
+
+    &__image {
+        width: 100px;
+        height: 100px;
+
+        img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+    }
+
+    &__content {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        row-gap: .5rem;
+
+        h5 {
+            @extend .font-h5;
+        }
+
+        .price {
+            display: flex;
+            column-gap: .5rem;
+
+            p {
+                @extend .font-15;
+                background: linear-gradient(122.82deg, #F2D207 0%, #FFA329 100%);
+                -webkit-background-clip: text;
+                -webkit-text-fill-color: transparent;
+                background-clip: text;
+                text-fill-color: transparent;
+            }
+
+            img {
+                max-width: 100%;
+                object-fit: contain;
+            }
+        }
+    }
+
+    &__button {
+        background: linear-gradient(122.82deg, #F2D207 0%, #FFA329 100%);
+        border-radius: 16px;
+        padding: 7px 14px;
+
+        p {
+            @extend .font-14-white;
+        }
+    }
+}
+
+</style>

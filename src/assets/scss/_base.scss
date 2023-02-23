@@ -55,10 +55,15 @@
 
 body {
   color: var(--gf-p-primary-color);
+  //background-color: var(--gf-p-background);
   font-family: 'sf-pro', sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  letter-spacing: -0.5px;
+  //letter-spacing: -0.5px;
+}
+
+.layout-container {
+  padding: 1rem;
 }
 
 
