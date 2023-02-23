@@ -1,4 +1,4 @@
-.head-h5{
+.font-h5 {
   font-family: 'sf-pro', sans-serif;
   font-style: normal;
   font-weight: 600;
@@ -6,4 +6,40 @@
   line-height: 22px;
   color: #333333;
   //margin: 0;
+}
+
+.font-14-white {
+  font-family: 'sf-pro', sans-serif;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 18px;
+  color: #fff;
+}
+
+.font-15 {
+  font-family: 'sf-pro', sans-serif;
+  font-style: normal;
+  font-weight: 600;
+  font-size: 15px;
+  line-height: 20px;
+}
+
+.font-15-white {
+  @extend .font-15;
+  color: #fff;
+}
+
+.font-24{
+  font-family: 'sf-pro', sans-serif;
+  font-style: normal;
+  font-weight: 600;
+  font-size: 24px;
+  line-height: 30px;
+  letter-spacing: -0.4px;
+}
+
+.font-24-white {
+  @extend .font-24;
+  color: #fff;
 }
