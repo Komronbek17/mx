@@ -13,7 +13,7 @@ class TelegramService extends Core {
     });
   }
 
-  login(body) {
+  login({ body }) {
     return this.post("login", body);
   }
 

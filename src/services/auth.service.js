@@ -3,16 +3,16 @@ import Core from "@/services/axios/core.axios";
 class AuthService extends Core {
   constructor() {
     super({
-      endpoint: "oauth",
+      endpoint: "oauth/",
     });
   }
 
-  login() {
-    return this.post("");
+  login({ body }) {
+    return this.post("", body);
   }
 
-  verify() {
-    return this.post("verify");
+  verify({ body }) {
+    return this.post("verify", body);
   }
 
   logout({ body }) {

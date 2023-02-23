@@ -22,5 +22,5 @@ const instanceGenerator = (baseUrl) => {
 
 export const axiosV1 = ({ endpoint = "" }) => {
   // eslint-disable-next-line
-    return instanceGenerator(process.env.VUE_APP_URL_V2 + endpoint);
+    return instanceGenerator(import.meta.env.VITE_APP_URL +'/'+ endpoint);
 };

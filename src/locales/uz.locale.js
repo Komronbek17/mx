@@ -1,3 +1,55 @@
 export default {
   creator: "Sultonov Komron",
+  price: "Narxi %{msg} so'm",
+  packages: {
+    internet: "Internet paket",
+    voice: "Daqiqalar",
+    sms: "SMS paket",
+  },
+  offers: "Oferta",
+  title: {
+    id: "Shaxsiy identifikatoringiz",
+    home: '"Oltin Baliq" telegram botiga xush kelibsiz.  Mobil ilovaning to‘liq funksiyasidan istalgan mobil qurilmadan foydalaning:  Uztelecom abonentlarini kunlik bonuslar, shuningdek, qimmatbaho sovg‘alar kutmoqda.',
+    premiumPackageTypes: "Sizning tarifingiz uchun quyidagi paketlar mavjud",
+    chooseLang: "Tilni tanlang:",
+    unSubscribe:
+      "Obunani bekor qilmoqchimisiz? \nSiz har kuni sovg'a olish imkoniyatini yo'qotasiz.",
+    subscribe: "Obuna yoqilsinmi? Obuna narxi QQS bilan kuniga 500 so'm",
+    chance: "Shans",
+    package: "Paket",
+    type: "Turi",
+    daily: "Premium",
+    premium: "Kunlik",
+    price: "Narxi",
+    sum: "so'm",
+    news: "Yangiliklar",
+  },
+  loginPage: {
+    title: "Telefon raqamingizni kiriting:",
+    subtitle:
+      "Faollashtirish kodi SMS xabarda yuboriladi. Qurilmangiz ularni qabul qila olishiga ishonch hosil qiling.",
+    servicePrice:
+      '"Oltin Baliq" xizmatidan foydalanish abonent uchun xizmat narxi kuniga QQS bilan 500 so\'mni tashkil etadi.',
+    agreement: "Men %{msg} shartlarini qabul qilaman",
+    verify: "Sizning raqamingizga faollashtirish kodi bilan SMS yuborildi.",
+  },
+  button: {
+    getCode: "Kodni olish",
+    back: "Orqaga",
+    submit: "Tasdiqlash",
+    resendCode: "Kodni qayta yuborish",
+    getPrize: "Sovg'ani olish",
+  },
+  menu: {
+    daily: "Baliqni tuting",
+    premium: "Premium",
+    gifts: "Daraja bonuslari",
+    history: "Bonuslar tarixi",
+    settings: "Sozlamalar",
+    changePhoneNumber: "Raqamni o'zgartirish",
+    changeLanguage: "Tilni o'zgartirish",
+    subscribe: "Obuna",
+    policy: "Ommaviy oferta",
+  },
+  getLevelPrizeError: "Level ballingiz yetarli emas!",
 };
