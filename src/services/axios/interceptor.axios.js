@@ -1,14 +1,11 @@
 import router from "@/routes";
-import { OLTIN_BALIQ_BOT_TKN } from "@/constants";
-import { getLocalStorageVariable } from "@/utils/localstorage.util";
+import { getToken } from "@/utils/auth.util";
 
 export function axiosRequestInterceptResponse(config) {
   const lang = localStorage.getItem("locale");
   const requestConfig = Object.assign({}, config);
   if (!config.headers["Authorization"] && config.url !== "oauth/login") {
-    requestConfig.headers["Authorization"] = `Bearer ${getLocalStorageVariable(
-      OLTIN_BALIQ_BOT_TKN
-    )}`;
+    requestConfig.headers["Authorization"] = `Bearer ${getToken()})}`;
   }
 
   requestConfig.headers["Accept-Language"] = lang || "ru";
