@@ -1,10 +1,8 @@
-<script setup>
-
-</script>
+<script setup></script>
 
 <template>
   <div class="one-news">
-    <img src="@/assets/images/news-one-image.png" alt="">
+    <img src="@/assets/images/news-one-image.png" alt="" />
     <div class="layout-container">
       <span class="one-news__date">26.12.2022 15:58</span>
 
@@ -14,11 +12,11 @@
 
       <div class="one-news__btns flex align-center">
         <button class="flex align-center">
-          <img src="@/assets/images/like.svg" alt="">
+          <img src="@/assets/images/like.svg" alt="" />
           <span>100</span>
         </button>
         <button class="flex align-center">
-          <img src="@/assets/images/dislike.svg" alt="">
+          <img src="@/assets/images/dislike.svg" alt="" />
           <span>3</span>
         </button>
       </div>
@@ -38,7 +36,7 @@
     font-weight: 400;
     font-size: 14px;
     line-height: 133%;
-    color: #A3ABB8;
+    color: #a3abb8;
   }
 
   &__title {
