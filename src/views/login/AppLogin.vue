@@ -70,10 +70,9 @@ async function phoneVerify() {
     } = await authApi.verify({
       body: verification,
     });
+
     setLocalStorageVariable(OLTIN_BALIQ_BOT_TKN, access_token);
-    await router.push({
-      name: "home",
-    });
+
     await telegramApi.login({
       body: {
         phone: verification.phone,
@@ -81,6 +80,10 @@ async function phoneVerify() {
         telegram_id: window.Telegram.WebApp.initDataUnsafe?.user?.id,
         jwt: access_token,
       },
+    });
+
+    await router.push({
+      name: "home",
     });
   } catch ({ response }) {
     toast.error(response.data.message);
