@@ -1,0 +1,20 @@
+.app-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  font-weight: 700;
+  font-size: 18px;
+  line-height: 16px;
+  letter-spacing: -0.4px;
+  cursor: pointer;
+
+  &--blue-linear {
+    background: linear-gradient(87.53deg, #236AD5 29.75%, #23D5D5 100%);
+    color: #fff;
+
+    &:disabled {
+      background: #D5D5D5;
+    }
+  }
+}

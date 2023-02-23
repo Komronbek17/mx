@@ -1,0 +1,64 @@
+:root {
+  --gf-p-primary-color: #090909;
+  --gf-p-accent: #F2FBFD;
+  --gf-p-gray-1: #DBDBDB;
+  --gf-p-gray-2: #797D81;
+  --gf-p-background: #181F27;
+  --gf-p-green: #00CB6A;
+  --gf-p-navigation: #181F27;
+  --gf-p-dark-accent: #181F27;
+  --gf-p-main-gradient: linear-gradient(107.32deg, #4ADAFF -22.08%, #0062CA 122.03%);
+  --gf-p-yellow-1: rgba(255, 199, 0, 0.15);
+  --gf-p-yellow-gradient: linear-gradient(122.82deg, #F2D207 0%, #FFA329 100%);
+}
+
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --gf-p-primary-color: #FFFFFF;
+    --gf-p-accent: #F2FBFD;
+    --gf-p-gray-1: #DBDBDB;
+    --gf-p-gray-2: #797D81;
+    --gf-p-background: #181F27;
+    --gf-p-green: #00CB6A;
+    --gf-p-navigation: #181F27;
+    --gf-p-dark-accent: #181F27;
+    --gf-p-main-gradient: linear-gradient(107.32deg, #4ADAFF -22.08%, #0062CA 122.03%);
+    --gf-p-yellow-gradient: linear-gradient(122.82deg, #F2D207 0%, #FFA329 100%);
+    --gf-p-yellow-1: rgba(255, 199, 0, 0.15);
+  }
+}
+
+@font-face {
+  src: url("../fonts/SF-Pro-Text-Regular.otf");
+  font-weight: 400;
+  font-family: 'sf-pro', sans-serif;
+}
+
+@font-face {
+  src: url("../fonts/SF-Pro-Text-Medium.otf");
+  font-weight: 500;
+  font-family: 'sf-pro', sans-serif;
+}
+
+@font-face {
+  src: url("../fonts/SF-Pro-Text-Semibold.otf");
+  font-weight: 600;
+  font-family: 'sf-pro', sans-serif;
+}
+
+@font-face {
+  src: url("../fonts/SF-Pro-Text-Bold.otf");
+  font-weight: 700;
+  font-family: 'sf-pro', sans-serif;
+}
+
+body {
+  color: var(--gf-p-primary-color);
+  font-family: 'sf-pro', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  letter-spacing: -0.5px;
+}
+
+
