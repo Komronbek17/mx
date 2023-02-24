@@ -11,7 +11,7 @@ import UserIcon from "@/components/icons/UserIcon.vue";
 </script>
 
 <template>
-  <div class="flex flex-wrap column-gap-1 row-gap-1">
+  <div class="ol-catalog-home column-gap-1 row-gap-1">
     <catalog-card
       :to="{
         name: 'prize',
@@ -106,6 +106,11 @@ import UserIcon from "@/components/icons/UserIcon.vue";
 </template>
 
 <style lang="scss" scoped>
+.ol-catalog-home {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+}
+
 .premium-catalog-card {
   background: var(--gf-p-yellow-1);
 

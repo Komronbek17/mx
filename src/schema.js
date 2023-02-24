@@ -1,0 +1,46 @@
+export const wApp = {
+  initData:
+    "query_id=AAF5GuFFAAAAAHka4UUmY8AK&user=%7B%22id%22%3A1172380281%2C%22first_name%22%3A%22Komron%22%2C%22last_name%22%3A%22Sultonov%22%2C%22username%22%3A%22sultonovkomron%22%2C%22language_code%22%3A%22en%22%7D&auth_date=1677229258&hash=14573593b1fbcbf73d58a34a064f14d065533b15db96334108e9d65c23999a66",
+  initDataUnsafe: {
+    query_id: "AAF5GuFFAAAAAHka4UUmY8AK",
+    user: {
+      id: 1172380281,
+      first_name: "Komron",
+      last_name: "Sultonov",
+      username: "sultonovkomron",
+      language_code: "en",
+    },
+    auth_date: "1677229258",
+    hash: "14573593b1fbcbf73d58a34a064f14d065533b15db96334108e9d65c23999a66",
+  },
+  version: "6.4",
+  platform: "webz",
+  colorScheme: "light",
+  themeParams: {
+    bg_color: "#ffffff",
+    text_color: "#000000",
+    hint_color: "#707579",
+    link_color: "#3390ec",
+    button_color: "#3390ec",
+    button_text_color: "#ffffff",
+    secondary_bg_color: "#f4f4f5",
+  },
+  isExpanded: true,
+  viewportHeight: 665.75,
+  viewportStableHeight: 665.75,
+  isClosingConfirmationEnabled: false,
+  headerColor: "#ffffff",
+  backgroundColor: "#ffffff",
+  BackButton: {
+    isVisible: false,
+  },
+  MainButton: {
+    text: "CONTINUE",
+    color: "#3390ec",
+    textColor: "#ffffff",
+    isVisible: false,
+    isProgressVisible: false,
+    isActive: true,
+  },
+  HapticFeedback: {},
+};

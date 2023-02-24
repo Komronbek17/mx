@@ -1,0 +1,40 @@
+import { computed, reactive, toRefs } from "vue";
+import { useTelegramStore } from "@/stores/telegram.store";
+import { telegramApi } from "@/services/telegram.service";
+import { useToast } from "vue-toastification";
+
+const telegramInfo = reactive({
+  data: {
+    user: {},
+  },
+});
+
+export function useTelegram() {
+  async function checkTelegramUser() {
+    const toast = useToast();
+    try {
+      const { tUserId } = useTelegramStore();
+
+      const { data } = await telegramApi.authJwt({
+        telegram_id: tUserId,
+      });
+      telegramInfo.data = data;
+      return data;
+    } catch (e) {
+      toast.error(e.response.data.message ?? e.message);
+    }
+  }
+
+  const tUserUniqueId = computed(() => {
+    if (telegramInfo.data) {
+      return telegramInfo.data.user.user_id;
+    }
+    return "";
+  });
+
+  return {
+    telegramInfo: toRefs(telegramInfo),
+    tUserUniqueId,
+    checkTelegramUser,
+  };
+}

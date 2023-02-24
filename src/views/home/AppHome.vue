@@ -1,19 +1,32 @@
 <script setup>
 import CatalogHome from "@/components/home/CatalogHome.vue";
-import homeCardLayoutImage from "@/assets/images/home-card-layout.png";
 import OltinBaliqIcon from "@/components/icons/OltinBaliqIcon.vue";
+import UserCardHome from "@/components/home/UserCardHome.vue";
+
+import { useTelegramStore } from "@/stores/telegram.store";
+import { useTelegram } from "@/composables/telegram.composable";
+
+const { tUserFullName } = useTelegramStore();
+const { tUserUniqueId, checkTelegramUser } = useTelegram();
+checkTelegramUser();
 </script>
 
 <template>
   <div class="app-home">
-    <p class="ol-main-title">
-      Теперь вы можете получать бонусы и набирать баллы! Для просмотра доступных
-      призов и шкалы заполнения баллов, скачайте приложение Oltin Baliq
-    </p>
+    <!--    <p class="ol-main-title">-->
+    <!--      Теперь вы можете получать бонусы и набирать баллы! Для просмотра доступных-->
+    <!--      призов и шкалы заполнения баллов, скачайте приложение Oltin Baliq-->
+    <!--    </p>-->
+
+    <user-card-home
+      :user-full-name="tUserFullName"
+      :user-unique-id="tUserUniqueId"
+      class="mb-1"
+    />
 
     <div class="ol-main-banner mb-1">
       <img
-        :src="homeCardLayoutImage"
+        src="@/assets/images/home-card-layout.png"
         alt="banner"
         class="ol-main-banner-image"
       />
@@ -23,7 +36,6 @@ import OltinBaliqIcon from "@/components/icons/OltinBaliqIcon.vue";
         <oltin-baliq-icon />
         <div class="flex flex-column justify-center align-center">
           <span class="ol-main-banner-message">Испытать удачу</span>
-          <span class="ol-main-banner-user-id">ID: 270869</span>
         </div>
       </div>
     </div>
@@ -44,6 +56,7 @@ import OltinBaliqIcon from "@/components/icons/OltinBaliqIcon.vue";
 
 .ol-main-banner {
   position: relative;
+  height: 98px;
 
   &-image {
     border-radius: 8px;
