@@ -29,8 +29,10 @@ defineProps({
 .ol-catalog-card {
   background-color: var(--gf-p-accent);
   border-radius: 8px;
-  width: 100px;
-  height: 100px;
+  //min-width: 100px;
+  //min-height: 100px;
+  padding: 1rem;
+  //flex-grow: 1;
   color: var(--gf-p-primary-color);
   text-decoration: none;
   &-content {

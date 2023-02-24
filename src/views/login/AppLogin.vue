@@ -6,11 +6,8 @@ import { authApi } from "@/services/auth.service";
 import { useToast } from "vue-toastification";
 import { useRouter } from "vue-router";
 import { OLTIN_BALIQ_BOT_TKN } from "@/constants";
-import {
-  getLocalStorageVariable,
-  setLocalStorageVariable,
-} from "@/utils/localstorage.util";
 import { telegramApi } from "@/services/telegram.service";
+import { getLocalStorageVariable } from "@/utils/localstorage.util";
 import { setToken } from "@/utils/auth.util";
 
 const ENTER_NUMBER = 1;
@@ -116,9 +113,18 @@ function countDown(second) {
 }
 
 onMounted(() => {
-  if (getLocalStorageVariable(OLTIN_BALIQ_BOT_TKN))
+  // if (import.meta.env.DEV) {
+  //   setToken(
+  //     "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOlwvXC9nb2xkZW5maXNoLjFpdC51elwvdjFcL29hdXRoXC92ZXJpZnkiLCJpYXQiOjE2NzcxNjc1MTUsImV4cCI6MTcwODcwMzUxNSwibmJmIjoxNjc3MTY3NTE1LCJqdGkiOiJKdXprRWptMkpUNTJUdHcwIiwic3ViIjoyNiwicHJ2IjoiMjNiZDVjODk0OWY2MDBhZGIzOWU3MDFjNDAwODcyZGI3YTU5NzZmNyJ9.QdKY1g2VxmxyoyB2aoGM9Ni5CArPvAPpi0qNfS2nfVU"
+  //   );
+  // }
+
+  if (getLocalStorageVariable(OLTIN_BALIQ_BOT_TKN)) {
     router.push({ name: "home" });
-  if (actualDialog.value === CONFIRM_NUMBER) countDown(TIMER_SECONDS);
+  }
+  if (actualDialog.value === CONFIRM_NUMBER) {
+    countDown(TIMER_SECONDS);
+  }
 });
 </script>
 
@@ -223,3 +229,7 @@ onMounted(() => {
     </template>
   </div>
 </template>
+
+<style lang="scss" scoped>
+@import "src/assets/scss/outdated";
+</style>

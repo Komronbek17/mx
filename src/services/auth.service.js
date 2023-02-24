@@ -7,7 +7,7 @@ class AuthService extends Core {
     });
   }
 
-  login({ body }) {
+  login({ body = {} }) {
     return this.post("", body);
   }
 
