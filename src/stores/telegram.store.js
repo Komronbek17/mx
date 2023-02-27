@@ -23,7 +23,7 @@ export const useTelegramStore = defineStore("telegram", () => {
   const tUser = computed(() => webApp.value.initDataUnsafe.user);
 
   const tUserFullName = computed(
-    () => tUser.value.last_name + " " + tUser.value.first_name
+    () => tUser.value?.last_name + " " + tUser.value?.first_name
   );
 
   function initWebApp({ tApp }) {
