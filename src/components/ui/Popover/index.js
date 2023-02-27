@@ -1,1 +1,1 @@
-export { default } from "~/components/UI/Popover/Popover";
+export { default } from "~/components/UI/ModalDialog/ModalDialog";
