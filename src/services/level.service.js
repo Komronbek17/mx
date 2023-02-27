@@ -3,7 +3,7 @@ import Core from "@/services/axios/core.axios";
 class LevelService extends Core {
   constructor() {
     super({
-      endpoint: "levels",
+      endpoint: "levels/",
     });
   }
 
