@@ -4,11 +4,14 @@ import {useRouter} from "vue-router";
 import {useToast} from "vue-toastification";
 import {ref} from "vue";
 import {productApi} from "@/services/product.service";
+import ModalDialog from "@/components/ui/ModalDialog/ModalDialog.vue";
 
 const router = useRouter();
 const toast = useToast();
 
 const gifts = ref([])
+
+const modalValue = ref(false)
 const getProducts = async () => {
     try {
         const body = {
@@ -28,6 +31,19 @@ const getProducts = async () => {
 }
 
 
+const closeDialogModal = () => {
+    modalValue.value = false
+}
+
+const openModal = () => {
+    console.log('opened');
+    modalValue.value = true
+}
+const modalApply = () => {
+    modalValue.value = false
+    console.log('apply')
+}
+
 getProducts()
 
 </script>
@@ -35,7 +51,7 @@ getProducts()
 
 <template>
     <div class="layout-container">
-        <div class="bonus-block">
+        <div @click="openModal" class="bonus-block">
             <div class="bonus-card">
                 <div class="bonus-card__title">Баланс:</div>
                 <div class="bonus-card__price">
@@ -66,17 +82,29 @@ getProducts()
                     </div>
                 </div>
 
-
             </div>
 
         </div>
 
+        <modal-dialog :model-value="modalValue" @close-modal="closeDialogModal">
+            <template #header>
+                <div class="modal-header">
+                    <img src="@/assets/images/2x-blue.png" alt="">
+                </div>
+            </template>
+            <template #content>
+                <div class="modal-content">
+                    <h3 class="modal-content__title">Активировано!</h3>
+                    <p class="modal-content__subtitle">2Х бонус 1го уровня успешно активирован!</p>
+                </div>
+            </template>
+            <template #footer>
+                <div class="modal-footer">
+                    <div @click="modalApply" class="modal-footer__button btn-yellow">Окей</div>
+                </div>
+            </template>
+        </modal-dialog>
 
-        <div class="active-modal">
-            <div class="active-modal__img">
-                <img src="" alt="">
-            </div>
-        </div>
     </div>
 </template>
 

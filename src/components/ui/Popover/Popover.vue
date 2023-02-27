@@ -6,18 +6,18 @@ defineProps({
     modelValue: Boolean,
 });
 
-const closeModal = () => {
-    emit('close-modal')
+const closePopover = () => {
+    emit('close-popover')
 }
 
 </script>
 
 <template>
-    <transition name="modal">
+    <transition name="popover">
         <div v-show="modelValue">
-            <div @click="closeModal" class="backdrop"/>
+            <div @click="closePopover" class="backdrop"/>
             <div class="modal">
-                <div @click="closeModal" class="modal-close">
+                <div @click="closePopover" class="popover-close">
                     <img src="@/assets/images/close.svg" alt="">
                 </div>
                 <slot name="header"/>
@@ -27,4 +27,4 @@ const closeModal = () => {
         </div>
     </transition>
 </template>
-<style lang="scss" src="./ModalDialog.scss"/>
+<style lang="scss" src="popover.scss"/>

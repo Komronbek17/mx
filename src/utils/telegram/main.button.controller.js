@@ -4,6 +4,7 @@ export class MainButtonController {
   static mainButton = null;
   static route = null;
   static router = null;
+
   static getInstance({ button = null, route, router }) {
     if (this.mainButton === null) {
       this.mainButton = button;
@@ -24,14 +25,12 @@ export class MainButtonController {
     };
   }
 
-  static onClick() {
-    switch (this.route.name) {
-      case "home": {
-        this.router.push({
-          name: "premium",
-        });
-      }
-    }
+  static onClick(fn) {
+    this.mainButton.onClick(fn);
+  }
+
+  static offClick(fn) {
+    this.mainButton.offClick(fn);
   }
 
   static mainButtonOnClick(callback) {
@@ -39,34 +38,34 @@ export class MainButtonController {
   }
 
   static mainButtonOffClick(callback) {
-    window[TELEGRAM][WEB_APP].MainButton["offClick"](callback);
+    this.mainButton["offClick"](callback);
   }
 
   static mainButtonActivate() {
-    window[TELEGRAM][WEB_APP].MainButton.isActive = true;
+    this.mainButton.isActive = true;
   }
 
   static mainButtonDeactivate() {
-    window[TELEGRAM][WEB_APP].MainButton.isActive = false;
+    this.mainButton.isActive = false;
   }
 
   static mainButtonMakeVisible() {
-    window[TELEGRAM][WEB_APP].MainButton.isVisible = true;
+    this.mainButton.isVisible = true;
   }
 
   static mainButtonMakeDisable() {
-    window[TELEGRAM][WEB_APP].MainButton.isVisible = false;
+    this.mainButton.isVisible = false;
   }
 
   static mainButtonSetText(text) {
-    window[TELEGRAM][WEB_APP].MainButton.setText(text);
+    this.mainButton.setText(text);
   }
 
   static mainButtonShowProgress() {
-    window[TELEGRAM][WEB_APP].MainButton.showProgress(true);
+    this.mainButton.showProgress(true);
   }
 
   static mainButtonHideProgress() {
-    window[TELEGRAM][WEB_APP].MainButton.hideProgress();
+    this.mainButton.hideProgress();
   }
 }
