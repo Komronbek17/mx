@@ -1,1 +1,1 @@
-export { default } from '~/components/UI/Checkbox/Checkbox'
+export { default } from "~/components/UI/Checkbox/Checkbox";

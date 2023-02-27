@@ -1,17 +1,16 @@
 import router from "@/routes";
-import { OLTIN_BALIQ_BOT_TKN } from "@/constants";
+import { getToken } from "@/utils/auth.util";
 import { getLocalStorageVariable } from "@/utils/localstorage.util";
 
 export function axiosRequestInterceptResponse(config) {
-  const lang = localStorage.getItem("locale");
   const requestConfig = Object.assign({}, config);
-  if (!config.headers["Authorization"] && config.url !== "oauth/login") {
-    requestConfig.headers["Authorization"] = `Bearer ${getLocalStorageVariable(
-      OLTIN_BALIQ_BOT_TKN
-    )}`;
+  if (!config.headers["Authorization"] && config.url !== "login") {
+    requestConfig.headers["Authorization"] = `Bearer ${getToken()}`;
   }
 
-  requestConfig.headers["Accept-Language"] = lang || "ru";
+  requestConfig.headers["Accept-Language"] =
+    getLocalStorageVariable("lang") || "uz";
+  requestConfig.headers["Accept-App"] = "Web-telegram";
 
   return requestConfig;
 }

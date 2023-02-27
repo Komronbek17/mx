@@ -1,1 +1,1 @@
-export { default } from '~/components/UI/ProgressLinear/ProgressLinear'
+export { default } from "~/components/UI/ProgressLinear/ProgressLinear";

@@ -1,9 +1,19 @@
+<script setup>
+import { defineProps } from "vue";
+
+defineProps({
+  background: String,
+  borderRadius: Number,
+  disabled: Boolean,
+});
+</script>
+
 <template>
   <button
     class="app-button"
     :style="{
       background,
-      'border-radius': borderRadius + 'px'
+      'border-radius': borderRadius + 'px',
     }"
     :disabled="disabled"
   >
@@ -11,14 +21,4 @@
   </button>
 </template>
 
-<script setup>
-import { defineProps } from 'vue';
-
-defineProps({
-  background: String,
-  borderRadius: Number,
-  disabled: Boolean
-})
-</script>
-
-<style lang="scss" src="./AppButton.scss"/>
+<style lang="scss" src="./AppButton.scss" />

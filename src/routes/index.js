@@ -10,9 +10,11 @@ import AppSettings from "@/views/settings/AppSettings.vue";
 import AppLanguage from "@/views/settings/AppLanguage.vue";
 import AppBonus from "@/views/bonus/AppBonus.vue";
 import AppGame from "@/views/game/AppGame.vue";
-import AppProfile from "@/views/settings/AppProfile.vue";
-import AppNews from "@/views/news/index.vue"
+import AppNews from "@/views/news/index.vue";
+import AppProfile from "@/views/profile/index.vue";
 import _id from "@/views/news/_id.vue";
+import { getToken } from "@/utils/auth.util";
+import { isNUNEZ } from "@/utils/inspect.util";
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -83,11 +85,26 @@ const router = createRouter({
       component: AppNews,
     },
     {
-      path: '/news/:id',
-      name: 'one-news',
-      component: _id
-    }
+      path: "/news/:id",
+      name: "one-news",
+      component: _id,
+    },
   ],
+});
+
+router.beforeEach((to, from, next) => {
+  if (to.name === "login") {
+    return next();
+  }
+
+  const hasToken = isNUNEZ(getToken());
+  if (!hasToken) {
+    return next({
+      name: "login",
+    });
+  }
+
+  return next();
 });
 
 export default router;

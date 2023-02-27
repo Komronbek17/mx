@@ -3,7 +3,7 @@ import Core from "@/services/axios/core.axios";
 class TelegramService extends Core {
   constructor() {
     super({
-      endpoint: "telegram",
+      endpoint: "telegram/",
     });
   }
 

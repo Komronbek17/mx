@@ -34,19 +34,16 @@ getProducts()
 
 
 <template>
-    <div class="layout-container">
-
-        <div class="bonus-block">
-            <div class="bonus-card">
-                <div class="bonus-card__title">
-                    Баланс:
-                </div>
-                <div class="bonus-card__price">
-                    <img src="@/assets/images/coin.png" alt="">
-                    <p>1000</p>
-                </div>
-            </div>
+  <div class="layout-container">
+    <div class="bonus-block">
+      <div class="bonus-card">
+        <div class="bonus-card__title">Баланс:</div>
+        <div class="bonus-card__price">
+          <img src="@/assets/images/coin.png" alt="" />
+          <p>1000</p>
         </div>
+      </div>
+    </div>
 
         <div class="gifts-block">
             <div class="gift-title">
