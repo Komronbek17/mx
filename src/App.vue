@@ -46,6 +46,8 @@ MainButtonController.getInstance({
   button: window[TELEGRAM][WEB_APP][MAIN_BUTTON],
 });
 
+BackButtonController.onClick();
+
 telegramStore.initApp({ webApp: getWebApp() });
 
 watch(
