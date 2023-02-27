@@ -1,12 +1,30 @@
 import { TELEGRAM, WEB_APP } from "@/constants";
 
 export class MainButtonController {
-  constructor({ route, router }) {
-    this.route = route;
-    this.router = router;
+  static mainButton = null;
+  static route = null;
+  static router = null;
+  static getInstance({ button = null, route, router }) {
+    if (this.mainButton === null) {
+      this.mainButton = button;
+    }
+
+    if (this.route === null) {
+      this.route = route;
+    }
+
+    if (this.router === null) {
+      this.router = router;
+    }
+
+    return {
+      route: this.route,
+      router: this.router,
+      mainButton: this.mainButton,
+    };
   }
 
-  onClick() {
+  static onClick() {
     switch (this.route.name) {
       case "home": {
         this.router.push({
@@ -16,39 +34,39 @@ export class MainButtonController {
     }
   }
 
-  mainButtonOnClick(callback) {
+  static mainButtonOnClick(callback) {
     window[TELEGRAM][WEB_APP].MainButton["onClick"](callback);
   }
 
-  mainButtonOffClick(callback) {
+  static mainButtonOffClick(callback) {
     window[TELEGRAM][WEB_APP].MainButton["offClick"](callback);
   }
 
-  mainButtonActivate() {
+  static mainButtonActivate() {
     window[TELEGRAM][WEB_APP].MainButton.isActive = true;
   }
 
-  mainButtonDeactivate() {
+  static mainButtonDeactivate() {
     window[TELEGRAM][WEB_APP].MainButton.isActive = false;
   }
 
-  mainButtonMakeVisible() {
+  static mainButtonMakeVisible() {
     window[TELEGRAM][WEB_APP].MainButton.isVisible = true;
   }
 
-  mainButtonMakeDisable() {
+  static mainButtonMakeDisable() {
     window[TELEGRAM][WEB_APP].MainButton.isVisible = false;
   }
 
-  mainButtonSetText(text) {
+  static mainButtonSetText(text) {
     window[TELEGRAM][WEB_APP].MainButton.setText(text);
   }
 
-  mainButtonShowProgress() {
+  static mainButtonShowProgress() {
     window[TELEGRAM][WEB_APP].MainButton.showProgress(true);
   }
 
-  mainButtonHideProgress() {
+  static mainButtonHideProgress() {
     window[TELEGRAM][WEB_APP].MainButton.hideProgress();
   }
 }
