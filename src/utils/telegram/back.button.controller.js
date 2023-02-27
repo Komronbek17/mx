@@ -15,7 +15,17 @@ export class BackButtonController {
     }
   }
 
-  onClick() {}
+  static onClick() {
+    this.backButton.onClick(() => this.handleOnClick());
+  }
+
+  static handleOnClick() {
+    switch (this.route.name) {
+      default: {
+        this.router.go(-1);
+      }
+    }
+  }
 
   async binding() {
     switch (this.route.name) {

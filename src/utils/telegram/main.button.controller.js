@@ -33,95 +33,39 @@ export class MainButtonController {
     this.mainButton.offClick(fn);
   }
 
-  static run() {
-    this.activate();
-    this.makeEnable();
-    this.makeVisible();
-    this.hideProgress();
-  }
-
-  static activate() {
-    this.mainButton.isActive = true;
-  }
-
-  static deactivate() {
-    this.mainButton.isActive = false;
-  }
-
-  static makeVisible() {
-    this.mainButton.isVisible = true;
-  }
-
-  static makeInvisible() {
-    this.mainButton.isVisible = false;
-  }
-
-  static makeEnable() {
-    this.mainButton.enable();
-  }
-
-  static makeDisable() {
-    this.mainButton.disable();
-  }
-
-  static setText(text) {
-    this.mainButton.setText(text);
-  }
-
-  static showProgress() {
-    this.mainButton.showProgress(true);
-  }
-
-  static hideProgress() {
-    this.mainButton.hideProgress();
-  }
-
-  static setTextColor(color) {
-    this.mainButton.textColor = color;
-  }
-
-  static setBackgroundColor(color) {
-    this.mainButton.color = color;
-  }
-
-  static resetButtonDesign() {
-    this.setTextColor("#FFFFFF");
-    this.setBackgroundColor("#2e87ca");
-  }
-
-  mainButtonOnClick(callback) {
+  static mainButtonOnClick(callback) {
     window[TELEGRAM][WEB_APP].MainButton["onClick"](callback);
   }
 
-  mainButtonOffClick(callback) {
-    window[TELEGRAM][WEB_APP].MainButton["offClick"](callback);
+  static mainButtonOffClick(callback) {
+    this.mainButton["offClick"](callback);
   }
 
-  mainButtonActivate() {
-    window[TELEGRAM][WEB_APP].MainButton.isActive = true;
+  static mainButtonActivate() {
+    this.mainButton.isActive = true;
   }
 
-  mainButtonDeactivate() {
-    window[TELEGRAM][WEB_APP].MainButton.isActive = false;
+  static mainButtonDeactivate() {
+    this.mainButton.isActive = false;
   }
 
-  mainButtonMakeVisible() {
-    window[TELEGRAM][WEB_APP].MainButton.isVisible = true;
+  static mainButtonMakeVisible() {
+    this.mainButton.isVisible = true;
   }
 
-  mainButtonMakeDisable() {
-    window[TELEGRAM][WEB_APP].MainButton.isVisible = false;
+  static mainButtonMakeDisable() {
+    this.mainButton.isVisible = false;
   }
 
-  mainButtonSetText(text) {
-    window[TELEGRAM][WEB_APP].MainButton.setText(text);
+  static mainButtonSetText(text) {
+    this.mainButton.setText(text);
   }
 
-  mainButtonShowProgress() {
-    window[TELEGRAM][WEB_APP].MainButton.showProgress(true);
+  static mainButtonShowProgress() {
+    this.mainButton.showProgress(true);
   }
 
-  mainButtonHideProgress() {
-    window[TELEGRAM][WEB_APP].MainButton.hideProgress();
+  static mainButtonHideProgress() {
+    this.mainButton.hideProgress();
   }
 }
