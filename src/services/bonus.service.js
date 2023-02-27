@@ -3,7 +3,7 @@ import Core from "@/services/axios/core.axios";
 class BonusService extends Core {
   constructor() {
     super({
-      endpoint: "gifts",
+      endpoint: "gifts/",
     });
   }
 
