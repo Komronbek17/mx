@@ -15,6 +15,7 @@ import AppNews from "@/views/news/index.vue";
 import _id from "@/views/news/_id.vue";
 import { getToken } from "@/utils/auth.util";
 import { isNUNEZ } from "@/utils/inspect.util";
+import { useTelegramStore } from "@/stores/telegram.store";
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),

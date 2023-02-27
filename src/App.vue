@@ -1,9 +1,10 @@
 <script setup>
-import { onMounted } from "vue";
 import { useRoute, useRouter } from "vue-router";
 import { useTelegramStore } from "@/stores/telegram.store";
 import { hasOwnProperty } from "@/utils/object.util";
 import { TELEGRAM, WEB_APP } from "@/constants";
+// import { MainButtonController } from "@/utils/telegram/main.button.controller";
+// import { BackButtonController } from "@/utils/telegram/back.button.controller";
 
 const router = useRouter();
 const route = useRoute();
@@ -16,11 +17,12 @@ function getWebApp() {
       return window[TELEGRAM][WEB_APP];
     }
   }
+  return null;
 }
-
-onMounted(() => {
-  telegramStore.initApp({ route, router, webApp: getWebApp() });
-});
+telegramStore.initApp({ route, router, webApp: getWebApp() });
+// watch(route.name, () => {
+//   telegramStore.backButtonController;
+// });
 </script>
 
 <template>

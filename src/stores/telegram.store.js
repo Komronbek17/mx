@@ -1,4 +1,4 @@
-import { computed, ref } from "vue";
+import { computed, reactive, ref } from "vue";
 import { defineStore } from "pinia";
 import { MainButtonController } from "@/utils/telegram/main.button.controller";
 import { BackButtonController } from "@/utils/telegram/back.button.controller";
@@ -15,13 +15,13 @@ export const useTelegramStore = defineStore("telegram", () => {
       },
     },
   });
-  const backButtonController = ref(null);
-  const mainButtonController = ref(null);
+  const backButtonController = new BackButtonController({});
+  const mainButtonController = reactive({
+    controller: new MainButtonController({}),
+  });
 
   const tUserId = computed(() => webApp.value.initDataUnsafe.user.id);
-
   const tUser = computed(() => webApp.value.initDataUnsafe.user);
-
   const tUserFullName = computed(
     () => tUser.value.last_name + " " + tUser.value.first_name
   );
@@ -43,10 +43,10 @@ export const useTelegramStore = defineStore("telegram", () => {
     });
   }
 
-  function initApp({ webApp: tApp, backButton, mainButton }) {
+  function initApp({ webApp: tApp, route, router }) {
     initWebApp({ tApp });
-    initBackButton({ backButton });
-    initMainButton({ mainButton });
+    initBackButton({ route, router });
+    initMainButton({ route, router });
   }
 
   return {
