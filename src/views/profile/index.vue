@@ -50,7 +50,7 @@
 
     <!--   LIST   -->
     <div class="profile-list">
-      <div class="profile-item">
+      <router-link to="#" class="profile-item">
         <img
           class="profile-item__icon"
           src="@/assets/images/profile-edit-icon.svg"
@@ -69,9 +69,9 @@
             />
           </div>
         </div>
-      </div>
+      </router-link>
 
-      <div class="profile-item">
+      <router-link :to="{ name: 'notification' }" class="profile-item">
         <img
           class="profile-item__icon"
           src="@/assets/images/profile-notification-icon.svg"
@@ -91,9 +91,9 @@
             />
           </div>
         </div>
-      </div>
+      </router-link>
 
-      <div class="profile-item">
+      <router-link to="#" class="profile-item">
         <img
           class="profile-item__icon"
           src="@/assets/images/profile-support-icon.svg"
@@ -112,9 +112,9 @@
             />
           </div>
         </div>
-      </div>
+      </router-link>
 
-      <div class="profile-item">
+      <router-link to="#" class="profile-item">
         <img
           class="profile-item__icon"
           src="@/assets/images/profile-informers-icon.svg"
@@ -133,9 +133,9 @@
             />
           </div>
         </div>
-      </div>
+      </router-link>
 
-      <div class="profile-item">
+      <router-link to="#" class="profile-item">
         <img
           class="profile-item__icon"
           src="@/assets/images/profile-exit-icon.svg"
@@ -154,7 +154,7 @@
             />
           </div>
         </div>
-      </div>
+      </router-link>
     </div>
   </div>
 </template>
@@ -199,6 +199,14 @@
     & img {
       margin-right: 1rem;
     }
+
+    & span {
+      font-weight: 400;
+      font-size: 16px;
+      line-height: 138%;
+      letter-spacing: -0.5px;
+      color: #090909;
+    }
   }
 
   &-soon {
@@ -218,6 +226,11 @@
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
       background-clip: text;
+    }
+
+    & img {
+      width: 100%;
+      object-fit: contain;
     }
   }
 
@@ -254,12 +267,14 @@
   }
 
   &-list {
-    padding: 0 0 1rem 1rem;
+    padding: 0 0 1rem 0;
   }
 
   &-item {
     display: flex;
     align-items: center;
+    text-decoration: none;
+    padding: 0 0 0 1rem;
 
     & .b-bottom {
       width: 100%;
