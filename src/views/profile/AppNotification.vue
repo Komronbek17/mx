@@ -1,9 +1,10 @@
 <script setup>
-import { useTelegramStore } from "@/stores/telegram.store";
-
-const telegramStore = useTelegramStore();
-
-telegramStore.webApp;
+// import { useTelegramStore } from "@/stores/telegram.store";
+//
+// const telegramStore = useTelegramStore();
+//
+// console.log(telegramStore.webApp, "asd");
+// telegramStore.webApp.showPopup.PopupButton;
 </script>
 
 <template>
@@ -11,6 +12,8 @@ telegramStore.webApp;
     <div class="layout-container">
       <div class="notification-date">
         <p class="notification-title">Сегодня</p>
+
+        <PopupButton id="1" style="color: black" />
 
         <div class="notification-item">
           <div class="notification-item__image">
