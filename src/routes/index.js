@@ -12,6 +12,7 @@ import AppBonus from "@/views/bonus/AppBonus.vue";
 import AppGame from "@/views/game/AppGame.vue";
 import AppNews from "@/views/news/index.vue";
 import AppProfile from "@/views/profile/index.vue";
+import AppNotification from "@/views/profile/AppNotification.vue";
 import _id from "@/views/news/_id.vue";
 import { getToken } from "@/utils/auth.util";
 import { isNUNEZ } from "@/utils/inspect.util";
@@ -58,6 +59,11 @@ const router = createRouter({
       path: "/profile",
       name: "profile",
       component: AppProfile,
+    },
+    {
+      path: "/profile/notification",
+      name: "notification",
+      component: AppNotification,
     },
     {
       path: "/market",
