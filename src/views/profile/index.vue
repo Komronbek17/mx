@@ -50,7 +50,7 @@
 
     <!--   LIST   -->
     <div class="profile-list">
-      <router-link to="#" class="profile-item">
+      <router-link :to="{ name: 'profile-edit' }" class="profile-item">
         <img
           class="profile-item__icon"
           src="@/assets/images/profile-edit-icon.svg"
