@@ -88,6 +88,7 @@
 
     &__title {
       @extend .font-24-dark;
+      max-width: 95%;
     }
 
     &__subtitle {
@@ -113,6 +114,11 @@
     .btn-yellow {
       background: linear-gradient(122.82deg, #F2D207 0%, #FFA329 100%);
       color: #fff;
+    }
+
+    .btn-danger{
+      background: #feeae4;
+      color: #c61717;
     }
   }
 }

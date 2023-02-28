@@ -14,6 +14,7 @@ import AppNews from "@/views/news/index.vue";
 import AppProfile from "@/views/profile/index.vue";
 import AppNotification from "@/views/profile/AppNotification.vue";
 import AppProfileEdit from "@/views/profile/AppProfileEdit.vue";
+import AppDaily from "@/views/daily/AppDaily.vue";
 import _id from "@/views/news/_id.vue";
 import { getToken } from "@/utils/auth.util";
 import { isNUNEZ } from "@/utils/inspect.util";
@@ -36,6 +37,11 @@ const router = createRouter({
       path: "/premium",
       name: "premium",
       component: AppPremium,
+    },
+    {
+      path: "/daily",
+      name: "daily",
+      component: AppDaily,
     },
     {
       path: "/prize",

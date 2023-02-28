@@ -1,4 +1,6 @@
 export default {
+  ok: "Ok",
+  cancel: "Bekor qilish",
   creator: "Sultonov Komron",
   price: "Narxi %{msg} so'm",
   packages: {
