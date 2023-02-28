@@ -14,7 +14,7 @@ import UserIcon from "@/components/icons/UserIcon.vue";
   <div class="ol-catalog-home column-gap-1 row-gap-1">
     <catalog-card
       :to="{
-        name: 'prize',
+        name: 'level',
       }"
     >
       <template #icon>
