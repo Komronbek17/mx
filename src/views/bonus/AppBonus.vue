@@ -12,6 +12,8 @@ const toast = useToast();
 const gifts = ref([])
 
 const modalValue = ref(false)
+const activeId = ref(null)
+
 const getProducts = async () => {
     try {
         const body = {
@@ -22,7 +24,6 @@ const getProducts = async () => {
             }
         }
         const {data} = await productApi.fetchProducts(body);
-        console.log(data, 'data');
         gifts.value = data.result
 
     } catch ({response}) {
@@ -30,19 +31,37 @@ const getProducts = async () => {
     }
 }
 
+const askActivate = (id) => {
+    activeId.value = id
+    openModal()
+}
+
 
 const closeDialogModal = () => {
     modalValue.value = false
+    activeId.value = null
 }
 
 const openModal = () => {
-    console.log('opened');
     modalValue.value = true
 }
 const modalApply = () => {
+    submitActive()
     modalValue.value = false
-    console.log('apply')
 }
+
+const submitActive = async () => {
+    const body = {
+        method: 'coin.activation_product',
+        params: {
+            id: activeId.value
+        }
+    }
+
+    const {data} = await productApi.activateProduct(body)
+    console.log(data, 'data');
+}
+
 
 getProducts()
 
@@ -68,17 +87,18 @@ getProducts()
             <div class="gift-list">
                 <div v-for="gift in gifts" :key="gift.id + '_level_1'" class="gift-card">
                     <div class="gift-card__image">
-                        <img :src="gift.image" alt="">
+                        <img :src="gift.images[0]?.path || '@/assets/images/no-photo.svg'" alt="">
                     </div>
                     <div class="gift-card__content">
-                        <h5>{{ gift.name }} </h5>
+                        <h5>{{ gift.name }}</h5>
                         <div class="price">
                             <img src="@/assets/images/coin.png" alt="">
-                            <p>{{ 1000 }}</p>
+                            <p>{{ gift.price }}</p>
                         </div>
                     </div>
-                    <div class="gift-card__button">
-                        <p>В корзину</p>
+                    <div @click="askActivate(gift.id)" class="gift-card__button">
+                        <p v-if="gift.type ==='product'">В корзину</p>
+                        <p v-else>Активировать</p>
                     </div>
                 </div>
 

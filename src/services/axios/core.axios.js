@@ -13,7 +13,7 @@ class CoreAxios {
     return this._axios.get(url, config).catch((error) => Promise.reject(error));
   }
 
-  post(url, body = {}, config) {
+  post(url, body = {}, config = {}) {
     return this._axios
       .post(url, body, {
         ...config,

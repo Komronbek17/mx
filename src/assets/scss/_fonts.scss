@@ -8,13 +8,29 @@
   //margin: 0;
 }
 
-.font-14-white {
+
+.font-14 {
   font-family: 'sf-pro', sans-serif;
   font-style: normal;
   font-weight: 500;
   font-size: 14px;
   line-height: 18px;
+}
+
+
+.font-14-white {
+  @extend .font-14;
   color: #fff;
+}
+
+.font-14-gray {
+  @extend .font-14;
+  color: #A3ABB8;
+}
+
+.font-14-dark {
+  @extend .font-14;
+  color: #333333;
 }
 
 .font-15 {
@@ -77,7 +93,26 @@
   letter-spacing: -0.5px;
 }
 
+
+.font-16-white {
+  @extend .font-16;
+  color: #ffffff;
+}
+
+
 .font-16-gray {
   @extend .font-16;
   color: #797D81;
 }
+
+.font-16-disabled {
+  @extend .font-16;
+  color: #A3ABB8;
+}
+
+
+.font-16-dark {
+  @extend .font-16;
+  color: #333333;
+}
+

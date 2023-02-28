@@ -6,6 +6,10 @@ defineProps({
     modelValue: Boolean,
 });
 
+import {useSlots} from 'vue'
+
+const slots = useSlots()
+
 const closeModal = () => {
     emit('close-modal')
 }
@@ -20,9 +24,9 @@ const closeModal = () => {
                 <div @click="closeModal" class="modal-close">
                     <img src="@/assets/images/close.svg" alt="">
                 </div>
-                <slot name="header"/>
-                <slot name="content"/>
-                <slot name="footer"/>
+                <slot v-if="slots.header" name="header"/>
+                <slot v-if="slots.content" name="content"/>
+                <slot v-if="slots.footer" name="footer"/>
             </div>
         </div>
     </transition>

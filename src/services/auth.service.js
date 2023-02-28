@@ -1,6 +1,6 @@
-import Core from "@/services/axios/core.axios";
+import CoreAxios from "@/services/axios/core.axios";
 
-class AuthService extends Core {
+class AuthService extends CoreAxios {
   constructor() {
     super({
       endpoint: "oauth/",
