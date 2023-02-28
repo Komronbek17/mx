@@ -8,6 +8,7 @@
         <router-link to="#" class="history-tab">Недавние</router-link>
         <router-link to="#" class="history-tab">Призы</router-link>
         <router-link to="#" class="history-tab">Архив</router-link>
+        <router-link to="#" class="history-tab">Архив</router-link>
       </div>
     </div>
     <div class="layout-container"></div>
