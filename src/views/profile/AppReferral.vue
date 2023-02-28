@@ -23,8 +23,9 @@ const route = useRoute();
           :to="{ name: 'referral-view', params: {} }"
           class="referral-tab"
           :class="route.name === 'referral-view' ? 'active' : ''"
-          >Рефералы</router-link
         >
+          Рефералы
+        </router-link>
         <router-link
           :to="{ name: 'referral-bonus', params: {} }"
           class="referral-tab"
