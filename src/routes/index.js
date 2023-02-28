@@ -26,6 +26,10 @@ import AppSoundController from "@/views/settings/AppSoundController.vue";
 import AppUnsubscribe from "@/views/settings/AppUnsubscribe.vue";
 import AppPrivacyPolicy from "@/views/settings/AppPrivacyPolicy.vue";
 import AppBonusHistory from "@/views/bonus-history/AppBonusHistory.vue";
+import AppHistoryBonusActive from "@/views/bonus-history/AppHistoryBonusActive.vue";
+import AppHistoryBonusRecent from "@/views/bonus-history/AppHistoryBonusRecent.vue";
+import AppHistoryBonusPrize from "@/views/bonus-history/AppHistoryBonusPrize.vue";
+import AppHistoryBonusArchive from "@/views/bonus-history/AppHistoryBonusArchive.vue";
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -101,7 +105,7 @@ const router = createRouter({
       component: AppProfileEdit,
     },
     {
-      // name: "referral",
+      path: "/referral",
       component: AppReferral,
       children: [
         {
@@ -113,6 +117,32 @@ const router = createRouter({
           path: "/referral-bonus",
           name: "referral-bonus",
           component: AppReferralBonus,
+        },
+      ],
+    },
+    {
+      path: "/bonus-history",
+      component: AppBonusHistory,
+      children: [
+        {
+          path: "/bonus-history-active",
+          name: "bonus-history-active",
+          component: AppHistoryBonusActive,
+        },
+        {
+          path: "/bonus-history-recent",
+          name: "bonus-history-recent",
+          component: AppHistoryBonusRecent,
+        },
+        {
+          path: "/bonus-history-prize",
+          name: "bonus-history-prize",
+          component: AppHistoryBonusPrize,
+        },
+        {
+          path: "/bonus-history-archive",
+          name: "bonus-history-archive",
+          component: AppHistoryBonusArchive,
         },
       ],
     },
