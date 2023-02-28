@@ -93,10 +93,23 @@
   letter-spacing: -0.5px;
 }
 
+
+.font-16-white {
+  @extend .font-16;
+  color: #ffffff;
+}
+
+
 .font-16-gray {
   @extend .font-16;
   color: #797D81;
 }
+
+.font-16-disabled {
+  @extend .font-16;
+  color: #A3ABB8;
+}
+
 
 .font-16-dark {
   @extend .font-16;

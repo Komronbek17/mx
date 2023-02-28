@@ -17,6 +17,10 @@ class ProductService extends Core {
         return this.post("products", body);
     }
 
+    activateProduct(body){
+        return this.post("products/activation", body);
+    }
+
     setDailyGift() {
         return this.post("");
     }

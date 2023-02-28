@@ -219,7 +219,4 @@ const popoverApply = () => {
     }
 }
 
-.ntc-popover__content {
-
-}
 </style>
