@@ -8,9 +8,7 @@ import { useTelegram } from "@/composables/telegram.composable";
 
 const { tUserFullName } = useTelegramStore();
 const { tUserUniqueId, checkTelegramUser } = useTelegram();
-
 checkTelegramUser();
-
 </script>
 
 <template>
