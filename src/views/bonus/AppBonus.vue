@@ -29,16 +29,16 @@ const route = useRoute();
         >
           Призы
         </router-link>
-        <router-link
-          :to="{ name: 'bonus-archive', params: {} }"
-          class="history-tab"
-          :class="route.name === 'bonus-archive' ? 'active' : ''"
-        >
-          Архив
-        </router-link>
+        <!--        <router-link-->
+        <!--          :to="{ name: 'bonus-archive', params: {} }"-->
+        <!--          class="history-tab"-->
+        <!--          :class="route.name === 'bonus-archive' ? 'active' : ''"-->
+        <!--        >-->
+        <!--          Архив-->
+        <!--        </router-link>-->
       </div>
     </div>
-    <div class="layout-container"></div>
+    <router-view />
   </div>
 </template>
 

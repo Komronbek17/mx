@@ -13,18 +13,11 @@ const instanceGenerator = (baseUrl) => {
     Promise.reject(error)
   );
 
-  instance.interceptors.response.use((response) => {
-    return response;
-  }, axiosResponseInterceptorError);
+  instance.interceptors.response.use(
+    (response) => response,
+    axiosResponseInterceptorError
+  );
   return instance;
-};
-
-export const axiosVersion = ({
-  version,
-  endpoint = "",
-  baseUrl = import.meta.env.VITE_APP_DEV_VR,
-}) => {
-  return instanceGenerator(baseUrl + `api/` + endpoint);
 };
 
 export const axiosV1 = ({ endpoint = "" }) => {
@@ -33,15 +26,11 @@ export const axiosV1 = ({ endpoint = "" }) => {
 };
 
 export const axiosBase = ({ endpoint = "" }) => {
-  return instanceGenerator(import.meta.env.VITE_APP_URL + "/" + endpoint);
+  // eslint-disable-next-line
+  return instanceGenerator(import.meta.env.VITE_APP_URL +'/'+ endpoint);
 };
 
 export const axiosDev = ({ endpoint = "" }) => {
   // eslint-disable-next-line
   return instanceGenerator(import.meta.env.VITE_APP_DEV_API +'/'+ endpoint);
-};
-
-export const axiosMock = ({ endpoint = "" }) => {
-  // eslint-disable-next-line
-  return instanceGenerator(import.meta.env.VITE_APP_MOCK_API +'/'+ endpoint);
 };

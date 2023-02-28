@@ -8,8 +8,6 @@ import MarketIcon from "@/components/icons/MarketIcon.vue";
 import NewsIcon from "@/components/icons/NewsIcon.vue";
 import SettingsIcon from "@/components/icons/SettingsIcon.vue";
 import UserIcon from "@/components/icons/UserIcon.vue";
-import { useI18n } from "vue-i18n";
-const { t } = useI18n();
 </script>
 
 <template>
@@ -22,7 +20,7 @@ const { t } = useI18n();
       <template #icon>
         <prize-icon />
       </template>
-      <template #content>{{ t("home_page.level") }}</template>
+      <template #content> Левел</template>
     </catalog-card>
 
     <catalog-card
@@ -35,7 +33,7 @@ const { t } = useI18n();
         <premium-icon />
       </template>
       <template #content>
-        <span class="premium-catalog-card-yellow-text">Premium</span>
+        <span class="premium-catalog-card-yellow-text"> Premium </span>
       </template>
     </catalog-card>
 
@@ -47,30 +45,30 @@ const { t } = useI18n();
       <template #icon>
         <news-icon />
       </template>
-      <template #content>{{ t("home_page.news") }}</template>
+      <template #content> Новости</template>
     </catalog-card>
 
-<!--    <catalog-card-->
-<!--      :to="{-->
-<!--        name: 'market',-->
-<!--      }"-->
-<!--    >-->
-<!--      <template #icon>-->
-<!--        <market-icon />-->
-<!--      </template>-->
-<!--      <template #content>{{ t("home_page.shop") }}</template>-->
-<!--    </catalog-card>-->
+    <catalog-card
+      :to="{
+        name: 'market',
+      }"
+    >
+      <template #icon>
+        <market-icon />
+      </template>
+      <template #content> Магазин</template>
+    </catalog-card>
 
-    <!--    <catalog-card-->
-    <!--      :to="{-->
-    <!--        name: 'game',-->
-    <!--      }"-->
-    <!--    >-->
-    <!--      <template #icon>-->
-    <!--        <game-icon />-->
-    <!--      </template>-->
-    <!--      <template #content> Игры</template>-->
-    <!--    </catalog-card>-->
+    <catalog-card
+      :to="{
+        name: 'game',
+      }"
+    >
+      <template #icon>
+        <game-icon />
+      </template>
+      <template #content> Игры</template>
+    </catalog-card>
 
     <catalog-card
       :to="{
@@ -80,18 +78,18 @@ const { t } = useI18n();
       <template #icon>
         <user-icon />
       </template>
-      <template #content>{{ t("home_page.profile") }}</template>
+      <template #content> Профиль</template>
     </catalog-card>
 
     <catalog-card
       :to="{
-        name: 'bonus-recent',
+        name: 'bonus-active',
       }"
     >
       <template #icon>
         <bonuses-icon />
       </template>
-      <template #content>{{ t("home_page.bonuses") }}</template>
+      <template #content> Бонусы</template>
     </catalog-card>
 
     <catalog-card
@@ -102,7 +100,7 @@ const { t } = useI18n();
       <template #icon>
         <settings-icon />
       </template>
-      <template #content>{{ t("home_page.settings") }}</template>
+      <template #content> Настройки</template>
     </catalog-card>
   </div>
 </template>
@@ -117,9 +115,9 @@ const { t } = useI18n();
   background: var(--gf-p-yellow-1);
 
   &-yellow-text {
-    @include text-gradient(
-      -webkit-linear-gradient(122.82deg, #f2d207 0%, #ffa329 100%)
-    );
+    background: -webkit-linear-gradient(122.82deg, #f2d207 0%, #ffa329 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
   }
 }
 </style>
