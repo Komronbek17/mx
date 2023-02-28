@@ -1,23 +1,4 @@
-<script setup>
-// import { historyApi } from "@/services/history.service";
-// let history = ref({});
-
-// const getActiveBonuses = async () => {
-//   const response = await historyApi.fetchActiveHistories({
-//     params: {
-//       page: 1,
-//     },
-//   });
-//   history.value = response.data.items;
-//   console.log(history.value);
-// };
-
-// getActiveBonuses();
-
-import { WebAppController } from "@/utils/telegram/web.app.util";
-
-WebAppController.ready();
-</script>
+<script setup></script>
 
 <template>
   <div class="active">
@@ -26,10 +7,10 @@ WebAppController.ready();
         <div class="active-item">
           <img src="@/assets/images/bonus-2x-icon.svg" alt="" />
           <div class="active-item__details">
-            <p>2Х Мегабайты</p>
-            <span>Осталось 10 часов</span>
+            <p></p>
+            <span></span>
           </div>
-          <p class="active-level"></p>
+          <p></p>
         </div>
       </div>
     </div>
