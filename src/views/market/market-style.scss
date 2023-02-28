@@ -36,7 +36,6 @@
 .gift-title {
   @extend .font-h5;
   margin-bottom: 25px;
-  color: var(--gf-text-33);
 }
 
 .gift-list {
@@ -54,7 +53,7 @@
   align-items: center;
   row-gap: 1rem;
   padding: 16px 10px;
-  background: var(--gf-hover-bg);
+  background: #F5F5F5;
   border-radius: 8px;
   max-width: 300px;
 
@@ -82,7 +81,6 @@
       overflow: hidden;
       white-space: nowrap;
       text-overflow: ellipsis;
-      color: var(--gf-text-33);
     }
 
     .price {
@@ -91,7 +89,11 @@
 
       p {
         @extend .font-15;
-        @include text-gradient(linear-gradient(122.82deg, #F2D207 0%, #FFA329 100%))
+        background: linear-gradient(122.82deg, #F2D207 0%, #FFA329 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        text-fill-color: transparent;
       }
 
       img {
@@ -108,17 +110,6 @@
 
     p {
       @extend .font-14-white;
-      color: var(--gf-text-white-2x);
     }
-  }
-}
-
-::v-deep .modal {
-  &--content__title {
-    color: var(--gf-text-09);
-  }
-
-  &--content__subtitle {
-    color: var(--gf-text-gray-2x);
   }
 }
