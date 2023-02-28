@@ -8,13 +8,29 @@
   //margin: 0;
 }
 
-.font-14-white {
+
+.font-14 {
   font-family: 'sf-pro', sans-serif;
   font-style: normal;
   font-weight: 500;
   font-size: 14px;
   line-height: 18px;
+}
+
+
+.font-14-white {
+  @extend .font-14;
   color: #fff;
+}
+
+.font-14-gray {
+  @extend .font-14;
+  color: #A3ABB8;
+}
+
+.font-14-dark {
+  @extend .font-14;
+  color: #333333;
 }
 
 .font-15 {
@@ -35,7 +51,7 @@
   color: #090909;
 }
 
-.font-24{
+.font-24 {
   font-family: 'sf-pro', sans-serif;
   font-style: normal;
   font-weight: 600;
@@ -47,6 +63,11 @@
 .font-24-white {
   @extend .font-24;
   color: #fff;
+}
+
+.font-24-dark {
+  @extend .font-24;
+  color: #090909;
 }
 
 .font-15-small {
@@ -62,3 +83,23 @@
   @extend .font-15-small;
   color: #090909;
 }
+
+.font-16 {
+  font-family: 'sf-pro', sans-serif;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 22px;
+  letter-spacing: -0.5px;
+}
+
+.font-16-gray {
+  @extend .font-16;
+  color: #797D81;
+}
+
+.font-16-dark {
+  @extend .font-16;
+  color: #333333;
+}
+
