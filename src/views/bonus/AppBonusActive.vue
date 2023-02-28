@@ -1,4 +1,20 @@
-<script setup></script>
+<script setup>
+import { ref } from "vue";
+import { historyApi } from "@/services/history.service";
+let history = ref({});
+
+const getActiveBonuses = async () => {
+  const response = await historyApi.fetchActiveHistories({
+    params: {
+      page: 1,
+    },
+  });
+  history.value = response.data.items;
+  console.log(history.value);
+};
+
+getActiveBonuses();
+</script>
 
 <template>
   <div class="active">
@@ -7,10 +23,10 @@
         <div class="active-item">
           <img src="@/assets/images/bonus-2x-icon.svg" alt="" />
           <div class="active-item__details">
-            <p></p>
-            <span></span>
+            <p>2Х Мегабайты</p>
+            <span>Осталось 10 часов</span>
           </div>
-          <p></p>
+          <p class="active-level"></p>
         </div>
       </div>
     </div>
