@@ -1,30 +1,14 @@
 <script setup>
-import {defineProps} from "vue";
-
-const emit = defineEmits()
 defineProps({
-    modelValue: Boolean,
+  modelValue: Boolean,
 });
-
-const closeModal = () => {
-    emit('close-modal')
-}
-
 </script>
 
 <template>
-    <transition name="modal">
-        <div v-show="modelValue">
-            <div @click="closeModal" class="backdrop"/>
-            <div class="modal">
-                <div @click="closeModal" class="modal-close">
-                    <img src="@/assets/images/close.svg" alt="">
-                </div>
-                <slot name="header"/>
-                <slot name="content"/>
-                <slot name="footer"/>
-            </div>
-        </div>
-    </transition>
+  <transition name="modal">
+    <div v-show="modelValue" class="modal">
+      <slot />
+    </div>
+  </transition>
 </template>
-<style lang="scss" src="./ModalDialog.scss"/>
+<style lang="scss" src="./ModalDialog.scss" />

@@ -2,24 +2,11 @@
 import { onMounted } from "vue";
 import { useRouter } from "vue-router";
 import { useBonus } from "@/composables/useBonus";
-import { WebAppController } from "@/utils/telegram/web.app.util";
 
-import AppLoader from "@/components/elements/loader/AppLoader.vue";
 import RotatingFish from "@/components/outdated/RotatingFish.vue";
 import ModalDialogRotatingFish from "@/components/outdated/ModalDialogRotatingFish.vue";
-import ModalDialog from "@/components/ui/ModalDialog/ModalDialog.vue";
-import { loadingComposable } from "@/composables/loading.composable";
-import { useI18n } from "vue-i18n";
 
-const { t } = useI18n();
 const router = useRouter();
-const showModal = true;
-
-const {
-  loading: isFetching,
-  startLoading,
-  finishLoading,
-} = loadingComposable();
 
 const {
   getDailyBonus,
@@ -51,39 +38,13 @@ function abort() {
 }
 
 onMounted(async () => {
-  startLoading();
-  try {
-    await getDailyBonus("get");
-  } finally {
-    finishLoading();
-  }
+  await getDailyBonus("get");
 });
-
-WebAppController.ready();
 </script>
 
 <template>
   <div class="daily">
-    <app-loader :active="isFetching" />
     <rotating-fish :stop="isDialogOpen" />
-
-    <modal-dialog v-model="showModal">
-      <template #header>
-        <h2 class="getting-bonus-dialog__title">
-          <template v-if="statusCode === 200">
-            {{ dailyResponse.name }} {{ dailyResponse.type }}
-          </template>
-          <template v-else>
-            {{ dailyResponse.message }}
-          </template>
-        </h2>
-      </template>
-
-      <template #footer>
-        <button>{{ t("ok") }}</button>
-        <button>{{ t("cancel") }}</button>
-      </template>
-    </modal-dialog>
 
     <modal-dialog-rotating-fish
       v-model="isDialogOpen"
