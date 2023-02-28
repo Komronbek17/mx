@@ -102,6 +102,7 @@ const router = createRouter({
     },
     {
       // name: "referral",
+      path: "/referral",
       component: AppReferral,
       children: [
         {

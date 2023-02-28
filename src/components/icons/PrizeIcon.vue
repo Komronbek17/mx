@@ -5,7 +5,7 @@ const props = defineProps({
     default: "none",
   },
   size: {
-    type: Number,
+    type: [Number, String],
     default: 32,
   },
 });
