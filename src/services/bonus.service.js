@@ -19,8 +19,8 @@ class BonusService extends Core {
     return this.get("premium");
   }
 
-  setPremiumLampGift() {
-    return this.post("premium");
+  setPremiumLampGift({ body = {} }) {
+    return this.post(`premium/`, body);
   }
 }
 

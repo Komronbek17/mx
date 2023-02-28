@@ -5,6 +5,8 @@ import uz from "@/locales/uz.locale";
 
 export const i18n = createI18n({
   locale: "ru",
+  legacy: false,
+  globalInjection: true,
   messages: {
     uz,
     ru,

@@ -12,7 +12,7 @@ const router = useRouter();
 const toast = useToast();
 
 const modalState = reactive({
-  show: true,
+  show: false,
   step: 0,
   price: 0,
   message: "",
@@ -29,6 +29,18 @@ const state = reactive({
 
 const isStatusSuccess = computed(() => modalState.status === 200);
 
+function hideModalCancelButton() {
+  modalState.showCancelButton = false;
+}
+
+function showModalCancelButton() {
+  modalState.showCancelButton = true;
+}
+
+function showModalApplyButton() {
+  modalState.showApplyButton = true;
+}
+
 function showModal() {
   modalState.show = true;
 }
@@ -40,35 +52,50 @@ function hideModal() {
 async function fetchDailyBonus() {
   try {
     const response = await bonusApi.fetchDailyLamp();
-    modalState.status = response.status;
-    modalState.type = response.data.type;
-    modalState.name = response.data.name;
-
+    responseHandler(response);
+    stopAnimation();
     showModal();
   } catch (e) {
-    modalState.status = e.response.status;
-    modalState.message = e.response.data.message;
-
-    if (e.response.status === 402) {
-      modalState.step = e.response.data.step;
-      modalState.price = e.response.data.price;
-    } else {
-      toast.error(e.response.data.message ?? e.message);
-    }
+    errorHandler(e);
+  } finally {
+    showModalApplyButton();
+    showModal();
+  }
+}
+async function setDailyBonus() {
+  startAnimation();
+  try {
+    const response = await bonusApi.setDailyGift();
+    responseHandler(response);
+    stopAnimation();
+    showModal();
+  } catch (e) {
+    errorHandler(e);
+  } finally {
+    showModalApplyButton();
+    showModal();
   }
 }
 
-async function setDailyBonus() {}
-
-/*
-* async function submit () {
-  if(statusCode.value === 402) return await getDailyBonus('post')
-  if(statusCode.value === 406) return router.push({name: 'Settings'})
-
-  await router.push({name: 'Home'})
-  resetValues()
+function responseHandler(response) {
+  modalState.status = response.status;
+  modalState.type = response.data.type;
+  modalState.name = response.data.name;
 }
-* */
+
+function errorHandler(e) {
+  modalState.status = e.response.status;
+  modalState.message = e.response.data.message;
+
+  if (e.response.status === 402) {
+    modalState.step = e.response.data.step;
+    modalState.price = e.response.data.price;
+  } else {
+    toast.error(e.response.data.message ?? e.message);
+  }
+
+  showModalCancelButton();
+}
 
 function applyAction() {
   switch (modalState.status) {
@@ -78,7 +105,7 @@ function applyAction() {
     }
     case 406: {
       router.push({
-        name: "settings",
+        name: "settings-unsubscribe",
       });
       break;
     }
@@ -88,14 +115,45 @@ function applyAction() {
       });
     }
   }
+
+  resetFields();
+}
+
+function resetFields() {
+  state.stopAnimation = false;
+
+  modalState.step = 0;
+  modalState.price = 0;
+  modalState.status = 0;
+  modalState.name = "";
+  modalState.type = "";
+  modalState.message = "";
+  modalState.show = false;
+  hideModalCancelButton();
+  modalState.showApplyButton = false;
+  modalState.showCancelButton = false;
 }
 
 function cancelAction() {
   hideModal();
+  resetFields();
+  router.push({
+    name: "home",
+  });
+}
+
+function stopAnimation() {
+  state.stopAnimation = true;
+}
+
+function startAnimation() {
+  state.stopAnimation = false;
 }
 
 onMounted(() => {
-  fetchDailyBonus();
+  setTimeout(() => {
+    fetchDailyBonus();
+  }, 2000);
 });
 </script>
 
@@ -107,7 +165,7 @@ onMounted(() => {
         <div class="modal-content">
           <h3 class="modal-content__title">
             <span v-if="isStatusSuccess">
-              {{ modalState.name }} , {{ modalState.type }}
+              {{ modalState.name }}, {{ modalState.type }}
             </span>
             <span v-else>
               {{ modalState.message }}
@@ -117,7 +175,11 @@ onMounted(() => {
       </template>
       <template #footer>
         <div class="modal-footer footer-actions">
-          <div @click="cancelAction" class="modal-footer__button btn-danger">
+          <div
+            v-if="modalState.showCancelButton"
+            @click="cancelAction"
+            class="modal-footer__button btn-danger"
+          >
             {{ $t("cancel") }}
           </div>
           <div @click="applyAction" class="modal-footer__button btn-yellow">
@@ -137,9 +199,10 @@ onMounted(() => {
   column-gap: 1rem;
 
   .modal-footer__button {
+    width: 100%;
+    max-width: 200px;
     padding-right: 1rem;
     padding-left: 1rem;
-    width: 100%;
   }
 }
 </style>

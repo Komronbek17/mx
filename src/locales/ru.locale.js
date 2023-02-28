@@ -1,4 +1,10 @@
 export default {
+  connect_premium_service_message:
+    "Вы не подключены к премиум услуге, сумма подключения {price} сумов",
+  sms_package: "СМС пакеты",
+  bonus_minutes: "Бонусные минуты",
+  internet_package: "Интернет-пакет",
+  premium_gifts_title: "По вашему тарифу доступны бонусы",
   ok: "Окей",
   cancel: "Отмена",
   creator: "Султонов Комрон",
