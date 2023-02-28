@@ -30,6 +30,7 @@ import AppHistoryBonusActive from "@/views/bonus-history/AppHistoryBonusActive.v
 import AppHistoryBonusRecent from "@/views/bonus-history/AppHistoryBonusRecent.vue";
 import AppHistoryBonusPrize from "@/views/bonus-history/AppHistoryBonusPrize.vue";
 import AppHistoryBonusArchive from "@/views/bonus-history/AppHistoryBonusArchive.vue";
+import AppLevel from "@/views/level/AppLevel.vue";
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -155,6 +156,11 @@ const router = createRouter({
       path: "/bonus",
       name: "bonus",
       component: AppBonus,
+    },
+    {
+      path: "/level",
+      name: "level",
+      component: AppLevel,
     },
     {
       path: "/game",
