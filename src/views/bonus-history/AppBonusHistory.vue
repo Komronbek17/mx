@@ -1,13 +1,41 @@
-<script setup></script>
+<script setup>
+import { useRoute } from "vue-router";
+
+const route = useRoute();
+</script>
 
 <template>
   <div class="history">
     <div class="history-block">
       <div class="history-tabs">
-        <router-link to="#" class="history-tab">Активные</router-link>
-        <router-link to="#" class="history-tab">Недавние</router-link>
-        <router-link to="#" class="history-tab">Призы</router-link>
-        <router-link to="#" class="history-tab">Архив</router-link>
+        <router-link
+          :to="{ name: 'bonus-history-active', params: {} }"
+          class="history-tab"
+          :class="route.name === 'bonus-history-active' ? 'active' : ''"
+        >
+          Активные
+        </router-link>
+        <router-link
+          :to="{ name: 'bonus-history-recent', params: {} }"
+          class="history-tab"
+          :class="route.name === 'bonus-history-recent' ? 'active' : ''"
+        >
+          Недавние
+        </router-link>
+        <router-link
+          :to="{ name: 'bonus-history-prize', params: {} }"
+          class="history-tab"
+          :class="route.name === 'bonus-history-prize' ? 'active' : ''"
+        >
+          Призы
+        </router-link>
+        <router-link
+          :to="{ name: 'bonus-history-archive', params: {} }"
+          class="history-tab"
+          :class="route.name === 'bonus-history-archive' ? 'active' : ''"
+        >
+          Архив
+        </router-link>
       </div>
     </div>
     <div class="layout-container"></div>
@@ -20,6 +48,8 @@
 }
 
 .history {
+  padding: 0;
+
   &-block {
     position: relative;
     z-index: 0;
@@ -38,9 +68,11 @@
 
   &-tabs {
     position: relative;
-    padding: 1rem 1rem 12px;
+    padding: 0 1rem;
     overflow-x: auto;
     white-space: nowrap;
+    display: flex;
+    column-gap: 20px;
   }
 
   &-tab {
@@ -48,24 +80,32 @@
     font-weight: 600;
     font-size: 17px;
     line-height: 129%;
-    background: linear-gradient(107.32deg, #4adaff -22.08%, #0062ca 122.03%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-    text-fill-color: transparent;
+    color: #dbdbdb;
     text-decoration: none;
     z-index: 1232;
-    padding: 0 20px;
+    padding: 16px 0 12px;
 
-    &::after {
-      content: "";
-      position: absolute;
-      bottom: -14px;
-      display: block;
-      width: 100%;
+    &.active {
       background: linear-gradient(107.32deg, #4adaff -22.08%, #0062ca 122.03%);
-      height: 2px;
-      border-radius: 100px;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      text-fill-color: transparent;
+
+      &::after {
+        content: "";
+        position: absolute;
+        bottom: 0;
+        display: block;
+        width: 100%;
+        background: linear-gradient(
+          107.32deg,
+          #4adaff -22.08%,
+          #0062ca 122.03%
+        );
+        height: 2px;
+        border-radius: 100px;
+      }
     }
   }
 }
