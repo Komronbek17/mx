@@ -17,6 +17,10 @@ class ProductService extends Core {
         return this.post("products", body);
     }
 
+    getBalance() {
+        return this.post("balance");
+    }
+
     activateProduct(body){
         return this.post("products/activation", body);
     }

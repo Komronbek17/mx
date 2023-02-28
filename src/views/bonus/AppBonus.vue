@@ -50,16 +50,27 @@ const modalApply = () => {
     modalValue.value = false
 }
 
+
+const addBasket = () => {
+    console.log('addBasket');
+}
+
 const submitActive = async () => {
-    const body = {
-        method: 'coin.activation_product',
-        params: {
-            id: activeId.value
+    if (activeId.value) {
+        const body = {
+            method: 'coin.activation_product',
+            params: {
+                id: activeId.value
+            }
         }
+
+        await productApi.activateProduct(body).then((res) => {
+            console.log(res.data, 'res data');
+        }).catch((error) => {
+            console.log(error, 'error data');
+        })
     }
 
-    const {data} = await productApi.activateProduct(body)
-    console.log(data, 'data');
 }
 
 
@@ -70,65 +81,10 @@ getProducts()
 
 <template>
     <div class="layout-container">
-        <div @click="openModal" class="bonus-block">
-            <div class="bonus-card">
-                <div class="bonus-card__title">Баланс:</div>
-                <div class="bonus-card__price">
-                    <img src="@/assets/images/coin.png" alt=""/>
-                    <p>1000</p>
-                </div>
-            </div>
-        </div>
-
-        <div class="gifts-block">
-            <div class="gift-title">
-                Призы
-            </div>
-            <div class="gift-list">
-                <div v-for="gift in gifts" :key="gift.id + '_level_1'" class="gift-card">
-                    <div class="gift-card__image">
-                        <img :src="gift.images[0]?.path || '@/assets/images/no-photo.svg'" alt="">
-                    </div>
-                    <div class="gift-card__content">
-                        <h5>{{ gift.name }}</h5>
-                        <div class="price">
-                            <img src="@/assets/images/coin.png" alt="">
-                            <p>{{ gift.price }}</p>
-                        </div>
-                    </div>
-                    <div @click="askActivate(gift.id)" class="gift-card__button">
-                        <p v-if="gift.type ==='product'">В корзину</p>
-                        <p v-else>Активировать</p>
-                    </div>
-                </div>
-
-            </div>
-
-        </div>
-
-        <modal-dialog :model-value="modalValue" @close-modal="closeDialogModal">
-            <template #header>
-                <div class="modal-header">
-                    <img src="@/assets/images/2x-blue.png" alt="">
-                </div>
-            </template>
-            <template #content>
-                <div class="modal-content">
-                    <h3 class="modal-content__title">Активировано!</h3>
-                    <p class="modal-content__subtitle">2Х бонус 1го уровня успешно активирован!</p>
-                </div>
-            </template>
-            <template #footer>
-                <div class="modal-footer">
-                    <div @click="modalApply" class="modal-footer__button btn-yellow">Окей</div>
-                </div>
-            </template>
-        </modal-dialog>
-
+        bonus
     </div>
 </template>
 
 
 <style lang="scss" scoped>
-@import "bonus-style";
 </style>
