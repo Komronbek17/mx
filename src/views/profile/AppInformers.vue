@@ -1,10 +1,4 @@
-<script setup>
-import { useI18n } from "vue-i18n";
-import { WebAppController } from "@/utils/telegram/web.app.util";
-
-const { t } = useI18n();
-WebAppController.ready();
-</script>
+<script setup></script>
 
 <template>
   <div class="informers">
@@ -14,12 +8,8 @@ WebAppController.ready();
           <img src="@/assets/images/informers-income-icon.svg" alt="" />
         </div>
         <div class="w-100 flex align-center justify-between">
-          <p class="informers-item__text">
-            {{ t("profile_page.informers.balance") }}
-          </p>
-          <span class="informers-item__sum"
-            >200 {{ t("profile_page.informers.coin_amount") }}</span
-          >
+          <p class="informers-item__text">Пополнение баланса</p>
+          <span class="informers-item__sum">200 монет</span>
         </div>
       </div>
 
@@ -28,12 +18,8 @@ WebAppController.ready();
           <img src="@/assets/images/informers-calendar-icon.svg" alt="" />
         </div>
         <div class="w-100 flex align-center justify-between">
-          <p class="informers-item__text">
-            {{ t("profile_page.informers.daily_usage") }}
-          </p>
-          <span class="informers-item__sum"
-            >200 {{ t("profile_page.informers.coin_amount") }}</span
-          >
+          <p class="informers-item__text">Ежедневное использование</p>
+          <span class="informers-item__sum">200 монет</span>
         </div>
       </div>
 
@@ -42,12 +28,8 @@ WebAppController.ready();
           <img src="@/assets/images/informers-ad-icon.svg" alt="" />
         </div>
         <div class="w-100 flex align-center justify-between">
-          <p class="informers-item__text">
-            {{ t("profile_page.informers.ads") }}
-          </p>
-          <span class="informers-item__sum"
-            >200 {{ t("profile_page.informers.coin_amount") }}</span
-          >
+          <p class="informers-item__text">Просмотр рекламы</p>
+          <span class="informers-item__sum">200 монет</span>
         </div>
       </div>
 
@@ -56,12 +38,8 @@ WebAppController.ready();
           <img src="@/assets/images/informers-like-icon.svg" alt="" />
         </div>
         <div class="w-100 flex align-center justify-between">
-          <p class="informers-item__text">
-            {{ t("profile_page.informers.rec_app") }}
-          </p>
-          <span class="informers-item__sum"
-            >200 {{ t("profile_page.informers.coin_amount") }}</span
-          >
+          <p class="informers-item__text">Рекомендация приложения</p>
+          <span class="informers-item__sum">200 монет</span>
         </div>
       </div>
 
@@ -70,12 +48,8 @@ WebAppController.ready();
           <img src="@/assets/images/informers-telegram-icon.svg" alt="" />
         </div>
         <div class="w-100 flex align-center justify-between">
-          <p class="informers-item__text">
-            {{ t("profile_page.informers.rec_bot") }}
-          </p>
-          <span class="informers-item__sum"
-            >200 {{ t("profile_page.informers.coin_amount") }}</span
-          >
+          <p class="informers-item__text">Рекомендация телеграм бота</p>
+          <span class="informers-item__sum">200 монет</span>
         </div>
       </div>
     </div>
@@ -90,7 +64,7 @@ WebAppController.ready();
     align-items: center;
     margin-bottom: 16px;
     padding: 1rem;
-    background: var(--gf-hover-bg);
+    background: #f5f5f5;
     border-radius: 8px;
 
     &__image {
@@ -111,7 +85,7 @@ WebAppController.ready();
       font-size: 16px;
       line-height: 125%;
       letter-spacing: -0.32px;
-      color: var(--gf-text-33);
+      color: #333333;
     }
 
     &__sum {

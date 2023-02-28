@@ -1,10 +1,7 @@
 <script setup>
 import { useRoute } from "vue-router";
-import { WebAppController } from "@/utils/telegram/web.app.util";
 
 const route = useRoute();
-
-WebAppController.ready();
 </script>
 
 <template>
@@ -26,9 +23,8 @@ WebAppController.ready();
           :to="{ name: 'referral-view', params: {} }"
           class="referral-tab"
           :class="route.name === 'referral-view' ? 'active' : ''"
+          >Рефералы</router-link
         >
-          Рефералы
-        </router-link>
         <router-link
           :to="{ name: 'referral-bonus', params: {} }"
           class="referral-tab"
