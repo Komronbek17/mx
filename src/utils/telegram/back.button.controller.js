@@ -22,7 +22,15 @@ export class BackButtonController {
   static handleOnClick() {
     switch (this.route.name) {
       default: {
-        this.router.go(-1);
+        if (window.history.state.back) {
+          this.router.go(-1);
+        } else {
+          if (this.route.name !== "home") {
+            this.router.push({
+              name: "home",
+            });
+          }
+        }
       }
     }
   }

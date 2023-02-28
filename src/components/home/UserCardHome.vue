@@ -11,10 +11,6 @@ const props = defineProps({
     type: String,
     required: true,
   },
-  userAvatar: {
-    type: String,
-    default: null,
-  },
 });
 
 const router = useRouter();
@@ -31,21 +27,21 @@ function openUserAccount() {
     @click="openUserAccount"
     class="ol-home-user-card flex align-center column-gap-1"
   >
-    <div class="ol-home-avatar">
-      <img :src="props.userAvatar" alt="" />
+    <div>
+      <user-avatar />
     </div>
     <div class="flex flex-column">
       <span class="ol-home-username">
         {{ props.userFullName }}
       </span>
-      <span class="ol-home-userid"> ID: {{ props.userUniqueId }} </span>
+      <span class="ol-home-userid"> ID:{{ props.userUniqueId }} </span>
     </div>
   </div>
 </template>
 
 <style lang="scss" scoped>
 .ol-home-user-card {
-  background-color: var(--gf-accent-bg);
+  background-color: var(--gf-p-accent);
   height: 70px;
   padding: 10px 16px;
   border-radius: 8px;
@@ -57,26 +53,13 @@ function openUserAccount() {
   font-size: 20px;
   line-height: 28px;
   text-align: right;
-  color: var(--gf-text-09);
+  color: var(--gf-p-primary-color);
 }
 
 .ol-home-userid {
   font-weight: 400;
   font-size: 14px;
   line-height: 18px;
-  color: var(--gf-text-gray);
-}
-
-.ol-home-avatar {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 50px;
-  height: 50px;
-
-  img {
-    width: 100%;
-    object-fit: contain;
-  }
+  color: var(--gf-p-gray-2);
 }
 </style>

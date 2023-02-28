@@ -13,11 +13,6 @@ checkTelegramUser();
 
 <template>
   <div class="app-home">
-    <!--    <p class="ol-main-title">-->
-    <!--      Теперь вы можете получать бонусы и набирать баллы! Для просмотра доступных-->
-    <!--      призов и шкалы заполнения баллов, скачайте приложение Oltin Baliq-->
-    <!--    </p>-->
-
     <user-card-home
       :user-full-name="tUserFullName"
       :user-unique-id="tUserUniqueId"
@@ -57,6 +52,7 @@ checkTelegramUser();
 .ol-main-banner {
   position: relative;
   height: 98px;
+  cursor: pointer;
 
   &-image {
     border-radius: 8px;

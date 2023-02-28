@@ -8,6 +8,7 @@ import AppPrize from "@/views/prize/AppPrize.vue";
 import AppMarket from "@/views/market/AppMarket.vue";
 import AppSettings from "@/views/settings/AppSettings.vue";
 import AppLanguage from "@/views/settings/AppLanguage.vue";
+import AppBonus from "@/views/bonus/AppBonus.vue";
 import AppGame from "@/views/game/AppGame.vue";
 import AppNews from "@/views/news/index.vue";
 import AppProfile from "@/views/profile/index.vue";
@@ -24,12 +25,7 @@ import AppReferralIndex from "@/views/profile/AppReferralIndex.vue";
 import AppSoundController from "@/views/settings/AppSoundController.vue";
 import AppUnsubscribe from "@/views/settings/AppUnsubscribe.vue";
 import AppPrivacyPolicy from "@/views/settings/AppPrivacyPolicy.vue";
-import AppBonus from "@/views/bonus/AppBonus.vue";
-import AppBonusActive from "@/views/bonus/AppBonusActive.vue";
-import AppBonusRecent from "@/views/bonus/AppBonusRecent.vue";
-import AppBonusPrize from "@/views/bonus/AppBonusPrize.vue";
-import AppBonusArchive from "@/views/bonus/AppBonusArchive.vue";
-import AppLevel from "@/views/level/AppLevel.vue";
+import AppBonusHistory from "@/views/bonus-history/AppBonusHistory.vue";
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -105,6 +101,7 @@ const router = createRouter({
       component: AppProfileEdit,
     },
     {
+      // name: "referral",
       path: "/referral",
       component: AppReferral,
       children: [
@@ -121,40 +118,14 @@ const router = createRouter({
       ],
     },
     {
-      path: "/bonus",
-      component: AppBonus,
-      children: [
-        {
-          path: "/bonus-active",
-          name: "bonus-active",
-          component: AppBonusActive,
-        },
-        {
-          path: "/bonus-recent",
-          name: "bonus-recent",
-          component: AppBonusRecent,
-        },
-        {
-          path: "/bonus-prize",
-          name: "bonus-prize",
-          component: AppBonusPrize,
-        },
-        {
-          path: "/bonus-archive",
-          name: "bonus-archive",
-          component: AppBonusArchive,
-        },
-      ],
-    },
-    {
       path: "/market",
       name: "market",
       component: AppMarket,
     },
     {
-      path: "/level",
-      name: "level",
-      component: AppLevel,
+      path: "/bonus",
+      name: "bonus",
+      component: AppBonus,
     },
     {
       path: "/game",
@@ -175,6 +146,11 @@ const router = createRouter({
       path: "/news/:id",
       name: "one-news",
       component: _id,
+    },
+    {
+      path: "/bonus-history",
+      name: "bonus-history",
+      component: AppBonusHistory,
     },
   ],
 });
