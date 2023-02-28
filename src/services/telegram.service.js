@@ -1,13 +1,13 @@
-import Core from "@/services/axios/core.axios";
+import CoreAxios from "@/services/axios/core.axios";
 
-class TelegramService extends Core {
+class TelegramService extends CoreAxios {
   constructor() {
     super({
       endpoint: "telegram/",
     });
   }
 
-  authJwt({ telegram_id }) {
+  async authJwt({ telegram_id }) {
     return this.post("", {
       telegram_id,
     });
