@@ -28,7 +28,7 @@
     <div class="layout-container">
       <!--   CARDS   -->
       <div class="profile-cards">
-        <router-link to="#" class="profile-card">
+        <router-link :to="{ name: 'referral-view' }" class="profile-card">
           <img
             class="profile-card__image"
             src="@/assets/images/profile-referal-icon.svg"
@@ -275,6 +275,10 @@
     align-items: center;
     text-decoration: none;
     padding: 0 0 0 1rem;
+
+    &:hover {
+      background-color: #f5f5f5;
+    }
 
     & .b-bottom {
       width: 100%;
