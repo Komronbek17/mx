@@ -17,7 +17,7 @@ function changeSoundMode() {
           <p>Сменить язык</p>
         </router-link>
 
-        <div @click="changeSoundMode" class="settings-card">
+        <router-link :to="{ name: 'settings-sound' }" class="settings-card">
           <img
             v-if="sound === true"
             src="@/assets/images/sound-on-icon.svg"
@@ -25,7 +25,7 @@ function changeSoundMode() {
           />
           <img v-else src="@/assets/images/sound-off-icon.svg" alt="" />
           <p>Выключить звук</p>
-        </div>
+        </router-link>
 
         <router-link to="#" class="settings-card">
           <img src="@/assets/images/document-icon.svg" alt="" />
