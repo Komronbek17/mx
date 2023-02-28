@@ -5,10 +5,19 @@ import UserCardHome from "@/components/home/UserCardHome.vue";
 
 import { useTelegramStore } from "@/stores/telegram.store";
 import { useTelegram } from "@/composables/telegram.composable";
+import { useRouter } from "vue-router";
 
 const { tUserFullName } = useTelegramStore();
 const { tUserUniqueId, checkTelegramUser } = useTelegram();
 checkTelegramUser();
+
+const router = useRouter();
+
+function openDailyBonusPage() {
+  router.push({
+    name: "daily",
+  });
+}
 </script>
 
 <template>
@@ -24,7 +33,7 @@ checkTelegramUser();
       class="mb-1"
     />
 
-    <div class="ol-main-banner mb-1">
+    <div class="ol-main-banner mb-1" @click="openDailyBonusPage">
       <img
         src="@/assets/images/home-card-layout.png"
         alt="banner"
