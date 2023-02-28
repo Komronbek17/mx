@@ -1,4 +1,6 @@
 export default {
+  ok: "Окей",
+  cancel: "Отмена",
   creator: "Султонов Комрон",
   price: "Стоимость %{msg} сум",
   packages: {

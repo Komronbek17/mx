@@ -1,34 +1,38 @@
 <script setup>
-import {defineProps} from "vue";
+import { useSlots } from "vue";
 
-const emit = defineEmits()
+const emit = defineEmits(["close-modal"]);
 defineProps({
-    modelValue: Boolean,
+  modelValue: {
+    type: Boolean,
+    required: true,
+  },
+  showCloseIcon: {
+    type: Boolean,
+    default: true,
+  },
 });
 
-import {useSlots} from 'vue'
-
-const slots = useSlots()
+const slots = useSlots();
 
 const closeModal = () => {
-    emit('close-modal')
-}
-
+  emit("close-modal");
+};
 </script>
 
 <template>
-    <transition name="modal">
-        <div v-show="modelValue">
-            <div @click="closeModal" class="backdrop"/>
-            <div class="modal">
-                <div @click="closeModal" class="modal-close">
-                    <img src="@/assets/images/close.svg" alt="">
-                </div>
-                <slot v-if="slots.header" name="header"/>
-                <slot v-if="slots.content" name="content"/>
-                <slot v-if="slots.footer" name="footer"/>
-            </div>
+  <transition name="modal">
+    <div v-show="modelValue">
+      <div @click="closeModal" class="backdrop" />
+      <div class="modal">
+        <div v-if="showCloseIcon" @click="closeModal" class="modal-close">
+          <img src="@/assets/images/close.svg" alt="" />
         </div>
-    </transition>
+        <slot v-if="slots.header" name="header" />
+        <slot v-if="slots.content" name="content" />
+        <slot v-if="slots.footer" name="footer" />
+      </div>
+    </div>
+  </transition>
 </template>
-<style lang="scss" src="./ModalDialog.scss"/>
+<style lang="scss" src="./ModalDialog.scss" />
