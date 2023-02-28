@@ -129,7 +129,6 @@ getProducts()
                         <p>Активировать</p>
                     </div>
                 </div>
-
             </div>
 
         </div>
