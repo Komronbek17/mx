@@ -1,134 +1,112 @@
 <script setup>
+import { useRoute } from "vue-router";
 
-import {useRouter} from "vue-router";
-import {useToast} from "vue-toastification";
-import {ref} from "vue";
-import {productApi} from "@/services/product.service";
-import ModalDialog from "@/components/ui/ModalDialog/ModalDialog.vue";
-
-const router = useRouter();
-const toast = useToast();
-
-const gifts = ref([])
-
-const modalValue = ref(false)
-const activeId = ref(null)
-
-const getProducts = async () => {
-    try {
-        const body = {
-            method: "coin.get_all_products",
-            params: {
-                page: 1,
-                limit: 10,
-            }
-        }
-        const {data} = await productApi.fetchProducts(body);
-        gifts.value = data.result
-
-    } catch ({response}) {
-        toast.error(response?.data?.message);
-    }
-}
-
-const askActivate = (id) => {
-    activeId.value = id
-    openModal()
-}
-
-
-const closeDialogModal = () => {
-    modalValue.value = false
-    activeId.value = null
-}
-
-const openModal = () => {
-    modalValue.value = true
-}
-const modalApply = () => {
-    submitActive()
-    modalValue.value = false
-}
-
-const submitActive = async () => {
-    const body = {
-        method: 'coin.activation_product',
-        params: {
-            id: activeId.value
-        }
-    }
-
-    const {data} = await productApi.activateProduct(body)
-    console.log(data, 'data');
-}
-
-
-getProducts()
-
+const route = useRoute();
 </script>
 
-
 <template>
-    <div class="layout-container">
-        <div @click="openModal" class="bonus-block">
-            <div class="bonus-card">
-                <div class="bonus-card__title">Баланс:</div>
-                <div class="bonus-card__price">
-                    <img src="@/assets/images/coin.png" alt=""/>
-                    <p>1000</p>
-                </div>
-            </div>
-        </div>
-
-        <div class="gifts-block">
-            <div class="gift-title">
-                Призы
-            </div>
-            <div class="gift-list">
-                <div v-for="gift in gifts" :key="gift.id + '_level_1'" class="gift-card">
-                    <div class="gift-card__image">
-                        <img :src="gift.images[0]?.path || '@/assets/images/no-photo.svg'" alt="">
-                    </div>
-                    <div class="gift-card__content">
-                        <h5>{{ gift.name }}</h5>
-                        <div class="price">
-                            <img src="@/assets/images/coin.png" alt="">
-                            <p>{{ gift.price }}</p>
-                        </div>
-                    </div>
-                    <div @click="askActivate(gift.id)" class="gift-card__button">
-                        <p v-if="gift.type ==='product'">В корзину</p>
-                        <p v-else>Активировать</p>
-                    </div>
-                </div>
-
-            </div>
-
-        </div>
-
-        <modal-dialog :model-value="modalValue" @close-modal="closeDialogModal">
-            <template #header>
-                <div class="modal-header">
-                    <img src="@/assets/images/2x-blue.png" alt="">
-                </div>
-            </template>
-            <template #content>
-                <div class="modal-content">
-                    <h3 class="modal-content__title">Активировано!</h3>
-                    <p class="modal-content__subtitle">2Х бонус 1го уровня успешно активирован!</p>
-                </div>
-            </template>
-            <template #footer>
-                <div class="modal-footer">
-                    <div @click="modalApply" class="modal-footer__button btn-yellow">Окей</div>
-                </div>
-            </template>
-        </modal-dialog>
-
+  <div class="history">
+    <div class="history-block">
+      <div class="history-tabs">
+        <router-link
+          :to="{ name: 'bonus-active', params: {} }"
+          class="history-tab"
+          :class="route.name === 'bonus-active' ? 'active' : ''"
+        >
+          Активные
+        </router-link>
+        <router-link
+          :to="{ name: 'bonus-recent', params: {} }"
+          class="history-tab"
+          :class="route.name === 'bonus-recent' ? 'active' : ''"
+        >
+          Недавние
+        </router-link>
+        <router-link
+          :to="{ name: 'bonus-prize', params: {} }"
+          class="history-tab"
+          :class="route.name === 'bonus-prize' ? 'active' : ''"
+        >
+          Призы
+        </router-link>
+        <!--        <router-link-->
+        <!--          :to="{ name: 'bonus-archive', params: {} }"-->
+        <!--          class="history-tab"-->
+        <!--          :class="route.name === 'bonus-archive' ? 'active' : ''"-->
+        <!--        >-->
+        <!--          Архив-->
+        <!--        </router-link>-->
+      </div>
     </div>
+    <router-view />
+  </div>
 </template>
 
-
 <style lang="scss" scoped>
-@import "bonus-style";
+::-webkit-scrollbar {
+  display: none;
+}
+
+.history {
+  padding: 0;
+
+  &-block {
+    position: relative;
+    z-index: 0;
+
+    &::after {
+      content: "";
+      width: 100%;
+      display: block;
+      position: absolute;
+      left: 0;
+      bottom: 0;
+      height: 2px;
+      background-color: #f5f5f5;
+    }
+  }
+
+  &-tabs {
+    position: relative;
+    padding: 0 1rem;
+    overflow-x: auto;
+    white-space: nowrap;
+    display: flex;
+    column-gap: 20px;
+  }
+
+  &-tab {
+    position: relative;
+    font-weight: 600;
+    font-size: 17px;
+    line-height: 129%;
+    color: #dbdbdb;
+    text-decoration: none;
+    z-index: 1232;
+    padding: 16px 0 12px;
+
+    &.active {
+      background: linear-gradient(107.32deg, #4adaff -22.08%, #0062ca 122.03%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      text-fill-color: transparent;
+
+      &::after {
+        content: "";
+        position: absolute;
+        bottom: 0;
+        display: block;
+        width: 100%;
+        background: linear-gradient(
+          107.32deg,
+          #4adaff -22.08%,
+          #0062ca 122.03%
+        );
+        height: 2px;
+        border-radius: 100px;
+      }
+    }
+  }
+}
 </style>
