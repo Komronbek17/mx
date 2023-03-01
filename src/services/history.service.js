@@ -1,11 +1,8 @@
 import Core from "@/services/axios/core.axios";
-import { axiosDev } from "@/services/axios/axios";
 
 class HistoryService extends Core {
   constructor() {
-    super({
-      axios: axiosDev({}),
-    });
+    super({});
   }
 
   fetchRecentHistories() {
