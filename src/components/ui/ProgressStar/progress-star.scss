@@ -1,0 +1,17 @@
+.progress-star {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  row-gap: .5rem;
+
+  &__index {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+  }
+
+  &__icon {
+    line-height: 0;
+  }
+}

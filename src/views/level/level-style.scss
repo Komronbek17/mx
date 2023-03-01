@@ -1,0 +1,6 @@
+.levels-list {
+  display: flex;
+  //grid-template-columns: repeat(3, calc((100% / 3) - (1.5rem * 2)));
+  column-gap: 1rem;
+  margin-bottom: 1.5rem;
+}
