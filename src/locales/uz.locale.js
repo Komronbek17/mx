@@ -60,4 +60,14 @@ export default {
     policy: "Ommaviy oferta",
   },
   getLevelPrizeError: "Level ballingiz yetarli emas!",
+  bonus_types: {
+    sms: "SMS to'plami",
+    internet: "Internet to'plami",
+    minutes: "Minut to'plami",
+  },
+  prize_levels: {
+    1: "1 bosqich",
+    2: "2 bosqich",
+    3: "3 bosqich",
+  },
 };

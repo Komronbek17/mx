@@ -6,8 +6,18 @@ class HistoryService extends Core {
   }
 
   fetchRecentHistories() {
-    return this.post("api/coin/histories/active", {
-      method: "coin.get_active_histories",
+    return this.get("/histories/", {
+      method: "coin.get_recent_histories",
+      params: {
+        page: 1,
+        limit: 10,
+      },
+    });
+  }
+
+  fetchPrizeHistories() {
+    return this.get("/levels/histories/", {
+      method: "coin.get_prize_histories",
       params: {
         page: 1,
         limit: 10,
