@@ -8,7 +8,7 @@ class HistoryService extends Core {
     });
   }
 
-  fetchActiveHistories() {
+  fetchRecentHistories() {
     return this.post("api/coin/histories/active", {
       method: "coin.get_active_histories",
       params: {
