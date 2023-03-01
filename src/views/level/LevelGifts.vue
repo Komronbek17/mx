@@ -25,5 +25,5 @@ const props = defineProps({
 
 
 <style lang="scss" scoped>
-@import "./level-card.scss";
+@import "./level-gifts-card.scss";
 </style>
