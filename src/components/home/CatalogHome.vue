@@ -83,7 +83,7 @@ import UserIcon from "@/components/icons/UserIcon.vue";
 
     <catalog-card
       :to="{
-        name: 'bonus',
+        name: 'bonus-active',
       }"
     >
       <template #icon>

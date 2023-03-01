@@ -2,13 +2,17 @@ import Core from "@/services/axios/core.axios";
 
 class HistoryService extends Core {
   constructor() {
-    super({
-      endpoint: "histories",
-    });
+    super({});
   }
 
-  fetchHistories({ params }) {
-    return this.get("", { params });
+  fetchRecentHistories() {
+    return this.post("api/coin/histories/active", {
+      method: "coin.get_active_histories",
+      params: {
+        page: 1,
+        limit: 10,
+      },
+    });
   }
 }
 

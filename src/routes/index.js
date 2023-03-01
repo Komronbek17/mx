@@ -28,7 +28,7 @@ import AppBonus from "@/views/bonus/AppBonus.vue";
 import AppBonusActive from "@/views/bonus/AppBonusActive.vue";
 import AppBonusRecent from "@/views/bonus/AppBonusRecent.vue";
 import AppBonusPrize from "@/views/bonus/AppBonusPrize.vue";
-import AppBonusArchive from "@/views/bonus/AppBonusArchive.vue";
+// import AppBonusArchive from "@/views/bonus/AppBonusArchive.vue";
 import AppLevel from "@/views/level/AppLevel.vue";
 
 const router = createRouter({
@@ -139,11 +139,11 @@ const router = createRouter({
           name: "bonus-prize",
           component: AppBonusPrize,
         },
-        {
-          path: "/bonus-archive",
-          name: "bonus-archive",
-          component: AppBonusArchive,
-        },
+        // {
+        //   path: "/bonus-archive",
+        //   name: "bonus-archive",
+        //   component: AppBonusArchive,
+        // },
       ],
     },
     {
