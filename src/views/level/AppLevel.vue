@@ -2,7 +2,7 @@
 
 import {useToast} from "vue-toastification";
 import {levelApi} from "@/services/level.service";
-import {ref} from "vue";
+import {onMounted, ref} from "vue";
 import LevelGifts from "@/views/level/LevelGifts.vue";
 import LevelsStatisticsCard from "@/components/LevelsStatisticsCard/LevelsStatisticsCard.vue";
 
@@ -26,7 +26,10 @@ const activateLevel = (id) => {
     activeLevel.value = id
 }
 
-getLevels()
+onMounted(() => {
+    getLevels()
+})
+
 </script>
 
 <template>
