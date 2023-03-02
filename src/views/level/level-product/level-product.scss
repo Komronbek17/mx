@@ -18,8 +18,8 @@
     font-size: 20px;
     line-height: 140%;
     letter-spacing: -0.4px;
+    color: #333333;
     margin-bottom: 8px;
-    color: var(--gf-text-09);
   }
 
   &__amount {
@@ -31,7 +31,7 @@
     margin-bottom: 24px;
 
     & span {
-      color: var(--gf-text-09);
+      color: #090909;
     }
   }
 
@@ -40,7 +40,7 @@
     font-size: 18px;
     line-height: 133%;
     letter-spacing: -0.5px;
-    color: var(--gf-text-09);
+    color: #090909;
     margin-bottom: 8px;
   }
 

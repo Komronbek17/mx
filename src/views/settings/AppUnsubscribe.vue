@@ -1,4 +1,49 @@
-<script setup></script>
+<script setup>
+import { ref } from "vue";
+import { subscribeApi } from "@/services/subscribe.service";
+import { useRouter } from "vue-router";
+const isSubscribed = ref(null);
+const router = useRouter();
+
+const getStatus = async () => {
+  const response = await subscribeApi.fetchStatus();
+  isSubscribed.value = response.data.isSubscribed;
+};
+
+async function toggleSubscribing() {
+  if (isSubscribed.value === true) {
+    await subscribeApi
+      .subscribeStop()
+      .then((res) => {
+        console.log(res);
+      })
+      .catch((err) => {
+        console.error(err);
+      })
+      .finally(() => {
+        router.push({ name: "settings" });
+      });
+  } else {
+    await subscribeApi
+      .subscribeActivate()
+      .then((res) => {
+        console.log(res);
+      })
+      .catch((err) => {
+        console.error(err);
+      })
+      .finally(() => {
+        router.push({ name: "settings" });
+      });
+  }
+}
+
+function backToSettings() {
+  router.push({ name: "settings" });
+}
+
+getStatus();
+</script>
 
 <template>
   <div class="unsubscribe">
@@ -8,10 +53,20 @@
           <img src="@/assets/images/message-icon.svg" alt="" />
         </div>
 
-        <p class="unsubscribe-title">Выключить звук?</p>
+        <p v-if="isSubscribed" class="unsubscribe-title">
+          Вы хотите отписаться?
+        </p>
+        <p v-else class="unsubscribe-title">Вы хотите подписаться?</p>
         <div class="unsubscribe-btns">
-          <button class="unsubscribe-btn__no">Нет</button>
-          <button class="unsubscribe-btn__yes">Да</button>
+          <button class="unsubscribe-btn__no" @click="backToSettings">
+            Нет
+          </button>
+          <button
+            class="unsubscribe-btn__yes"
+            @click.prevent="toggleSubscribing"
+          >
+            Да
+          </button>
         </div>
       </div>
     </div>

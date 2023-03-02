@@ -31,7 +31,7 @@ getPrizeBonuses();
       <div class="prize-items">
         <div v-for="item in prizeBonuses" :key="item.id" class="prize-item">
           <div class="prize-image">
-            <img src="@/assets/images/bonus-2x-icon.svg" alt="" />
+            <img src="@/assets/images/bonus-prize.svg" alt="" />
           </div>
           <div class="prize-item__details">
             <p>{{ item.name }}</p>
