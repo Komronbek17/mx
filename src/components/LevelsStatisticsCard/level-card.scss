@@ -16,17 +16,15 @@
     max-height: 114px;
     border-radius: .5rem;
     padding: 16px 12px 12px;
-    border: 1px solid var(--gf-disable-btn);
+    border: 1px solid #F5F5F5;
 
 
     &__name {
       @extend .font-15-dark;
-      color: var(--gf-text-09);
     }
 
     &__percent {
       @extend .font-15-gray;
-      color: var(--gf-text-gray-2x);
     }
 
     //
