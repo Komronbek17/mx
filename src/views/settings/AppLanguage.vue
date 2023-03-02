@@ -7,7 +7,7 @@ import { useTelegramStore } from "@/stores/telegram.store";
 import { telegramApi } from "@/services/telegram.service";
 // import enIcon from "@/assets/images/lang-en-icon.svg";
 
-const { t, locale } = useI18n();
+const { locale } = useI18n();
 const { tUserId } = useTelegramStore();
 const availableLangs = [
   {
