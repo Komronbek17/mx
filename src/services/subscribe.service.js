@@ -3,7 +3,7 @@ import Core from "@/services/axios/core.axios";
 class SubscribeService extends Core {
   constructor() {
     super({
-      endpoint: "subscribe",
+      endpoint: "subscribe/",
     });
   }
 

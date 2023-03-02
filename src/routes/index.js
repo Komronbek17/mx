@@ -29,6 +29,7 @@ import AppBonusActive from "@/views/bonus/AppBonusActive.vue";
 import AppBonusRecent from "@/views/bonus/AppBonusRecent.vue";
 import AppBonusPrize from "@/views/bonus/AppBonusPrize.vue";
 import AppLevel from "@/views/level/AppLevel.vue";
+import AppLevelProduct from "@/views/level/level-product/AppLevelProduct.vue";
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -164,6 +165,11 @@ const router = createRouter({
       path: "/level",
       name: "level",
       component: AppLevel,
+    },
+    {
+      path: "/level/product", //now product then it will be changed to id
+      name: "level-product",
+      component: AppLevelProduct,
     },
     {
       path: "/game",

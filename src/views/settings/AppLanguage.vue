@@ -1,8 +1,14 @@
 <script setup>
 import { ref } from "vue";
+import {
+  setLocalStorageVariable,
+  getLocalStorageVariable,
+} from "@/utils/localstorage.util";
+
 import uzIcon from "@/assets/images/lang-uz-icon.svg";
 import enIcon from "@/assets/images/lang-en-icon.svg";
 import ruIcon from "@/assets/images/lang-ru-icon.svg";
+import { useRouter } from "vue-router";
 
 const availableLangs = [
   {
@@ -22,10 +28,19 @@ const availableLangs = [
   },
 ];
 let activeLang = ref("");
+const router = useRouter();
+
+function getLangFromStorage() {
+  activeLang.value = getLocalStorageVariable("lang") || "ru";
+}
 
 function changeLocale(item) {
   activeLang.value = item || "ru";
+  setLocalStorageVariable("lang", item);
+  router.push({ name: "settings" });
 }
+
+getLangFromStorage();
 </script>
 
 <template>
