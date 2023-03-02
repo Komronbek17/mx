@@ -51,6 +51,11 @@
   color: #090909;
 }
 
+.font-15-gray {
+  @extend .font-15;
+  color: #797D81;
+}
+
 .font-24 {
   font-family: 'sf-pro', sans-serif;
   font-style: normal;

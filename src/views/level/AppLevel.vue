@@ -42,7 +42,7 @@ onMounted(() => {
                     :key="index"
                     :level="level"
                     :index="index"
-                    :class="{'levels-card__active': index === activeLevel}"
+                    :class="[{'levels-card__active': index === activeLevel}, `levels-card__${index}`]"
                     @click="activateLevel(index)"
                 />
             </div>
