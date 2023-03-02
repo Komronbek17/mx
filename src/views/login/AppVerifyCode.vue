@@ -8,6 +8,7 @@ import * as yup from "yup";
 import RotateLeftIcon from "@/components/icons/RotateLeftIcon.vue";
 
 import {
+  getSessionStorageVariable,
   localStorageController,
   sessionStorageController,
 } from "@/utils/localstorage.util";
@@ -15,15 +16,10 @@ import {
 import { authApi } from "@/services/auth.service";
 import { OLTIN_BALIQ_BOT_TKN, VERIFICATION_PHONE } from "@/constants";
 import { MainButtonController } from "@/utils/telegram/main.button.controller";
-import { WebAppController } from "@/utils/telegram/web.app.util";
-import { useI18n } from "vue-i18n";
-import { telegramApi } from "@/services/telegram.service";
 
-const { t } = useI18n();
 const router = useRouter();
 const toast = useToast();
 const LIMIT = 60;
-
 const verifyState = reactive({
   phone: "",
   time: {
@@ -40,12 +36,7 @@ const {
   validate,
 } = useField(
   "ol-verify-code",
-  yup
-    .string()
-    .required(t("yup.required", { _field_: t("login_page.verify_code") }))
-    .min(4, t("yup.min", { _field_: t("login_page.verify_code"), length: 4 }))
-    .max(4, t("yup.max", { _field_: t("login_page.verify_code"), length: 4 }))
-    .label(t("login_page.verify_code"))
+  yup.string().required().min(4).label("Verification code")
 );
 
 watch(
@@ -86,33 +77,26 @@ async function verifyCode() {
   if (valid) {
     MainButtonController.showProgress();
     try {
-      const { data } = await authApi.verify({
+      const response = await authApi.verify({
         body: {
-          phone: sessionStorageController.get(VERIFICATION_PHONE),
+          phone: getSessionStorageVariable(VERIFICATION_PHONE),
           verify_code: olVerifyCode.value,
         },
       });
 
-      localStorageController.set(OLTIN_BALIQ_BOT_TKN, data["access_token"]);
-
-      await telegramApi.login({
-        body: {
-          phone: sessionStorageController.get(VERIFICATION_PHONE),
-          user_id: data.user.id,
-          telegram_id: WebAppController.webApp.initDataUnsafe.user.id,
-          jwt: data["access_token"],
-        },
-      });
-
       sessionStorageController.remove(VERIFICATION_PHONE);
+      localStorageController.set(
+        OLTIN_BALIQ_BOT_TKN,
+        response.data["access_token"]
+      );
+
+      MainButtonController.hideProgress();
 
       await router.push({
         name: "home",
       });
-
-      MainButtonController.hideProgress();
     } catch (e) {
-      toast.error(e?.response.data.message ?? e.message);
+      toast.error(e.response.data.message ?? e.message);
     } finally {
       MainButtonController.hideProgress();
     }
@@ -121,11 +105,11 @@ async function verifyCode() {
 
 function setTime({ sec, min }) {
   if (sec >= 0) {
-    verifyState.time.sec = sec > 9 ? sec : `0${sec}`;
+    verifyState.time.sec = sec > 10 ? sec : `0${sec}`;
   }
 
   if (min >= 0) {
-    verifyState.time.min = min > 9 ? min : `0${min}`;
+    verifyState.time.min = min > 10 ? min : `0${min}`;
   }
 }
 
@@ -162,31 +146,29 @@ onMounted(() => {
 
 MainButtonController.run();
 MainButtonController.onClick(verifyCode);
-MainButtonController.setText(`${t("login_page.confirm_btn")}`);
+MainButtonController.setText("Подтвердить");
 onBeforeRouteLeave(() => {
   MainButtonController.makeInvisible();
   MainButtonController.offClick(verifyCode);
 });
-
-WebAppController.ready();
 </script>
 
 <template>
-  <div class="ol-signin-content layout-container">
+  <div class="ol-signin-content container">
     <h3 class="verification-phone">{{ verifyState.phone }}</h3>
     <p class="ol-signin-content-suggestion mt-1 mb-075">
-      {{ t("login_page.verify_1") }}
+      На ваш номер был отправлен SMS с кодом активации
     </p>
 
     <label for="ol-verification-code" class="mb-0-5 ol-phone-number-label">
-      {{ t("login_page.verify_2") }}:
+      Введите код:
     </label>
     <input
       class="ol-phone-input"
-      type="tel"
+      type="text"
       v-mask="'########'"
       id="ol-verification-code"
-      :placeholder="t('login_page.code')"
+      placeholder="Код"
       v-model="olVerifyCode"
     />
     <span v-if="errors.length" class="validation-failed">
@@ -198,7 +180,7 @@ WebAppController.ready();
       @click="resend"
     >
       <rotate-left-icon />
-      <span class="ml-0-5">{{ t("login_page.retry") }}</span>
+      <span class="ml-0-5">Отправить повторно</span>
     </span>
     <span v-else class="verification-timer mt-0-5">
       {{ verifyState.time.min }}:{{ verifyState.time.sec }}
@@ -210,8 +192,9 @@ WebAppController.ready();
 .ol-signin-content {
   display: flex;
   flex-direction: column;
-  margin: auto;
-  max-width: 360px;
+  justify-content: center;
+  overflow-y: hidden;
+  height: 90vh;
 
   &-suggestion {
     margin-bottom: 0.75rem;
@@ -223,8 +206,7 @@ WebAppController.ready();
 }
 
 .ol-phone-input {
-  color: var(--gf-login-input-text);
-  background: var(--gf-login-input-bg);
+  background: var(--gf-p-main-gray);
   border-radius: 8px;
   padding: 0.75rem 1rem;
   min-height: 20px;
@@ -234,7 +216,7 @@ WebAppController.ready();
 .ol-phone-number-label {
   font-size: 14px;
   line-height: 18px;
-  color: var(--gf-text-09);
+  color: var(--gf-p-primary-color);
 }
 
 .terms-conditions-content {

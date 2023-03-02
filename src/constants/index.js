@@ -3,3 +3,4 @@ export const TELEGRAM = "Telegram";
 export const WEB_APP = "WebApp";
 export const BACK_BUTTON = "backButton";
 export const MAIN_BUTTON = "MainButton";
+export const VERIFICATION_PHONE = "verification-number";

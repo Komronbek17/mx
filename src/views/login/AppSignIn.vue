@@ -1,19 +1,15 @@
 <script setup>
-import * as yup from "yup";
 import { reactive, watch } from "vue";
-import { useField } from "vee-validate";
-import { useToast } from "vue-toastification";
 import { onBeforeRouteLeave, useRouter } from "vue-router";
+import { useField } from "vee-validate";
+import * as yup from "yup";
 
-import { authApi } from "@/services/auth.service";
-import { WebAppController } from "@/utils/telegram/web.app.util";
-import { sessionStorageController } from "@/utils/localstorage.util";
 import { MainButtonController } from "@/utils/telegram/main.button.controller";
-
+import { authApi } from "@/services/auth.service";
+import { useToast } from "vue-toastification";
+import { sessionStorageController } from "@/utils/localstorage.util";
 import { VERIFICATION_PHONE } from "@/constants";
-import { useI18n } from "vue-i18n";
 
-const { t } = useI18n();
 const toast = useToast();
 const router = useRouter();
 const loginState = reactive({
@@ -64,31 +60,28 @@ async function sendCode() {
 
 MainButtonController.run();
 MainButtonController.onClick(sendCode);
-MainButtonController.setText(`${t("login_page.confirm_btn")}`);
+MainButtonController.setText("Подтвердить");
 onBeforeRouteLeave(() => {
   MainButtonController.makeInvisible();
   MainButtonController.offClick(sendCode);
 });
-
-WebAppController.ready();
 </script>
 
 <template>
-  <div class="ol-signin-content layout-container">
-    <div>{{ WebAppController.webApp }}</div>
-    <h3 class="ol-signin-title">{{ t("login_page.text_1") }}</h3>
+  <div class="ol-signin-content container">
+    <h3>Авторизация</h3>
     <p class="ol-signin-content-suggestion mt-1 mb-075">
-      {{ t("login_page.text_2") }}
+      На ваш номер будет отправлен SMS для активации вашего аккаунта.
     </p>
 
     <label for="ol-phone-number" class="mb-0-5 ol-phone-number-label">
-      {{ t("login_page.label") }}
+      Ваш номер телефона
     </label>
     <input
       v-mask="'+998 ##-###-##-##'"
       v-model="olSigninNumber"
       class="ol-phone-input"
-      type="tel"
+      type="text"
       id="ol-phone-number"
     />
 
@@ -102,40 +95,22 @@ WebAppController.ready();
         v-model="loginState.agreement"
         id="ol-terms-conditions-checkbox"
       />
-      <span class="ml-0-5 ol-accept-privacy">{{
-        t("login_page.privacy_policy")
-      }}</span>
+      <span class="ml-0-5">Я принимаю условия оферты</span>
     </label>
 
     <p class="ol-service-message mt-4 mb-1-5">
-      {{ t("login_page.text_3") }}
+      Пользование сервисом “Al Chiroq” для абонента составляет 500 сум в день с
+      НДС
     </p>
   </div>
 </template>
 
 <style lang="scss" scoped>
-.ol-accept-privacy {
-  font-weight: 400;
-  font-size: 14px;
-  line-height: 129%;
-  color: var(--gf-text-secondary-gray-2x);
-}
-
-.ol-signin-title {
-  font-weight: 600;
-  font-size: 28px;
-  line-height: 121%;
-  display: flex;
-  align-items: center;
-  color: var(--gf-text-09);
-}
-
 .ol-signin-content {
   display: flex;
   flex-direction: column;
-  //justify-content: flex-end;
-  //height: 80vh;
-  justify-content: center;
+  justify-content: flex-end;
+  height: 80vh;
   overflow-y: hidden;
 
   &-suggestion {
@@ -148,8 +123,7 @@ WebAppController.ready();
 }
 
 .ol-phone-input {
-  color: var(--gf-login-input-text);
-  background: var(--gf-login-input-bg);
+  background: var(--gf-p-main-gray);
   border-radius: 8px;
   padding: 0.75rem 1rem;
   min-height: 20px;

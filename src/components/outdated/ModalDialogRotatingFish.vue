@@ -1,5 +1,4 @@
 <script setup>
-import { defineEmits } from "vue";
 import ModalDialog from "@/components/ui/ModalDialog/ModalDialog.vue";
 
 defineProps({

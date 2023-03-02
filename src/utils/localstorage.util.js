@@ -23,7 +23,7 @@ export const removeSessionStorageVariable = (key) => {
 };
 
 export class localStorageController {
-  static get(key) {
+  get(key) {
     return localStorage.getItem(key);
   }
 
