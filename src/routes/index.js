@@ -1,9 +1,11 @@
 import { createRouter, createWebHistory } from "vue-router";
 
+import { getToken } from "@/utils/auth.util";
+import { isNUNEZ } from "@/utils/inspect.util";
+
 import AppHome from "@/views/home/AppHome.vue";
 import AppPremium from "@/views/premium/AppPremium.vue";
 import AppShop from "@/views/shop/AppShop.vue";
-import AppLogin from "@/views/login/AppLogin.vue";
 import AppPrize from "@/views/prize/AppPrize.vue";
 import AppMarket from "@/views/market/AppMarket.vue";
 import AppSettings from "@/views/settings/AppSettings.vue";
@@ -16,8 +18,6 @@ import AppProfileEdit from "@/views/profile/AppProfileEdit.vue";
 import AppInformers from "@/views/profile/AppInformers.vue";
 import AppDaily from "@/views/daily/AppDaily.vue";
 import _id from "@/views/news/_id.vue";
-import { getToken } from "@/utils/auth.util";
-import { isNUNEZ } from "@/utils/inspect.util";
 import AppReferral from "@/views/profile/AppReferral.vue";
 import AppReferralBonus from "@/views/profile/AppReferralBonus.vue";
 import AppReferralIndex from "@/views/profile/AppReferralIndex.vue";
@@ -28,7 +28,6 @@ import AppBonus from "@/views/bonus/AppBonus.vue";
 import AppBonusActive from "@/views/bonus/AppBonusActive.vue";
 import AppBonusRecent from "@/views/bonus/AppBonusRecent.vue";
 import AppBonusPrize from "@/views/bonus/AppBonusPrize.vue";
-// import AppBonusArchive from "@/views/bonus/AppBonusArchive.vue";
 import AppLevel from "@/views/level/AppLevel.vue";
 
 const router = createRouter({
@@ -39,10 +38,20 @@ const router = createRouter({
       name: "home",
       component: AppHome,
     },
+    // {
+    //   path: "/login",
+    //   name: "login",
+    //   component: AppLogin,
+    // },
     {
       path: "/login",
       name: "login",
-      component: AppLogin,
+      component: () => import("@/views/login/AppSignIn.vue"),
+    },
+    {
+      path: "/verification",
+      name: "verification",
+      component: () => import("@/views/login/AppVerifyCode.vue"),
     },
     {
       path: "/premium",
@@ -180,7 +189,7 @@ const router = createRouter({
 });
 
 router.beforeEach((to, from, next) => {
-  if (to.name === "login") {
+  if (to.name === "login" || to.name === "verification") {
     return next();
   }
 

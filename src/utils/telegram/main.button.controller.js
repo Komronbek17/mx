@@ -1,5 +1,3 @@
-import { TELEGRAM, WEB_APP } from "@/constants";
-
 export class MainButtonController {
   static mainButton = null;
   static route = null;
@@ -33,39 +31,59 @@ export class MainButtonController {
     this.mainButton.offClick(fn);
   }
 
-  static mainButtonOnClick(callback) {
-    window[TELEGRAM][WEB_APP].MainButton["onClick"](callback);
+  static run() {
+    this.activate();
+    this.makeEnable();
+    this.makeVisible();
+    this.hideProgress();
   }
 
-  static mainButtonOffClick(callback) {
-    this.mainButton["offClick"](callback);
-  }
-
-  static mainButtonActivate() {
+  static activate() {
     this.mainButton.isActive = true;
   }
 
-  static mainButtonDeactivate() {
+  static deactivate() {
     this.mainButton.isActive = false;
   }
 
-  static mainButtonMakeVisible() {
+  static makeVisible() {
     this.mainButton.isVisible = true;
   }
 
-  static mainButtonMakeDisable() {
+  static makeInvisible() {
     this.mainButton.isVisible = false;
   }
 
-  static mainButtonSetText(text) {
+  static makeEnable() {
+    this.mainButton.enable();
+  }
+
+  static makeDisable() {
+    this.mainButton.disable();
+  }
+
+  static setText(text) {
     this.mainButton.setText(text);
   }
 
-  static mainButtonShowProgress() {
+  static showProgress() {
     this.mainButton.showProgress(true);
   }
 
-  static mainButtonHideProgress() {
+  static hideProgress() {
     this.mainButton.hideProgress();
+  }
+
+  static setTextColor(color) {
+    this.mainButton.textColor = color;
+  }
+
+  static setBackgroundColor(color) {
+    this.mainButton.color = color;
+  }
+
+  static resetButtonDesign() {
+    this.setTextColor("#FFFFFF");
+    this.setBackgroundColor("#2e87ca");
   }
 }
