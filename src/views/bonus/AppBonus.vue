@@ -8,13 +8,13 @@ const route = useRoute();
   <div class="history">
     <div class="history-block">
       <div class="history-tabs">
-        <router-link
-          :to="{ name: 'bonus-active', params: {} }"
-          class="history-tab"
-          :class="route.name === 'bonus-active' ? 'active' : ''"
-        >
-          Активные
-        </router-link>
+        <!--        <router-link-->
+        <!--          :to="{ name: 'bonus-active', params: {} }"-->
+        <!--          class="history-tab"-->
+        <!--          :class="route.name === 'bonus-active' ? 'active' : ''"-->
+        <!--        >-->
+        <!--          Активные-->
+        <!--        </router-link>-->
         <router-link
           :to="{ name: 'bonus-recent', params: {} }"
           class="history-tab"

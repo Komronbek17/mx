@@ -1,19 +1,36 @@
-<template>
-  <div class="levels-statistics-card">
-    <slot
-      name="item"
-      v-bind:item="item"
-    />
-    <slot />
-  </div>
-</template>
-
 <script setup>
-import { defineProps } from 'vue';
+import {defineProps} from 'vue';
+import ProgressStar from "@/components/ui/ProgressStar/ProgressStar.vue";
 
-defineProps({
-  item: Object
+const props = defineProps({
+    level: Object,
+    index: Number,
 })
+
+
 </script>
 
-<style lang="scss" src="./LevelsStatisticsCard.scss" />
+
+<template>
+    <div class="level-card">
+
+        <div class="level-star">
+            <progress-star :index="index" :percent="props.level.percent"/>
+        </div>
+        <div class="level-content">
+            <div class="level-card__name">
+                {{ props.level.name }}
+            </div>
+            <div class="level-card__percent">
+                {{ props.level.percent }} %
+            </div>
+        </div>
+
+
+    </div>
+</template>
+
+
+<style lang="scss" scoped>
+@import "./level-card.scss";
+</style>
