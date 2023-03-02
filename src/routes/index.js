@@ -105,7 +105,7 @@ const router = createRouter({
     },
     {
       path: "/news/:id",
-      name: "one-news",
+      name: "news-show",
       component: _id,
     },
   ],

@@ -18,10 +18,10 @@ const props = defineProps({
             <progress-star :index="index" :percent="props.level.percent"/>
         </div>
         <div class="level-content">
-            <div class="level-content__name">
+            <div class="level-card__name">
                 {{ props.level.name }}
             </div>
-            <div class="level-content__percent">
+            <div class="level-card__percent">
                 {{ props.level.percent }} %
             </div>
         </div>
