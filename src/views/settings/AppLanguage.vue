@@ -1,9 +1,14 @@
 <script setup>
-import { ref } from "vue";
+import { computed } from "vue";
 import uzIcon from "@/assets/images/lang-uz-icon.svg";
-import enIcon from "@/assets/images/lang-en-icon.svg";
 import ruIcon from "@/assets/images/lang-ru-icon.svg";
+import { useI18n } from "vue-i18n";
+import { useTelegramStore } from "@/stores/telegram.store";
+import { telegramApi } from "@/services/telegram.service";
+// import enIcon from "@/assets/images/lang-en-icon.svg";
 
+const { t, locale } = useI18n();
+const { tUserId } = useTelegramStore();
 const availableLangs = [
   {
     label: "O'zbek tili",
@@ -15,16 +20,22 @@ const availableLangs = [
     code: "ru",
     icon: ruIcon,
   },
-  {
-    label: "English",
-    code: "en",
-    icon: enIcon,
-  },
+  // {
+  //   label: "English",
+  //   code: "en",
+  //   icon: enIcon,
+  // },
 ];
-let activeLang = ref("");
+let activeLang = computed(() => locale.value);
 
-function changeLocale(item) {
-  activeLang.value = item || "ru";
+async function changeLocale(code) {
+  locale.value = code;
+  await telegramApi.switchLanguage({
+    body: {
+      telegram_id: tUserId,
+      language: code,
+    },
+  });
 }
 </script>
 
@@ -64,6 +75,7 @@ function changeLocale(item) {
     border-radius: 8px;
     padding: 16px 9px;
     row-gap: 1rem;
+    cursor: pointer;
 
     & img {
       width: 32px;

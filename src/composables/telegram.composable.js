@@ -19,8 +19,10 @@ export function useTelegram() {
         telegram_id: tUserId,
       });
       telegramInfo.data = data;
+      return data;
     } catch (e) {
       toast.error(e.response.data.message ?? e.message);
+      return {};
     }
   }
 

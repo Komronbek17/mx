@@ -13,10 +13,9 @@ const instanceGenerator = (baseUrl) => {
     Promise.reject(error)
   );
 
-  instance.interceptors.response.use(
-    (response) => response,
-    axiosResponseInterceptorError
-  );
+  instance.interceptors.response.use((response) => {
+    return response;
+  }, axiosResponseInterceptorError);
   return instance;
 };
 
@@ -26,7 +25,7 @@ export const axiosV1 = ({ endpoint = "" }) => {
 };
 
 export const axiosBase = ({ endpoint = "" }) => {
-  return instanceGenerator(import.meta.env.VITE_APP_URL +'/'+ endpoint);
+  return instanceGenerator(import.meta.env.VITE_APP_URL + "/" + endpoint);
 };
 
 export const axiosDev = ({ endpoint = "" }) => {
