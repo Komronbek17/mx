@@ -17,8 +17,8 @@ class TelegramService extends CoreAxios {
     return this.post("login", body);
   }
 
-  switchLanguage() {
-    return this.put("language");
+  switchLanguage({ body }) {
+    return this.put("language", body);
   }
 }
 
