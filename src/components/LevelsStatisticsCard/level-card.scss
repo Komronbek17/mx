@@ -16,10 +16,8 @@
     max-height: 114px;
     border-radius: .5rem;
     padding: 16px 12px 12px;
-    //overflow: hidden;
     border: 1px solid #F5F5F5;
 
-    //background: linear-gradient(107.32deg, #4ADAFF -22.08%, #0062CA 122.03%);
 
     &__name {
       @extend .font-15-dark;
@@ -29,44 +27,73 @@
       @extend .font-15-gray;
     }
 
-
-    //&:before {
-    //  content: '';
-    //  position: absolute;
-    //  left: 0;
-    //  top: 0;
-    //  width: 100%;
-    //  height: 100%;
-    //  //z-index: -1;
-    //  border-radius: .5rem;
-    //  //background: linear-gradient(156.71deg, #1FBFCF 0%, #0C5AA2 100%);
+    //
+    //&__n0 {
+    //  background: linear-gradient(107.32deg, #4ADAFF -22.08%, #0062CA 122.03%);
+    //
+    //  .level-star {
+    //    .progress-star__index {
+    //      background: linear-gradient(107.32deg, #4ADAFF -22.08%, #0062CA 122.03%);
+    //    }
+    //  }
+    //}
+    //
+    //&__n1 {
+    //  background: linear-gradient(122.82deg, #F2D207 0%, #FFA329 100%);
+    //
+    //  .level-star {
+    //    .progress-star__index {
+    //      background: linear-gradient(122.82deg, #F2D207 0%, #FFA329 100%);
+    //    }
+    //  }
+    //}
+    //
+    //&__n2 {
+    //  background: #00CB6A;
+    //
+    //  .level-star {
+    //    .progress-star__index {
+    //      background: #00CB6A;
+    //    }
+    //  }
     //}
 
-    &__0 {
-      &:before {
-        background: linear-gradient(112.59deg, #FFAF01 -3.47%, #FE6101 100%);
-      }
-    }
-
-    &:nth-child(3) {
-      &:before {
-        background: linear-gradient(161.25deg, #6BC54B 3.03%, #02763E 100%);
-      }
-    }
 
     &__active {
-      &:first-child {
-        &:before {
-          background: linear-gradient(112.59deg, #FFAF01 -3.47%, #FE6101 100%);
+      .level-card__name {
+        @extend .font-15-white;
+      }
+
+      .level-card__percent {
+        @extend .font-15-white;
+      }
+
+      &.level-card__n0 {
+        background: linear-gradient(107.32deg, #4ADAFF -22.08%, #0062CA 122.03%);
+
+        .progress-star__index {
+          background: linear-gradient(107.32deg, #4ADAFF -22.08%, #0062CA 122.03%) !important;
         }
       }
 
-      &:nth-child(3) {
-        &:before {
-          background: linear-gradient(161.25deg, #6BC54B 3.03%, #02763E 100%);
+      &.level-card__n1 {
+        background: linear-gradient(122.82deg, #F2D207 0%, #FFA329 100%);
+
+        .progress-star__index {
+          background: linear-gradient(122.82deg, #F2D207 0%, #FFA329 100%);
+        }
+      }
+
+      &.level-card__n2 {
+        background: #00CB6A;
+
+        .progress-star__index {
+          background: #00CB6A;
         }
       }
     }
+
+
   }
 }
 

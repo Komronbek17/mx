@@ -5,6 +5,7 @@ import ProgressStar from "@/components/ui/ProgressStar/ProgressStar.vue";
 const props = defineProps({
     level: Object,
     index: Number,
+    activeIndex: Number,
 })
 
 
@@ -14,8 +15,8 @@ const props = defineProps({
 <template>
     <div class="level-card">
 
-        <div class="level-star">
-            <progress-star :index="index" :percent="props.level.percent"/>
+        <div class="level-card__star">
+            <progress-star :index="index" :active-index="activeIndex" :percent="props.level.percent"/>
         </div>
         <div class="level-content">
             <div class="level-card__name">
