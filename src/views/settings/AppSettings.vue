@@ -1,11 +1,14 @@
 <script setup>
 import { ref } from "vue";
+import { subscribeApi } from "@/services/subscribe.service";
+const isSubscribed = ref(null);
 
-const sound = ref(true);
+const getStatus = async () => {
+  const response = await subscribeApi.fetchStatus();
+  isSubscribed.value = response.data.isSubscribed;
+};
 
-function changeSoundMode() {
-  sound.value = !sound.value;
-}
+getStatus();
 </script>
 
 <template>
@@ -17,24 +20,28 @@ function changeSoundMode() {
           <p>Сменить язык</p>
         </router-link>
 
-        <router-link :to="{ name: 'settings-sound' }" class="settings-card">
-          <img
-            v-if="sound === true"
-            src="@/assets/images/sound-on-icon.svg"
-            alt=""
-          />
-          <img v-else src="@/assets/images/sound-off-icon.svg" alt="" />
-          <p>Выключить звук</p>
-        </router-link>
+        <!--        <router-link :to="{ name: 'settings-sound' }" class="settings-card">-->
+        <!--          <img-->
+        <!--            v-if="sound === true"-->
+        <!--            src="@/assets/images/sound-on-icon.svg"-->
+        <!--            alt=""-->
+        <!--          />-->
+        <!--          <img v-else src="@/assets/images/sound-off-icon.svg" alt="" />-->
+        <!--          <p>Выключить звук</p>-->
+        <!--        </router-link>-->
 
-        <router-link to="#" class="settings-card">
-          <img src="@/assets/images/document-icon.svg" alt="" />
-          <p>Публичная оферта</p>
-        </router-link>
+        <!--        <router-link to="#" class="settings-card">-->
+        <!--          <img src="@/assets/images/document-icon.svg" alt="" />-->
+        <!--          <p>Публичная оферта</p>-->
+        <!--        </router-link>-->
 
-        <router-link to="#" class="settings-card">
+        <router-link
+          :to="{ name: 'settings-unsubscribe' }"
+          class="settings-card"
+        >
           <img src="@/assets/images/message-icon.svg" alt="" />
-          <p>Отписаться</p>
+          <p v-if="!isSubscribed">Подписаться</p>
+          <p v-else>Отписаться</p>
         </router-link>
       </div>
     </div>
