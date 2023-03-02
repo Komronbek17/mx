@@ -9,9 +9,44 @@
     left: 50%;
     top: 50%;
     transform: translate(-50%, -50%);
+
+    &-active {
+      @include text-gradient(#fff);
+    }
+
+    //&-active {
+    //  background: #fff !important;
+    //  -webkit-background-clip: text;
+    //  -webkit-text-fill-color: transparent;
+    //  background-clip: text;
+    //  text-fill-color: transparent;
+    //}
   }
 
   &__icon {
     line-height: 0;
   }
 }
+
+
+.level-card__active {
+  &.level-card__n0 {
+    .progress-star__index-default {
+      @include text-gradient(linear-gradient(107.32deg, #4ADAFF -22.08%, #0062CA 122.03%))
+    }
+  }
+
+  &.level-card__n1 {
+    .progress-star__index-default {
+      @include text-gradient(linear-gradient(122.82deg, #F2D207 0%, #FFA329 100%))
+    }
+  }
+
+  &.level-card__n2 {
+    .progress-star__index-default {
+      @include text-gradient(#00CB6A)
+    }
+  }
+}
+
+

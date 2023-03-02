@@ -89,11 +89,7 @@
 
       p {
         @extend .font-15;
-        background: linear-gradient(122.82deg, #F2D207 0%, #FFA329 100%);
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-        background-clip: text;
-        text-fill-color: transparent;
+        @include text-gradient(linear-gradient(122.82deg, #F2D207 0%, #FFA329 100%))
       }
 
       img {
