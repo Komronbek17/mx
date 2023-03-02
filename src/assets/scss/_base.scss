@@ -1,8 +1,10 @@
 :root {
   --gf-p-primary-color: #090909;
+  --gf-secondary-color-3: #A3ABB8;
   --gf-p-accent: #F2FBFD;
   --gf-p-gray-1: #DBDBDB;
   --gf-p-gray-2: #797D81;
+  --gf-p-main-gray: #F5F5F5;
   --gf-p-background: #181F27;
   --gf-p-green: #00CB6A;
   --gf-p-navigation: #181F27;
@@ -16,8 +18,10 @@
 @media (prefers-color-scheme: dark) {
   :root {
     --gf-p-primary-color: #FFFFFF;
+    --gf-secondary-color-3: #A3ABB8;
     --gf-p-accent: #F2FBFD;
     --gf-p-gray-1: #DBDBDB;
+    --gf-p-main-gray: #F5F5F5;
     --gf-p-gray-2: #797D81;
     --gf-p-background: #181F27;
     --gf-p-green: #00CB6A;

@@ -17,3 +17,35 @@ export const setSessionStorageVariable = (key, value) => {
 export const getSessionStorageVariable = (key) => {
   return sessionStorage.getItem(key);
 };
+
+export const removeSessionStorageVariable = (key) => {
+  return sessionStorage.removeItem(key);
+};
+
+export class localStorageController {
+  get(key) {
+    return localStorage.getItem(key);
+  }
+
+  static set(key, value) {
+    return localStorage.setItem(key, value);
+  }
+
+  static remove(key) {
+    return localStorage.removeItem(key);
+  }
+}
+
+export class sessionStorageController {
+  static get(key) {
+    return sessionStorage.getItem(key);
+  }
+
+  static set(key, value) {
+    return sessionStorage.setItem(key, value);
+  }
+
+  static remove(key) {
+    return sessionStorage.removeItem(key);
+  }
+}

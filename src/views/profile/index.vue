@@ -1,4 +1,16 @@
-<script></script>
+<script setup>
+import { useRouter } from "vue-router";
+import { OLTIN_BALIQ_BOT_TKN } from "@/constants";
+import { localStorageController } from "@/utils/localstorage.util";
+
+const router = useRouter();
+function logout() {
+  localStorageController.remove(OLTIN_BALIQ_BOT_TKN);
+  router.push({
+    name: "login",
+  });
+}
+</script>
 
 <template>
   <div class="profile">
@@ -141,7 +153,7 @@
           src="@/assets/images/profile-exit-icon.svg"
           alt=""
         />
-        <div class="flex align-center justify-between b-bottom">
+        <div class="flex align-center justify-between b-bottom" @click="logout">
           <div>
             <p class="profile-item__title">Выйти из аккаунта</p>
           </div>
