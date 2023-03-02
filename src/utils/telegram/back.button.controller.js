@@ -8,7 +8,7 @@ export class BackButtonController {
   }
 
   static beforeEach(to) {
-    if (to.name === "home") {
+    if (to.name === "home" || to.name === "login") {
       this.hide();
     } else {
       this.show();
@@ -21,6 +21,22 @@ export class BackButtonController {
 
   static handleOnClick() {
     switch (this.route.name) {
+      case "premium":
+      case "settings":
+      case "market":
+      case "profile":
+      case "game":
+      case "shop":
+      case "news":
+      case "daily":
+      case "bonus-prize":
+      case "bonus-recent":
+      case "bonus-active": {
+        this.router.push({
+          name: "home",
+        });
+        break;
+      }
       default: {
         if (window.history.state.back) {
           this.router.go(-1);
