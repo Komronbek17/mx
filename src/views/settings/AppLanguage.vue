@@ -1,15 +1,14 @@
 <script setup>
-import { ref } from "vue";
-import {
-  setLocalStorageVariable,
-  getLocalStorageVariable,
-} from "@/utils/localstorage.util";
-
+import { computed } from "vue";
 import uzIcon from "@/assets/images/lang-uz-icon.svg";
-import enIcon from "@/assets/images/lang-en-icon.svg";
 import ruIcon from "@/assets/images/lang-ru-icon.svg";
-import { useRouter } from "vue-router";
+import { useI18n } from "vue-i18n";
+import { useTelegramStore } from "@/stores/telegram.store";
+import { telegramApi } from "@/services/telegram.service";
+// import enIcon from "@/assets/images/lang-en-icon.svg";
 
+const { locale } = useI18n();
+const { tUserId } = useTelegramStore();
 const availableLangs = [
   {
     label: "O'zbek tili",
@@ -21,26 +20,23 @@ const availableLangs = [
     code: "ru",
     icon: ruIcon,
   },
-  {
-    label: "English",
-    code: "en",
-    icon: enIcon,
-  },
+  // {
+  //   label: "English",
+  //   code: "en",
+  //   icon: enIcon,
+  // },
 ];
-let activeLang = ref("");
-const router = useRouter();
+let activeLang = computed(() => locale.value);
 
-function getLangFromStorage() {
-  activeLang.value = getLocalStorageVariable("lang") || "ru";
+async function changeLocale(code) {
+  locale.value = code;
+  await telegramApi.switchLanguage({
+    body: {
+      telegram_id: tUserId,
+      language: code,
+    },
+  });
 }
-
-function changeLocale(item) {
-  activeLang.value = item || "ru";
-  setLocalStorageVariable("lang", item);
-  router.push({ name: "settings" });
-}
-
-getLangFromStorage();
 </script>
 
 <template>
@@ -79,6 +75,7 @@ getLangFromStorage();
     border-radius: 8px;
     padding: 16px 9px;
     row-gap: 1rem;
+    cursor: pointer;
 
     & img {
       width: 32px;
