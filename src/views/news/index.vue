@@ -39,20 +39,34 @@ function loadMore() {
     loading.value = false;
   }, 2000);
   /**************************************/
+
+    /** This is only for this demo, you could
+     * replace the following with code to hit
+     * an endpoint to pull in more data. **/
+    loading.value = true;
+    setTimeout(e => {
+        for (let i = 0; i < 1; i++) {
+            pagination.value.current++
+            getNews()
+        }
+        loading.value = false;
+    }, 1000);
+
 }
 
 onMounted(() => {
   getNews();
 
-  const listElm = document.querySelector("#infinite-list");
-  listElm.addEventListener("scroll", (e) => {
-    if (listElm.scrollTop + listElm.clientHeight >= listElm.scrollHeight) {
-      loadMore();
-    }
-  });
-  // Initially load some items.
-  loadMore();
-});
+    const listElm = document.getElementById('infinite-list');
+    listElm.addEventListener('scroll', (e) => {
+        console.log(e, 'e');
+        if (listElm.scrollTop + listElm.clientHeight >= listElm.scrollHeight) {
+            loadMore();
+        }
+    });
+    // Initially load some items.
+    loadMore();
+})
 </script>
 
 <template>
