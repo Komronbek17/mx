@@ -21,14 +21,14 @@ export class BackButtonController {
 
   static handleOnClick() {
     switch (this.route.name) {
-      case "premium":
-      case "settings":
-      case "market":
-      case "profile":
       case "game":
       case "shop":
       case "news":
       case "daily":
+      case "market":
+      case "profile":
+      case "premium":
+      case "settings":
       case "bonus-prize":
       case "bonus-recent":
       case "bonus-active": {
