@@ -154,7 +154,7 @@ if (isNotFetched) {
         <!--        </div>-->
         <!--      </router-link>-->
 
-        <a href="tel:712051548" class="profile-item">
+        <a href="tel:712051548" target="_blank" class="profile-item">
           <support-icon class="profile-item__icon" />
           <div class="flex align-center justify-between b-bottom">
             <div>
