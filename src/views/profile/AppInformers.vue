@@ -1,4 +1,8 @@
-<script setup></script>
+<script setup>
+import { useI18n } from "vue-i18n";
+
+const { t } = useI18n();
+</script>
 
 <template>
   <div class="informers">
@@ -8,8 +12,12 @@
           <img src="@/assets/images/informers-income-icon.svg" alt="" />
         </div>
         <div class="w-100 flex align-center justify-between">
-          <p class="informers-item__text">Пополнение баланса</p>
-          <span class="informers-item__sum">200 монет</span>
+          <p class="informers-item__text">
+            {{ t("profile_page.informers.balance") }}
+          </p>
+          <span class="informers-item__sum"
+            >200 {{ t("profile_page.informers.coin_amount") }}</span
+          >
         </div>
       </div>
 
@@ -18,8 +26,12 @@
           <img src="@/assets/images/informers-calendar-icon.svg" alt="" />
         </div>
         <div class="w-100 flex align-center justify-between">
-          <p class="informers-item__text">Ежедневное использование</p>
-          <span class="informers-item__sum">200 монет</span>
+          <p class="informers-item__text">
+            {{ t("profile_page.informers.daily_usage") }}
+          </p>
+          <span class="informers-item__sum"
+            >200 {{ t("profile_page.informers.coin_amount") }}</span
+          >
         </div>
       </div>
 
@@ -28,8 +40,12 @@
           <img src="@/assets/images/informers-ad-icon.svg" alt="" />
         </div>
         <div class="w-100 flex align-center justify-between">
-          <p class="informers-item__text">Просмотр рекламы</p>
-          <span class="informers-item__sum">200 монет</span>
+          <p class="informers-item__text">
+            {{ t("profile_page.informers.ads") }}
+          </p>
+          <span class="informers-item__sum"
+            >200 {{ t("profile_page.informers.coin_amount") }}</span
+          >
         </div>
       </div>
 
@@ -38,8 +54,12 @@
           <img src="@/assets/images/informers-like-icon.svg" alt="" />
         </div>
         <div class="w-100 flex align-center justify-between">
-          <p class="informers-item__text">Рекомендация приложения</p>
-          <span class="informers-item__sum">200 монет</span>
+          <p class="informers-item__text">
+            {{ t("profile_page.informers.rec_app") }}
+          </p>
+          <span class="informers-item__sum"
+            >200 {{ t("profile_page.informers.coin_amount") }}</span
+          >
         </div>
       </div>
 
@@ -48,8 +68,12 @@
           <img src="@/assets/images/informers-telegram-icon.svg" alt="" />
         </div>
         <div class="w-100 flex align-center justify-between">
-          <p class="informers-item__text">Рекомендация телеграм бота</p>
-          <span class="informers-item__sum">200 монет</span>
+          <p class="informers-item__text">
+            {{ t("profile_page.informers.rec_bot") }}
+          </p>
+          <span class="informers-item__sum"
+            >200 {{ t("profile_page.informers.coin_amount") }}</span
+          >
         </div>
       </div>
     </div>

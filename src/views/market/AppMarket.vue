@@ -3,7 +3,9 @@ import { useToast } from "vue-toastification";
 import { ref } from "vue";
 import { productApi } from "@/services/product.service";
 import ModalDialog from "@/components/ui/ModalDialog/ModalDialog.vue";
+import { useI18n } from "vue-i18n";
 
+const t = useI18n();
 const toast = useToast();
 
 const gifts = ref([]);
@@ -85,7 +87,7 @@ getProducts();
   <div class="layout-container">
     <div class="bonus-block">
       <div class="bonus-card">
-        <div class="bonus-card__title">Баланс:</div>
+        <div class="bonus-card__title">{{ t("market_page.balance") }}:</div>
         <div class="bonus-card__price">
           <img src="@/assets/images/coin.png" alt="" />
           <p>{{ balance }}</p>

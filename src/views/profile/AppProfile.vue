@@ -10,7 +10,9 @@ import DocumentTextIcon from "@/components/icons/DocumentTextIcon.vue";
 import ModalDialog from "@/components/ui/ModalDialog/ModalDialog.vue";
 import LogoutIcon from "@/components/icons/LogoutIcon.vue";
 import SupportIcon from "@/components/icons/SupportIcon.vue";
+import { useI18n } from "vue-i18n";
 
+const { t } = useI18n();
 const router = useRouter();
 const { tUserFullName } = useTelegramStore();
 const { isNotFetched, tUserUniqueId, checkTelegramUser } = useTelegram();
@@ -60,7 +62,7 @@ if (isNotFetched) {
       <!--  SOON IMAGE  -->
       <div class="profile-soon">
         <img src="@/assets/images/profile-progress-bar.png" alt="" />
-        <span>Совсем скоро...</span>
+        <span>{{ t("profile_page.soon") }}</span>
       </div>
 
       <!--    <div class="layout-container">-->
@@ -177,7 +179,9 @@ if (isNotFetched) {
           />
           <div class="flex align-center justify-between b-bottom">
             <div>
-              <p class="profile-item__title">Информеры</p>
+              <p class="profile-item__title">
+                {{ t("profile_page.informers.title") }}
+              </p>
             </div>
 
             <div class="flex align-center">
@@ -215,7 +219,7 @@ if (isNotFetched) {
           />
           <div class="flex align-center justify-between b-bottom">
             <div>
-              <p class="profile-item__title">Выйти из аккаунта</p>
+              <p class="profile-item__title">{{ t("profile_page.exit") }}</p>
             </div>
 
             <div class="flex align-center">
