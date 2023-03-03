@@ -19,6 +19,15 @@ const instanceGenerator = (baseUrl) => {
   return instance;
 };
 
+export const axiosVersion = ({
+  version,
+  endpoint = "",
+  baseUrl = import.meta.env.VITE_APP_DEV_VR,
+}) => {
+  console.log("ve", version);
+  return instanceGenerator(baseUrl + `api/` + endpoint);
+};
+
 export const axiosV1 = ({ endpoint = "" }) => {
   // eslint-disable-next-line
     return instanceGenerator(import.meta.env.VITE_APP_URL +'/v1/'+ endpoint);
