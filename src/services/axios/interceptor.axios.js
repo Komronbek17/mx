@@ -1,6 +1,7 @@
 import router from "@/routes";
 import { getToken } from "@/utils/auth.util";
-import { getLocalStorageVariable } from "@/utils/localstorage.util";
+import { localStorageController } from "@/utils/localstorage.util";
+import { ACCEPT_LANGUAGE } from "@/constants";
 
 export function axiosRequestInterceptResponse(config) {
   const requestConfig = Object.assign({}, config);
@@ -9,7 +10,7 @@ export function axiosRequestInterceptResponse(config) {
   }
 
   requestConfig.headers["Accept-Language"] =
-    getLocalStorageVariable("lang") || "uz";
+    localStorageController.get(ACCEPT_LANGUAGE) || "uz";
   requestConfig.headers["Accept-App"] = "Web-telegram";
 
   return requestConfig;

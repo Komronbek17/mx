@@ -7,11 +7,12 @@
   &__index {
     position: absolute;
     left: 50%;
-    top: 50%;
+    top: calc(50% + 2px);
     transform: translate(-50%, -50%);
+    @extend .font-15;
 
     &-active {
-      @include text-gradient(#fff);
+      @include text-gradient(#797D81);
     }
 
     //&-active {

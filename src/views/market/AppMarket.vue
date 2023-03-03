@@ -1,7 +1,7 @@
 <script setup>
 import { useToast } from "vue-toastification";
 import { ref } from "vue";
-import { productApi } from "@/services/product.service";
+import { productApiV2 } from "@/services/product.service";
 import ModalDialog from "@/components/ui/ModalDialog/ModalDialog.vue";
 import { useI18n } from "vue-i18n";
 
@@ -23,20 +23,23 @@ const getProducts = async () => {
         limit: 10,
       },
     };
-    const { data } = await productApi.fetchProducts(body);
+    const { data } = await productApiV2.fetchProducts(body);
     gifts.value = data.result;
-  } catch ({ response }) {
-    toast.error(response?.data?.message);
+  } catch (e) {
+    toast.error(e?.response?.data?.message);
   }
 };
 
 const fetchBalance = async () => {
   try {
-    const { data } = await productApi.getBalance();
-
-    balance.value = data.balance;
-  } catch ({ response }) {
-    toast.error(response?.data?.message);
+    // const { data } = await productApiV2.getBalance();
+    //
+    // balance.value = data.balance;
+    await productApiV2.getBalance().then((response) => {
+      console.log("response", response);
+    });
+  } catch (e) {
+    toast.error(e?.response?.data?.message);
   }
 };
 const askActivate = (id) => {
@@ -71,7 +74,7 @@ const submitActive = async () => {
     };
 
     try {
-      const { data } = await productApi.activateProduct(body);
+      const { data } = await productApiV2.activateProduct(body);
       console.log(data);
     } catch (e) {
       toast.error(e.response?.data?.message ?? e.message);
