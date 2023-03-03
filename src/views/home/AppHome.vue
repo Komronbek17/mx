@@ -9,6 +9,7 @@ import { useRouter } from "vue-router";
 import { onMounted } from "vue";
 import { hasOwnProperty } from "@/utils/object.util";
 import { useI18n } from "vue-i18n";
+import { TELEGRAM, WEB_APP } from "@/constants";
 
 const { tUserFullName } = useTelegramStore();
 const { tUserUniqueId, checkTelegramUser } = useTelegram();
@@ -24,6 +25,7 @@ function openDailyBonusPage() {
 
 onMounted(async () => {
   const data = await checkTelegramUser();
+  window[TELEGRAM][WEB_APP].ready();
   const hasUser = hasOwnProperty(data, "user");
   if (hasUser) {
     const hasLanguage = hasOwnProperty(data.user, "language");
