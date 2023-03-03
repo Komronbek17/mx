@@ -2,6 +2,9 @@
 import { ref } from "vue";
 import { subscribeApi } from "@/services/subscribe.service";
 import { useRouter } from "vue-router";
+import { useI18n } from "vue-i18n";
+
+const { t } = useI18n();
 const isSubscribed = ref(null);
 const router = useRouter();
 
@@ -54,18 +57,20 @@ getStatus();
         </div>
 
         <p v-if="isSubscribed" class="unsubscribe-title">
-          Вы хотите отписаться?
+          {{ t("settings_page.unsubscribe_msg") }}
         </p>
-        <p v-else class="unsubscribe-title">Вы хотите подписаться?</p>
+        <p v-else class="unsubscribe-title">
+          {{ t("settings_page.subscribe_msg") }}
+        </p>
         <div class="unsubscribe-btns">
           <button class="unsubscribe-btn__no" @click="backToSettings">
-            Нет
+            {{ t("no") }}
           </button>
           <button
             class="unsubscribe-btn__yes"
             @click.prevent="toggleSubscribing"
           >
-            Да
+            {{ t("yes") }}
           </button>
         </div>
       </div>

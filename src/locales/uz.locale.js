@@ -61,6 +61,8 @@ export default {
     policy: "Ommaviy oferta",
   },
   getLevelPrizeError: "Level ballingiz yetarli emas!",
+  yes: "Ha",
+  no: "Yo'q",
   bonus_types: {
     sms: "SMS to'plami",
     internet: "Internet to'plami",
@@ -70,5 +72,38 @@ export default {
     1: "1 bosqich",
     2: "2 bosqich",
     3: "3 bosqich",
+  },
+  quantity: "dona",
+  home_page: {
+    try_luck: "Omadingizni sinab ko'ring",
+    level: "Bosqich",
+    news: "Yangiliklar",
+    shop: "Do'kon",
+    profile: "Profil",
+    bonuses: "Bonuslar",
+    settings: "Sozlamalar",
+  },
+  settings_page: {
+    change_lang: "Tilni o'zgartirish",
+    subscribe: "Obuna bo'lish",
+    unsubscribe: "Siz obuna bo'lgansiz",
+    subscribe_msg: "Obuna bo'lishni xohlaysizmi?",
+    unsubscribe_msg: "Obunani bekor qilishni xohlaysizmi?",
+  },
+  market_page: {
+    balance: "Balans",
+  },
+  profile_page: {
+    soon: "Tez kunda...",
+    informers: {
+      title: "Ma'lumotnoma",
+      balance: "Balansni to'ldirish",
+      daily_usage: "Kunlik foydalanish",
+      ads: "Reklama ko'rish",
+      rec_app: "Dastur tavsiyasi",
+      rec_bot: "Telegram bot tavsiyasi",
+      coin_amount: "tanga",
+    },
+    exit: "Akkauntdan chiqish",
   },
 };

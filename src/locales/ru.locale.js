@@ -63,6 +63,8 @@ export default {
     policy: "Публичная офферта",
   },
   getLevelPrizeError: "Получите больше очков. Балл левела должен быть 100%",
+  yes: "Да",
+  no: "Нет",
   bonus_types: {
     sms: "СМС пакет",
     internet: "Интернет пакет",
@@ -72,5 +74,38 @@ export default {
     1: "1 уровень",
     2: "2 уровень",
     3: "3 уровень",
+  },
+  quantity: "шт",
+  home_page: {
+    try_luck: "Испытать удачу",
+    level: "Левел",
+    news: "Новости",
+    shop: "Магазин",
+    profile: "Профиль",
+    bonuses: "Бонусы",
+    settings: "Настройки",
+  },
+  settings_page: {
+    change_lang: "Сменить язык",
+    subscribe: "Подписаться",
+    unsubscribe: "Вы подписаны",
+    subscribe_msg: "Вы хотите подписаться?",
+    unsubscribe_msg: "Вы хотите отписаться?",
+  },
+  market_page: {
+    balance: "Баланс",
+  },
+  profile_page: {
+    soon: "Совсем скоро...",
+    informers: {
+      title: "Информеры",
+      balance: "Пополнение баланса",
+      daily_usage: "Ежедневное использование",
+      ads: "Просмотр рекламы",
+      rec_app: "Рекомендация приложения",
+      rec_bot: "Рекомендация телеграм бота",
+      coin_amount: "монет",
+    },
+    exit: "Выйти из аккаунта",
   },
 };

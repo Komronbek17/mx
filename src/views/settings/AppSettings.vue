@@ -1,6 +1,9 @@
 <script setup>
 import { ref } from "vue";
 import { subscribeApi } from "@/services/subscribe.service";
+import { useI18n } from "vue-i18n";
+
+const { t } = useI18n();
 const isSubscribed = ref(null);
 
 const getStatus = async () => {
@@ -17,7 +20,7 @@ getStatus();
       <div class="settings-cards">
         <router-link :to="{ name: 'settings-language' }" class="settings-card">
           <img src="@/assets/images/lang-icon.svg" alt="" />
-          <p>Сменить язык</p>
+          <p>{{ t("settings_page.change_lang") }}</p>
         </router-link>
 
         <!--        <router-link :to="{ name: 'settings-sound' }" class="settings-card">-->
@@ -40,8 +43,8 @@ getStatus();
           class="settings-card"
         >
           <img src="@/assets/images/message-icon.svg" alt="" />
-          <p v-if="!isSubscribed">Подписаться</p>
-          <p v-else>Отписаться</p>
+          <p v-if="!isSubscribed">{{ t("settings_page.subscribe") }}</p>
+          <p v-else>{{ t("settings_page.unsubscribe") }}</p>
         </router-link>
       </div>
     </div>

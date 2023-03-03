@@ -14,7 +14,7 @@ const { tUserFullName } = useTelegramStore();
 const { tUserUniqueId, checkTelegramUser } = useTelegram();
 
 const router = useRouter();
-const { locale } = useI18n();
+const { locale, t } = useI18n();
 
 function openDailyBonusPage() {
   router.push({
@@ -53,7 +53,9 @@ onMounted(async () => {
       >
         <oltin-baliq-icon />
         <div class="flex flex-column justify-center align-center">
-          <span class="ol-main-banner-message">Испытать удачу</span>
+          <span class="ol-main-banner-message">{{
+            t("home_page.try_luck")
+          }}</span>
         </div>
       </div>
     </div>
