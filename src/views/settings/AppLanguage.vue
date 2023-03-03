@@ -5,6 +5,8 @@ import ruIcon from "@/assets/images/lang-ru-icon.svg";
 import { useI18n } from "vue-i18n";
 import { useTelegramStore } from "@/stores/telegram.store";
 import { telegramApi } from "@/services/telegram.service";
+import { localStorageController } from "@/utils/localstorage.util";
+import { ACCEPT_LANGUAGE } from "@/constants";
 // import enIcon from "@/assets/images/lang-en-icon.svg";
 
 const { locale } = useI18n();
@@ -36,6 +38,7 @@ async function changeLocale(code) {
       language: code,
     },
   });
+  localStorageController.set(ACCEPT_LANGUAGE, locale.value);
 }
 </script>
 
