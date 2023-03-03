@@ -12,7 +12,7 @@ import AppSettings from "@/views/settings/AppSettings.vue";
 import AppLanguage from "@/views/settings/AppLanguage.vue";
 import AppGame from "@/views/game/AppGame.vue";
 import AppNews from "@/views/news/index.vue";
-import AppProfile from "@/views/profile/index.vue";
+import AppProfile from "@/views/profile/AppProfile.vue";
 import AppNotification from "@/views/profile/AppNotification.vue";
 import AppProfileEdit from "@/views/profile/AppProfileEdit.vue";
 import AppInformers from "@/views/profile/AppInformers.vue";
@@ -23,7 +23,7 @@ import AppReferralBonus from "@/views/profile/AppReferralBonus.vue";
 import AppReferralIndex from "@/views/profile/AppReferralIndex.vue";
 import AppSoundController from "@/views/settings/AppSoundController.vue";
 import AppUnsubscribe from "@/views/settings/AppUnsubscribe.vue";
-import AppPrivacyPolicy from "@/views/settings/AppPrivacyPolicy.vue";
+import AppPrivacyPolicy from "@/views/profile/AppPrivacyPolicy.vue";
 import AppBonus from "@/views/bonus/AppBonus.vue";
 import AppBonusActive from "@/views/bonus/AppBonusActive.vue";
 import AppBonusRecent from "@/views/bonus/AppBonusRecent.vue";
@@ -90,8 +90,8 @@ const router = createRouter({
       component: AppUnsubscribe,
     },
     {
-      path: "/settings/privacy-policy",
-      name: "settings-privacy",
+      path: "/profile/privacy-policy",
+      name: "profile-privacy",
       component: AppPrivacyPolicy,
     },
     {

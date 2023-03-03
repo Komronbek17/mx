@@ -1,40 +1,86 @@
-<script setup></script>
+<script setup>
+import { newsApi } from "@/services/news.service";
+import { onMounted, ref } from "vue";
+
+const news = ref([]);
+
+const pagination = ref({
+  current: 1,
+  limit: 10,
+});
+const loading = ref(false);
+const getNews = async () => {
+  const body = {
+    method: "news.get_all",
+    params: {
+      page: pagination.value.current,
+      limit: pagination.value.limit,
+    },
+  };
+  try {
+    const { data } = await newsApi.fetchNews(body);
+    news.value = [...news.value, ...data.result];
+    console.log(data, "newsApi");
+  } catch (e) {
+    console.log(e, "newsApi");
+  }
+};
+
+function loadMore() {
+  /** This is only for this demo, you could
+   * replace the following with code to hit
+   * an endpoint to pull in more data. **/
+  loading.value = true;
+  setTimeout((e) => {
+    for (let i = 0; i < 1; i++) {
+      pagination.value.current++;
+      getNews();
+    }
+    loading.value = false;
+  }, 2000);
+  /**************************************/
+}
+
+onMounted(() => {
+  getNews();
+
+  const listElm = document.querySelector("#infinite-list");
+  listElm.addEventListener("scroll", (e) => {
+    if (listElm.scrollTop + listElm.clientHeight >= listElm.scrollHeight) {
+      loadMore();
+    }
+  });
+  // Initially load some items.
+  loadMore();
+});
+</script>
 
 <template>
-  <div class="news">
+  <div id="infinite-list" class="news">
     <div class="layout-container">
       <!--   NEWS TOP ADS   -->
-      <div class="news-ads flex align-center justify-between">
-        <div>
-          <p>Акция! Успейте забрать ценные призы</p>
-          <span>до 31.12.2022</span>
-        </div>
-        <div>
-          <img src="@/assets/images/news-ads-img.png" alt="" />
-        </div>
-      </div>
+      <!--            <div class="news-ads flex align-center justify-between">-->
+      <!--                <div>-->
+      <!--                    <p>Акция! Успейте забрать ценные призы</p>-->
+      <!--                    <span>до 31.12.2022</span>-->
+      <!--                </div>-->
+      <!--                <div>-->
+      <!--                    <img src="@/assets/images/news-ads-img.png" alt=""/>-->
+      <!--                </div>-->
+      <!--            </div>-->
 
       <!--   NEW LIST   -->
       <div class="news-list flex flex-column flex-wrap">
         <router-link
-          to="/news/1"
-          class="news-list__item flex justify-between align-center"
+          v-for="item in news"
+          :key="item.id"
+          :to="{ name: 'news-show', params: { id: item.id } }"
+          class="news-list__item flex align-center"
         >
-          <img src="@/assets/images/news-image.png" alt="" />
+          <img :src="item.img" alt="" />
           <div>
-            <p>Подключи интернет для бизнеса выгодно!</p>
-            <span>26.12.2022 15:58</span>
-          </div>
-        </router-link>
-
-        <router-link
-          to="/news/1"
-          class="news-list__item flex justify-between align-center"
-        >
-          <img src="@/assets/images/news-image.png" alt="" />
-          <div>
-            <p>Подключи интернет для бизнеса выгодно!</p>
-            <span>26.12.2022 15:58</span>
+            <p>{{ item.name }}</p>
+            <span>{{ item.date }}</span>
           </div>
         </router-link>
       </div>

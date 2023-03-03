@@ -1,4 +1,5 @@
 export default {
+  public_offer: "Ommaviy oferta",
   connect_premium_service_message:
     "Premium xizmatiga ulanmagansiz , ulanish miqdori {price} so'm",
   sms_package: "SMS to'plamlari",

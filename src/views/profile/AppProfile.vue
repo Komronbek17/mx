@@ -1,40 +1,22 @@
 <script setup>
-import { computed, onMounted, reactive, ref } from "vue";
+import { reactive } from "vue";
 import { useRouter } from "vue-router";
-import { useI18n } from "vue-i18n";
-import { useTelegram } from "@/composables/telegram.composable";
-import { loadingComposable } from "@/composables/loading.composable";
-import { useTelegramStore } from "@/stores/telegram.store";
+import { OLTIN_BALIQ_BOT_TKN } from "@/constants";
 import { localStorageController } from "@/utils/localstorage.util";
-import { WebAppController } from "@/utils/telegram/web.app.util";
+import { useTelegram } from "@/composables/telegram.composable";
+import { useTelegramStore } from "@/stores/telegram.store";
 
-import AppLoader from "@/components/elements/loader/AppLoader.vue";
 import DocumentTextIcon from "@/components/icons/DocumentTextIcon.vue";
 import ModalDialog from "@/components/ui/ModalDialog/ModalDialog.vue";
 import LogoutIcon from "@/components/icons/LogoutIcon.vue";
 import SupportIcon from "@/components/icons/SupportIcon.vue";
 
-import { OLTIN_BALIQ_BOT_TKN, USER_DATA } from "@/constants";
-import { profileApi } from "@/services/profile.service";
-
-const { t } = useI18n();
 const router = useRouter();
 const { tUserFullName } = useTelegramStore();
-const { isNotFetched, checkTelegramUser } = useTelegram();
+const { isNotFetched, tUserUniqueId, checkTelegramUser } = useTelegram();
 const profileState = reactive({
   showLogoutWarn: false,
 });
-
-// need get localStorage
-const user = ref({});
-const theme = WebAppController.webApp.colorScheme;
-
-const {
-  loading: isFetching,
-  startLoading,
-  finishLoading,
-} = loadingComposable();
-
 function logout() {
   localStorageController.remove(OLTIN_BALIQ_BOT_TKN);
   router.push({
@@ -51,128 +33,22 @@ function hideLogoutModal() {
 }
 
 if (isNotFetched) {
-  startLoading();
-  try {
-    checkTelegramUser();
-  } finally {
-    finishLoading();
-  }
+  checkTelegramUser();
 }
-
-const getMe = async () => {
-  try {
-    const { data } = await profileApi.fetchMe();
-    user.value = data.result;
-  } catch (e) {
-    console.log(e, "e");
-  }
-};
-
-const getFullName = computed(() => {
-  return (
-    (user?.value.first_name || "") + " " + (user?.value.last_name || "") ||
-    tUserFullName
-  );
-});
-
-
-function copyNumber(number) {
-  if (WebAppController.checkAndroidDevice()) {
-    return navigator.clipboard.writeText(number)
-        .then(() => {
-          alert(t('number_copied'));
-        })
-        .catch(() => {
-          alert(t('number_not_copied'));
-        });
-  }
-}
-
-const doCopy = async (number) => {
-  //
-  // navigator.permissions.query({
-  //   name: 'clipboard-write'
-  // }).then(permissionStatus => {
-  //   if (permissionStatus.state === 'granted') {
-  //     navigator.clipboard.writeText('Well, seems to work!').catch((err) => {
-  //       console.error(err, 'Failed to write text to clipboard.');
-  //     });
-  //   }
-  // }).catch(e=>{
-  //   console.error('error', e)
-  // })
-
-//   const queryOpts = {name: 'clipboard-write', allowWithoutGesture: false};
-//   const permissionStatus = await navigator.permissions.query(queryOpts);
-// // Примет значение 'granted', 'denied' или 'prompt':
-//   console.log(permissionStatus.state);
-//
-// // Прослушиваем изменения состояния разрешения
-//   permissionStatus.onchange = () => {
-//     console.log(permissionStatus.state);
-//    };
-//   navigator.permissions.query({name:'clipboard-write'})
-//       .then(function(permissionStatus) {
-//         console.log('geolocation permission state is ', permissionStatus.state);
-//
-//         permissionStatus.onchange = function() {
-//           console.log('geolocation permission state has changed to ', this.state);
-//         };
-//       });
-
-
-
-  // navigator.clipboard.writeText(number)
-  //     .then(() => {
-  //       alert(t('number_copied'));
-  //     })
-  //     .catch((e) => {
-  //       console.log(e, 'e');
-  //       // alert(`${t('number_not_copied')} ${number}`);
-  //       alert(`${e} ${number}`);
-  //     });
-
-  // alert(number);
-  // copyText(number, undefined, (error, event) => {
-  //   alert(error)
-  //   if (error) {
-  //     alert(t('number_not_copied'));
-  //     console.log(error)
-  //   } else {
-  //     alert(t('number_copied'));
-  //     console.log(event)
-  //   }
-  // })
-}
-
-onMounted(async () => {
-  startLoading();
-  await getMe();
-  finishLoading();
-});
-
-WebAppController.ready();
 </script>
 
 <template>
   <div>
     <div class="profile">
-      <app-loader :active="isFetching" />
       <div class="layout-container">
         <!--   PROFILE DETAILS   -->
         <div class="flex flex-column align-center">
           <div class="profile-image">
-            <img
-              v-if="user && user.upload"
-              :src="user.upload['path'] || '@/assets/images/profile-image.svg'"
-              alt=""
-            />
+            <img src="@/assets/images/profile-image.svg" alt="" />
           </div>
 
-          <p class="profile-name">
-            {{ getFullName }}
-          </p>
-          <span class="profile-id">ID: {{ user.id }}</span>
+          <p class="profile-name">{{ tUserFullName }}</p>
+          <span class="profile-id">ID: {{ tUserUniqueId }}</span>
 
           <!--        <div class="profile-change flex align-center">-->
           <!--          <img src="@/assets/images/change-profile.svg" alt="" />-->
@@ -183,17 +59,8 @@ WebAppController.ready();
 
       <!--  SOON IMAGE  -->
       <div class="profile-soon">
-        <img
-          v-if="theme === 'light'"
-          src="@/assets/images/profile-progress-bar.png"
-          alt=""
-        />
-        <img
-          v-else
-          src="@/assets/images/profile-progress-bar-dark.png"
-          alt=""
-        />
-        <span>{{ t("profile_page.soon") }}</span>
+        <img src="@/assets/images/profile-progress-bar.png" alt="" />
+        <span>Совсем скоро...</span>
       </div>
 
       <!--    <div class="layout-container">-->
@@ -221,26 +88,26 @@ WebAppController.ready();
 
       <!--   LIST   -->
       <div class="profile-list">
-        <router-link :to="{ name: 'profile-edit' }" class="profile-item">
-          <img
-            class="profile-item__icon"
-            src="@/assets/images/profile-edit-icon.svg"
-            alt=""
-          />
-          <div class="flex align-center justify-between b-bottom">
-            <div>
-              <p class="profile-item__title">{{ t("edit_profile") }}</p>
-            </div>
+        <!--      <router-link :to="{ name: 'profile-edit' }" class="profile-item">-->
+        <!--        <img-->
+        <!--          class="profile-item__icon"-->
+        <!--          src="@/assets/images/profile-edit-icon.svg"-->
+        <!--          alt=""-->
+        <!--        />-->
+        <!--        <div class="flex align-center justify-between b-bottom">-->
+        <!--          <div>-->
+        <!--            <p class="profile-item__title">Редактировать профиль</p>-->
+        <!--          </div>-->
 
-            <div class="flex align-center">
-              <img
-                class="profile-item__arrow"
-                src="@/assets/images/profile-arrow-right.svg"
-                alt=""
-              />
-            </div>
-          </div>
-        </router-link>
+        <!--          <div class="flex align-center">-->
+        <!--            <img-->
+        <!--              class="profile-item__arrow"-->
+        <!--              src="@/assets/images/profile-arrow-right.svg"-->
+        <!--              alt=""-->
+        <!--            />-->
+        <!--          </div>-->
+        <!--        </div>-->
+        <!--      </router-link>-->
 
         <!--      <router-link :to="{ name: 'notification' }" class="profile-item">-->
         <!--        <img-->
@@ -284,12 +151,12 @@ WebAppController.ready();
         <!--          </div>-->
         <!--        </div>-->
         <!--      </router-link>-->
-<!--        href="tel:712051548"-->
-        <a href="tel:712051548" target="_blank" class="profile-item">
-          <support-icon class="profile-item__icon"/>
+
+        <a href="tel:712051548" class="profile-item">
+          <support-icon class="profile-item__icon" />
           <div class="flex align-center justify-between b-bottom">
             <div>
-              <p class="profile-item__title">Call center (71) 205-15-48</p>
+              <p class="profile-item__title">Call center</p>
             </div>
 
             <div class="flex align-center">
@@ -302,31 +169,29 @@ WebAppController.ready();
           </div>
         </a>
 
-        <!--        <router-link :to="{ name: 'informers' }" class="profile-item">-->
-        <!--          <img-->
-        <!--            class="profile-item__icon"-->
-        <!--            src="@/assets/images/profile-informers-icon.svg"-->
-        <!--            alt=""-->
-        <!--          />-->
-        <!--          <div class="flex align-center justify-between b-bottom">-->
-        <!--            <div>-->
-        <!--              <p class="profile-item__title">-->
-        <!--                {{ t("profile_page.informers.title") }}-->
-        <!--              </p>-->
-        <!--            </div>-->
+        <router-link :to="{ name: 'informers' }" class="profile-item">
+          <img
+            class="profile-item__icon"
+            src="@/assets/images/profile-informers-icon.svg"
+            alt=""
+          />
+          <div class="flex align-center justify-between b-bottom">
+            <div>
+              <p class="profile-item__title">Информеры</p>
+            </div>
 
-        <!--            <div class="flex align-center">-->
-        <!--              <img-->
-        <!--                class="profile-item__arrow"-->
-        <!--                src="@/assets/images/profile-arrow-right.svg"-->
-        <!--                alt=""-->
-        <!--              />-->
-        <!--            </div>-->
-        <!--          </div>-->
-        <!--        </router-link>-->
+            <div class="flex align-center">
+              <img
+                class="profile-item__arrow"
+                src="@/assets/images/profile-arrow-right.svg"
+                alt=""
+              />
+            </div>
+          </div>
+        </router-link>
 
         <router-link :to="{ name: 'profile-privacy' }" class="profile-item">
-          <document-text-icon fill="#00BBF9" class="profile-item__icon"/>
+          <document-text-icon fill="#00BBF9" class="profile-item__icon" />
           <div class="flex align-center justify-between b-bottom">
             <div>
               <p class="profile-item__title">{{ $t("public_offer") }}</p>
@@ -334,9 +199,9 @@ WebAppController.ready();
 
             <div class="flex align-center">
               <img
-                  class="profile-item__arrow"
-                  src="@/assets/images/profile-arrow-right.svg"
-                  alt=""
+                class="profile-item__arrow"
+                src="@/assets/images/profile-arrow-right.svg"
+                alt=""
               />
             </div>
           </div>
@@ -344,20 +209,20 @@ WebAppController.ready();
 
         <div class="profile-item" @click="showLogoutModal">
           <img
-              class="profile-item__icon"
-              src="@/assets/images/profile-exit-icon.svg"
-              alt=""
+            class="profile-item__icon"
+            src="@/assets/images/profile-exit-icon.svg"
+            alt=""
           />
           <div class="flex align-center justify-between b-bottom">
             <div>
-              <p class="profile-item__title">{{ t("profile_page.exit") }}</p>
+              <p class="profile-item__title">Выйти из аккаунта</p>
             </div>
 
             <div class="flex align-center">
               <img
-                  class="profile-item__arrow"
-                  src="@/assets/images/profile-arrow-right.svg"
-                  alt=""
+                class="profile-item__arrow"
+                src="@/assets/images/profile-arrow-right.svg"
+                alt=""
               />
             </div>
           </div>
@@ -365,26 +230,26 @@ WebAppController.ready();
       </div>
     </div>
     <modal-dialog
-        v-model="profileState.showLogoutWarn"
-        @close-modal="hideLogoutModal"
+      v-model="profileState.showLogoutWarn"
+      @close-modal="hideLogoutModal"
     >
       <template #header>
-        <logout-icon/>
-        <h3 class="ol-md-title">{{ t("profile_page.exit_title") }}</h3>
+        <logout-icon />
+        <h3>Выход</h3>
       </template>
       <template #content>
-        <p class="ol-md-message">{{ t("profile_page.exit_text") }}</p>
+        <p class="ol-md-message">Вы уверены что хотите выйти из аккаунта?</p>
       </template>
       <template #footer>
         <div class="flex flex-column row-gap-1 w-100">
           <button class="ol-md-button ol-md-logout-button" @click="logout">
-            {{ t("profile_page.exit_yes") }}
+            Да, выйти
           </button>
           <button
-              class="ol-md-button ol-md-close-button"
-              @click="hideLogoutModal"
+            class="ol-md-button ol-md-close-button"
+            @click="hideLogoutModal"
           >
-            {{ t("profile_page.exit_no") }}
+            Остаться
           </button>
         </div>
       </template>
@@ -416,14 +281,14 @@ WebAppController.ready();
     line-height: 140%;
     text-align: right;
     letter-spacing: -0.4px;
-    color: var(--gf-text-09);
+    color: #090909;
     margin-bottom: 0.5rem;
   }
 
   &-id {
     display: block;
     line-height: 129%;
-    color: var(--gf-text-gray-2x);
+    color: #797d81;
     margin-bottom: 1rem;
   }
 
@@ -458,7 +323,7 @@ WebAppController.ready();
 
       font-weight: 600;
       font-size: 17px;
-      background: var(--gf-blue-gradient-01);
+      background: linear-gradient(180deg, #00bbf9 0%, #00a3ff 100%);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
       background-clip: text;
@@ -484,7 +349,7 @@ WebAppController.ready();
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    background: var(--gf-accent-bg);
+    background: #f2fbfd;
     border-radius: 8px;
     text-decoration: none;
 
@@ -498,7 +363,7 @@ WebAppController.ready();
       line-height: 107%;
       text-align: center;
       letter-spacing: -0.4px;
-      color: var(--gf-text-09);
+      color: #090909;
     }
   }
 
@@ -514,12 +379,12 @@ WebAppController.ready();
     cursor: pointer;
 
     &:hover {
-      background-color: var(--gf-hover-bg);
+      background-color: #f5f5f5;
     }
 
     & .b-bottom {
       width: 100%;
-      border-bottom: 1px solid var(--gf-hover-bg);
+      border-bottom: 1px solid #f5f5f5;
       padding: 12px 1rem 12px 0;
     }
 
@@ -541,7 +406,7 @@ WebAppController.ready();
       font-size: 16px;
       line-height: 138%;
       letter-spacing: -0.5px;
-      color: var(--gf-text-09);
+      color: #090909;
     }
 
     &__length {
@@ -551,13 +416,13 @@ WebAppController.ready();
       width: 24px;
       height: 24px;
       border-radius: 50%;
-      background-color: var(--gf-notification-text-bg);
+      background-color: #eb5757;
       font-weight: 500;
       font-size: 16px;
       line-height: 125%;
       text-align: center;
       letter-spacing: -0.32px;
-      color: var(--gf-text-white-2x);
+      color: #ffffff;
     }
 
     &__arrow {
@@ -569,20 +434,12 @@ WebAppController.ready();
   }
 }
 
-.ol-md-title {
-  font-weight: 600;
-  font-size: 24px;
-  line-height: 125%;
-  letter-spacing: -0.4px;
-  color: var(--gf-text-09);
-}
-
 .ol-md-message {
   font-weight: 400;
   font-size: 16px;
   line-height: 22px;
   text-align: center;
-  color: var(--gf-text-gray-2x);
+  color: #797d81;
 }
 
 .ol-md-button {
@@ -598,16 +455,12 @@ WebAppController.ready();
 }
 
 .ol-md-logout-button {
-  color: var(--gf-notification-text-bg);
-  background: var(--gf-exit-btn-bg);
+  color: #eb5757;
+  background: rgba(235, 87, 87, 0.1);
 }
 
 .ol-md-close-button {
-  color: var(--gf-text-09);
-  background: var(--gf-accent-bg);
+  color: #0085ff;
+  background: #f2fbfd;
 }
-
-//::v-deep .modal {
-//  background: var(--gf-bg-main);
-//}
 </style>
