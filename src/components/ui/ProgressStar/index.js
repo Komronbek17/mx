@@ -1,1 +1,1 @@
-export {default} from "~/components/UI/ProgressStar/ProgressStar";
+export { default } from "~/components/UI/ProgressStar/ProgressStar";
