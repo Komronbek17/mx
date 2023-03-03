@@ -1,27 +1,27 @@
 import Core from "@/services/axios/core.axios";
 
 class LevelService extends Core {
-    constructor() {
-        super({
-            endpoint: "levels/",
-        });
-    }
+  constructor() {
+    super({
+      endpoint: "levels/",
+    });
+  }
 
-    fetchLevels() {
-        return this.get("");
-    }
+  fetchLevels() {
+    return this.get("");
+  }
 
-    fetchLevelsWithFloat() {
-        return this.get("float");
-    }
+  fetchLevelsWithFloat() {
+    return this.get("float");
+  }
 
-    createPrize({level}) {
-        return this.post(`levels/${level}`);
-    }
+  createPrize({ level }) {
+    return this.post(`levels/${level}`);
+  }
 
-    fetchHistories() {
-        return this.get("histories");
-    }
+  fetchHistories() {
+    return this.get("histories");
+  }
 }
 
 export const levelApi = new LevelService();
