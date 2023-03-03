@@ -2,6 +2,7 @@ import { computed, reactive, toRefs } from "vue";
 import { useTelegramStore } from "@/stores/telegram.store";
 import { telegramApi } from "@/services/telegram.service";
 import { useToast } from "vue-toastification";
+import { keys } from "@/utils/object.util";
 
 const telegramInfo = reactive({
   data: {
@@ -10,6 +11,9 @@ const telegramInfo = reactive({
 });
 
 export function useTelegram() {
+  const isNotFetched = computed(() => {
+    return keys(telegramInfo.data.user).length < 1;
+  });
   async function checkTelegramUser() {
     const toast = useToast();
     try {
@@ -19,8 +23,10 @@ export function useTelegram() {
         telegram_id: tUserId,
       });
       telegramInfo.data = data;
+      return data;
     } catch (e) {
       toast.error(e.response.data.message ?? e.message);
+      return {};
     }
   }
 
@@ -35,5 +41,6 @@ export function useTelegram() {
     telegramInfo: toRefs(telegramInfo),
     tUserUniqueId,
     checkTelegramUser,
+    isNotFetched,
   };
 }

@@ -14,8 +14,8 @@ import {
 import { BackButtonController } from "@/utils/telegram/back.button.controller";
 import { MainButtonController } from "@/utils/telegram/main.button.controller";
 
-import { hasOwnProperty } from "@/utils/object.util";
 // import { getToken } from "@/utils/auth.util";
+import { hasOwnProperty } from "@/utils/object.util";
 
 const router = useRouter();
 const route = useRoute();

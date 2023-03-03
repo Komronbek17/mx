@@ -8,21 +8,21 @@ class NewsService extends Core {
         });
     }
 
-    fetchNews(body) {
-        return this.post("findAll", body);
-    }
+  fetchNews(body) {
+    return this.post("findAll", body);
+  }
 
-    fetchOneNews(body) {
-        return this.post("findOne", body);
-    }
+  fetchOneNews(body) {
+    return this.post("findOne", body);
+  }
 
-    setLike(body) {
-        return this.post("like", body);
-    }
+  setLike(body) {
+    return this.post("like", body);
+  }
 
-    setDislike(body) {
-        return this.post('dislike', body);
-    }
+  setDislike(body) {
+    return this.post("dislike", body);
+  }
 }
 
 export const newsApi = new NewsService();

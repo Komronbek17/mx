@@ -1,10 +1,11 @@
 export default {
+  public_offer: "Ommaviy oferta",
   connect_premium_service_message:
     "Premium xizmatiga ulanmagansiz , ulanish miqdori {price} so'm",
   sms_package: "SMS to'plamlari",
   bonus_minutes: "Bonus daqiqalar",
   internet_package: "Internet to'plamlari",
-  premium_gifts_title: "Sizning tarifingiz bo'yicha mavjud bonuslar:",
+  premium_gifts_title: "Sizning tarifingiz bo'yicha mavjud bonuslar",
   ok: "Ok",
   cancel: "Bekor qilish",
   creator: "Sultonov Komron",
