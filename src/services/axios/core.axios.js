@@ -10,7 +10,6 @@ class CoreAxios {
   }
 
   get(url, config) {
-    console.log(this._axios, "axiosBase");
     return this._axios.get(url, config).catch((error) => Promise.reject(error));
   }
 
