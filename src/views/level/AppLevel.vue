@@ -26,6 +26,15 @@ const activateLevel = (id) => {
     activeLevel.value = id
 }
 
+const getLevelGift = async (id) => {
+    try {
+        const {data} = await levelApi.fetchGift(id);
+        levels.value = data
+    } catch ({response}) {
+        toast.error(response?.data?.message);
+    }
+}
+
 onMounted(() => {
     getLevels()
 })
@@ -36,21 +45,35 @@ onMounted(() => {
 
     <div>
         <div class="layout-container">
-            <div class="levels-list">
-                <levels-statistics-card
-                    v-for="(level, index) in levels"
-                    :key="index"
-                    :level="level"
-                    :index="index"
-                    :active-index="activeLevel"
-                    :class="[{'level-card__active': index === activeLevel}, `level-card__n${index}`]"
-                    @click="activateLevel(index)"
-                />
+            <div class="levels-page">
+                <div class="levels-list">
+                    <levels-statistics-card
+                        v-for="(level, index) in levels"
+                        :key="index"
+                        :level="level"
+                        :index="index"
+                        :active-index="activeLevel"
+                        :class="[{'level-card__active': index === activeLevel}, `level-card__n${index}`]"
+                        @click="activateLevel(index)"
+                    />
+                </div>
+
+                <div
+                    @click="getLevelGift(levels[activeLevel].id)"
+                    class="levels-button"
+                    :class="levels[activeLevel] !== 100?'disabled':''"
+                >
+                    <img src="@/assets/images/prize.svg" alt="">
+                    <p>
+                        Получить приз
+                    </p>
+                </div>
+
+                <div v-if="levels[activeLevel]">
+                    <level-gifts :levels="levels[activeLevel].gifts" :key="levels[activeLevel].id+'_level'"/>
+                </div>
             </div>
 
-            <div v-if="levels[activeLevel]">
-                <level-gifts :levels="levels[activeLevel].gifts" :key="levels[activeLevel].id+'_level'"/>
-            </div>
         </div>
 
     </div>

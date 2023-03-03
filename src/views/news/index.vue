@@ -11,6 +11,7 @@ const pagination = ref({
     limit: 10,
 })
 const loading = ref(false)
+
 const getNews = async () => {
 
     const body = {
@@ -41,24 +42,22 @@ function loadMore() {
             getNews()
         }
         loading.value = false;
-    }, 2000);
-    /**************************************/
+    }, 1000);
 
 }
 
 onMounted(() => {
     getNews()
 
-    const listElm = document.querySelector('#infinite-list');
+    const listElm = document.getElementById('infinite-list');
     listElm.addEventListener('scroll', (e) => {
+        console.log(e, 'e');
         if (listElm.scrollTop + listElm.clientHeight >= listElm.scrollHeight) {
             loadMore();
         }
     });
     // Initially load some items.
     loadMore();
-
-
 })
 </script>
 
@@ -66,15 +65,15 @@ onMounted(() => {
     <div id="infinite-list" class="news">
         <div class="layout-container">
             <!--   NEWS TOP ADS   -->
-<!--            <div class="news-ads flex align-center justify-between">-->
-<!--                <div>-->
-<!--                    <p>Акция! Успейте забрать ценные призы</p>-->
-<!--                    <span>до 31.12.2022</span>-->
-<!--                </div>-->
-<!--                <div>-->
-<!--                    <img src="@/assets/images/news-ads-img.png" alt=""/>-->
-<!--                </div>-->
-<!--            </div>-->
+            <!--            <div class="news-ads flex align-center justify-between">-->
+            <!--                <div>-->
+            <!--                    <p>Акция! Успейте забрать ценные призы</p>-->
+            <!--                    <span>до 31.12.2022</span>-->
+            <!--                </div>-->
+            <!--                <div>-->
+            <!--                    <img src="@/assets/images/news-ads-img.png" alt=""/>-->
+            <!--                </div>-->
+            <!--            </div>-->
 
             <!--   NEW LIST   -->
             <div class="news-list flex flex-column flex-wrap">

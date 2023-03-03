@@ -15,6 +15,10 @@ class LevelService extends Core {
         return this.get("float");
     }
 
+    fetchGift(id){
+        return this.post(`${id}`);
+    }
+
     createPrize({level}) {
         return this.post(`levels/${level}`);
     }
