@@ -1,6 +1,6 @@
 <script setup>
 import { ref } from "vue";
-import { historyApi } from "@/services/history.service";
+import { historyMockApi } from "@/services/history.service";
 import { useI18n } from "vue-i18n";
 import formatDate from "@/utils/date.formatter";
 
@@ -8,17 +8,18 @@ const { t } = useI18n();
 let prizeBonuses = ref([]);
 
 const getPrizeBonuses = async () => {
-  const response = await historyApi.fetchPrizeHistories({});
+  const response = await historyMockApi.fetchPrizeHistories({});
+  console.log(response, "response");
   prizeBonuses.value = response.data.items;
 };
 
 function filterPrizeLevel(item) {
   if (item === 1) {
-    return t("level_types.1");
+    return t("prize_levels.1");
   } else if (item === 2) {
-    return t("level_types.2");
+    return t("prize_levels.2");
   } else {
-    return t("level_types.3");
+    return t("prize_levels.3");
   }
 }
 
@@ -29,7 +30,12 @@ getPrizeBonuses();
   <div class="prize">
     <div class="layout-container">
       <div class="prize-items">
-        <div v-for="item in prizeBonuses" :key="item.id" class="prize-item">
+        <div
+          v-for="item in prizeBonuses"
+          :key="item.id"
+          class="prize-item"
+          :class="'prize-item-' + `${item.level}`"
+        >
           <div class="prize-image">
             <img src="@/assets/images/bonus-prize.svg" alt="" />
           </div>
@@ -45,8 +51,11 @@ getPrizeBonuses();
 </template>
 
 <style lang="scss" scoped>
-.prizes {
+.prize {
+  width: 100%;
+  display: block;
   padding: 0;
+
   &-item {
     display: flex;
     align-items: center;
@@ -76,7 +85,47 @@ getPrizeBonuses();
         font-weight: 400;
         font-size: 14px;
         line-height: 129%;
-        color: #a3abb8;
+      }
+    }
+
+    &-1 {
+      .prize-item__details span {
+        background: linear-gradient(
+          107.32deg,
+          #4adaff -22.08%,
+          #0062ca 122.03%
+        );
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        text-fill-color: transparent;
+        white-space: nowrap;
+      }
+    }
+
+    &-2 {
+      .prize-item__details span {
+        background: linear-gradient(122.82deg, #f2d207 0%, #ffa329 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        text-fill-color: transparent;
+        white-space: nowrap;
+      }
+    }
+
+    &-3 {
+      .prize-item__details span {
+        background: linear-gradient(
+          142.74deg,
+          #00ff85 -18.06%,
+          #00b05c 110.27%
+        );
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        text-fill-color: transparent;
+        white-space: nowrap;
       }
     }
   }
@@ -88,12 +137,12 @@ getPrizeBonuses();
     align-items: center;
     justify-content: center;
     margin-right: 1rem;
-    background: rgba(0, 139, 255, 0.1);
+    background-color: #f5f5f5;
     border-radius: 8px;
 
     & img {
-      width: 24px;
-      height: 24px;
+      width: 30px;
+      height: 30px;
       object-fit: contain;
     }
   }

@@ -32,3 +32,8 @@ export const axiosDev = ({ endpoint = "" }) => {
   // eslint-disable-next-line
   return instanceGenerator(import.meta.env.VITE_APP_DEV_API +'/'+ endpoint);
 };
+
+export const axiosMock = ({ endpoint = "" }) => {
+  // eslint-disable-next-line
+  return instanceGenerator(import.meta.env.VITE_APP_MOCK_API +'/'+ endpoint);
+};
