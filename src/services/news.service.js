@@ -1,28 +1,28 @@
 import Core from "@/services/axios/core.axios";
-import { axiosDev, axiosGoldFish, axiosV1 } from "@/services/axios/axios";
+import {axiosVersion, axiosGoldFish, axiosV1} from "@/services/axios/axios";
 
 class NewsService extends Core {
-  constructor() {
-    super({
-      axios: axiosDev({ endpoint: "api/news/" }),
-    });
+    constructor() {
+        super({
+            axios: axiosVersion({version: 'v1' ,endpoint: 'news/'}),
+        });
+    }
+
+  fetchNews(body) {
+    return this.post("findAll", body);
   }
 
-    fetchNews(body) {
-        return this.post("findAll", body);
-    }
+  fetchOneNews(body) {
+    return this.post("findOne", body);
+  }
 
-    fetchOneNews(body) {
-        return this.post("findOne", body);
-    }
+  setLike(body) {
+    return this.post("like", body);
+  }
 
-    setLike(body) {
-        return this.post("like", body);
-    }
-
-    setDislike(body) {
-        return this.post('dislike', body);
-    }
+  setDislike(body) {
+    return this.post("dislike", body);
+  }
 }
 
 export const newsApi = new NewsService();

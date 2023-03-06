@@ -167,7 +167,7 @@ const router = createRouter({
       component: AppLevel,
     },
     {
-      path: "/level/product", //now product then it will be changed to id
+      path: "/level/product/:id", //now product then it will be changed to id
       name: "level-product",
       component: AppLevelProduct,
     },
