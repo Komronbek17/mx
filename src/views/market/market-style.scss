@@ -36,6 +36,7 @@
 .gift-title {
   @extend .font-h5;
   margin-bottom: 25px;
+  color: var(--gf-text-33);
 }
 
 .gift-list {
@@ -53,7 +54,7 @@
   align-items: center;
   row-gap: 1rem;
   padding: 16px 10px;
-  background: #F5F5F5;
+  background: var(--gf-hover-bg);
   border-radius: 8px;
   max-width: 300px;
 
@@ -81,6 +82,7 @@
       overflow: hidden;
       white-space: nowrap;
       text-overflow: ellipsis;
+      color: var(--gf-text-33);
     }
 
     .price {
@@ -106,6 +108,17 @@
 
     p {
       @extend .font-14-white;
+      color: var(--gf-text-white-2x);
     }
+  }
+}
+
+::v-deep .modal {
+  &--content__title {
+    color: var(--gf-text-09);
+  }
+
+  &--content__subtitle {
+    color: var(--gf-text-gray-2x);
   }
 }

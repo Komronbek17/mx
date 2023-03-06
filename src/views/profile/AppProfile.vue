@@ -258,7 +258,7 @@ WebAppController.ready();
     >
       <template #header>
         <logout-icon />
-        <h3>Выход</h3>
+        <h3 class="ol-md-title">Выход</h3>
       </template>
       <template #content>
         <p class="ol-md-message">Вы уверены что хотите выйти из аккаунта?</p>
@@ -304,14 +304,14 @@ WebAppController.ready();
     line-height: 140%;
     text-align: right;
     letter-spacing: -0.4px;
-    color: #090909;
+    color: var(--gf-text-09);
     margin-bottom: 0.5rem;
   }
 
   &-id {
     display: block;
     line-height: 129%;
-    color: #797d81;
+    color: var(--gf-text-gray-2x);
     margin-bottom: 1rem;
   }
 
@@ -346,7 +346,7 @@ WebAppController.ready();
 
       font-weight: 600;
       font-size: 17px;
-      background: linear-gradient(180deg, #00bbf9 0%, #00a3ff 100%);
+      background: var(--gf-blue-gradient-01);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
       background-clip: text;
@@ -372,7 +372,7 @@ WebAppController.ready();
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    background: #f2fbfd;
+    background: var(--gf-accent-bg);
     border-radius: 8px;
     text-decoration: none;
 
@@ -386,7 +386,7 @@ WebAppController.ready();
       line-height: 107%;
       text-align: center;
       letter-spacing: -0.4px;
-      color: #090909;
+      color: var(--gf-text-09);
     }
   }
 
@@ -402,12 +402,12 @@ WebAppController.ready();
     cursor: pointer;
 
     &:hover {
-      background-color: #f5f5f5;
+      background-color: var(--gf-hover-bg);
     }
 
     & .b-bottom {
       width: 100%;
-      border-bottom: 1px solid #f5f5f5;
+      border-bottom: 1px solid var(--gf-hover-bg);
       padding: 12px 1rem 12px 0;
     }
 
@@ -429,7 +429,7 @@ WebAppController.ready();
       font-size: 16px;
       line-height: 138%;
       letter-spacing: -0.5px;
-      color: #090909;
+      color: var(--gf-text-09);
     }
 
     &__length {
@@ -439,13 +439,13 @@ WebAppController.ready();
       width: 24px;
       height: 24px;
       border-radius: 50%;
-      background-color: #eb5757;
+      background-color: var(--gf-notification-text-bg);
       font-weight: 500;
       font-size: 16px;
       line-height: 125%;
       text-align: center;
       letter-spacing: -0.32px;
-      color: #ffffff;
+      color: var(--gf-text-white-2x);
     }
 
     &__arrow {
@@ -457,12 +457,20 @@ WebAppController.ready();
   }
 }
 
+.ol-md-title {
+  font-weight: 600;
+  font-size: 24px;
+  line-height: 125%;
+  letter-spacing: -0.4px;
+  color: var(--gf-text-09);
+}
+
 .ol-md-message {
   font-weight: 400;
   font-size: 16px;
   line-height: 22px;
   text-align: center;
-  color: #797d81;
+  color: var(--gf-text-gray-2x);
 }
 
 .ol-md-button {
@@ -478,12 +486,16 @@ WebAppController.ready();
 }
 
 .ol-md-logout-button {
-  color: #eb5757;
-  background: rgba(235, 87, 87, 0.1);
+  color: var(--gf-notification-text-bg);
+  background: var(--gf-exit-btn-bg);
 }
 
 .ol-md-close-button {
-  color: #0085ff;
-  background: #f2fbfd;
+  color: var(--gf-text-09);
+  background: var(--gf-accent-bg);
 }
+
+//::v-deep .modal {
+//  background: var(--gf-bg-main);
+//}
 </style>
