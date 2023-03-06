@@ -1,15 +1,38 @@
 <script setup>
-import { ref } from "vue";
-import { historyApi } from "@/services/history.service";
+import { onMounted, ref } from "vue";
 import { useI18n } from "vue-i18n";
+import { historyApi } from "@/services/history.service";
+import { WebAppController } from "@/utils/telegram/web.app.util";
+
+import AppLoader from "@/components/elements/loader/AppLoader.vue";
+import { loadingComposable } from "@/composables/loading.composable";
 
 const { t } = useI18n();
 let recentBonuses = ref([]);
 
+const {
+  loading: isFetching,
+  startLoading,
+  finishLoading,
+} = loadingComposable();
+
+const pagination = ref({
+  current: 1,
+  limit: 10,
+});
+const loading = ref(false);
+
 const getRecentBonuses = async () => {
-  const response = await historyApi.fetchRecentHistories({});
-  console.log(response.data.items, "res");
-  recentBonuses.value = response.data.items;
+  const body = {
+    method: "coin.get_recent_histories",
+    params: {
+      page: pagination.value.current,
+      limit: pagination.value.limit,
+    },
+  };
+  const { data } = await historyApi.fetchRecentHistories(body);
+  recentBonuses.value = [...recentBonuses.value, ...data.items];
+  pagination.value = Object.assign(pagination.value, data.pagination);
 };
 
 function filterBonusType(item) {
@@ -32,13 +55,48 @@ function filterBonusLevel(item) {
   }
 }
 
-getRecentBonuses();
+function loadMore() {
+  loading.value = true;
+  setTimeout(() => {
+    for (let i = 0; i < 1; i++) {
+      pagination.value.current++;
+      getRecentBonuses();
+    }
+    loading.value = false;
+  }, 500);
+}
+
+const checkScrollFunction = () => {
+  const listElm = document.getElementById("infinite-list");
+  listElm.addEventListener("scroll", () => {
+    if (listElm.scrollTop + listElm.clientHeight >= listElm.scrollHeight) {
+      if (pagination.value.next) {
+        loadMore();
+      }
+    }
+  });
+  // Initially load some items.
+  loadMore();
+};
+
+onMounted(() => {
+  startLoading();
+  try {
+    getRecentBonuses();
+    checkScrollFunction();
+  } finally {
+    finishLoading();
+  }
+});
+
+WebAppController.ready();
 </script>
 
 <template>
   <div class="recent">
+    <app-loader :active-="isFetching" />
     <div class="layout-container">
-      <div class="recent-items">
+      <div class="recent-items" id="infinite-list">
         <div
           v-for="item in recentBonuses"
           :key="item.id"

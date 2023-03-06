@@ -3,10 +3,14 @@ import { computed, defineAsyncComponent, reactive } from "vue";
 import { useRouter } from "vue-router";
 import { useI18n } from "vue-i18n";
 import { useToast } from "vue-toastification";
+import { loadingComposable } from "@/composables/loading.composable";
+import { bonusApi } from "@/services/bonus.service";
 
+import AppLoader from "@/components/elements/loader/AppLoader.vue";
 import RotatingFish from "@/components/outdated/RotatingFish.vue";
 import ModalDialog from "@/components/ui/ModalDialog/ModalDialog.vue";
 import PrizeIcon from "@/components/icons/PrizeIcon.vue";
+import { WebAppController } from "@/utils/telegram/web.app.util";
 
 const InternetIconComponent = defineAsyncComponent(() => {
   return import("@/components/icons/InternetIcon.vue");
@@ -20,11 +24,15 @@ const SmsIconComponent = defineAsyncComponent(() => {
   return import("@/components/icons/SmsIcon.vue");
 });
 
-import { bonusApi } from "@/services/bonus.service";
-
 const router = useRouter();
 const toast = useToast();
 const { t } = useI18n();
+
+const {
+  loading: isFetching,
+  startLoading,
+  finishLoading,
+} = loadingComposable();
 
 const modalState = reactive({
   show: false,
@@ -96,6 +104,7 @@ function hideGiftsModal() {
 }
 
 async function fetchPremiumBonus() {
+  startLoading();
   try {
     const response = await bonusApi.fetchPremiumLampInfo();
     responseHandler(response);
@@ -104,6 +113,7 @@ async function fetchPremiumBonus() {
   } catch (e) {
     errorHandler(e);
   } finally {
+    finishLoading();
     showModalApplyButton();
     showModal();
   }
@@ -221,11 +231,13 @@ function selectGiftHandler(type) {
   setPremiumBonus();
 }
 
+WebAppController.ready();
 fetchPremiumBonus();
 </script>
 
 <template>
   <div>
+    <app-loader :active-="isFetching" />
     <rotating-fish type="premium" :stop="state.stopAnimation" />
     <modal-dialog v-model="modalState.show" :show-close-icon="false">
       <template #content>

@@ -16,6 +16,7 @@ import {
 import { authApi } from "@/services/auth.service";
 import { OLTIN_BALIQ_BOT_TKN, VERIFICATION_PHONE } from "@/constants";
 import { MainButtonController } from "@/utils/telegram/main.button.controller";
+import { WebAppController } from "@/utils/telegram/web.app.util";
 
 const router = useRouter();
 const toast = useToast();
@@ -105,11 +106,11 @@ async function verifyCode() {
 
 function setTime({ sec, min }) {
   if (sec >= 0) {
-    verifyState.time.sec = sec > 10 ? sec : `0${sec}`;
+    verifyState.time.sec = sec > 9 ? sec : `0${sec}`;
   }
 
   if (min >= 0) {
-    verifyState.time.min = min > 10 ? min : `0${min}`;
+    verifyState.time.min = min > 9 ? min : `0${min}`;
   }
 }
 
@@ -151,6 +152,8 @@ onBeforeRouteLeave(() => {
   MainButtonController.makeInvisible();
   MainButtonController.offClick(verifyCode);
 });
+
+WebAppController.ready();
 </script>
 
 <template>

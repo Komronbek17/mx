@@ -1,16 +1,37 @@
 <script setup>
-import { ref } from "vue";
-import { historyMockApi } from "@/services/history.service";
+import { onMounted, ref } from "vue";
 import { useI18n } from "vue-i18n";
-import formatDate from "@/utils/date.formatter";
+import { historyMockApi } from "@/services/history.service";
+import { formatDateWithDot } from "@/utils/date.formatter";
+import { WebAppController } from "@/utils/telegram/web.app.util";
+import { loadingComposable } from "@/composables/loading.composable";
+
+import AppLoader from "@/components/elements/loader/AppLoader.vue";
 
 const { t } = useI18n();
 let prizeBonuses = ref([]);
+const {
+  loading: isFetching,
+  startLoading,
+  finishLoading,
+} = loadingComposable();
+const pagination = ref({
+  current: 1,
+  limit: 10,
+});
+const loading = ref(false);
 
 const getPrizeBonuses = async () => {
-  const response = await historyMockApi.fetchPrizeHistories({});
-  console.log(response, "response");
-  prizeBonuses.value = response.data.items;
+  const body = {
+    method: "coin.get_prize_histories",
+    params: {
+      page: pagination.value.current,
+      limit: pagination.value.limit,
+    },
+  };
+  const { data } = await historyMockApi.fetchPrizeHistories(body);
+  prizeBonuses.value = data.items;
+  pagination.value = Object.assign(pagination.value, data.pagination);
 };
 
 function filterPrizeLevel(item) {
@@ -23,13 +44,53 @@ function filterPrizeLevel(item) {
   }
 }
 
-getPrizeBonuses();
+function formatCreatedTime(t) {
+  const d = t.replace(" ", "T");
+  return formatDateWithDot(d);
+}
+
+function loadMore() {
+  loading.value = true;
+  setTimeout(() => {
+    for (let i = 0; i < 1; i++) {
+      pagination.value.current++;
+      getPrizeBonuses();
+    }
+    loading.value = false;
+  }, 500);
+}
+
+const checkScrollFunction = () => {
+  const listElm = document.getElementById("infinite-list");
+  listElm.addEventListener("scroll", (e) => {
+    if (listElm.scrollTop + listElm.clientHeight >= listElm.scrollHeight) {
+      if (pagination.value.next) {
+        loadMore();
+      }
+    }
+  });
+  // Initially load some items.
+  loadMore();
+};
+
+onMounted(async () => {
+  startLoading();
+  try {
+    await getPrizeBonuses();
+    checkScrollFunction();
+  } finally {
+    finishLoading();
+  }
+});
+
+WebAppController.ready();
 </script>
 
 <template>
   <div class="prize">
+    <app-loader :active-="isFetching" />
     <div class="layout-container">
-      <div class="prize-items">
+      <div class="prize-items" id="infinite-list">
         <div
           v-for="item in prizeBonuses"
           :key="item.id"
@@ -43,7 +104,7 @@ getPrizeBonuses();
             <p>{{ item.name }}</p>
             <span>{{ filterPrizeLevel(item.level) }}</span>
           </div>
-          <p class="prize-level">{{ formatDate(item.created_at) }}</p>
+          <p class="prize-level">{{ formatCreatedTime(item.created_at) }}</p>
         </div>
       </div>
     </div>

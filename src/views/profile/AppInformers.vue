@@ -1,7 +1,9 @@
 <script setup>
 import { useI18n } from "vue-i18n";
+import { WebAppController } from "@/utils/telegram/web.app.util";
 
 const { t } = useI18n();
+WebAppController.ready();
 </script>
 
 <template>

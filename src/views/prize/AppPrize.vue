@@ -2,12 +2,22 @@
 import { onMounted } from "vue";
 import { useRouter } from "vue-router";
 import { useBonus } from "@/composables/useBonus";
+import { WebAppController } from "@/utils/telegram/web.app.util";
 
+import AppLoader from "@/components/elements/loader/AppLoader.vue";
 import RotatingFish from "@/components/outdated/RotatingFish.vue";
 import ModalDialogRotatingFish from "@/components/outdated/ModalDialogRotatingFish.vue";
 import ModalDialog from "@/components/ui/ModalDialog/ModalDialog.vue";
+import { loadingComposable } from "@/composables/loading.composable";
 
 const router = useRouter();
+const showModal = true;
+
+const {
+  loading: isFetching,
+  startLoading,
+  finishLoading,
+} = loadingComposable();
 
 const {
   getDailyBonus,
@@ -39,14 +49,20 @@ function abort() {
 }
 
 onMounted(async () => {
-  await getDailyBonus("get");
+  startLoading();
+  try {
+    await getDailyBonus("get");
+  } finally {
+    finishLoading();
+  }
 });
 
-const showModal = true;
+WebAppController.ready();
 </script>
 
 <template>
   <div class="daily">
+    <app-loader :active-="isFetching" />
     <rotating-fish :stop="isDialogOpen" />
 
     <modal-dialog v-model="showModal">

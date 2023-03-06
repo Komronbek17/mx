@@ -5,8 +5,9 @@
 //
 // console.log(telegramStore.webApp, "asd");
 // telegramStore.webApp.showPopup.PopupButton;
-import Popover from "@/components/ui/Popover/Popover.vue";
 import { ref } from "vue";
+import Popover from "@/components/ui/Popover/Popover.vue";
+import { WebAppController } from "@/utils/telegram/web.app.util";
 
 const popoverValue = ref(false);
 
@@ -22,6 +23,8 @@ const popoverApply = () => {
   popoverValue.value = false;
   console.log("apply");
 };
+
+WebAppController.ready();
 </script>
 
 <template>

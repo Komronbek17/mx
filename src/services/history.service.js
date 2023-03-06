@@ -6,14 +6,8 @@ class HistoryService extends Core {
     super({});
   }
 
-  fetchRecentHistories() {
-    return this.get("/histories/", {
-      method: "coin.get_recent_histories",
-      params: {
-        page: 1,
-        limit: 10,
-      },
-    });
+  fetchRecentHistories(body) {
+    return this.get("/histories/", body);
   }
 
   // fetchPrizeHistories() {
@@ -36,14 +30,8 @@ class HistoryMockService extends Core {
     });
   }
 
-  fetchPrizeHistories() {
-    return this.get("histories/", {
-      method: "coin.get_prize_histories",
-      params: {
-        page: 1,
-        limit: 10,
-      },
-    });
+  fetchPrizeHistories(body) {
+    return this.get("histories/", body);
   }
 }
 

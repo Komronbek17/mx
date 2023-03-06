@@ -1,6 +1,16 @@
 <script setup>
-import { newsApi } from "@/services/news.service";
 import { onMounted, ref } from "vue";
+import { newsApi } from "@/services/news.service";
+import { loadingComposable } from "@/composables/loading.composable";
+
+import AppLoader from "@/components/elements/loader/AppLoader.vue";
+import { WebAppController } from "@/utils/telegram/web.app.util";
+
+const {
+  loading: isFetching,
+  startLoading,
+  finishLoading,
+} = loadingComposable();
 
 const news = ref([]);
 
@@ -20,57 +30,48 @@ const getNews = async () => {
   try {
     const { data } = await newsApi.fetchNews(body);
     news.value = [...news.value, ...data.result];
-    console.log(data, "newsApi");
+    pagination.value = Object.assign(pagination.value, data.pagination);
   } catch (e) {
     console.log(e, "newsApi");
   }
 };
 
 function loadMore() {
-  /** This is only for this demo, you could
-   * replace the following with code to hit
-   * an endpoint to pull in more data. **/
   loading.value = true;
-  setTimeout((e) => {
+  setTimeout(() => {
     for (let i = 0; i < 1; i++) {
       pagination.value.current++;
       getNews();
     }
     loading.value = false;
-  }, 2000);
-  /**************************************/
-
-    /** This is only for this demo, you could
-     * replace the following with code to hit
-     * an endpoint to pull in more data. **/
-    loading.value = true;
-    setTimeout(e => {
-        for (let i = 0; i < 1; i++) {
-            pagination.value.current++
-            getNews()
-        }
-        loading.value = false;
-    }, 1000);
-
+  }, 500);
 }
 
-onMounted(() => {
-  getNews();
+onMounted(async () => {
+  startLoading();
+  try {
+    await getNews();
+  } finally {
+    finishLoading();
+  }
 
-    const listElm = document.getElementById('infinite-list');
-    listElm.addEventListener('scroll', (e) => {
-        console.log(e, 'e');
-        if (listElm.scrollTop + listElm.clientHeight >= listElm.scrollHeight) {
-            loadMore();
-        }
-    });
-    // Initially load some items.
-    loadMore();
-})
+  const listElm = document.getElementById("infinite-list");
+  listElm.addEventListener("scroll", () => {
+    if (listElm.scrollTop + listElm.clientHeight >= listElm.scrollHeight) {
+      loadMore();
+    }
+  });
+  // Initially load some items.
+  loadMore();
+});
+
+WebAppController.ready();
 </script>
 
 <template>
   <div id="infinite-list" class="news">
+    <app-loader :active-="isFetching" />
+
     <div class="layout-container">
       <!--   NEWS TOP ADS   -->
       <!--            <div class="news-ads flex align-center justify-between">-->

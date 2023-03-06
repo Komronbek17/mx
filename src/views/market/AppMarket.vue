@@ -1,13 +1,18 @@
 <script setup>
 import { useToast } from "vue-toastification";
-import { ref } from "vue";
+import { onMounted, ref } from "vue";
 import { productApiV2 } from "@/services/product.service";
+
 import ModalDialog from "@/components/ui/ModalDialog/ModalDialog.vue";
-import { useI18n } from "vue-i18n";
+import AppLoader from "@/components/elements/loader/AppLoader.vue";
+import { loadingComposable } from "@/composables/loading.composable";
 
-const t = useI18n();
+const {
+  loading: isFetching,
+  startLoading,
+  finishLoading,
+} = loadingComposable();
 const toast = useToast();
-
 const gifts = ref([]);
 const balance = ref(0);
 
@@ -23,8 +28,9 @@ const getProducts = async () => {
         limit: 10,
       },
     };
-    const { data } = await productApiV2.fetchProducts(body);
-    gifts.value = data.result;
+    await productApiV2.fetchProducts(body).then((response) => {
+      gifts.value = response.data.result;
+    });
   } catch (e) {
     toast.error(e?.response?.data?.message);
   }
@@ -32,11 +38,8 @@ const getProducts = async () => {
 
 const fetchBalance = async () => {
   try {
-    // const { data } = await productApiV2.getBalance();
-    //
-    // balance.value = data.balance;
     await productApiV2.getBalance().then((response) => {
-      console.log("response", response);
+      balance.value = response.data.balance;
     });
   } catch (e) {
     toast.error(e?.response?.data?.message);
@@ -75,22 +78,32 @@ const submitActive = async () => {
 
     try {
       const { data } = await productApiV2.activateProduct(body);
-      console.log(data);
+      // console.log(data,'data');
+      gifts.value = data.result;
     } catch (e) {
+      console.log(e, "getProducts();");
       toast.error(e.response?.data?.message ?? e.message);
     }
   }
 };
 
-fetchBalance();
-getProducts();
+onMounted(async () => {
+  startLoading();
+  try {
+    await fetchBalance();
+    await getProducts();
+  } finally {
+    finishLoading();
+  }
+});
 </script>
 
 <template>
   <div class="layout-container">
+    <app-loader :active-="isFetching" />
     <div class="bonus-block">
       <div class="bonus-card">
-        <div class="bonus-card__title">{{ t("market_page.balance") }}:</div>
+        <div class="bonus-card__title">{{ $t("market_page.balance") }}:</div>
         <div class="bonus-card__price">
           <img src="@/assets/images/coin.png" alt="" />
           <p>{{ balance }}</p>

@@ -1,7 +1,9 @@
 <script setup>
 import { useRoute } from "vue-router";
+import { WebAppController } from "@/utils/telegram/web.app.util";
 
 const route = useRoute();
+WebAppController.ready();
 </script>
 
 <template>

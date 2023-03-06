@@ -1,15 +1,26 @@
 <script setup>
+import { onMounted, ref } from "vue";
 import { useToast } from "vue-toastification";
 import { levelApi } from "@/services/level.service";
-import { onMounted, ref } from "vue";
+
 import LevelGifts from "@/views/level/LevelGifts.vue";
+import AppLoader from "@/components/elements/loader/AppLoader.vue";
+
 import LevelsStatisticsCard from "@/components/LevelsStatisticsCard/LevelsStatisticsCard.vue";
+import { WebAppController } from "@/utils/telegram/web.app.util";
+import { loadingComposable } from "@/composables/loading.composable";
 
 const toast = useToast();
 
 const levels = ref([]);
 
 const activeLevel = ref(0);
+
+const {
+  loading: isFetching,
+  startLoading,
+  finishLoading,
+} = loadingComposable();
 
 const getLevels = async () => {
   try {
@@ -33,13 +44,21 @@ const getLevelGift = async (id) => {
   }
 };
 
-onMounted(() => {
-  getLevels();
+onMounted(async () => {
+  startLoading();
+  try {
+    await getLevels();
+  } finally {
+    finishLoading();
+  }
 });
+
+WebAppController.ready();
 </script>
 
 <template>
   <div>
+    <app-loader :active-="isFetching" />
     <div class="layout-container">
       <div class="levels-page">
         <div class="levels-list">
@@ -57,14 +76,15 @@ onMounted(() => {
           />
         </div>
 
-        <div
+        <button
           @click="getLevelGift(levels[activeLevel].id)"
           class="levels-button"
           :class="levels[activeLevel] !== 100 ? 'disabled' : ''"
+          :disabled="levels[activeLevel] !== 100"
         >
           <img src="@/assets/images/prize.svg" alt="" />
           <p>Получить приз</p>
-        </div>
+        </button>
 
         <div v-if="levels[activeLevel]">
           <level-gifts
@@ -78,5 +98,5 @@ onMounted(() => {
 </template>
 
 <style lang="scss" scoped>
-@import "./level-style";
+@import "./level-style.scss";
 </style>
