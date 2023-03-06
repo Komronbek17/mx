@@ -113,7 +113,7 @@ WebAppController.ready();
     font-weight: 400;
     font-size: 14px;
     line-height: 133%;
-    color: #a3abb8;
+    color: var(--gf-text-secondary-gray-2x);
   }
 
   &__title {
@@ -121,7 +121,7 @@ WebAppController.ready();
     font-size: 18px;
     line-height: 133%;
     letter-spacing: -0.5px;
-    color: #333333;
+    color: var(--gf-text-33);
     margin: 1rem 0;
   }
 
@@ -130,7 +130,7 @@ WebAppController.ready();
     font-size: 16px;
     line-height: 138%;
     letter-spacing: -0.5px;
-    color: #333333;
+    color: var(--gf-text-33);
   }
 
   &__btns {
@@ -141,7 +141,7 @@ WebAppController.ready();
       border-radius: 8px;
       border: none;
       margin-right: 1rem;
-      background: #f5f5f5;
+      background: var(--gf-hover-bg);
 
       &:last-child {
         margin-right: 0;
@@ -158,7 +158,7 @@ WebAppController.ready();
         font-weight: 500;
         font-size: 14px;
         line-height: 114%;
-        color: #333333;
+        color: var(--gf-text-33);
       }
     }
   }

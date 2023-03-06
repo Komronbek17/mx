@@ -495,7 +495,7 @@ WebAppController.ready();
   background: var(--gf-accent-bg);
 }
 
-::v-deep .modal {
-  background: var(--gf-bg-main);
-}
+//::v-deep .modal {
+//  background: var(--gf-bg-main);
+//}
 </style>

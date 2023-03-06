@@ -302,6 +302,10 @@ fetchPremiumBonus();
 </template>
 
 <style lang="scss" scoped>
+//::v-deep .modal {
+//  background: var(--gf-bg-main);
+//}
+
 .footer-actions {
   display: flex;
   flex-direction: row;

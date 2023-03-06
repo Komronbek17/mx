@@ -90,8 +90,10 @@ onMounted(() => {
 
 <style lang="scss" scoped>
 .news {
+  padding: 0;
+
   &-ads {
-    background: linear-gradient(107.32deg, #4adaff -22.08%, #0062ca 122.03%);
+    background: var(--gf-blue-gradient-02);
     border-radius: 8px;
     padding: 12px 1rem;
     margin-bottom: 19px;
@@ -118,7 +120,7 @@ onMounted(() => {
   &-list {
     &__item {
       padding: 12px 0;
-      border-bottom: 1px solid #f5f5f5;
+      border-bottom: 1px solid var(--gf-disable-btn);
       text-decoration: none;
 
       &:last-child {
@@ -136,7 +138,7 @@ onMounted(() => {
         font-weight: 600;
         font-size: 15px;
         line-height: 133%;
-        color: #333333;
+        color: var(--gf-text-33);
         margin: 0 0 8px 0;
       }
 
@@ -144,7 +146,7 @@ onMounted(() => {
         font-weight: 400;
         font-size: 14px;
         line-height: 129%;
-        color: #a3abb8;
+        color: var(--gf-text-secondary-gray);
       }
     }
   }
