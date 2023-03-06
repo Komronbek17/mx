@@ -258,21 +258,21 @@ WebAppController.ready();
     >
       <template #header>
         <logout-icon />
-        <h3 class="ol-md-title">Выход</h3>
+        <h3 class="ol-md-title">{{ t("profile_page.exit_title") }}</h3>
       </template>
       <template #content>
-        <p class="ol-md-message">Вы уверены что хотите выйти из аккаунта?</p>
+        <p class="ol-md-message">{{ t("profile_page.exit_text") }}</p>
       </template>
       <template #footer>
         <div class="flex flex-column row-gap-1 w-100">
           <button class="ol-md-button ol-md-logout-button" @click="logout">
-            Да, выйти
+            {{ t("profile_page.exit_yes") }}
           </button>
           <button
             class="ol-md-button ol-md-close-button"
             @click="hideLogoutModal"
           >
-            Остаться
+            {{ t("profile_page.exit_no") }}
           </button>
         </div>
       </template>

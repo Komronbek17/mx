@@ -9,7 +9,9 @@ import AppLoader from "@/components/elements/loader/AppLoader.vue";
 import LevelsStatisticsCard from "@/components/LevelsStatisticsCard/LevelsStatisticsCard.vue";
 import { WebAppController } from "@/utils/telegram/web.app.util";
 import { loadingComposable } from "@/composables/loading.composable";
+import { useI18n } from "vue-i18n";
 
+const { t } = useI18n();
 const toast = useToast();
 
 const levels = ref([]);
@@ -83,7 +85,7 @@ WebAppController.ready();
           :disabled="levels[activeLevel] !== 100"
         >
           <img src="@/assets/images/prize.svg" alt="" />
-          <p>Получить приз</p>
+          <p>{{ t("level_page.take_prize") }}</p>
         </button>
 
         <div v-if="levels[activeLevel]">

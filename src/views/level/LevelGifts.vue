@@ -1,7 +1,9 @@
 <script setup>
 import {useRouter} from "vue-router";
 import {WebAppController} from "@/utils/telegram/web.app.util";
+import {useI18n} from "vue-i18n";
 
+const {t} = useI18n()
 const router = useRouter()
 
 const props = defineProps({
@@ -29,7 +31,7 @@ WebAppController.ready();
             <div class="gift-card__content">
                 <h5>{{ gift.name }}</h5>
                 <p v-if="gift.type !== 'prize'" class="infinity">&#x221e</p>
-                <p v-else>{{ gift.count }} шт</p>
+                <p v-else>{{ gift.count }} {{ t("quantity") }}</p>
             </div>
         </div>
     </div>
