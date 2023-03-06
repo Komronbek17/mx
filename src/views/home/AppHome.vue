@@ -98,7 +98,7 @@ onMounted(async () => {
   }
 
   &-message {
-    color: white;
+    color: var(--gf-text-white-2x);
     font-weight: 600;
     font-size: 18px;
     line-height: 24px;
