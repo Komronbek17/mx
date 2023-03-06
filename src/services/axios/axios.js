@@ -30,7 +30,7 @@ export const axiosVersion = ({
 
 export const axiosV1 = ({ endpoint = "" }) => {
   // eslint-disable-next-line
-    return instanceGenerator(import.meta.env.VITE_APP_URL +'/v1/'+ endpoint);
+    return instanceGenerator(import.meta.env.VITE_APP_URL + '/v1/' + endpoint);
 };
 
 export const axiosBase = ({ endpoint = "" }) => {
@@ -39,10 +39,15 @@ export const axiosBase = ({ endpoint = "" }) => {
 
 export const axiosDev = ({ endpoint = "" }) => {
   // eslint-disable-next-line
-  return instanceGenerator(import.meta.env.VITE_APP_DEV_API +'/'+ endpoint);
+    return instanceGenerator(import.meta.env.VITE_APP_DEV_API + '/' + endpoint);
 };
 
 export const axiosGoldFish = ({ endpoint = "" }) => {
   // eslint-disable-next-line
-  return instanceGenerator(import.meta.env.VITE_APP_OLTIN_BALIQ +'/'+ endpoint);
+    return instanceGenerator(import.meta.env.VITE_APP_OLTIN_BALIQ + '/' + endpoint);
+};
+
+export const axiosMock = ({ endpoint = "" }) => {
+  // eslint-disable-next-line
+    return instanceGenerator(import.meta.env.VITE_APP_MOCK_API + '/' + endpoint);
 };
