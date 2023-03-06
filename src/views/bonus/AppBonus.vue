@@ -64,7 +64,7 @@ WebAppController.ready();
       left: 0;
       bottom: 0;
       height: 2px;
-      background-color: #f5f5f5;
+      background: var(--gf-hover-bg);
     }
   }
 
@@ -82,10 +82,12 @@ WebAppController.ready();
     font-weight: 600;
     font-size: 17px;
     line-height: 129%;
-    color: #dbdbdb;
+    color: var(--gf-input-text);
     text-decoration: none;
     z-index: 1232;
     padding: 16px 0 12px;
+    width: 50%;
+    text-align: center;
 
     &.active {
       @include text-gradient(

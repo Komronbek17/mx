@@ -138,7 +138,7 @@ WebAppController.ready();
         font-size: 15px;
         line-height: 133%;
         letter-spacing: -0.4px;
-        color: #333333;
+        color: var(--gf-text-33);
         margin-bottom: 6px;
       }
 
@@ -198,7 +198,7 @@ WebAppController.ready();
     align-items: center;
     justify-content: center;
     margin-right: 1rem;
-    background-color: #f5f5f5;
+    background-color: var(--gf-disable-btn);
     border-radius: 8px;
 
     & img {
@@ -212,7 +212,7 @@ WebAppController.ready();
     font-weight: 500;
     font-size: 14px;
     line-height: 129%;
-    color: #a3abb8;
+    color: var(--gf-text-secondary-gray-2x);
   }
 }
 </style>
