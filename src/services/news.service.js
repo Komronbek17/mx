@@ -1,12 +1,12 @@
 import Core from "@/services/axios/core.axios";
-import { axiosDev, axiosGoldFish, axiosV1 } from "@/services/axios/axios";
+import {axiosVersion, axiosGoldFish, axiosV1} from "@/services/axios/axios";
 
 class NewsService extends Core {
-  constructor() {
-    super({
-      axios: axiosDev({ endpoint: "api/news/" }),
-    });
-  }
+    constructor() {
+        super({
+            axios: axiosVersion({version: 'v1' ,endpoint: 'news/'}),
+        });
+    }
 
   fetchNews(body) {
     return this.post("findAll", body);
