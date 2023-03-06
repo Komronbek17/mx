@@ -60,7 +60,7 @@ WebAppController.ready();
 <template>
   <div>
     <div class="profile">
-      <app-loader :active-="isFetching" />
+      <app-loader :active="isFetching" />
       <div class="layout-container">
         <!--   PROFILE DETAILS   -->
         <div class="flex flex-column align-center">

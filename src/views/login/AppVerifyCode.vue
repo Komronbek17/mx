@@ -168,7 +168,7 @@ WebAppController.ready();
     </label>
     <input
       class="ol-phone-input"
-      type="text"
+      type="tel"
       v-mask="'########'"
       id="ol-verification-code"
       placeholder="Код"

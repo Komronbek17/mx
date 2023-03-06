@@ -58,7 +58,7 @@ WebAppController.ready();
 
 <template>
   <div>
-    <app-loader :active-="isFetching" />
+    <app-loader :active="isFetching" />
     <div class="layout-container">
       <div class="levels-page">
         <div class="levels-list">
