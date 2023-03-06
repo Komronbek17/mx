@@ -1,151 +1,148 @@
 <script setup>
-import {onMounted, ref} from "vue";
-import {subscribeApi} from "@/services/subscribe.service";
-import {useRouter} from "vue-router";
-import {useI18n} from "vue-i18n";
+import { onMounted, ref } from "vue";
+import { subscribeApi } from "@/services/subscribe.service";
+import { useRouter } from "vue-router";
+import { useI18n } from "vue-i18n";
 
-const {t} = useI18n();
+const { t } = useI18n();
 const isSubscribed = ref(null);
 const router = useRouter();
 
 const getStatus = async () => {
-    const response = await subscribeApi.fetchStatus();
-    isSubscribed.value = response.data.isSubscribed;
+  const response = await subscribeApi.fetchStatus();
+  isSubscribed.value = response.data.isSubscribed;
 };
 
 async function toggleSubscribing() {
-    if (isSubscribed.value === true) {
-        await subscribeApi
-            .subscribeStop()
-            .then((res) => {
-                console.log(res);
-            })
-            .catch((err) => {
-                console.error(err);
-            })
-            .finally(() => {
-                router.push({name: "settings"});
-            });
-    } else {
-        await subscribeApi
-            .subscribeActivate()
-            .then((res) => {
-                console.log(res);
-            })
-            .catch((err) => {
-                console.error(err);
-            })
-            .finally(() => {
-                router.push({name: "settings"});
-            });
-    }
+  if (isSubscribed.value === true) {
+    await subscribeApi
+      .subscribeStop()
+      .then((res) => {
+        console.log(res);
+      })
+      .catch((err) => {
+        console.error(err);
+      })
+      .finally(() => {
+        router.push({ name: "settings" });
+      });
+  } else {
+    await subscribeApi
+      .subscribeActivate()
+      .then((res) => {
+        console.log(res);
+      })
+      .catch((err) => {
+        console.error(err);
+      })
+      .finally(() => {
+        router.push({ name: "settings" });
+      });
+  }
 }
 
 function backToSettings() {
-    router.push({name: "settings"});
+  router.push({ name: "settings" });
 }
 
-
 onMounted(async () => {
-    await getStatus();
-})
-
-
+  await getStatus();
+});
 </script>
 
 <template>
-    <div class="unsubscribe">
-        <div class="layout-container">
-            <div class="unsubscribe-block">
-                <div class="unsubscribe-image">
-                    <img src="@/assets/images/message-icon.svg" alt=""/>
-                </div>
-
-                <p v-if="isSubscribed" class="unsubscribe-title">
-                    {{ t("settings_page.unsubscribe_msg") }}
-                </p>
-                <p v-else class="unsubscribe-title">
-                    {{ t("settings_page.subscribe_msg") }}
-                </p>
-                <div class="unsubscribe-btns">
-                    <button class="unsubscribe-btn__no" @click="backToSettings">
-                        {{ t("no") }}
-                    </button>
-                    <button
-                        class="unsubscribe-btn__yes"
-                        @click.prevent="toggleSubscribing"
-                    >
-                        {{ t("yes") }}
-                    </button>
-                </div>
-            </div>
+  <div class="unsubscribe">
+    <div class="layout-container">
+      <div class="unsubscribe-block">
+        <div class="unsubscribe-image">
+          <img src="@/assets/images/message-icon.svg" alt="" />
         </div>
+
+        <p v-if="isSubscribed" class="unsubscribe-title">
+          {{ t("settings_page.unsubscribe_msg") }}
+        </p>
+        <p v-else class="unsubscribe-title">
+          {{ t("settings_page.subscribe_msg") }}
+        </p>
+        <div class="unsubscribe-btns">
+          <button class="unsubscribe-btn__no" @click="backToSettings">
+            {{ t("no") }}
+          </button>
+          <button
+            class="unsubscribe-btn__yes"
+            @click.prevent="toggleSubscribing"
+          >
+            {{ t("yes") }}
+          </button>
+        </div>
+      </div>
     </div>
+  </div>
 </template>
 
 <style lang="scss" scoped>
 .unsubscribe {
-    &-block {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
+  &-block {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  &-image {
+    width: 32px;
+    height: 32px;
+    margin-bottom: 1rem;
+
+    & img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
     }
+  }
 
-    &-image {
-        width: 32px;
-        height: 32px;
-        margin-bottom: 1rem;
+  &-title {
+    font-weight: 600;
+    font-size: 15px;
+    line-height: 133%;
+    letter-spacing: -0.4px;
+    color: #090909;
+    margin-bottom: 1rem;
+  }
 
-        & img {
-            width: 100%;
-            height: 100%;
-            object-fit: contain;
-        }
+  &-btns {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    & button {
+      width: 60px;
+      height: 40px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: none;
     }
+  }
 
-    &-title {
-        font-weight: 600;
-        font-size: 15px;
-        line-height: 133%;
-        letter-spacing: -0.4px;
-        color: #090909;
-        margin-bottom: 1rem;
-    }
+  &-btn__no {
+    background: #f2fbfd;
+    border-radius: 8px;
+    margin-right: 1rem;
+    font-weight: 600;
+    font-size: 15px;
+    line-height: 133%;
+    letter-spacing: -0.4px;
+    color: #090909;
+  }
 
-    &-btns {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-
-        & button {
-            width: 60px;
-            height: 40px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border: none;
-        }
-    }
-
-    &-btn__no {
-        background: #f2fbfd;
-        border-radius: 8px;
-        margin-right: 1rem;
-        font-weight: 600;
-        font-size: 15px;
-        line-height: 133%;
-        letter-spacing: -0.4px;
-        color: #090909;
-    }
-
-    &-btn__yes {
-        background: linear-gradient(107.32deg, #4adaff -22.08%, #0062ca 122.03%);
-        border-radius: 8px;
-        font-weight: 600;
-        font-size: 15px;
-        line-height: 20px;
-        letter-spacing: -0.4px;
-        color: #fff;
-    }
+  &-btn__yes {
+    background: linear-gradient(107.32deg, #4adaff -22.08%, #0062ca 122.03%);
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 15px;
+    line-height: 20px;
+    letter-spacing: -0.4px;
+    color: #fff;
+  }
 }
 </style>
