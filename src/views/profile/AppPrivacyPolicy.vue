@@ -37,7 +37,7 @@ fetchPolicy();
 
 <template>
   <div class="privacy">
-    <app-loader :active-="isFetching" />
+    <app-loader :active="isFetching" />
     <div class="layout-container">
       <p class="privacy-title">{{ policy.name }}</p>
       <div class="privacy-description" v-html="policy.content"></div>

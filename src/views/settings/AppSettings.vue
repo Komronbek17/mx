@@ -34,7 +34,7 @@ WebAppController.ready();
 
 <template>
   <div class="settings">
-    <app-loader :active-="isFetching" />
+    <app-loader :active="isFetching" />
     <div class="layout-container">
       <div class="settings-cards">
         <router-link :to="{ name: 'settings-language' }" class="settings-card">

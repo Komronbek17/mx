@@ -62,7 +62,7 @@ WebAppController.ready();
 
 <template>
   <div class="daily">
-    <app-loader :active-="isFetching" />
+    <app-loader :active="isFetching" />
     <rotating-fish :stop="isDialogOpen" />
 
     <modal-dialog v-model="showModal">
