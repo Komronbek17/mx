@@ -88,7 +88,7 @@ WebAppController.ready();
 
 <template>
   <div class="prize">
-    <app-loader :active-="isFetching" />
+    <app-loader :active="isFetching" />
     <div class="layout-container">
       <div class="prize-items" id="infinite-list">
         <div

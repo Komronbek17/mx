@@ -100,7 +100,7 @@ onMounted(async () => {
 
 <template>
   <div class="layout-container">
-    <app-loader :active-="isFetching" />
+    <app-loader :active="isFetching" />
     <div class="bonus-block">
       <div class="bonus-card">
         <div class="bonus-card__title">{{ $t("market_page.balance") }}:</div>

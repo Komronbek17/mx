@@ -94,7 +94,7 @@ WebAppController.ready();
 
 <template>
   <div class="recent">
-    <app-loader :active-="isFetching" />
+    <app-loader :active="isFetching" />
     <div class="layout-container">
       <div class="recent-items" id="infinite-list">
         <div

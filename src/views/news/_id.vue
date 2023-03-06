@@ -66,7 +66,7 @@ WebAppController.ready();
 
 <template>
   <div class="one-news">
-    <app-loader :active-="isFetching" />
+    <app-loader :active="isFetching" />
     <img :src="newData.image" alt="" />
     <div class="layout-container">
       <span class="one-news__date">{{ newData.date }}</span>

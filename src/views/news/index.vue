@@ -4,7 +4,6 @@ import { newsApi } from "@/services/news.service";
 import { loadingComposable } from "@/composables/loading.composable";
 
 import AppLoader from "@/components/elements/loader/AppLoader.vue";
-import { WebAppController } from "@/utils/telegram/web.app.util";
 
 const {
   loading: isFetching,
@@ -38,7 +37,7 @@ const getNews = async () => {
 
 function loadMore() {
   loading.value = true;
-  setTimeout(() => {
+  setTimeout((e) => {
     for (let i = 0; i < 1; i++) {
       pagination.value.current++;
       getNews();
@@ -56,7 +55,7 @@ onMounted(async () => {
   }
 
   const listElm = document.getElementById("infinite-list");
-  listElm.addEventListener("scroll", () => {
+  listElm.addEventListener("scroll", (e) => {
     if (listElm.scrollTop + listElm.clientHeight >= listElm.scrollHeight) {
       loadMore();
     }
@@ -64,14 +63,11 @@ onMounted(async () => {
   // Initially load some items.
   loadMore();
 });
-
-WebAppController.ready();
 </script>
 
 <template>
   <div id="infinite-list" class="news">
-    <app-loader :active-="isFetching" />
-
+    <app-loader :active="isFetching" />
     <div class="layout-container">
       <!--   NEWS TOP ADS   -->
       <!--            <div class="news-ads flex align-center justify-between">-->

@@ -237,7 +237,7 @@ fetchPremiumBonus();
 
 <template>
   <div>
-    <app-loader :active-="isFetching" />
+    <app-loader :active="isFetching" />
     <rotating-fish type="premium" :stop="state.stopAnimation" />
     <modal-dialog v-model="modalState.show" :show-close-icon="false">
       <template #content>

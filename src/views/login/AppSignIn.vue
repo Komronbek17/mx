@@ -85,7 +85,7 @@ WebAppController.ready();
       v-mask="'+998 ##-###-##-##'"
       v-model="olSigninNumber"
       class="ol-phone-input"
-      type="text"
+      type="tel"
       id="ol-phone-number"
     />
 
