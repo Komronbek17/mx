@@ -17,7 +17,9 @@ import { authApi } from "@/services/auth.service";
 import { OLTIN_BALIQ_BOT_TKN, VERIFICATION_PHONE } from "@/constants";
 import { MainButtonController } from "@/utils/telegram/main.button.controller";
 import { WebAppController } from "@/utils/telegram/web.app.util";
+import { useI18n } from "vue-i18n";
 
+const { t } = useI18n();
 const router = useRouter();
 const toast = useToast();
 const LIMIT = 60;
@@ -147,7 +149,7 @@ onMounted(() => {
 
 MainButtonController.run();
 MainButtonController.onClick(verifyCode);
-MainButtonController.setText("Подтвердить");
+MainButtonController.setText(`${t("login_page.confirm")}`);
 onBeforeRouteLeave(() => {
   MainButtonController.makeInvisible();
   MainButtonController.offClick(verifyCode);
@@ -160,18 +162,18 @@ WebAppController.ready();
   <div class="ol-signin-content container">
     <h3 class="verification-phone">{{ verifyState.phone }}</h3>
     <p class="ol-signin-content-suggestion mt-1 mb-075">
-      На ваш номер был отправлен SMS с кодом активации
+      {{ t("login_page.verify_1") }}
     </p>
 
     <label for="ol-verification-code" class="mb-0-5 ol-phone-number-label">
-      Введите код:
+      {{ t("login_page.verify_2") }}:
     </label>
     <input
       class="ol-phone-input"
       type="tel"
       v-mask="'########'"
       id="ol-verification-code"
-      placeholder="Код"
+      :placeholder="t('login_page.code')"
       v-model="olVerifyCode"
     />
     <span v-if="errors.length" class="validation-failed">
@@ -183,7 +185,7 @@ WebAppController.ready();
       @click="resend"
     >
       <rotate-left-icon />
-      <span class="ml-0-5">Отправить повторно</span>
+      <span class="ml-0-5">{{ t("login_page.retry") }}</span>
     </span>
     <span v-else class="verification-timer mt-0-5">
       {{ verifyState.time.min }}:{{ verifyState.time.sec }}

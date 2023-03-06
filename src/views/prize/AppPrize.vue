@@ -9,7 +9,9 @@ import RotatingFish from "@/components/outdated/RotatingFish.vue";
 import ModalDialogRotatingFish from "@/components/outdated/ModalDialogRotatingFish.vue";
 import ModalDialog from "@/components/ui/ModalDialog/ModalDialog.vue";
 import { loadingComposable } from "@/composables/loading.composable";
+import { useI18n } from "vue-i18n";
 
+const { t } = useI18n();
 const router = useRouter();
 const showModal = true;
 
@@ -78,8 +80,8 @@ WebAppController.ready();
       </template>
 
       <template #footer>
-        <button>ok</button>
-        <button>cancel</button>
+        <button>{{ t("ok") }}</button>
+        <button>{{ t("cancel") }}</button>
       </template>
     </modal-dialog>
 
