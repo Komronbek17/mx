@@ -7,6 +7,7 @@ const news = ref([]);
 const pagination = ref({
     current: 1,
     limit: 10,
+    next: 0,
 });
 const loading = ref(false);
 const getNews = async () => {
@@ -28,31 +29,25 @@ const getNews = async () => {
 
 function loadMore() {
     loading.value = true;
-    setTimeout((e) => {
-        for (let i = 0; i < 1; i++) {
-            pagination.value.current++;
-            getNews();
-        }
-        loading.value = false;
-    }, 2000);
-    loading.value = true;
     setTimeout(e => {
         for (let i = 0; i < 1; i++) {
             pagination.value.current++
-            getNews()
+            getNews();
         }
         loading.value = false;
-    }, 1000);
+    }, 500);
 }
+
 
 onMounted(() => {
     getNews();
 
     const listElm = document.getElementById('infinite-list');
     listElm.addEventListener('scroll', (e) => {
-        console.log(e, 'e');
         if (listElm.scrollTop + listElm.clientHeight >= listElm.scrollHeight) {
-            loadMore();
+            if (pagination.value.next) {
+                loadMore();
+            }
         }
     });
     // Initially load some items.
