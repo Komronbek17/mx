@@ -35,7 +35,7 @@ fetchPolicy();
 .privacy {
   &-title {
     letter-spacing: -0.32px;
-    color: #333333;
+    color: var(--gf-text-33);
     text-align: center;
     margin-bottom: 0.5rem;
     text-transform: uppercase;
@@ -48,7 +48,7 @@ fetchPolicy();
     font-weight: 400;
     font-size: 14px;
     line-height: 143%;
-    color: #333333;
+    color: var(--gf-text-33);
   }
 }
 </style>
