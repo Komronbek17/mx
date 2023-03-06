@@ -23,10 +23,9 @@ const getPrizeBonuses = async () => {
             limit: pagination.value.limit,
         },
     };
-
-    const response = await historyMockApi.fetchPrizeHistories(body);
-    console.log(response, "response");
-    prizeBonuses.value = response.data.items;
+    const {data} = await historyMockApi.fetchPrizeHistories(body);
+    prizeBonuses.value = data.items;
+    pagination.value = Object.assign(pagination.value, data.pagination)
 };
 
 function filterPrizeLevel(item) {

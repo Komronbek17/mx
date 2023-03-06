@@ -21,7 +21,7 @@ const getNews = async () => {
     try {
         const {data} = await newsApi.fetchNews(body);
         news.value = [...news.value, ...data.result];
-        console.log(data, "newsApi");
+        pagination.value = Object.assign(pagination.value, data.pagination)
     } catch (e) {
         console.log(e, "newsApi");
     }

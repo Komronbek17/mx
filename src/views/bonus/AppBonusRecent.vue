@@ -22,10 +22,9 @@ const getRecentBonuses = async () => {
             limit: pagination.value.limit,
         },
     };
-    const response = await historyApi.fetchRecentHistories(body);
-    if (response.data.items.length) {
-        recentBonuses.value = [...recentBonuses.value, ...response.data.items];
-    }
+    const {data} = await historyApi.fetchRecentHistories(body);
+    recentBonuses.value = [...recentBonuses.value, ...data.items];
+    pagination.value = Object.assign(pagination.value, data.pagination)
 
 };
 
