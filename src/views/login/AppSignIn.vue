@@ -129,8 +129,8 @@ WebAppController.ready();
 .ol-signin-content {
   display: flex;
   flex-direction: column;
-  justify-content: flex-end;
-  height: 80vh;
+  //justify-content: flex-end;
+  //height: 80vh;
   overflow-y: hidden;
 
   &-suggestion {
