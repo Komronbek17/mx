@@ -33,8 +33,8 @@ const getLevelGift = async (id) => {
   }
 };
 
-onMounted(() => {
-  getLevels();
+onMounted(async () => {
+  await getLevels();
 });
 </script>
 
