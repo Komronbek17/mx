@@ -1,10 +1,10 @@
 import Core from "@/services/axios/core.axios";
-import {axiosGoldFish} from "@/services/axios/axios";
+import {axiosDev, axiosGoldFish, axiosV1} from "@/services/axios/axios";
 
 class NewsService extends Core {
     constructor() {
         super({
-            axios: axiosGoldFish({endpoint: 'api/news/'}),
+            axios: axiosDev({endpoint: 'api/news/'}),
         });
     }
 
