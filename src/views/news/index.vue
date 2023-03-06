@@ -1,6 +1,6 @@
 <script setup>
-import { newsApi } from "@/services/news.service";
-import { onMounted, ref } from "vue";
+import {newsApi} from "@/services/news.service";
+import {onMounted, ref} from "vue";
 
 const news = ref([]);
 
@@ -10,31 +10,31 @@ const pagination = ref({
 });
 const loading = ref(false);
 const getNews = async () => {
-    const body = {
-        method: "news.get_all",
-        params: {
-            page: pagination.value.current,
-            limit: pagination.value.limit,
-        },
-    };
-    try {
-        const {data} = await newsApi.fetchNews(body);
-        news.value = [...news.value, ...data.result];
-        pagination.value = Object.assign(pagination.value, data.pagination)
-    } catch (e) {
-        console.log(e, "newsApi");
-    }
+  const body = {
+    method: "news.get_all",
+    params: {
+      page: pagination.value.current,
+      limit: pagination.value.limit,
+    },
+  };
+  try {
+    const {data} = await newsApi.fetchNews(body);
+    news.value = [...news.value, ...data.result];
+    pagination.value = Object.assign(pagination.value, data.pagination)
+  } catch (e) {
+    console.log(e, "newsApi");
+  }
 };
 
 function loadMore() {
-    loading.value = true;
-    setTimeout(e => {
-        for (let i = 0; i < 1; i++) {
-            pagination.value.current++
-            getNews();
-        }
-        loading.value = false;
-    }, 500);
+  loading.value = true;
+  setTimeout(e => {
+    for (let i = 0; i < 1; i++) {
+      pagination.value.current++
+      getNews();
+    }
+    loading.value = false;
+  }, 500);
 }
 
 onMounted(async () => {
@@ -68,12 +68,12 @@ onMounted(async () => {
       <!--   NEW LIST   -->
       <div class="news-list flex flex-column flex-wrap">
         <router-link
-          v-for="item in news"
-          :key="item.id"
-          :to="{ name: 'news-show', params: { id: item.id } }"
-          class="news-list__item flex align-center"
+            v-for="item in news"
+            :key="item.id"
+            :to="{ name: 'news-show', params: { id: item.id } }"
+            class="news-list__item flex align-center"
         >
-          <img :src="item.img" alt="" />
+          <img :src="item.img" alt=""/>
           <div>
             <p>{{ item.name }}</p>
             <span>{{ item.date }}</span>
