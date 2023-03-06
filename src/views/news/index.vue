@@ -1,6 +1,6 @@
 <script setup>
-import { newsApi } from "@/services/news.service";
-import { onMounted, ref } from "vue";
+import {newsApi} from "@/services/news.service";
+import {onMounted, ref} from "vue";
 
 const news = ref([]);
 
@@ -18,9 +18,9 @@ const getNews = async () => {
     },
   };
   try {
-    const { data } = await newsApi.fetchNews(body);
+    const {data} = await newsApi.fetchNews(body);
     news.value = [...news.value, ...data.result];
-    console.log(data, "newsApi");
+    pagination.value = Object.assign(pagination.value, data.pagination)
   } catch (e) {
     console.log(e, "newsApi");
   }
@@ -28,29 +28,20 @@ const getNews = async () => {
 
 function loadMore() {
   loading.value = true;
-  setTimeout((e) => {
+  setTimeout(e => {
     for (let i = 0; i < 1; i++) {
-      pagination.value.current++;
+      pagination.value.current++
       getNews();
     }
     loading.value = false;
-  }, 2000);
-  loading.value = true;
-  setTimeout((e) => {
-    for (let i = 0; i < 1; i++) {
-      pagination.value.current++;
-      getNews();
-    }
-    loading.value = false;
-  }, 1000);
+  }, 500);
 }
 
-onMounted(() => {
-  getNews();
+onMounted(async () => {
+  await getNews();
 
   const listElm = document.getElementById("infinite-list");
   listElm.addEventListener("scroll", (e) => {
-    console.log(e, "e");
     if (listElm.scrollTop + listElm.clientHeight >= listElm.scrollHeight) {
       loadMore();
     }
@@ -77,12 +68,12 @@ onMounted(() => {
       <!--   NEW LIST   -->
       <div class="news-list flex flex-column flex-wrap">
         <router-link
-          v-for="item in news"
-          :key="item.id"
-          :to="{ name: 'news-show', params: { id: item.id } }"
-          class="news-list__item flex align-center"
+            v-for="item in news"
+            :key="item.id"
+            :to="{ name: 'news-show', params: { id: item.id } }"
+            class="news-list__item flex align-center"
         >
-          <img :src="item.img" alt="" />
+          <img :src="item.img" alt=""/>
           <div>
             <p>{{ item.name }}</p>
             <span>{{ item.date }}</span>

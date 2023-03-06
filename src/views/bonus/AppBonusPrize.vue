@@ -14,17 +14,16 @@ const pagination = ref({
 const loading = ref(false);
 
 const getPrizeBonuses = async () => {
-  const body = {
-    method: "coin.get_prize_histories",
-    params: {
-      page: pagination.value.current,
-      limit: pagination.value.limit,
-    },
-  };
-
-  const response = await historyMockApi.fetchPrizeHistories(body);
-  console.log(response, "response");
-  prizeBonuses.value = response.data.items;
+    const body = {
+        method: "coin.get_prize_histories",
+        params: {
+            page: pagination.value.current,
+            limit: pagination.value.limit,
+        },
+    };
+    const {data} = await historyMockApi.fetchPrizeHistories(body);
+    prizeBonuses.value = data.items;
+    pagination.value = Object.assign(pagination.value, data.pagination)
 };
 
 function filterPrizeLevel(item) {
