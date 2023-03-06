@@ -58,16 +58,17 @@ onMounted(() => {
                     />
                 </div>
 
-                <div
+                <button
                     @click="getLevelGift(levels[activeLevel].id)"
                     class="levels-button"
                     :class="levels[activeLevel] !== 100?'disabled':''"
+                    :disabled="levels[activeLevel] !== 100"
                 >
                     <img src="@/assets/images/prize.svg" alt="">
                     <p>
                         Получить приз
                     </p>
-                </div>
+                </button>
 
                 <div v-if="levels[activeLevel]">
                     <level-gifts :levels="levels[activeLevel].gifts" :key="levels[activeLevel].id+'_level'"/>
