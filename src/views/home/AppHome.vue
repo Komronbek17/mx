@@ -11,8 +11,6 @@ import { hasOwnProperty } from "@/utils/object.util";
 import { useI18n } from "vue-i18n";
 import { ACCEPT_LANGUAGE, TELEGRAM, WEB_APP } from "@/constants";
 import { localStorageController } from "@/utils/localstorage.util";
-import { useToast } from "vue-toastification";
-import { WebAppController } from "@/utils/telegram/web.app.util";
 
 const { tUserFullName } = useTelegramStore();
 const { tUserUniqueId, checkTelegramUser } = useTelegram();
@@ -84,6 +82,7 @@ onMounted(async () => {
   position: relative;
   height: 98px;
   cursor: pointer;
+  white-space: nowrap;
 
   &-image {
     border-radius: 8px;
