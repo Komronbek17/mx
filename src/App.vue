@@ -2,8 +2,6 @@
 import { watch } from "vue";
 import { useRoute, useRouter } from "vue-router";
 
-// import AppLoading from "@/components/elements/loading/AppLoading.vue";
-
 import { useTelegramStore } from "@/stores/telegram.store";
 import { BACK_BUTTON, MAIN_BUTTON, TELEGRAM, WEB_APP } from "@/constants";
 
@@ -58,6 +56,5 @@ watch(
 </script>
 
 <template>
-  <!--  <app-loading />-->
   <RouterView />
 </template>

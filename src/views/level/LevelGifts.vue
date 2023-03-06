@@ -1,5 +1,8 @@
 <script setup>
+import {useRouter} from "vue-router";
+import {WebAppController} from "@/utils/telegram/web.app.util";
 
+const router = useRouter()
 
 const props = defineProps({
     levels: Array
@@ -12,7 +15,7 @@ const viewProductEmit = (id) => {
     })
 }
 
-
+WebAppController.ready();
 </script>
 
 

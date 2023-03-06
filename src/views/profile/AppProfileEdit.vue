@@ -1,10 +1,21 @@
 <script setup>
 import { ref } from "vue";
-import Popover from "@/components/ui/Popover/Popover.vue";
+
 import { useTelegram } from "@/composables/telegram.composable";
+import { loadingComposable } from "@/composables/loading.composable";
+import { WebAppController } from "@/utils/telegram/web.app.util";
+
+import Popover from "@/components/ui/Popover/Popover.vue";
+import AppLoader from "@/components/elements/loader/AppLoader.vue";
 
 const popoverValue = ref(false);
 const avatarSelected = ref(true);
+
+const {
+  loading: isFetching,
+  startLoading,
+  finishLoading,
+} = loadingComposable();
 
 const { isNotFetched, telegramInfo, checkTelegramUser } = useTelegram();
 const closePopover = () => {
@@ -21,12 +32,20 @@ const popoverApply = () => {
 };
 
 if (isNotFetched) {
-  checkTelegramUser();
+  startLoading();
+  try {
+    checkTelegramUser();
+  } finally {
+    finishLoading();
+  }
 }
+
+WebAppController.ready();
 </script>
 
 <template>
   <div class="profile-edit">
+    <app-loader :active-="isFetching" />
     <div class="layout-container">
       <!--   PROFILE DETAILS   -->
       <div class="flex flex-column align-center">

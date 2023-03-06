@@ -1,22 +1,32 @@
 <script setup>
+import { onMounted } from "vue";
+import { useI18n } from "vue-i18n";
+import { useRouter } from "vue-router";
+
 import CatalogHome from "@/components/home/CatalogHome.vue";
 import OltinBaliqIcon from "@/components/icons/OltinBaliqIcon.vue";
 import UserCardHome from "@/components/home/UserCardHome.vue";
+import AppLoader from "@/components/elements/loader/AppLoader.vue";
 
-import { useTelegramStore } from "@/stores/telegram.store";
-import { useTelegram } from "@/composables/telegram.composable";
-import { useRouter } from "vue-router";
-import { onMounted } from "vue";
 import { hasOwnProperty } from "@/utils/object.util";
-import { useI18n } from "vue-i18n";
-import { ACCEPT_LANGUAGE, TELEGRAM, WEB_APP } from "@/constants";
+import { WebAppController } from "@/utils/telegram/web.app.util";
 import { localStorageController } from "@/utils/localstorage.util";
+import { useTelegram } from "@/composables/telegram.composable";
+import { loadingComposable } from "@/composables/loading.composable";
+
+import { ACCEPT_LANGUAGE } from "@/constants";
+import { useTelegramStore } from "@/stores/telegram.store";
 
 const { tUserFullName } = useTelegramStore();
 const { tUserUniqueId, checkTelegramUser } = useTelegram();
 
 const router = useRouter();
 const { locale, t } = useI18n();
+const {
+  loading: isFetching,
+  startLoading,
+  finishLoading,
+} = loadingComposable();
 
 function openDailyBonusPage() {
   router.push({
@@ -25,21 +35,28 @@ function openDailyBonusPage() {
 }
 
 onMounted(async () => {
-  const data = await checkTelegramUser();
-  window[TELEGRAM][WEB_APP].ready();
-  const hasUser = hasOwnProperty(data, "user");
-  if (hasUser) {
-    const hasLanguage = hasOwnProperty(data.user, "language");
-    if (hasLanguage) {
-      locale.value = data.user.language;
+  try {
+    startLoading();
+    const data = await checkTelegramUser();
+    const hasUser = hasOwnProperty(data, "user");
+    if (hasUser) {
+      const hasLanguage = hasOwnProperty(data.user, "language");
+      if (hasLanguage) {
+        locale.value = data.user.language;
+      }
     }
+    localStorageController.set(ACCEPT_LANGUAGE, locale.value);
+  } finally {
+    finishLoading();
   }
-  localStorageController.set(ACCEPT_LANGUAGE, locale.value);
 });
+
+WebAppController.ready();
 </script>
 
 <template>
   <div class="app-home">
+    <app-loader :active="isFetching" />
     <user-card-home
       :user-full-name="tUserFullName"
       :user-unique-id="tUserUniqueId"
@@ -57,9 +74,9 @@ onMounted(async () => {
       >
         <oltin-baliq-icon />
         <div class="flex flex-column justify-center align-center">
-          <span class="ol-main-banner-message">{{
-            t("home_page.try_luck")
-          }}</span>
+          <span class="ol-main-banner-message">
+            {{ t("home_page.try_luck") }}
+          </span>
         </div>
       </div>
     </div>

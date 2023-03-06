@@ -1,12 +1,20 @@
 <script setup>
 import { onMounted, ref } from "vue";
-import { historyMockApi } from "@/services/history.service";
 import { useI18n } from "vue-i18n";
+import { historyMockApi } from "@/services/history.service";
 import { formatDateWithDot } from "@/utils/date.formatter";
+import { WebAppController } from "@/utils/telegram/web.app.util";
+import { loadingComposable } from "@/composables/loading.composable";
+
+import AppLoader from "@/components/elements/loader/AppLoader.vue";
 
 const { t } = useI18n();
 let prizeBonuses = ref([]);
-
+const {
+  loading: isFetching,
+  startLoading,
+  finishLoading,
+} = loadingComposable();
 const pagination = ref({
   current: 1,
   limit: 10,
@@ -14,16 +22,16 @@ const pagination = ref({
 const loading = ref(false);
 
 const getPrizeBonuses = async () => {
-    const body = {
-        method: "coin.get_prize_histories",
-        params: {
-            page: pagination.value.current,
-            limit: pagination.value.limit,
-        },
-    };
-    const {data} = await historyMockApi.fetchPrizeHistories(body);
-    prizeBonuses.value = data.items;
-    pagination.value = Object.assign(pagination.value, data.pagination)
+  const body = {
+    method: "coin.get_prize_histories",
+    params: {
+      page: pagination.value.current,
+      limit: pagination.value.limit,
+    },
+  };
+  const { data } = await historyMockApi.fetchPrizeHistories(body);
+  prizeBonuses.value = data.items;
+  pagination.value = Object.assign(pagination.value, data.pagination);
 };
 
 function filterPrizeLevel(item) {
@@ -66,13 +74,21 @@ const checkScrollFunction = () => {
 };
 
 onMounted(async () => {
-  await getPrizeBonuses();
-  checkScrollFunction();
+  startLoading();
+  try {
+    await getPrizeBonuses();
+    checkScrollFunction();
+  } finally {
+    finishLoading();
+  }
 });
+
+WebAppController.ready();
 </script>
 
 <template>
   <div class="prize">
+    <app-loader :active-="isFetching" />
     <div class="layout-container">
       <div class="prize-items" id="infinite-list">
         <div

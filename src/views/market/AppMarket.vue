@@ -2,12 +2,17 @@
 import { useToast } from "vue-toastification";
 import { onMounted, ref } from "vue";
 import { productApiV2 } from "@/services/product.service";
+
 import ModalDialog from "@/components/ui/ModalDialog/ModalDialog.vue";
-import { useI18n } from "vue-i18n";
+import AppLoader from "@/components/elements/loader/AppLoader.vue";
+import { loadingComposable } from "@/composables/loading.composable";
 
-const t = useI18n();
+const {
+  loading: isFetching,
+  startLoading,
+  finishLoading,
+} = loadingComposable();
 const toast = useToast();
-
 const gifts = ref([]);
 const balance = ref(0);
 
@@ -83,13 +88,19 @@ const submitActive = async () => {
 };
 
 onMounted(async () => {
-  await fetchBalance();
-  await getProducts();
+  startLoading();
+  try {
+    await fetchBalance();
+    await getProducts();
+  } finally {
+    finishLoading();
+  }
 });
 </script>
 
 <template>
   <div class="layout-container">
+    <app-loader :active-="isFetching" />
     <div class="bonus-block">
       <div class="bonus-card">
         <div class="bonus-card__title">{{ $t("market_page.balance") }}:</div>

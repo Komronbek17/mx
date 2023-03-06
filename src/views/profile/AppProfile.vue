@@ -1,16 +1,20 @@
 <script setup>
 import { reactive } from "vue";
 import { useRouter } from "vue-router";
-import { OLTIN_BALIQ_BOT_TKN } from "@/constants";
-import { localStorageController } from "@/utils/localstorage.util";
+import { useI18n } from "vue-i18n";
 import { useTelegram } from "@/composables/telegram.composable";
+import { loadingComposable } from "@/composables/loading.composable";
 import { useTelegramStore } from "@/stores/telegram.store";
+import { localStorageController } from "@/utils/localstorage.util";
+import { WebAppController } from "@/utils/telegram/web.app.util";
 
+import AppLoader from "@/components/elements/loader/AppLoader.vue";
 import DocumentTextIcon from "@/components/icons/DocumentTextIcon.vue";
 import ModalDialog from "@/components/ui/ModalDialog/ModalDialog.vue";
 import LogoutIcon from "@/components/icons/LogoutIcon.vue";
 import SupportIcon from "@/components/icons/SupportIcon.vue";
-import { useI18n } from "vue-i18n";
+
+import { OLTIN_BALIQ_BOT_TKN } from "@/constants";
 
 const { t } = useI18n();
 const router = useRouter();
@@ -19,6 +23,13 @@ const { isNotFetched, tUserUniqueId, checkTelegramUser } = useTelegram();
 const profileState = reactive({
   showLogoutWarn: false,
 });
+
+const {
+  loading: isFetching,
+  startLoading,
+  finishLoading,
+} = loadingComposable();
+
 function logout() {
   localStorageController.remove(OLTIN_BALIQ_BOT_TKN);
   router.push({
@@ -35,13 +46,21 @@ function hideLogoutModal() {
 }
 
 if (isNotFetched) {
-  checkTelegramUser();
+  startLoading();
+  try {
+    checkTelegramUser();
+  } finally {
+    finishLoading();
+  }
 }
+
+WebAppController.ready();
 </script>
 
 <template>
   <div>
     <div class="profile">
+      <app-loader :active-="isFetching" />
       <div class="layout-container">
         <!--   PROFILE DETAILS   -->
         <div class="flex flex-column align-center">

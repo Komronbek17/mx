@@ -1,5 +1,4 @@
 <script setup>
-import { ref } from "vue";
 // import { historyApi } from "@/services/history.service";
 // let history = ref({});
 
@@ -14,6 +13,10 @@ import { ref } from "vue";
 // };
 
 // getActiveBonuses();
+
+import { WebAppController } from "@/utils/telegram/web.app.util";
+
+WebAppController.ready();
 </script>
 
 <template>

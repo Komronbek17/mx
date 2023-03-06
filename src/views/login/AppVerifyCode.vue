@@ -16,6 +16,7 @@ import {
 import { authApi } from "@/services/auth.service";
 import { OLTIN_BALIQ_BOT_TKN, VERIFICATION_PHONE } from "@/constants";
 import { MainButtonController } from "@/utils/telegram/main.button.controller";
+import { WebAppController } from "@/utils/telegram/web.app.util";
 
 const router = useRouter();
 const toast = useToast();
@@ -151,6 +152,8 @@ onBeforeRouteLeave(() => {
   MainButtonController.makeInvisible();
   MainButtonController.offClick(verifyCode);
 });
+
+WebAppController.ready();
 </script>
 
 <template>

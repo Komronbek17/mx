@@ -1,10 +1,20 @@
 <script setup>
 import { onMounted, ref } from "vue";
-import { historyApi } from "@/services/history.service";
 import { useI18n } from "vue-i18n";
+import { historyApi } from "@/services/history.service";
+import { WebAppController } from "@/utils/telegram/web.app.util";
+
+import AppLoader from "@/components/elements/loader/AppLoader.vue";
+import { loadingComposable } from "@/composables/loading.composable";
 
 const { t } = useI18n();
 let recentBonuses = ref([]);
+
+const {
+  loading: isFetching,
+  startLoading,
+  finishLoading,
+} = loadingComposable();
 
 const pagination = ref({
   current: 1,
@@ -13,17 +23,16 @@ const pagination = ref({
 const loading = ref(false);
 
 const getRecentBonuses = async () => {
-    const body = {
-        method: "coin.get_recent_histories",
-        params: {
-            page: pagination.value.current,
-            limit: pagination.value.limit,
-        },
-    };
-    const {data} = await historyApi.fetchRecentHistories(body);
-    recentBonuses.value = [...recentBonuses.value, ...data.items];
-    pagination.value = Object.assign(pagination.value, data.pagination)
-
+  const body = {
+    method: "coin.get_recent_histories",
+    params: {
+      page: pagination.value.current,
+      limit: pagination.value.limit,
+    },
+  };
+  const { data } = await historyApi.fetchRecentHistories(body);
+  recentBonuses.value = [...recentBonuses.value, ...data.items];
+  pagination.value = Object.assign(pagination.value, data.pagination);
 };
 
 function filterBonusType(item) {
@@ -71,13 +80,21 @@ const checkScrollFunction = () => {
 };
 
 onMounted(() => {
-  getRecentBonuses();
-  checkScrollFunction();
+  startLoading();
+  try {
+    getRecentBonuses();
+    checkScrollFunction();
+  } finally {
+    finishLoading();
+  }
 });
+
+WebAppController.ready();
 </script>
 
 <template>
   <div class="recent">
+    <app-loader :active-="isFetching" />
     <div class="layout-container">
       <div class="recent-items" id="infinite-list">
         <div

@@ -7,6 +7,7 @@ import { useTelegramStore } from "@/stores/telegram.store";
 import { telegramApi } from "@/services/telegram.service";
 import { localStorageController } from "@/utils/localstorage.util";
 import { ACCEPT_LANGUAGE } from "@/constants";
+import { WebAppController } from "@/utils/telegram/web.app.util";
 // import enIcon from "@/assets/images/lang-en-icon.svg";
 
 const { locale } = useI18n();
@@ -40,6 +41,8 @@ async function changeLocale(code) {
   });
   localStorageController.set(ACCEPT_LANGUAGE, locale.value);
 }
+
+WebAppController.ready();
 </script>
 
 <template>

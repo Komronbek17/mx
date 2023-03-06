@@ -1,13 +1,15 @@
 <script setup>
-import { reactive, watch } from "vue";
-import { onBeforeRouteLeave, useRouter } from "vue-router";
-import { useField } from "vee-validate";
 import * as yup from "yup";
-
-import { MainButtonController } from "@/utils/telegram/main.button.controller";
-import { authApi } from "@/services/auth.service";
+import { reactive, watch } from "vue";
+import { useField } from "vee-validate";
 import { useToast } from "vue-toastification";
+import { onBeforeRouteLeave, useRouter } from "vue-router";
+
+import { authApi } from "@/services/auth.service";
+import { WebAppController } from "@/utils/telegram/web.app.util";
 import { sessionStorageController } from "@/utils/localstorage.util";
+import { MainButtonController } from "@/utils/telegram/main.button.controller";
+
 import { VERIFICATION_PHONE } from "@/constants";
 
 const toast = useToast();
@@ -65,6 +67,8 @@ onBeforeRouteLeave(() => {
   MainButtonController.makeInvisible();
   MainButtonController.offClick(sendCode);
 });
+
+WebAppController.ready();
 </script>
 
 <template>
