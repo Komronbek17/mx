@@ -70,7 +70,7 @@ WebAppController.ready();
 
 <template>
   <div class="unsubscribe">
-    <app-loader :active-="isFetching" />
+    <app-loader :active="isFetching" />
     <div class="layout-container">
       <div class="unsubscribe-block">
         <div class="unsubscribe-image">
