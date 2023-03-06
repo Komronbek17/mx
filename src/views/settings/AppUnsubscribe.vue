@@ -1,16 +1,32 @@
 <script setup>
 import { onMounted, ref } from "vue";
-import { subscribeApi } from "@/services/subscribe.service";
 import { useRouter } from "vue-router";
 import { useI18n } from "vue-i18n";
+
+import AppLoader from "@/components/elements/loader/AppLoader.vue";
+
+import { subscribeApi } from "@/services/subscribe.service";
+import { WebAppController } from "@/utils/telegram/web.app.util";
+import { loadingComposable } from "@/composables/loading.composable";
 
 const { t } = useI18n();
 const isSubscribed = ref(null);
 const router = useRouter();
 
+const {
+  loading: isFetching,
+  startLoading,
+  finishLoading,
+} = loadingComposable();
+
 const getStatus = async () => {
-  const response = await subscribeApi.fetchStatus();
-  isSubscribed.value = response.data.isSubscribed;
+  startLoading();
+  try {
+    const response = await subscribeApi.fetchStatus();
+    isSubscribed.value = response.data.isSubscribed;
+  } finally {
+    finishLoading();
+  }
 };
 
 async function toggleSubscribing() {
@@ -48,10 +64,13 @@ function backToSettings() {
 onMounted(async () => {
   await getStatus();
 });
+
+WebAppController.ready();
 </script>
 
 <template>
   <div class="unsubscribe">
+    <app-loader :active-="isFetching" />
     <div class="layout-container">
       <div class="unsubscribe-block">
         <div class="unsubscribe-image">

@@ -5,11 +5,20 @@ import { useToast } from "vue-toastification";
 
 import RotatingFish from "@/components/outdated/RotatingFish.vue";
 import ModalDialog from "@/components/ui/ModalDialog/ModalDialog.vue";
+import AppLoader from "@/components/elements/loader/AppLoader.vue";
 
 import { bonusApi } from "@/services/bonus.service";
+import { WebAppController } from "@/utils/telegram/web.app.util";
+import { loadingComposable } from "@/composables/loading.composable";
 
 const router = useRouter();
 const toast = useToast();
+
+const {
+  loading: isFetching,
+  startLoading,
+  finishLoading,
+} = loadingComposable();
 
 const modalState = reactive({
   show: false,
@@ -151,14 +160,22 @@ function startAnimation() {
 }
 
 onMounted(() => {
-  setTimeout(() => {
-    fetchDailyBonus();
+  setTimeout(async () => {
+    startLoading();
+    try {
+      await fetchDailyBonus();
+    } finally {
+      finishLoading();
+    }
   }, 2000);
 });
+
+WebAppController.ready();
 </script>
 
 <template>
   <div>
+    <app-loader :active-="isFetching" />
     <rotating-fish :stop="state.stopAnimation" />
     <modal-dialog v-model="modalState.show" :show-close-icon="false">
       <template #content>

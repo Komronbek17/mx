@@ -1,7 +1,9 @@
 <script setup>
 import { ref } from "vue";
+import { WebAppController } from "@/utils/telegram/web.app.util";
 
 const sound = ref(true);
+WebAppController.ready();
 </script>
 
 <template>

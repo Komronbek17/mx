@@ -1,4 +1,8 @@
-<script setup></script>
+<script setup>
+import { WebAppController } from "@/utils/telegram/web.app.util";
+
+WebAppController.ready();
+</script>
 
 <template>
   <div class="archive" style="color: black">archive</div>

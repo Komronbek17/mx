@@ -10,6 +10,10 @@ export class WebAppController {
     };
   }
 
+  static ready() {
+    this.webApp.ready();
+  }
+
   static showAlert(m, c) {
     this.webApp.showAlert(m, c);
   }
