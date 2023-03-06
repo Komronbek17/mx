@@ -106,11 +106,11 @@ async function verifyCode() {
 
 function setTime({ sec, min }) {
   if (sec >= 0) {
-    verifyState.time.sec = sec > 10 ? sec : `0${sec}`;
+    verifyState.time.sec = sec > 9 ? sec : `0${sec}`;
   }
 
   if (min >= 0) {
-    verifyState.time.min = min > 10 ? min : `0${min}`;
+    verifyState.time.min = min > 9 ? min : `0${min}`;
   }
 }
 
