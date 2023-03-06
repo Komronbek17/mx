@@ -69,7 +69,7 @@ onBeforeRouteLeave(() => {
 
 <template>
   <div class="ol-signin-content container">
-    <h3>Авторизация</h3>
+    <h3 class="ol-signin-title">Авторизация</h3>
     <p class="ol-signin-content-suggestion mt-1 mb-075">
       На ваш номер будет отправлен SMS для активации вашего аккаунта.
     </p>
@@ -95,7 +95,7 @@ onBeforeRouteLeave(() => {
         v-model="loginState.agreement"
         id="ol-terms-conditions-checkbox"
       />
-      <span class="ml-0-5">Я принимаю условия оферты</span>
+      <span class="ml-0-5 ol-accept-privacy">Я принимаю условия оферты</span>
     </label>
 
     <p class="ol-service-message mt-4 mb-1-5">
@@ -106,6 +106,22 @@ onBeforeRouteLeave(() => {
 </template>
 
 <style lang="scss" scoped>
+.ol-accept-privacy {
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 129%;
+  color: var(--gf-text-secondary-gray-2x);
+}
+
+.ol-signin-title {
+  font-weight: 600;
+  font-size: 28px;
+  line-height: 121%;
+  display: flex;
+  align-items: center;
+  color: var(--gf-text-09);
+}
+
 .ol-signin-content {
   display: flex;
   flex-direction: column;
@@ -123,11 +139,12 @@ onBeforeRouteLeave(() => {
 }
 
 .ol-phone-input {
-  background: var(--gf-p-main-gray);
+  background: var(--gf-login-input-bg);
   border-radius: 8px;
   padding: 0.75rem 1rem;
   min-height: 20px;
   font-size: 16px;
+  color: var(--gf-login-input-text);
 }
 
 .ol-phone-number-label {

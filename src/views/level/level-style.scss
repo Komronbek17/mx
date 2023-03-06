@@ -17,7 +17,7 @@
   justify-content: center;
   padding: 12px;
   column-gap: 10px;
-  background: linear-gradient(122.82deg, #F2D207 0%, #FFA329 100%);
+  background: var(--gf-yellow-gradient);
   border-radius: 8px;
   max-height: 48px;
   cursor: pointer;
@@ -28,14 +28,14 @@
     line-height: 16px;
     text-align: center;
     letter-spacing: -0.4px;
-    color: #fff;
+    color: var(--gf-text-white-2x);
   }
 
   &.disabled {
-    background: #F5F5F5;
+    background: var(--gf-disable-btn);
 
     p {
-      color: #797D81;
+      color: var(--gf-text-gray);
     }
   }
 }

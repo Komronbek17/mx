@@ -27,7 +27,7 @@ defineProps({
 
 <style lang="scss" scoped>
 .ol-catalog-card {
-  background-color: var(--gf-p-accent);
+  background-color: var(--gf-accent-bg);
   border-radius: 8px;
   //min-width: 100px;
   //min-height: 100px;
