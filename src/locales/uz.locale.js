@@ -92,6 +92,11 @@ export default {
   },
   market_page: {
     balance: "Balans",
+    prize: "Sovg'a",
+    to_basket: "Savatga",
+    activate: "Faollashtirish",
+    activated: "Faollashtirilgan",
+    text: "{level}-darajali 2X bonus muvaffaqiyatli faollashtirildi",
   },
   profile_page: {
     soon: "Tez kunda...",
@@ -105,5 +110,25 @@ export default {
       coin_amount: "tanga",
     },
     exit: "Akkauntdan chiqish",
+    exit_title: "Chiqish",
+    exit_text: "Haqiqatan ham akkauntingizdan chiqmoqchimisiz?",
+    exit_yes: "Ha, chiqish",
+    exit_no: "Qolish",
+  },
+  login_page: {
+    text_1: "Ro'yhatdan o'tish",
+    text_2: "Hisobingizni faollashtirish uchun raqamingizga SMS yuboriladi.",
+    label: "Sizning telefon raqamingiz",
+    privacy_policy: "Men taklif shartlarini qabul qilaman",
+    confirm_btn: "Tasdiqlash",
+    text_3:
+      "Abonent uchun “Oltin Baliq” xizmatidan foydalanish QQS bilan birga kuniga 500 so‘m.",
+    verify_1: "Sizning raqamingizga faollashtirish kodi SMS orqali yuborildi",
+    verify_2: "Kodni kiriting",
+    code: "Kod",
+    retry: "Qayta yuborish",
+  },
+  level_page: {
+    take_prize: "Sovg'ani olish",
   },
 };
