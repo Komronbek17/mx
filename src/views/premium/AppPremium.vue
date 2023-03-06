@@ -330,6 +330,7 @@ fetchPremiumBonus();
     font-size: 24px;
     line-height: 30px;
     text-align: center;
+    color: var(--gf-text-09);
   }
 }
 
@@ -344,28 +345,28 @@ fetchPremiumBonus();
   outline-color: transparent;
   display: flex;
   align-items: center;
-  color: white;
+  color: var(--gf-text-09);
   column-gap: 1rem;
   border-radius: 8px;
   width: 100%;
   padding: 1rem;
 
   .button-text {
-    color: white;
+    color: var(--gf-text-white-2x);
     font-weight: 600;
     font-size: 15px;
   }
 }
 
 .traffic-btn {
-  background: linear-gradient(107.32deg, #4adaff -22.08%, #0062ca 122.03%);
+  background: var(--gf-blue-gradient-02);
 }
 
 .minute-btn {
-  background: linear-gradient(122.82deg, #f2d207 0%, #ffa329 100%);
+  background: var(--gf-yellow-gradient);
 }
 
 .sms-btn {
-  background: #00cb6a;
+  background: var(--gf-green-gradient);
 }
 </style>

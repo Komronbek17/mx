@@ -41,7 +41,7 @@ function openUserAccount() {
 
 <style lang="scss" scoped>
 .ol-home-user-card {
-  background-color: var(--gf-p-accent);
+  background-color: var(--gf-accent-bg);
   height: 70px;
   padding: 10px 16px;
   border-radius: 8px;
@@ -53,13 +53,13 @@ function openUserAccount() {
   font-size: 20px;
   line-height: 28px;
   text-align: right;
-  color: var(--gf-p-primary-color);
+  color: var(--gf-text-09);
 }
 
 .ol-home-userid {
   font-weight: 400;
   font-size: 14px;
   line-height: 18px;
-  color: var(--gf-p-gray-2);
+  color: var(--gf-text-gray);
 }
 </style>
