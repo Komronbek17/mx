@@ -1,40 +1,40 @@
 <script setup>
-
-
 import {newsApi} from "@/services/news.service";
 import {onMounted, ref} from "vue";
 
-const news = ref([])
+const news = ref([]);
 
 const pagination = ref({
     current: 1,
     limit: 10,
-})
-const loading = ref(false)
-
+});
+const loading = ref(false);
 const getNews = async () => {
-
     const body = {
         method: "news.get_all",
         params: {
             page: pagination.value.current,
             limit: pagination.value.limit,
-        }
-    }
+        },
+    };
     try {
-        const {data} = await newsApi.fetchNews(body)
-        news.value = [...news.value, ...data.result]
-        console.log(data, 'newsApi');
+        const {data} = await newsApi.fetchNews(body);
+        news.value = [...news.value, ...data.result];
+        console.log(data, "newsApi");
     } catch (e) {
-        console.log(e, 'newsApi');
+        console.log(e, "newsApi");
     }
-}
+};
 
 function loadMore() {
-
-    /** This is only for this demo, you could
-     * replace the following with code to hit
-     * an endpoint to pull in more data. **/
+    loading.value = true;
+    setTimeout((e) => {
+        for (let i = 0; i < 1; i++) {
+            pagination.value.current++;
+            getNews();
+        }
+        loading.value = false;
+    }, 2000);
     loading.value = true;
     setTimeout(e => {
         for (let i = 0; i < 1; i++) {
@@ -43,11 +43,10 @@ function loadMore() {
         }
         loading.value = false;
     }, 1000);
-
 }
 
 onMounted(() => {
-    getNews()
+    getNews();
 
     const listElm = document.getElementById('infinite-list');
     listElm.addEventListener('scroll', (e) => {
@@ -59,6 +58,8 @@ onMounted(() => {
     // Initially load some items.
     loadMore();
 })
+
+
 </script>
 
 <template>
@@ -80,7 +81,7 @@ onMounted(() => {
                 <router-link
                     v-for="item in news"
                     :key="item.id"
-                    :to="{name:'news-show', params: {id:item.id}}"
+                    :to="{ name: 'news-show', params: { id: item.id } }"
                     class="news-list__item flex align-center"
                 >
                     <img :src="item.img" alt=""/>
