@@ -4,8 +4,18 @@ import { onMounted, ref } from "vue";
 import { useRoute } from "vue-router";
 import { useToast } from "vue-toastification";
 
+import AppLoader from "@/components/elements/loader/AppLoader.vue";
+import { loadingComposable } from "@/composables/loading.composable";
+import { WebAppController } from "@/utils/telegram/web.app.util";
+
 const route = useRoute();
 const newData = ref({});
+
+const {
+  loading: isFetching,
+  startLoading,
+  finishLoading,
+} = loadingComposable();
 
 const toast = useToast();
 
@@ -17,12 +27,15 @@ const body = {
 };
 
 const getNewData = async () => {
+  startLoading();
   try {
     const { data } = await newsApi.fetchOneNews(body);
     newData.value = data.result;
     console.log(data, "newsApi");
   } catch ({ response }) {
     toast.error(response?.data?.message);
+  } finally {
+    finishLoading();
   }
 };
 
@@ -47,10 +60,13 @@ const onDislike = async () => {
 onMounted(() => {
   getNewData();
 });
+
+WebAppController.ready();
 </script>
 
 <template>
   <div class="one-news">
+    <app-loader :active-="isFetching" />
     <img :src="newData.image" alt="" />
     <div class="layout-container">
       <span class="one-news__date">{{ newData.date }}</span>

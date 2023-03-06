@@ -1,22 +1,35 @@
 <script setup>
 import { reactive } from "vue";
 import { useRouter } from "vue-router";
-import { OLTIN_BALIQ_BOT_TKN } from "@/constants";
-import { localStorageController } from "@/utils/localstorage.util";
+import { useI18n } from "vue-i18n";
 import { useTelegram } from "@/composables/telegram.composable";
+import { loadingComposable } from "@/composables/loading.composable";
 import { useTelegramStore } from "@/stores/telegram.store";
+import { localStorageController } from "@/utils/localstorage.util";
+import { WebAppController } from "@/utils/telegram/web.app.util";
 
+import AppLoader from "@/components/elements/loader/AppLoader.vue";
 import DocumentTextIcon from "@/components/icons/DocumentTextIcon.vue";
 import ModalDialog from "@/components/ui/ModalDialog/ModalDialog.vue";
 import LogoutIcon from "@/components/icons/LogoutIcon.vue";
 import SupportIcon from "@/components/icons/SupportIcon.vue";
 
+import { OLTIN_BALIQ_BOT_TKN } from "@/constants";
+
+const { t } = useI18n();
 const router = useRouter();
 const { tUserFullName } = useTelegramStore();
 const { isNotFetched, tUserUniqueId, checkTelegramUser } = useTelegram();
 const profileState = reactive({
   showLogoutWarn: false,
 });
+
+const {
+  loading: isFetching,
+  startLoading,
+  finishLoading,
+} = loadingComposable();
+
 function logout() {
   localStorageController.remove(OLTIN_BALIQ_BOT_TKN);
   router.push({
@@ -33,13 +46,21 @@ function hideLogoutModal() {
 }
 
 if (isNotFetched) {
-  checkTelegramUser();
+  startLoading();
+  try {
+    checkTelegramUser();
+  } finally {
+    finishLoading();
+  }
 }
+
+WebAppController.ready();
 </script>
 
 <template>
   <div>
     <div class="profile">
+      <app-loader :active-="isFetching" />
       <div class="layout-container">
         <!--   PROFILE DETAILS   -->
         <div class="flex flex-column align-center">
@@ -60,7 +81,7 @@ if (isNotFetched) {
       <!--  SOON IMAGE  -->
       <div class="profile-soon">
         <img src="@/assets/images/profile-progress-bar.png" alt="" />
-        <span>Совсем скоро...</span>
+        <span>{{ t("profile_page.soon") }}</span>
       </div>
 
       <!--    <div class="layout-container">-->
@@ -152,7 +173,7 @@ if (isNotFetched) {
         <!--        </div>-->
         <!--      </router-link>-->
 
-        <a href="tel:712051548" class="profile-item">
+        <a href="tel:712051548" target="_blank" class="profile-item">
           <support-icon class="profile-item__icon" />
           <div class="flex align-center justify-between b-bottom">
             <div>
@@ -177,7 +198,9 @@ if (isNotFetched) {
           />
           <div class="flex align-center justify-between b-bottom">
             <div>
-              <p class="profile-item__title">Информеры</p>
+              <p class="profile-item__title">
+                {{ t("profile_page.informers.title") }}
+              </p>
             </div>
 
             <div class="flex align-center">
@@ -215,7 +238,7 @@ if (isNotFetched) {
           />
           <div class="flex align-center justify-between b-bottom">
             <div>
-              <p class="profile-item__title">Выйти из аккаунта</p>
+              <p class="profile-item__title">{{ t("profile_page.exit") }}</p>
             </div>
 
             <div class="flex align-center">
@@ -235,7 +258,7 @@ if (isNotFetched) {
     >
       <template #header>
         <logout-icon />
-        <h3 class="ol-md-title">Выход</h3>
+        <h3>Выход</h3>
       </template>
       <template #content>
         <p class="ol-md-message">Вы уверены что хотите выйти из аккаунта?</p>
@@ -281,14 +304,14 @@ if (isNotFetched) {
     line-height: 140%;
     text-align: right;
     letter-spacing: -0.4px;
-    color: var(--gf-text-09);
+    color: #090909;
     margin-bottom: 0.5rem;
   }
 
   &-id {
     display: block;
     line-height: 129%;
-    color: var(--gf-text-gray-2x);
+    color: #797d81;
     margin-bottom: 1rem;
   }
 
@@ -323,7 +346,7 @@ if (isNotFetched) {
 
       font-weight: 600;
       font-size: 17px;
-      background: var(--gf-blue-gradient-01);
+      background: linear-gradient(180deg, #00bbf9 0%, #00a3ff 100%);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
       background-clip: text;
@@ -349,7 +372,7 @@ if (isNotFetched) {
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    background: var(--gf-accent-bg);
+    background: #f2fbfd;
     border-radius: 8px;
     text-decoration: none;
 
@@ -363,7 +386,7 @@ if (isNotFetched) {
       line-height: 107%;
       text-align: center;
       letter-spacing: -0.4px;
-      color: var(--gf-text-09);
+      color: #090909;
     }
   }
 
@@ -379,12 +402,12 @@ if (isNotFetched) {
     cursor: pointer;
 
     &:hover {
-      background-color: var(--gf-hover-bg);
+      background-color: #f5f5f5;
     }
 
     & .b-bottom {
       width: 100%;
-      border-bottom: 1px solid var(--gf-hover-bg);
+      border-bottom: 1px solid #f5f5f5;
       padding: 12px 1rem 12px 0;
     }
 
@@ -406,7 +429,7 @@ if (isNotFetched) {
       font-size: 16px;
       line-height: 138%;
       letter-spacing: -0.5px;
-      color: var(--gf-text-09);
+      color: #090909;
     }
 
     &__length {
@@ -416,13 +439,13 @@ if (isNotFetched) {
       width: 24px;
       height: 24px;
       border-radius: 50%;
-      background-color: var(--gf-notification-text-bg);
+      background-color: #eb5757;
       font-weight: 500;
       font-size: 16px;
       line-height: 125%;
       text-align: center;
       letter-spacing: -0.32px;
-      color: var(--gf-text-white-2x);
+      color: #ffffff;
     }
 
     &__arrow {
@@ -434,20 +457,12 @@ if (isNotFetched) {
   }
 }
 
-.ol-md-title {
-  font-weight: 600;
-  font-size: 24px;
-  line-height: 125%;
-  letter-spacing: -0.4px;
-  color: var(--gf-text-09);
-}
-
 .ol-md-message {
   font-weight: 400;
   font-size: 16px;
   line-height: 22px;
   text-align: center;
-  color: var(--gf-text-gray-2x);
+  color: #797d81;
 }
 
 .ol-md-button {
@@ -463,16 +478,12 @@ if (isNotFetched) {
 }
 
 .ol-md-logout-button {
-  color: var(--gf-notification-text-bg);
-  background: var(--gf-exit-btn-bg);
+  color: #eb5757;
+  background: rgba(235, 87, 87, 0.1);
 }
 
 .ol-md-close-button {
-  color: var(--gf-text-09);
-  background: var(--gf-accent-bg);
-}
-
-::v-deep .modal {
-  background: var(--gf-bg-main);
+  color: #0085ff;
+  background: #f2fbfd;
 }
 </style>
