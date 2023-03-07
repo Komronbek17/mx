@@ -64,7 +64,7 @@ async function sendCode() {
 
 MainButtonController.run();
 MainButtonController.onClick(sendCode);
-MainButtonController.setText(`${t("login_page.confirm")}`);
+MainButtonController.setText(`${t("login_page.confirm_btn")}`);
 onBeforeRouteLeave(() => {
   MainButtonController.makeInvisible();
   MainButtonController.offClick(sendCode);
@@ -146,12 +146,12 @@ WebAppController.ready();
 }
 
 .ol-phone-input {
+  color: var(--gf-login-input-text);
   background: var(--gf-login-input-bg);
   border-radius: 8px;
   padding: 0.75rem 1rem;
   min-height: 20px;
   font-size: 16px;
-  color: var(--gf-login-input-text);
 }
 
 .ol-phone-number-label {
