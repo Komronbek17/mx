@@ -11,8 +11,8 @@ import { MainButtonController } from "@/utils/telegram/main.button.controller";
 import { hasOwnProperty } from "@/utils/object.util";
 import { WebAppController } from "@/utils/telegram/web.app.util";
 
-const router = useRouter();
 const route = useRoute();
+const router = useRouter();
 
 const telegramStore = useTelegramStore();
 
@@ -29,6 +29,7 @@ WebAppController.getInstance({
   webApp: window[TELEGRAM][WEB_APP],
 });
 
+WebAppController.setRootVariables();
 WebAppController.closingConfirmationEnable();
 
 BackButtonController.getInstance({
@@ -50,7 +51,11 @@ telegramStore.initApp({ webApp: getWebApp() });
 watch(
   () => route.name,
   () => {
+    WebAppController.beforeEach();
     BackButtonController.beforeEach(route);
+  },
+  {
+    immediate: true,
   }
 );
 </script>

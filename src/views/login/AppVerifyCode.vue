@@ -8,7 +8,6 @@ import * as yup from "yup";
 import RotateLeftIcon from "@/components/icons/RotateLeftIcon.vue";
 
 import {
-  getSessionStorageVariable,
   localStorageController,
   sessionStorageController,
 } from "@/utils/localstorage.util";
@@ -18,11 +17,14 @@ import { OLTIN_BALIQ_BOT_TKN, VERIFICATION_PHONE } from "@/constants";
 import { MainButtonController } from "@/utils/telegram/main.button.controller";
 import { WebAppController } from "@/utils/telegram/web.app.util";
 import { useI18n } from "vue-i18n";
+import { telegramApi } from "@/services/telegram.service";
+import { useTelegram } from "@/composables/telegram.composable";
 
 const { t } = useI18n();
 const router = useRouter();
 const toast = useToast();
 const LIMIT = 60;
+
 const verifyState = reactive({
   phone: "",
   time: {
@@ -80,26 +82,33 @@ async function verifyCode() {
   if (valid) {
     MainButtonController.showProgress();
     try {
-      const response = await authApi.verify({
+      const { data } = await authApi.verify({
         body: {
-          phone: getSessionStorageVariable(VERIFICATION_PHONE),
+          phone: sessionStorageController.get(VERIFICATION_PHONE),
           verify_code: olVerifyCode.value,
         },
       });
 
-      sessionStorageController.remove(VERIFICATION_PHONE);
-      localStorageController.set(
-        OLTIN_BALIQ_BOT_TKN,
-        response.data["access_token"]
-      );
+      localStorageController.set(OLTIN_BALIQ_BOT_TKN, data["access_token"]);
 
-      MainButtonController.hideProgress();
+      await telegramApi.login({
+        body: {
+          phone: sessionStorageController.get(VERIFICATION_PHONE),
+          user_id: data.user.id,
+          telegram_id: WebAppController.webApp.initDataUnsafe.user.id,
+          jwt: data["access_token"],
+        },
+      });
+
+      sessionStorageController.remove(VERIFICATION_PHONE);
 
       await router.push({
         name: "home",
       });
+
+      MainButtonController.hideProgress();
     } catch (e) {
-      toast.error(e.response.data.message ?? e.message);
+      toast.error(e?.response.data.message ?? e.message);
     } finally {
       MainButtonController.hideProgress();
     }
@@ -108,11 +117,11 @@ async function verifyCode() {
 
 function setTime({ sec, min }) {
   if (sec >= 0) {
-    verifyState.time.sec = sec > 10 ? sec : `0${sec}`;
+    verifyState.time.sec = sec > 9 ? sec : `0${sec}`;
   }
 
   if (min >= 0) {
-    verifyState.time.min = min > 10 ? min : `0${min}`;
+    verifyState.time.min = min > 9 ? min : `0${min}`;
   }
 }
 
@@ -149,7 +158,7 @@ onMounted(() => {
 
 MainButtonController.run();
 MainButtonController.onClick(verifyCode);
-MainButtonController.setText(`${t("login_page.confirm")}`);
+MainButtonController.setText(`${t("login_page.confirm_btn")}`);
 onBeforeRouteLeave(() => {
   MainButtonController.makeInvisible();
   MainButtonController.offClick(verifyCode);
@@ -210,7 +219,8 @@ WebAppController.ready();
 }
 
 .ol-phone-input {
-  background: var(--gf-p-main-gray);
+  color: var(--gf-login-input-text);
+  background: var(--gf-login-input-bg);
   border-radius: 8px;
   padding: 0.75rem 1rem;
   min-height: 20px;
@@ -220,7 +230,7 @@ WebAppController.ready();
 .ol-phone-number-label {
   font-size: 14px;
   line-height: 18px;
-  color: var(--gf-p-primary-color);
+  color: var(--gf-text-09);
 }
 
 .terms-conditions-content {

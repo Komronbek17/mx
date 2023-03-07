@@ -20,14 +20,14 @@ WebAppController.ready();
         <router-link
           :to="{ name: 'bonus-recent', params: {} }"
           class="history-tab"
-          :class="route.name === 'bonus-recent' ? 'active' : ''"
+          :class="route.name === 'bonus-recent' ? 'router-link-active' : ''"
         >
           Недавние
         </router-link>
         <router-link
           :to="{ name: 'bonus-prize', params: {} }"
           class="history-tab"
-          :class="route.name === 'bonus-prize' ? 'active' : ''"
+          :class="route.name === 'bonus-prize' ? 'router-link-active' : ''"
         >
           Призы
         </router-link>
@@ -81,7 +81,7 @@ WebAppController.ready();
     position: relative;
     font-weight: 600;
     font-size: 17px;
-    line-height: 129%;
+    //line-height: 129%;
     color: var(--gf-input-text);
     text-decoration: none;
     z-index: 1232;
@@ -89,24 +89,27 @@ WebAppController.ready();
     width: 50%;
     text-align: center;
 
-    &.active {
+    &::after {
+      content: "";
+      position: absolute;
+      bottom: 0;
+      display: block;
+      width: 100%;
+      height: 2px;
+      border-radius: 100px;
+    }
+
+    &.router-link-active {
       @include text-gradient(
         linear-gradient(107.32deg, #4adaff -22.08%, #0062ca 122.03%)
       );
 
       &::after {
-        content: "";
-        position: absolute;
-        bottom: 0;
-        display: block;
-        width: 100%;
         background: linear-gradient(
           107.32deg,
           #4adaff -22.08%,
           #0062ca 122.03%
         );
-        height: 2px;
-        border-radius: 100px;
       }
     }
   }
