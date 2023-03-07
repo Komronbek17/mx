@@ -72,7 +72,7 @@ WebAppController.ready();
 </script>
 
 <template>
-  <div class="ol-signin-content container">
+  <div class="ol-signin-content layout-container">
     <h3 class="ol-signin-title">Авторизация</h3>
     <p class="ol-signin-content-suggestion mt-1 mb-075">
       На ваш номер будет отправлен SMS для активации вашего аккаунта.
@@ -129,9 +129,8 @@ WebAppController.ready();
 .ol-signin-content {
   display: flex;
   flex-direction: column;
-  //justify-content: flex-end;
-  //height: 80vh;
-  overflow-y: hidden;
+  margin: auto;
+  max-width: 360px;
 
   &-suggestion {
     margin-bottom: 0.75rem;
