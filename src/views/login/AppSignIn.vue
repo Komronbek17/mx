@@ -11,7 +11,9 @@ import { sessionStorageController } from "@/utils/localstorage.util";
 import { MainButtonController } from "@/utils/telegram/main.button.controller";
 
 import { VERIFICATION_PHONE } from "@/constants";
+import { useI18n } from "vue-i18n";
 
+const { t } = useI18n();
 const toast = useToast();
 const router = useRouter();
 const loginState = reactive({
@@ -62,7 +64,7 @@ async function sendCode() {
 
 MainButtonController.run();
 MainButtonController.onClick(sendCode);
-MainButtonController.setText("Подтвердить");
+MainButtonController.setText(`${t("login_page.confirm_btn")}`);
 onBeforeRouteLeave(() => {
   MainButtonController.makeInvisible();
   MainButtonController.offClick(sendCode);
@@ -73,13 +75,13 @@ WebAppController.ready();
 
 <template>
   <div class="ol-signin-content layout-container">
-    <h3 class="ol-signin-title">Авторизация</h3>
+    <h3 class="ol-signin-title">{{ t("login_page.text_1") }}</h3>
     <p class="ol-signin-content-suggestion mt-1 mb-075">
-      На ваш номер будет отправлен SMS для активации вашего аккаунта.
+      {{ t("login_page.text_2") }}
     </p>
 
     <label for="ol-phone-number" class="mb-0-5 ol-phone-number-label">
-      Ваш номер телефона
+      {{ t("login_page.label") }}
     </label>
     <input
       v-mask="'+998 ##-###-##-##'"
@@ -99,12 +101,13 @@ WebAppController.ready();
         v-model="loginState.agreement"
         id="ol-terms-conditions-checkbox"
       />
-      <span class="ml-0-5 ol-accept-privacy">Я принимаю условия оферты</span>
+      <span class="ml-0-5 ol-accept-privacy">{{
+        t("login_page.privacy_policy")
+      }}</span>
     </label>
 
     <p class="ol-service-message mt-4 mb-1-5">
-      Пользование сервисом “Al Chiroq” для абонента составляет 500 сум в день с
-      НДС
+      {{ t("login_page.text_3") }}
     </p>
   </div>
 </template>
@@ -142,12 +145,12 @@ WebAppController.ready();
 }
 
 .ol-phone-input {
+  color: var(--gf-login-input-text);
   background: var(--gf-login-input-bg);
   border-radius: 8px;
   padding: 0.75rem 1rem;
   min-height: 20px;
   font-size: 16px;
-  color: var(--gf-login-input-text);
 }
 
 .ol-phone-number-label {
