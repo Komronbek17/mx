@@ -74,7 +74,7 @@ WebAppController.ready();
 </script>
 
 <template>
-  <div class="ol-signin-content container">
+  <div class="ol-signin-content layout-container">
     <h3 class="ol-signin-title">{{ t("login_page.text_1") }}</h3>
     <p class="ol-signin-content-suggestion mt-1 mb-075">
       {{ t("login_page.text_2") }}
@@ -134,6 +134,7 @@ WebAppController.ready();
   flex-direction: column;
   //justify-content: flex-end;
   //height: 80vh;
+  justify-content: center;
   overflow-y: hidden;
 
   &-suggestion {
