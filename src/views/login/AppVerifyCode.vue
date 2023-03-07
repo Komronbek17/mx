@@ -149,7 +149,7 @@ onMounted(() => {
 
 MainButtonController.run();
 MainButtonController.onClick(verifyCode);
-MainButtonController.setText(`${t("login_page.confirm")}`);
+MainButtonController.setText(`${t("login_page.confirm_btn")}`);
 onBeforeRouteLeave(() => {
   MainButtonController.makeInvisible();
   MainButtonController.offClick(verifyCode);
@@ -211,7 +211,8 @@ WebAppController.ready();
 }
 
 .ol-phone-input {
-  background: var(--gf-p-main-gray);
+  color: var(--gf-login-input-text);
+  background: var(--gf-login-input-bg);
   border-radius: 8px;
   padding: 0.75rem 1rem;
   min-height: 20px;
