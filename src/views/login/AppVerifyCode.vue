@@ -18,6 +18,7 @@ import { OLTIN_BALIQ_BOT_TKN, VERIFICATION_PHONE } from "@/constants";
 import { MainButtonController } from "@/utils/telegram/main.button.controller";
 import { WebAppController } from "@/utils/telegram/web.app.util";
 import { useI18n } from "vue-i18n";
+import {telegramApi} from "@/services/telegram.service";
 
 const { t } = useI18n();
 const router = useRouter();
@@ -80,7 +81,7 @@ async function verifyCode() {
   if (valid) {
     MainButtonController.showProgress();
     try {
-      const response = await authApi.verify({
+      const response = await telegramApi.login({
         body: {
           phone: getSessionStorageVariable(VERIFICATION_PHONE),
           verify_code: olVerifyCode.value,
