@@ -81,18 +81,27 @@ async function verifyCode() {
   if (valid) {
     MainButtonController.showProgress();
     try {
-      const response = await authApi.verify({
+      const {data} = await authApi.verify({
         body: {
           phone: getSessionStorageVariable(VERIFICATION_PHONE),
           verify_code: olVerifyCode.value,
         },
       });
 
+
       sessionStorageController.remove(VERIFICATION_PHONE);
       localStorageController.set(
         OLTIN_BALIQ_BOT_TKN,
-        response.data["access_token"]
+        data["access_token"]
       );
+
+
+      await telegramApi.login({
+        phone: getSessionStorageVariable(VERIFICATION_PHONE),
+        user_id: data.user.id,
+        telegram_id: WebAppController.webApp.initDataUnsafe?.user?.id,
+        jwt: data["access_token"]
+      })
 
       MainButtonController.hideProgress();
 
