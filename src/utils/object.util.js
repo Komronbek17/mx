@@ -19,6 +19,8 @@ export const is = (value1, value2) => Object.is(value1, value2);
 export const isFrozen = (obj) => Object.isFrozen(obj);
 export const keys = (obj) => Object.keys(obj);
 
+export const entries = (obj) => Object.entries(obj);
+
 // --- "Instance" ---
 
 export const hasOwnProperty = (obj, prop) =>

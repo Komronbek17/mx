@@ -1,5 +1,5 @@
 <script setup>
-import { onMounted, watch } from "vue";
+import { watch } from "vue";
 import { useRoute, useRouter } from "vue-router";
 
 import { useTelegramStore } from "@/stores/telegram.store";
@@ -10,13 +10,11 @@ import { MainButtonController } from "@/utils/telegram/main.button.controller";
 
 import { hasOwnProperty } from "@/utils/object.util";
 import { WebAppController } from "@/utils/telegram/web.app.util";
-import { themeComposable } from "@/composables/theme.composable";
 
-const router = useRouter();
 const route = useRoute();
+const router = useRouter();
 
 const telegramStore = useTelegramStore();
-const { setThemeVariables } = themeComposable();
 
 function getWebApp() {
   if (hasOwnProperty(window, TELEGRAM)) {
@@ -31,6 +29,7 @@ WebAppController.getInstance({
   webApp: window[TELEGRAM][WEB_APP],
 });
 
+WebAppController.setRootVariables();
 WebAppController.closingConfirmationEnable();
 
 BackButtonController.getInstance({
@@ -52,33 +51,13 @@ telegramStore.initApp({ webApp: getWebApp() });
 watch(
   () => route.name,
   () => {
+    WebAppController.beforeEach();
     BackButtonController.beforeEach(route);
+  },
+  {
+    immediate: true,
   }
 );
-
-setThemeVariables();
-
-if (WebAppController.webApp.colorScheme === "dark") {
-  document.getElementById("app").style.backgroundColor = "#181F27";
-  WebAppController.webApp.themeParams.bg_color = "#181F27";
-  WebAppController.webApp.setBackgroundColor("#181F27");
-} else {
-  document.getElementById("app").style.backgroundColor = "#FFFFFF";
-  WebAppController.webApp.themeParams.bg_color = "#FFFFFF";
-  WebAppController.webApp.setBackgroundColor("#FFFFFF");
-}
-
-// onMounted(() => {
-//   WebAppController.webApp.setHeaderColor(
-//     WebAppController.webApp.themeParams.bg_color
-//   );
-// });
-
-setTimeout(() => {
-  WebAppController.webApp.setHeaderColor(
-    WebAppController.webApp.themeParams.bg_color
-  );
-}, 100);
 </script>
 
 <template>

@@ -10,8 +10,8 @@ import { WebAppController } from "@/utils/telegram/web.app.util";
 import { sessionStorageController } from "@/utils/localstorage.util";
 import { MainButtonController } from "@/utils/telegram/main.button.controller";
 
-import { VERIFICATION_PHONE } from "@/constants";
 import { useI18n } from "vue-i18n";
+import { VERIFICATION_PHONE } from "@/constants";
 
 const { t } = useI18n();
 const toast = useToast();
@@ -74,8 +74,7 @@ WebAppController.ready();
 </script>
 
 <template>
-  <div class="ol-signin-content layout-container">
-    <div>{{ WebAppController.webApp }}</div>
+  <div class="ol-signin-content">
     <h3 class="ol-signin-title">{{ t("login_page.text_1") }}</h3>
     <p class="ol-signin-content-suggestion mt-1 mb-075">
       {{ t("login_page.text_2") }}
@@ -133,8 +132,10 @@ WebAppController.ready();
 .ol-signin-content {
   display: flex;
   flex-direction: column;
-  margin: auto;
-  max-width: 360px;
+  //justify-content: flex-end;
+  //height: 80vh;
+  overflow-y: hidden;
+  padding: 1rem;
 
   &-suggestion {
     margin-bottom: 0.75rem;
@@ -157,7 +158,7 @@ WebAppController.ready();
 .ol-phone-number-label {
   font-size: 14px;
   line-height: 18px;
-  color: var(--gf-p-primary-color);
+  color: var(--gf-text-09);
 }
 
 .terms-conditions-content {
