@@ -124,7 +124,7 @@ WebAppController.ready();
     font-size: 15px;
     line-height: 133%;
     letter-spacing: -0.4px;
-    color: #090909;
+    color: var(--gf-text-09);
     margin-bottom: 1rem;
   }
 

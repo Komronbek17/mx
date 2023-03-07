@@ -13,7 +13,7 @@ export function useAuth() {
         telegram_id: tUserId,
       },
     });
-    console.log(data);
+    return data;
   };
 
   return {
