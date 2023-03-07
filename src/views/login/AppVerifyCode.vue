@@ -81,7 +81,7 @@ async function verifyCode() {
   if (valid) {
     MainButtonController.showProgress();
     try {
-      const response = await telegramApi.login({
+      const response = await authApi.verify({
         body: {
           phone: getSessionStorageVariable(VERIFICATION_PHONE),
           verify_code: olVerifyCode.value,
