@@ -75,6 +75,7 @@ WebAppController.ready();
 
 <template>
   <div class="ol-signin-content layout-container">
+    <div>{{ WebAppController.webApp }}</div>
     <h3 class="ol-signin-title">{{ t("login_page.text_1") }}</h3>
     <p class="ol-signin-content-suggestion mt-1 mb-075">
       {{ t("login_page.text_2") }}
