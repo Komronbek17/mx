@@ -53,6 +53,23 @@ watch(
     BackButtonController.beforeEach(route);
   }
 );
+
+if (window[TELEGRAM][WEB_APP].colorScheme === "dark") {
+  document.getElementById("app").style.backgroundColor = "#181F27";
+  window[TELEGRAM][WEB_APP].themeParams.bg_color = "#181F27";
+  window[TELEGRAM][WEB_APP].setBackgroundColor("#181F27");
+  document.documentElement.style.setProperty("--your-variable", "#YOURCOLOR");
+} else {
+  document.getElementById("app").style.backgroundColor = "#FFFFFF";
+  window[TELEGRAM][WEB_APP].themeParams.bg_color = "#FFFFFF";
+  window[TELEGRAM][WEB_APP].setBackgroundColor("#FFFFFF");
+}
+
+setTimeout(() => {
+  window[TELEGRAM][WEB_APP].setHeaderColor(
+    window[TELEGRAM][WEB_APP].themeParams.bg_color
+  );
+}, 100);
 </script>
 
 <template>
