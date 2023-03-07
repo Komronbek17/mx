@@ -62,24 +62,23 @@ if (WebAppController.webApp.colorScheme === "dark") {
   document.getElementById("app").style.backgroundColor = "#181F27";
   WebAppController.webApp.themeParams.bg_color = "#181F27";
   WebAppController.webApp.setBackgroundColor("#181F27");
-  document.documentElement.style.setProperty("--your-variable", "#YOURCOLOR");
 } else {
   document.getElementById("app").style.backgroundColor = "#FFFFFF";
   WebAppController.webApp.themeParams.bg_color = "#FFFFFF";
   WebAppController.webApp.setBackgroundColor("#FFFFFF");
 }
 
-onMounted(() => {
-  WebAppController.webApp.setHeaderColor(
-    WebAppController.webApp.themeParams.bg_color
-  );
-});
-
-// setTimeout(() => {
+// onMounted(() => {
 //   WebAppController.webApp.setHeaderColor(
 //     WebAppController.webApp.themeParams.bg_color
 //   );
-// }, 100);
+// });
+
+setTimeout(() => {
+  WebAppController.webApp.setHeaderColor(
+    WebAppController.webApp.themeParams.bg_color
+  );
+}, 100);
 </script>
 
 <template>
