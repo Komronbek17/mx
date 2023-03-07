@@ -18,6 +18,7 @@ import { OLTIN_BALIQ_BOT_TKN, VERIFICATION_PHONE } from "@/constants";
 import { MainButtonController } from "@/utils/telegram/main.button.controller";
 import { WebAppController } from "@/utils/telegram/web.app.util";
 import { useI18n } from "vue-i18n";
+import {telegramApi} from "@/services/telegram.service";
 
 const { t } = useI18n();
 const router = useRouter();
@@ -80,7 +81,7 @@ async function verifyCode() {
   if (valid) {
     MainButtonController.showProgress();
     try {
-      const response = await authApi.verify({
+      const response = await telegramApi.login({
         body: {
           phone: getSessionStorageVariable(VERIFICATION_PHONE),
           verify_code: olVerifyCode.value,
@@ -159,7 +160,7 @@ WebAppController.ready();
 </script>
 
 <template>
-  <div class="ol-signin-content container">
+  <div class="ol-signin-content layout-container">
     <h3 class="verification-phone">{{ verifyState.phone }}</h3>
     <p class="ol-signin-content-suggestion mt-1 mb-075">
       {{ t("login_page.verify_1") }}
@@ -197,9 +198,8 @@ WebAppController.ready();
 .ol-signin-content {
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  overflow-y: hidden;
-  height: 90vh;
+  margin: auto;
+  max-width: 360px;
 
   &-suggestion {
     margin-bottom: 0.75rem;
