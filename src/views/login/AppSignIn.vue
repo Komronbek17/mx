@@ -11,9 +11,7 @@ import { sessionStorageController } from "@/utils/localstorage.util";
 import { MainButtonController } from "@/utils/telegram/main.button.controller";
 
 import { VERIFICATION_PHONE } from "@/constants";
-import { useI18n } from "vue-i18n";
 
-const { t } = useI18n();
 const toast = useToast();
 const router = useRouter();
 const loginState = reactive({
@@ -64,7 +62,7 @@ async function sendCode() {
 
 MainButtonController.run();
 MainButtonController.onClick(sendCode);
-MainButtonController.setText(`${t("login_page.confirm")}`);
+MainButtonController.setText("Подтвердить");
 onBeforeRouteLeave(() => {
   MainButtonController.makeInvisible();
   MainButtonController.offClick(sendCode);
@@ -74,14 +72,14 @@ WebAppController.ready();
 </script>
 
 <template>
-  <div class="ol-signin-content container">
-    <h3 class="ol-signin-title">{{ t("login_page.text_1") }}</h3>
+  <div class="ol-signin-content layout-container">
+    <h3 class="ol-signin-title">Авторизация</h3>
     <p class="ol-signin-content-suggestion mt-1 mb-075">
-      {{ t("login_page.text_2") }}
+      На ваш номер будет отправлен SMS для активации вашего аккаунта.
     </p>
 
     <label for="ol-phone-number" class="mb-0-5 ol-phone-number-label">
-      {{ t("login_page.label") }}
+      Ваш номер телефона
     </label>
     <input
       v-mask="'+998 ##-###-##-##'"
@@ -101,13 +99,12 @@ WebAppController.ready();
         v-model="loginState.agreement"
         id="ol-terms-conditions-checkbox"
       />
-      <span class="ml-0-5 ol-accept-privacy">{{
-        t("login_page.privacy_policy")
-      }}</span>
+      <span class="ml-0-5 ol-accept-privacy">Я принимаю условия оферты</span>
     </label>
 
     <p class="ol-service-message mt-4 mb-1-5">
-      {{ t("login_page.text_3") }}
+      Пользование сервисом “Al Chiroq” для абонента составляет 500 сум в день с
+      НДС
     </p>
   </div>
 </template>
@@ -132,9 +129,8 @@ WebAppController.ready();
 .ol-signin-content {
   display: flex;
   flex-direction: column;
-  justify-content: flex-end;
-  height: 80vh;
-  overflow-y: hidden;
+  margin: auto;
+  max-width: 360px;
 
   &-suggestion {
     margin-bottom: 0.75rem;

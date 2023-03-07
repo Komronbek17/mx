@@ -159,7 +159,7 @@ WebAppController.ready();
 </script>
 
 <template>
-  <div class="ol-signin-content container">
+  <div class="ol-signin-content layout-container">
     <h3 class="verification-phone">{{ verifyState.phone }}</h3>
     <p class="ol-signin-content-suggestion mt-1 mb-075">
       {{ t("login_page.verify_1") }}
@@ -197,9 +197,8 @@ WebAppController.ready();
 .ol-signin-content {
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  overflow-y: hidden;
-  height: 90vh;
+  margin: auto;
+  max-width: 360px;
 
   &-suggestion {
     margin-bottom: 0.75rem;
