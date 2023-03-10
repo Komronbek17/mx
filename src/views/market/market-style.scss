@@ -36,7 +36,7 @@
 .gift-title {
   @extend .font-h5;
   margin-bottom: 25px;
-  color: var(--gf-text-33);
+  color: var(--text-main);
 }
 
 .gift-list {
@@ -54,7 +54,7 @@
   align-items: center;
   row-gap: 1rem;
   padding: 16px 10px;
-  background: var(--gf-hover-bg);
+  background: var(--accent-gray);
   border-radius: 8px;
   max-width: 300px;
 
@@ -82,7 +82,7 @@
       overflow: hidden;
       white-space: nowrap;
       text-overflow: ellipsis;
-      color: var(--gf-text-33);
+      color: var(--text-main);
     }
 
     .price {
@@ -91,7 +91,7 @@
 
       p {
         @extend .font-15;
-        @include text-gradient(linear-gradient(122.82deg, #F2D207 0%, #FFA329 100%))
+        color: var(--accent-yellow);
       }
 
       img {

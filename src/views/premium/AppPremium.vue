@@ -328,13 +328,11 @@ fetchPremiumBonus();
   flex-direction: column;
 
   &-title {
+    @extend .heading-2;
     margin-top: 1.5rem;
     margin-bottom: 1.5rem;
-    font-weight: 600;
-    font-size: 24px;
-    line-height: 30px;
     text-align: center;
-    color: var(--gf-text-09);
+    color: var(--text-main);
   }
 }
 
@@ -349,28 +347,27 @@ fetchPremiumBonus();
   outline-color: transparent;
   display: flex;
   align-items: center;
-  color: var(--gf-text-09);
+  color: var(--text-main);
   column-gap: 1rem;
   border-radius: 8px;
   width: 100%;
   padding: 1rem;
 
   .button-text {
-    color: var(--gf-text-white-2x);
-    font-weight: 600;
-    font-size: 15px;
+    color: var(--neutral-white);
+    @extend .text-16-500;
   }
 }
 
 .traffic-btn {
-  background: var(--gf-blue-gradient-02);
+  background: var(--gradient-purple);
 }
 
 .minute-btn {
-  background: var(--gf-yellow-gradient);
+  background: var(--gradient-radial);
 }
 
 .sms-btn {
-  background: var(--gf-green-gradient);
+  background: var(--gradient-green);
 }
 </style>

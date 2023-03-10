@@ -78,10 +78,8 @@ WebAppController.ready();
   }
 
   &-tab {
+    @extend .text-16-600;
     position: relative;
-    font-weight: 600;
-    font-size: 17px;
-    //line-height: 129%;
     color: var(--gf-input-text);
     text-decoration: none;
     z-index: 1232;
@@ -100,16 +98,14 @@ WebAppController.ready();
     }
 
     &.router-link-active {
-      @include text-gradient(
-        linear-gradient(107.32deg, #4adaff -22.08%, #0062ca 122.03%)
-      );
+      //@include text-gradient(
+      //  linear-gradient(107.32deg, #4adaff -22.08%, #0062ca 122.03%)
+      //);
+
+      color: var(--gradient-purple);
 
       &::after {
-        background: linear-gradient(
-          107.32deg,
-          #4adaff -22.08%,
-          #0062ca 122.03%
-        );
+        background: var(--gradient-purple);
       }
     }
   }

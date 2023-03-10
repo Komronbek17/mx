@@ -148,40 +148,30 @@ WebAppController.ready();
       width: 100%;
 
       & p {
-        font-weight: 600;
-        font-size: 15px;
-        line-height: 133%;
+        @extend .text-15-600;
         letter-spacing: -0.4px;
-        color: var(--gf-text-33);
+        color: var(--text-main);
         margin-bottom: 6px;
       }
 
       & span {
-        font-weight: 400;
-        font-size: 14px;
-        line-height: 129%;
-        color: var(--gf-text-secondary-gray-2x);
+        @extend .text-14-400;
+        color: var(--text-secondary);
       }
     }
 
     &-level {
-      font-weight: 500;
-      font-size: 14px;
-      line-height: 129%;
+      @extend .text-14-500;
       text-align: right;
     }
 
     &-1 {
       .recent-image {
-        background: rgba(0, 139, 255, 0.1);
+        background: linear-gradient(145.01deg, rgba(114, 67, 160, 0.1) 0%, rgba(149, 48, 235, 0.1) 100%);
       }
 
       .recent-level {
-        background: linear-gradient(
-          107.32deg,
-          #4adaff -22.08%,
-          #0062ca 122.03%
-        );
+        background: var(--gradient-purple);
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
         background-clip: text;
@@ -196,7 +186,7 @@ WebAppController.ready();
       }
 
       .recent-level {
-        background: linear-gradient(122.82deg, #f2d207 0%, #ffa329 100%);
+        background: var(--gradient-orange);
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
         background-clip: text;
@@ -211,11 +201,7 @@ WebAppController.ready();
       }
 
       .recent-level {
-        background: linear-gradient(
-          142.74deg,
-          #00ff85 -18.06%,
-          #00b05c 110.27%
-        );
+        background: var(--gradient-green);
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
         background-clip: text;

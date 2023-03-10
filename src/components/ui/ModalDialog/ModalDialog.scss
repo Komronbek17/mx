@@ -46,7 +46,7 @@
   padding: 20px;
   margin: auto;
   row-gap: 1.5rem;
-  background: var(--gf-bg-main);
+  background: var(--neutral-background);
   border-radius: 8px;
   width: 80%;
   max-width: 300px;
@@ -112,8 +112,8 @@
     }
 
     .btn-yellow {
-      background: linear-gradient(122.82deg, #F2D207 0%, #FFA329 100%);
-      color: #fff;
+      background: var(--gradient-lime);
+      color: var(--neutral-white);
     }
 
     .btn-danger{

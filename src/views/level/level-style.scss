@@ -17,25 +17,23 @@
   justify-content: center;
   padding: 12px;
   column-gap: 10px;
-  background: var(--gf-yellow-gradient);
+  background: var(--accent-yellow) !important;
   border-radius: 8px;
   max-height: 48px;
   cursor: pointer;
 
   p {
-    font-weight: 600;
-    font-size: 16px;
-    line-height: 16px;
+    @extend .text-16-600;
     text-align: center;
     letter-spacing: -0.4px;
-    color: var(--gf-text-white-2x);
+    color: var(--neutral-white) !important;
   }
 
   &.disabled {
-    background: var(--gf-disable-btn);
+    background: var(--accent-gray) !important;
 
     p {
-      color: var(--gf-text-gray);
+      color: var(--text-secondary) !important;
     }
   }
 }

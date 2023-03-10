@@ -169,27 +169,21 @@ WebAppController.ready();
   }
 
   &__date {
-    font-weight: 400;
-    font-size: 14px;
-    line-height: 133%;
-    color: var(--gf-text-secondary-gray-2x);
+    @extend .text-14-400;
+    color: var(--text-secondary);
   }
 
   &__title {
-    font-weight: 600;
-    font-size: 18px;
-    line-height: 133%;
+    @extend .heading-3;
     letter-spacing: -0.5px;
-    color: var(--gf-text-33);
+    color: var(--text-main);
     margin: 1rem 0;
   }
 
   &__description {
-    font-weight: 400;
-    font-size: 16px;
-    line-height: 138%;
+    @extend .text-16-400;
     letter-spacing: -0.5px;
-    color: var(--gf-text-33);
+    color: var(--text-main);
   }
 
   &__btns {
@@ -200,7 +194,7 @@ WebAppController.ready();
       border-radius: 8px;
       border: none;
       margin-right: 1rem;
-      background: var(--gf-hover-bg);
+      background: var(--accent-gray);
 
       &:last-child {
         margin-right: 0;
@@ -214,10 +208,8 @@ WebAppController.ready();
       }
 
       & span {
-        font-weight: 500;
-        font-size: 14px;
-        line-height: 114%;
-        color: var(--gf-text-33);
+        @extend .text-14-500;
+        color: var(--text-main);
       }
     }
   }

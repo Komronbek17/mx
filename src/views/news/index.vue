@@ -104,7 +104,7 @@ onMounted(async () => {
   padding: 0;
 
   &-ads {
-    background: var(--gf-blue-gradient-02);
+    background: var(--gradient-purple);
     border-radius: 8px;
     padding: 12px 1rem;
     margin-bottom: 19px;
@@ -131,7 +131,7 @@ onMounted(async () => {
   &-list {
     &__item {
       padding: 12px 0;
-      border-bottom: 1px solid var(--gf-disable-btn);
+      border-bottom: 1px solid var(--accent-gray);
       text-decoration: none;
 
       &:last-child {
@@ -141,23 +141,20 @@ onMounted(async () => {
       img {
         width: 66px;
         height: 66px;
+        min-width: 66px;
         object-fit: contain;
         padding-right: 1rem;
       }
 
       p {
-        font-weight: 600;
-        font-size: 15px;
-        line-height: 133%;
-        color: var(--gf-text-33);
+        @extend .text-15-600;
+        color: var(--text-main);
         margin: 0 0 8px 0;
       }
 
       span {
-        font-weight: 400;
-        font-size: 14px;
-        line-height: 129%;
-        color: var(--gf-text-secondary-gray);
+        @extend .text-14-400;
+        color: var(--text-secondary);
       }
     }
   }

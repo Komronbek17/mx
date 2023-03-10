@@ -114,12 +114,13 @@ const { t } = useI18n();
 }
 
 .premium-catalog-card {
-  background: var(--gf-p-yellow-1);
+  background: var(--premium-bg);
 
   &-yellow-text {
     @include text-gradient(
-      -webkit-linear-gradient(122.82deg, #f2d207 0%, #ffa329 100%)
+      var(--accent-yellow)
     );
+    @extend .text-15-600;
   }
 }
 </style>

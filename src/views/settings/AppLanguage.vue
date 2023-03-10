@@ -77,7 +77,7 @@ WebAppController.ready();
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    background: #f2fbfd;
+    background: var(--accent-gray);
     border-radius: 8px;
     padding: 16px 9px;
     row-gap: 1rem;
@@ -94,11 +94,11 @@ WebAppController.ready();
     }
 
     &.active {
-      background: linear-gradient(107.32deg, #4adaff -22.08%, #0062ca 122.03%);
-      color: #fff;
+      background: var(--gradient-purple);
 
       & p {
         @extend .font-15-white;
+        color: var(--neutral-white);
       }
     }
   }

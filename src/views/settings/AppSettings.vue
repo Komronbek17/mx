@@ -79,7 +79,7 @@ WebAppController.ready();
   }
 
   &-card {
-    background-color: #f2fbfd;
+    background-color: var(--accent-gray);
     border-radius: 8px;
     padding: 18px 13px;
     display: flex;
@@ -97,6 +97,7 @@ WebAppController.ready();
 
     & p {
       @extend .font-15-small-dark;
+      color: var(--text-main);
     }
   }
 }

@@ -299,25 +299,23 @@ WebAppController.ready();
   }
 
   &-name {
-    font-weight: 600;
-    font-size: 20px;
-    line-height: 140%;
+    @extend .heading-3;
     text-align: right;
     letter-spacing: -0.4px;
-    color: var(--gf-text-09);
+    color: var(--text-main);
     margin-bottom: 0.5rem;
   }
 
   &-id {
+    @extend .text-14-400;
     display: block;
-    line-height: 129%;
-    color: var(--gf-text-gray-2x);
+    color: var(--text-secondary);
     margin-bottom: 1rem;
   }
 
   &-change {
     padding: 10px 1rem;
-    background: #f2fbfd;
+    background: var(--accent-gray);
     border-radius: 8px;
     margin-bottom: 1.5rem;
 
@@ -330,7 +328,7 @@ WebAppController.ready();
       font-size: 16px;
       line-height: 138%;
       letter-spacing: -0.5px;
-      color: #090909;
+      color: var(--text-main);
     }
   }
 
@@ -339,14 +337,12 @@ WebAppController.ready();
     margin-bottom: 24px;
 
     & span {
+      @extend .text-16-600;
       position: absolute;
       top: 50%;
       left: 50%;
       transform: translate(-50%, -50%);
-
-      font-weight: 600;
-      font-size: 17px;
-      background: var(--gf-blue-gradient-01);
+      background: var(--gradient-purple);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
       background-clip: text;
@@ -372,7 +368,7 @@ WebAppController.ready();
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    background: var(--gf-accent-bg);
+    background: var(--accent-gray);
     border-radius: 8px;
     text-decoration: none;
 
@@ -386,7 +382,7 @@ WebAppController.ready();
       line-height: 107%;
       text-align: center;
       letter-spacing: -0.4px;
-      color: var(--gf-text-09);
+      color: var(--text-main);
     }
   }
 
@@ -402,12 +398,12 @@ WebAppController.ready();
     cursor: pointer;
 
     &:hover {
-      background-color: var(--gf-hover-bg);
+      background-color: var(--accent-gray);
     }
 
     & .b-bottom {
       width: 100%;
-      border-bottom: 1px solid var(--gf-hover-bg);
+      border-bottom: 1px solid var(--accent-gray);
       padding: 12px 1rem 12px 0;
     }
 
@@ -425,27 +421,23 @@ WebAppController.ready();
     }
 
     &__title {
-      font-weight: 400;
-      font-size: 16px;
-      line-height: 138%;
+      @extend .text-16-400;
       letter-spacing: -0.5px;
-      color: var(--gf-text-09);
+      color: var(--text-main);
     }
 
     &__length {
+      @extend .text-16-500;
       display: flex;
       align-items: center;
       justify-content: center;
       width: 24px;
       height: 24px;
       border-radius: 50%;
-      background-color: var(--gf-notification-text-bg);
-      font-weight: 500;
-      font-size: 16px;
-      line-height: 125%;
+      background-color: var(--accent-red);
       text-align: center;
       letter-spacing: -0.32px;
-      color: var(--gf-text-white-2x);
+      color: var(--neutral-white);
     }
 
     &__arrow {
@@ -458,27 +450,21 @@ WebAppController.ready();
 }
 
 .ol-md-title {
-  font-weight: 600;
-  font-size: 24px;
-  line-height: 125%;
+  @extend .heading-2;
   letter-spacing: -0.4px;
-  color: var(--gf-text-09);
+  color: var(--text-main);
 }
 
 .ol-md-message {
-  font-weight: 400;
-  font-size: 16px;
-  line-height: 22px;
+  @extend .text-16-400;
   text-align: center;
-  color: var(--gf-text-gray-2x);
+  color: var(--text-secondary);
 }
 
 .ol-md-button {
+  @extend .text-16-500;
   border-radius: 8px;
   width: 100%;
-  font-weight: 600;
-  font-size: 15px;
-  line-height: 20px;
   text-align: center;
   padding-top: 0.75rem;
   padding-bottom: 0.75rem;
@@ -486,13 +472,13 @@ WebAppController.ready();
 }
 
 .ol-md-logout-button {
-  color: var(--gf-notification-text-bg);
-  background: var(--gf-exit-btn-bg);
+  color: var(--accent-red);
+  background: var(--exit-btn);
 }
 
 .ol-md-close-button {
-  color: var(--gf-text-09);
-  background: var(--gf-accent-bg);
+  color: var(--text-main);
+  background: var(--accent-gray);
 }
 
 //::v-deep .modal {

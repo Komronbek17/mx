@@ -117,7 +117,7 @@ WebAppController.ready();
   font-weight: 400;
   font-size: 14px;
   line-height: 129%;
-  color: var(--gf-text-secondary-gray-2x);
+  color: var(--text-secondary);
 }
 
 .ol-signin-title {
@@ -126,7 +126,7 @@ WebAppController.ready();
   line-height: 121%;
   display: flex;
   align-items: center;
-  color: var(--gf-text-09);
+  color: var(--text-main);
 }
 
 .ol-signin-content {
@@ -140,15 +140,15 @@ WebAppController.ready();
   &-suggestion {
     margin-bottom: 0.75rem;
     font-size: 14px;
-    color: var(--gf-secondary-color-3);
+    color: var(--text-secondary);
     font-weight: 400;
     line-height: 18px;
   }
 }
 
 .ol-phone-input {
-  color: var(--gf-login-input-text);
-  background: var(--gf-login-input-bg);
+  color: var(--text-secondary);
+  background: var(--accent-gray);
   border-radius: 8px;
   padding: 0.75rem 1rem;
   min-height: 20px;
@@ -158,7 +158,7 @@ WebAppController.ready();
 .ol-phone-number-label {
   font-size: 14px;
   line-height: 18px;
-  color: var(--gf-text-09);
+  color: var(--text-main);
 }
 
 .terms-conditions-content {
@@ -170,11 +170,11 @@ WebAppController.ready();
   font-weight: 400;
   font-size: 14px;
   line-height: 18px;
-  color: var(--gf-secondary-color-3);
+  color: var(--text-secondary);
 }
 
 .validation-failed {
-  color: #dc3545;
+  color: var(--accent-red);
   font-weight: 400;
   font-size: 14px;
   line-height: 18px;
