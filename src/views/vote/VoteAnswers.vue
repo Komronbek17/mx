@@ -1,30 +1,34 @@
 <script setup>
-import { computed } from "vue";
 
-const emit = defineEmits(["update:modelValue"]);
+import {computed} from "vue";
+
+const emit = defineEmits(['update:modelValue'])
 const props = defineProps({
   vote: {
     type: Object,
-    required: true,
+    required: true
   },
   activeIndex: {
     type: Number,
-    required: true,
+    required: true
   },
   modelValue: {
     type: Array,
-    default: [],
-  },
-});
+    default: []
+  }
+})
+
 
 const answerIds = computed({
   get() {
-    return props.modelValue;
+    return props.modelValue
   },
   set(value) {
-    emit("update:modelValue", value);
-  },
-});
+    emit('update:modelValue', value)
+  }
+})
+
+
 </script>
 
 <template>
@@ -34,37 +38,29 @@ const answerIds = computed({
     </h4>
 
     <div class="answer-list">
-      <label
-        v-for="answer in vote.answers"
-        :key="answer.id + '_answer'"
-        class="answer-item"
-      >
+
+      <label v-for="answer in vote.answers" :key="answer.id+'_answer'" class="answer-item">
         <p>
           {{ answer.name }}
         </p>
         <input
-          v-model="answerIds"
-          :value="answer.id"
-          :type="vote.is_multiple ? 'checkbox' : 'radio'"
-          :name="vote.id + '_question'"
-          class="checkbox"
+            v-model="answerIds"
+            :value="answer.id"
+            :type="vote.is_multiple ?'checkbox':'radio'"
+            :name="vote.id+'_question'"
+            class="checkbox"
         />
         <div class="checkmark">
-          <img
-            class="default"
-            src="@/assets/icons/checkbox-default.svg"
-            alt="checkbox"
-          />
-          <img
-            class="checked"
-            src="@/assets/icons/checkbox-fill.svg"
-            alt="checkbox"
-          />
+          <img class="default" src="@/assets/icons/checkbox-default.svg" alt="checkbox">
+          <img class="checked" src="@/assets/icons/checkbox-fill.svg" alt="checkbox">
         </div>
       </label>
+
     </div>
+
   </div>
 </template>
+
 
 <style lang="scss" scoped>
 .vote-question {
@@ -78,7 +74,7 @@ const answerIds = computed({
 .answer-list {
   display: flex;
   flex-direction: column;
-  row-gap: 0.5rem;
+  row-gap: .5rem;
 }
 
 .answer-item {
@@ -87,7 +83,7 @@ const answerIds = computed({
   align-items: center;
   column-gap: 1rem;
   padding: 12px 10px;
-  background: #f5f5f5;
+  background: #F5F5F5;
   border-radius: 8px;
   cursor: pointer;
   -webkit-user-select: none;
@@ -122,7 +118,7 @@ const answerIds = computed({
 }
 
 .answer-item:hover {
-  opacity: 0.8;
+  opacity: .8;
 }
 
 .checkmark .default {
@@ -134,7 +130,7 @@ const answerIds = computed({
 }
 
 .answer-item input:checked ~ p {
-  @include text-gradient(linear-gradient(180deg, #00bbf9 0%, #00a3ff 100%));
+  @include text-gradient(linear-gradient(180deg, #00BBF9 0%, #00A3FF 100%));
 }
 
 .answer-item input:checked ~ .checkmark .checked {
@@ -144,4 +140,6 @@ const answerIds = computed({
 .answer-item input:checked ~ .checkmark .default {
   display: none;
 }
+
 </style>
+

@@ -124,3 +124,17 @@
   color: #333333;
 }
 
+
+.font-22 {
+  font-family: 'sf-pro', sans-serif;
+  font-style: normal;
+  font-weight: 600;
+  font-size: 22px;
+  line-height: 127%;
+  text-align: center;
+}
+
+.font-22-dark {
+  @extend .font-22;
+  color: #333333;
+}
