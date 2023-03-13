@@ -65,7 +65,7 @@ onMounted(() => {
       <!--                    <span>до 31.12.2022</span>-->
       <!--                </div>-->
       <!--                <div>-->
-      <!--                    <img src="@/assets/images/news-ads-img.png" alt=""/>-->
+      <!--                    <img src="@/assets/images/news-ads-prize.png" alt=""/>-->
       <!--                </div>-->
       <!--            </div>-->
 

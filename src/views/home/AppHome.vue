@@ -16,6 +16,7 @@ import { loadingComposable } from "@/composables/loading.composable";
 
 import { ACCEPT_LANGUAGE } from "@/constants";
 import { useTelegramStore } from "@/stores/telegram.store";
+import VoteModal from "@/views/vote/VoteModal.vue";
 
 const { tUserFullName } = useTelegramStore();
 const { tUserUniqueId, checkTelegramUser } = useTelegram();
@@ -82,6 +83,8 @@ WebAppController.ready();
     </div>
 
     <catalog-home />
+
+    <vote-modal/>
   </div>
 </template>
 
