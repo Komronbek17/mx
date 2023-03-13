@@ -30,6 +30,7 @@ import AppBonusRecent from "@/views/bonus/AppBonusRecent.vue";
 import AppBonusPrize from "@/views/bonus/AppBonusPrize.vue";
 import AppLevel from "@/views/level/AppLevel.vue";
 import AppLevelProduct from "@/views/level/level-product/AppLevelProduct.vue";
+import AppVote from "@/views/vote/AppVote.vue";
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -190,6 +191,11 @@ const router = createRouter({
       path: "/news/:id",
       name: "news-show",
       component: _id,
+    },
+    {
+      path: "/vote",
+      name: "votes",
+      component: AppVote,
     },
   ],
 });
