@@ -24,7 +24,6 @@ export const axiosVersion = ({
   endpoint = "",
   baseUrl = import.meta.env.VITE_APP_DEV_VR,
 }) => {
-  console.log("ve", version);
   return instanceGenerator(baseUrl + `api/` + endpoint);
 };
 

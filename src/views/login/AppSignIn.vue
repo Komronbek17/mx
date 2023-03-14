@@ -1,19 +1,19 @@
 <script setup>
 import * as yup from "yup";
-import { reactive, watch } from "vue";
-import { useField } from "vee-validate";
-import { useToast } from "vue-toastification";
-import { onBeforeRouteLeave, useRouter } from "vue-router";
+import {reactive, watch} from "vue";
+import {useField} from "vee-validate";
+import {useToast} from "vue-toastification";
+import {onBeforeRouteLeave, useRouter} from "vue-router";
 
-import { authApi } from "@/services/auth.service";
-import { WebAppController } from "@/utils/telegram/web.app.util";
-import { sessionStorageController } from "@/utils/localstorage.util";
-import { MainButtonController } from "@/utils/telegram/main.button.controller";
+import {authApi} from "@/services/auth.service";
+import {WebAppController} from "@/utils/telegram/web.app.util";
+import {sessionStorageController} from "@/utils/localstorage.util";
+import {MainButtonController} from "@/utils/telegram/main.button.controller";
 
-import { useI18n } from "vue-i18n";
-import { VERIFICATION_PHONE } from "@/constants";
+import {useI18n} from "vue-i18n";
+import {VERIFICATION_PHONE} from "@/constants";
 
-const { t } = useI18n();
+const {t} = useI18n();
 const toast = useToast();
 const router = useRouter();
 const loginState = reactive({
@@ -25,11 +25,15 @@ const {
   meta,
   validate,
 } = useField(
-  "ol-signin-phone",
-  yup.string().required().min(8).label("Phone number"),
-  {
-    initialValue: "+998 ",
-  }
+    "ol-signin-phone",
+    yup
+        .string()
+        .required(t('yup.required', {_field_: t('login_page.phone_number')}))
+        .min(17, t('yup.min', {_field_: t('login_page.phone_number'), length: 9}))
+        .label(t('login_page.phone_number')),
+    {
+      initialValue: "+998 ",
+    }
 );
 
 watch([() => loginState.agreement, () => meta.valid], ([agreement, valid]) => {
@@ -42,12 +46,12 @@ watch([() => loginState.agreement, () => meta.valid], ([agreement, valid]) => {
 });
 
 async function sendCode() {
-  const { valid } = await validate();
+  const {valid} = await validate();
   if (valid && loginState.agreement) {
     MainButtonController.showProgress();
     try {
       const response = await authApi.login({
-        body: { phone: olSigninNumber.value.replace(/[\s+-]/g, "") },
+        body: {phone: olSigninNumber.value.replace(/[\s+-]/g, "")},
       });
       MainButtonController.hideProgress();
       sessionStorageController.set(VERIFICATION_PHONE, response.data.phone);
@@ -84,11 +88,11 @@ WebAppController.ready();
       {{ t("login_page.label") }}
     </label>
     <input
-      v-mask="'+998 ##-###-##-##'"
-      v-model="olSigninNumber"
-      class="ol-phone-input"
-      type="tel"
-      id="ol-phone-number"
+        v-mask="'+998 ##-###-##-##'"
+        v-model="olSigninNumber"
+        class="ol-phone-input"
+        type="tel"
+        id="ol-phone-number"
     />
 
     <span v-if="errors.length" class="validation-failed">
@@ -97,13 +101,13 @@ WebAppController.ready();
 
     <label class="flex align-center mt-0-5" for="ol-terms-conditions-checkbox">
       <input
-        type="checkbox"
-        v-model="loginState.agreement"
-        id="ol-terms-conditions-checkbox"
+          type="checkbox"
+          v-model="loginState.agreement"
+          id="ol-terms-conditions-checkbox"
       />
       <span class="ml-0-5 ol-accept-privacy">{{
-        t("login_page.privacy_policy")
-      }}</span>
+          t("login_page.privacy_policy")
+        }}</span>
     </label>
 
     <p class="ol-service-message mt-4 mb-1-5">

@@ -212,7 +212,7 @@ WebAppController.ready();
 
   &__choose {
     padding: 10px 1rem;
-    background: #f2fbfd;
+    background: var(--gf-form-btn-bg);
     border-radius: 8px;
     margin-bottom: 1.5rem;
 
@@ -225,7 +225,7 @@ WebAppController.ready();
       font-size: 16px;
       line-height: 138%;
       letter-spacing: -0.5px;
-      color: #090909;
+      color: var(--gf-text-09);
     }
   }
 
@@ -254,7 +254,7 @@ WebAppController.ready();
       font-size: 16px;
       line-height: 138%;
       letter-spacing: -0.5px;
-      color: #090909;
+      color: var(--gf-text-09);
       padding: 6px 0;
       margin-bottom: 1rem;
 
@@ -296,6 +296,7 @@ WebAppController.ready();
   &__header {
     &-title {
       @extend .font-16-dark;
+      color: var(--gf-text-09);
     }
   }
 
