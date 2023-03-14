@@ -117,9 +117,10 @@ onMounted(async () => {
     <div class="gifts-block">
       <div class="gift-title">{{ t("market_page.prize") }}</div>
       <div class="gift-list">
-        <div
+        <router-link
           v-for="gift in gifts"
           :key="gift.id + '_level_1'"
+          :to="`/market/product/${gift.id}`"
           class="gift-card"
         >
           <div class="gift-card__image">
@@ -145,7 +146,7 @@ onMounted(async () => {
           <div v-else @click="askActivate(gift.id)" class="gift-card__button">
             <p>{{ t("market_page.activate") }}</p>
           </div>
-        </div>
+        </router-link>
       </div>
     </div>
 
