@@ -28,7 +28,7 @@ const profileState = reactive({
 
 // need get localStorage
 const user = ref({});
-const theme = wApp.colorScheme;
+const theme = WebAppController.webApp.colorScheme;
 
 const {
   loading: isFetching,
@@ -147,7 +147,7 @@ WebAppController.ready();
           />
           <div class="flex align-center justify-between b-bottom">
             <div>
-              <p class="profile-item__title">Редактировать профиль</p>
+              <p class="profile-item__title">{{t('edit_profile')}}</p>
             </div>
 
             <div class="flex align-center">
