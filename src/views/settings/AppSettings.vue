@@ -97,6 +97,7 @@ WebAppController.ready();
 
     & p {
       @extend .font-15-small-dark;
+      text-align: center;
     }
   }
 }
