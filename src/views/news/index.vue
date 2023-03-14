@@ -88,7 +88,9 @@ onMounted(async () => {
           :to="{ name: 'news-show', params: { id: item.id } }"
           class="news-list__item flex align-center"
         >
-          <img :src="item.img" alt="" />
+          <div class="news-list__item-img">
+            <img :src="item.img" alt="" />
+          </div>
           <div>
             <p>{{ item.name }}</p>
             <span>{{ item.date }}</span>
@@ -138,11 +140,17 @@ onMounted(async () => {
         border-bottom: none;
       }
 
-      img {
+      &-img {
         width: 66px;
         height: 66px;
-        object-fit: contain;
         padding-right: 1rem;
+
+        img{
+          height: 100%;
+          min-width: 66px;
+          max-width: 66px;
+          object-fit: contain;
+        }
       }
 
       p {
