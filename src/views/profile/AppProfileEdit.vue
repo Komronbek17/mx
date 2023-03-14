@@ -10,7 +10,7 @@ import AppLoader from "@/components/elements/loader/AppLoader.vue";
 import {profileApi} from "@/services/profile.service";
 import {useTelegramStore} from "@/stores/telegram.store";
 import {useRouter} from "vue-router";
-import BaseInput from "@/components/elements/form-input/BaseInput.vue";
+import BaseInput from "@/components/ui/BaseInput/BaseInput.vue";
 
 
 const {tUser} = useTelegramStore();

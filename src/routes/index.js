@@ -38,7 +38,6 @@ import AppOrderedSuccessfully from "@/views/market/AppOrderedSuccessfully.vue";
 import AppMarketMap from "@/views/market/AppMarketMap.vue";
 import AppMarketForm from "@/views/market/AppMarketForm.vue";
 import AppMarketDetails from "@/views/market/AppMarketDetails.vue";
-import AppVote from "@/views/vote/AppVote.vue";
 import AppMarketPassport from "@/views/market/AppMarketPassport.vue";
 
 const router = createRouter({

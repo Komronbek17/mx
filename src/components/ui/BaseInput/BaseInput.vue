@@ -1,48 +1,51 @@
 <script setup>
-import { computed } from "vue";
+
+import {computed} from "vue";
 
 const props = defineProps({
-  modelValue: {},
-  name: {
-    type: String,
-    default: "",
-  },
-  label: {
-    type: String,
-    default: "",
-  },
-  type: {
-    type: String,
-    default: "text",
-  },
-});
-const emit = defineEmits(["update:modelValue"]);
+      modelValue: {},
+      name: {
+        type: String,
+        default: ''
+      },
+      label: {
+        type: String,
+        default: ''
+      },
+      type: {
+        type: String,
+        default: 'text'
+      }
+    }
+)
+const emit = defineEmits(['update:modelValue'])
 
 const value = computed({
   get() {
-    return props.modelValue;
+    return props.modelValue
   },
   set(value) {
-    emit("update:modelValue", value);
-  },
-});
+    emit('update:modelValue', value)
+  }
+})
 </script>
 
 <template>
   <div class="cd-position-relative">
     <input
-      v-model="value"
-      class="floating-label-control cd-form-control cd-width-100"
-      :type="props.type"
-      :name="props.name"
-      :id="props.label + '_id'"
-      :placeholder="props.label"
+        v-model="value"
+        class="floating-label-control cd-form-control cd-width-100"
+        :type="props.type"
+        :name="props.name"
+        :id="props.label+'_id'"
+        :placeholder="props.label"
     />
     <label class="floating-label" :for="props.name">{{ props.label }}</label>
   </div>
 </template>
 
 <style lang="scss" scoped>
+
 .cd-form-control {
   background: transparent;
   border-bottom: 1px solid var(--gf-input-border);
@@ -64,8 +67,7 @@ const value = computed({
   color: var(--gf-input-text);
 }
 
-.cd-form-control:focus,
-.cd-form-control:focus-within {
+.cd-form-control:focus, .cd-form-control:focus-within {
   background: transparent;
   outline: none;
 }
@@ -91,13 +93,11 @@ const value = computed({
   padding: 0.75rem calc(1rem + 24px) 0.75rem 1rem;
 }
 
-.floating-label-control:placeholder-shown {
-  /* input with no content */
+.floating-label-control:placeholder-shown { /* input with no content */
   background-color: transparent;
 }
 
-.floating-label-control:placeholder-shown + .floating-label {
-  /* floating label state A - not visible */
+.floating-label-control:placeholder-shown + .floating-label { /* floating label state A - not visible */
   clip: rect(1px, 1px, 1px, 1px);
   -webkit-clip-path: inset(50%);
   clip-path: inset(50%);
@@ -110,7 +110,7 @@ const value = computed({
 }
 
 .floating-label-control:focus + .floating-label {
-  color: #32a8e6;
+  color: #32A8E6;
 }
 
 .cd-width-100 {
@@ -125,4 +125,5 @@ const value = computed({
   position: relative;
   margin-top: 12px;
 }
+
 </style>
