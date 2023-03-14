@@ -1,5 +1,6 @@
 export default {
   public_offer: "Публичная оферта",
+  edit_profile: "Редактировать профиль",
   connect_premium_service_message:
     "Вы не подключены к премиум услуге, сумма подключения {price} сумов",
   sms_package: "СМС пакеты",
