@@ -31,6 +31,15 @@ import AppBonusPrize from "@/views/bonus/AppBonusPrize.vue";
 import AppLevel from "@/views/level/AppLevel.vue";
 import AppLevelProduct from "@/views/level/level-product/AppLevelProduct.vue";
 import AppVote from "@/views/vote/AppVote.vue";
+import AppMarketProduct from "@/views/market/AppMarketProduct.vue";
+import AppMarketBasket from "@/views/market/AppMarketBasket.vue";
+import AppMarketAddressView from "@/views/market/AppMarketAddressView.vue";
+import AppOrderedSuccessfully from "@/views/market/AppOrderedSuccessfully.vue";
+import AppMarketMap from "@/views/market/AppMarketMap.vue";
+import AppMarketForm from "@/views/market/AppMarketForm.vue";
+import AppMarketDetails from "@/views/market/AppMarketDetails.vue";
+import AppVote from "@/views/vote/AppVote.vue";
+import AppMarketPassport from "@/views/market/AppMarketPassport.vue";
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -161,6 +170,46 @@ const router = createRouter({
       path: "/market",
       name: "market",
       component: AppMarket,
+    },
+    {
+      path: "/market/product/:id",
+      name: "market-product",
+      component: AppMarketProduct,
+    },
+    {
+      path: "/market/form",
+      name: "market-form",
+      component: AppMarketForm,
+    },
+    {
+      path: "/market/details",
+      name: "market-details",
+      component: AppMarketDetails,
+    },
+    {
+      path: "/market/passport",
+      name: "market-passport",
+      component: AppMarketPassport,
+    },
+    {
+      path: "/basket",
+      name: "basket",
+      component: AppMarketBasket,
+    },
+    {
+      path: "/addresses",
+      name: "addresses",
+      component: AppMarketAddressView,
+    },
+    {
+      path: "/ordered",
+      name: "ordered-successfully",
+      component: AppOrderedSuccessfully,
+    },
+    {
+      path: "/map",
+      name: "map",
+      component: AppMarketMap,
     },
     {
       path: "/level",

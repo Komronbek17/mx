@@ -1,47 +1,53 @@
 <script setup>
-import { ref } from "vue";
+import {ref} from "vue";
 import BaseInput from "@/components/ui/BaseInput/BaseInput.vue";
 
 const form = ref({
   pinfl: null,
   passportImage: null,
-});
+})
 
-let imageId = ref(false);
+let imageId = ref(false)
 
 function triggerFile(file) {
-  form.value.passportImage = file.files[0];
+  form.value.passportImage = file.files[0]
 }
 
 function toggleImageId() {
-  imageId.value = !imageId.value;
+  imageId.value = !imageId.value
 }
+
+
 </script>
 
 <template>
   <div class="market-passport">
     <div class="layout-container">
       <div class="market-passport__block">
-        <BaseInput v-model="form.pinfl" name="pinfl" label="Ваш ПИНФЛ" />
+        <BaseInput
+            v-model="form.pinfl"
+            name="pinfl"
+            label="Ваш ПИНФЛ"
+        />
 
         <div class="file-upload" v-if="!form.passportImage">
           <input
-            :value="form.passportImage"
-            @input="triggerFile($event.target)"
-            type="file"
-            accept="image/*"
-            class="file-upload__input"
-          />
+              :value="form.passportImage"
+              @input="triggerFile($event.target)"
+              type="file"
+              accept="image/*"
+              class="file-upload__input"
+          >
 
           <div class="file-upload__not-uploaded">
-            <img src="@/assets/images/document-upload.svg" alt="" />
+            <img src="@/assets/images/document-upload.svg" alt="">
             <p>Загрузить фото паспорта</p>
           </div>
         </div>
 
         <div v-else class="file-upload__uploaded">
           <div class="file-upload__uploaded-preview">
-            <img src="@/assets/images/document-text.svg" alt="" />
+            <img src="@/assets/images/document-text.svg" alt="">
           </div>
           <div class="file-upload__uploaded-details">
             <div class="flex flex-column justify-between">
@@ -49,19 +55,19 @@ function toggleImageId() {
               <span>100 kb</span>
             </div>
             <button>
-              <img src="@/assets/images/close-circle.svg" alt="" />
+              <img src="@/assets/images/close-circle.svg" alt="">
             </button>
           </div>
         </div>
 
         <button
-          v-if="!imageId"
-          class="market-passport__btn"
-          :class="imageId ? 'disabled' : ''"
-          :disabled="imageId"
-          @click="toggleImageId"
+            v-if="!imageId"
+            class="market-passport__btn"
+            :class="imageId ? 'disabled' : ''"
+            :disabled="imageId"
+            @click="toggleImageId"
         >
-          <img src="@/assets/images/attach-icon.svg" alt="" />
+          <img src="@/assets/images/attach-icon.svg" alt="">
           <span>Загрузить фото паспорта</span>
         </button>
       </div>
@@ -99,7 +105,7 @@ function toggleImageId() {
 
     & span {
       @extend .text-16-500;
-      color: var(--text-main);
+      color: var(--text-main)
     }
   }
 }

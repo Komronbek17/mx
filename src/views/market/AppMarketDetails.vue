@@ -1,23 +1,36 @@
 <script setup>
-import { ref } from "vue";
+import {ref} from "vue";
 import BaseInput from "@/components/ui/BaseInput/BaseInput.vue";
 
 const form = ref({
   date: null,
   receiver: null,
-  comment: null,
-});
+  comment: null
+})
 </script>
 
 <template>
   <div class="market-details">
     <div class="layout-container">
       <div class="market-details__block">
-        <BaseInput v-model="form.date" name="date" type="date" label="Дата" />
+        <BaseInput
+            v-model="form.date"
+            name="date"
+            type="date"
+            label="Дата"
+        />
 
-        <BaseInput v-model="form.receiver" name="receiver" label="Получатель" />
+        <BaseInput
+            v-model="form.receiver"
+            name="receiver"
+            label="Получатель"
+        />
 
-        <BaseInput v-model="form.comment" name="comment" label="Комментарий" />
+        <BaseInput
+            v-model="form.comment"
+            name="comment"
+            label="Комментарий"
+        />
       </div>
     </div>
   </div>

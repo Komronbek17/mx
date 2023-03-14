@@ -1,6 +1,6 @@
 <script setup>
 import { GoogleMap, Marker } from "vue3-google-map";
-import { ref } from "vue";
+import {ref} from "vue";
 
 const addressDetails = ref({
   addressName: {
@@ -62,10 +62,10 @@ function changeLocation(location) {
   <div class="map">
     <div class="layout-container">
       <GoogleMap
-        :center="center"
-        :zoom="15"
-        api-key="AIzaSyDIm3DnxGMLuv9LUj_CaCQqxtnJ2i2btps"
-        style="width: 100%; height: 450px; border-radius: 8px"
+          :center="center"
+          :zoom="15"
+          api-key="AIzaSyDIm3DnxGMLuv9LUj_CaCQqxtnJ2i2btps"
+          style="width: 100%; height: 450px; border-radius: 8px"
       >
         <Marker :options="markerOptions" @dragend="changeLocation($event)" />
       </GoogleMap>
