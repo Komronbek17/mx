@@ -15,8 +15,8 @@ function redirectVotePage() {
   router.push({name: 'votes'})
 }
 
-onMounted(async () => {
-})
+// onMounted(async () => {
+// })
 
 
 </script>

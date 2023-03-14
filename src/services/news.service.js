@@ -1,5 +1,5 @@
 import Core from "@/services/axios/core.axios";
-import {axiosVersion, axiosGoldFish, axiosV1} from "@/services/axios/axios";
+import {axiosVersion} from "@/services/axios/axios";
 
 class NewsService extends Core {
     constructor() {

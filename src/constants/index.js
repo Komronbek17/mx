@@ -4,5 +4,5 @@ export const WEB_APP = "WebApp";
 export const BACK_BUTTON = "backButton";
 export const MAIN_BUTTON = "MainButton";
 export const VERIFICATION_PHONE = "verification-number";
-
 export const ACCEPT_LANGUAGE = "ACCEPT_LANGUAGE";
+export const USER_DATA = "USER_DATA";
