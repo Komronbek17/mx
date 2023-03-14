@@ -75,7 +75,7 @@ getLangFromStorage();
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    background: #f2fbfd;
+    background: var(--gf-accent-bg);
     border-radius: 8px;
     padding: 16px 9px;
     row-gap: 1rem;
@@ -88,6 +88,7 @@ getLangFromStorage();
 
     & p {
       @extend .font-15-dark;
+      color: var(--gf-text-09);
     }
 
     &.active {
