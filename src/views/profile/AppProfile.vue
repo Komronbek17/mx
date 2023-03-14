@@ -1,12 +1,12 @@
 <script setup>
-import {onMounted, reactive, ref} from "vue";
-import {useRouter} from "vue-router";
-import {useI18n} from "vue-i18n";
-import {useTelegram} from "@/composables/telegram.composable";
-import {loadingComposable} from "@/composables/loading.composable";
-import {useTelegramStore} from "@/stores/telegram.store";
-import {localStorageController} from "@/utils/localstorage.util";
-import {WebAppController} from "@/utils/telegram/web.app.util";
+import { onMounted, reactive, ref } from "vue";
+import { useRouter } from "vue-router";
+import { useI18n } from "vue-i18n";
+import { useTelegram } from "@/composables/telegram.composable";
+import { loadingComposable } from "@/composables/loading.composable";
+import { useTelegramStore } from "@/stores/telegram.store";
+import { localStorageController } from "@/utils/localstorage.util";
+import { WebAppController } from "@/utils/telegram/web.app.util";
 
 import AppLoader from "@/components/elements/loader/AppLoader.vue";
 import DocumentTextIcon from "@/components/icons/DocumentTextIcon.vue";
@@ -14,20 +14,21 @@ import ModalDialog from "@/components/ui/ModalDialog/ModalDialog.vue";
 import LogoutIcon from "@/components/icons/LogoutIcon.vue";
 import SupportIcon from "@/components/icons/SupportIcon.vue";
 
-import {OLTIN_BALIQ_BOT_TKN, USER_DATA} from "@/constants";
-import {profileApi} from "@/services/profile.service";
+import { OLTIN_BALIQ_BOT_TKN, USER_DATA } from "@/constants";
+import { profileApi } from "@/services/profile.service";
+import { wApp } from "@/schema";
 
-const {t} = useI18n();
+const { t } = useI18n();
 const router = useRouter();
-const {tUserFullName} = useTelegramStore();
-const {isNotFetched, checkTelegramUser} = useTelegram();
+const { tUserFullName } = useTelegramStore();
+const { isNotFetched, checkTelegramUser } = useTelegram();
 const profileState = reactive({
   showLogoutWarn: false,
 });
 
 // need get localStorage
-const user = ref({})
-
+const user = ref({});
+const theme = wApp.colorScheme;
 
 const {
   loading: isFetching,
@@ -59,36 +60,36 @@ if (isNotFetched) {
   }
 }
 
-
 const getMe = async () => {
   try {
-    const {data} = await profileApi.fetchMe()
-    user.value = data.result
+    const { data } = await profileApi.fetchMe();
+    user.value = data.result;
   } catch (e) {
-    console.log(e, 'e');
+    console.log(e, "e");
   }
-}
+};
 
 onMounted(async () => {
-  await getMe()
-})
-
+  await getMe();
+});
 WebAppController.ready();
 </script>
 
 <template>
   <div>
     <div class="profile">
-      <app-loader :active="isFetching"/>
+      <app-loader :active="isFetching" />
       <div class="layout-container">
         <!--   PROFILE DETAILS   -->
         <div class="flex flex-column align-center">
           <div class="profile-image">
-            <img v-if="user && user.upload" :src="user.upload['path']" alt=""/>
-            <img v-else src="@/assets/images/profile-image.svg" alt=""/>
+            <img v-if="user && user.upload" :src="user.upload['path']" alt="" />
+            <img v-else src="@/assets/images/profile-image.svg" alt="" />
           </div>
 
-          <p class="profile-name">{{ user.first_name + ' ' + user.last_name || tUserFullName }}</p>
+          <p class="profile-name">
+            {{ user.first_name + " " + user.last_name || tUserFullName }}
+          </p>
           <span class="profile-id">ID: {{ user.id }}</span>
 
           <!--        <div class="profile-change flex align-center">-->
@@ -100,7 +101,16 @@ WebAppController.ready();
 
       <!--  SOON IMAGE  -->
       <div class="profile-soon">
-        <img src="@/assets/images/profile-progress-bar.png" alt=""/>
+        <img
+          v-if="theme === 'light'"
+          src="@/assets/images/profile-progress-bar.png"
+          alt=""
+        />
+        <img
+          v-else
+          src="@/assets/images/profile-progress-bar-dark.png"
+          alt=""
+        />
         <span>{{ t("profile_page.soon") }}</span>
       </div>
 
@@ -131,9 +141,9 @@ WebAppController.ready();
       <div class="profile-list">
         <router-link :to="{ name: 'profile-edit' }" class="profile-item">
           <img
-              class="profile-item__icon"
-              src="@/assets/images/profile-edit-icon.svg"
-              alt=""
+            class="profile-item__icon"
+            src="@/assets/images/profile-edit-icon.svg"
+            alt=""
           />
           <div class="flex align-center justify-between b-bottom">
             <div>
@@ -142,9 +152,9 @@ WebAppController.ready();
 
             <div class="flex align-center">
               <img
-                  class="profile-item__arrow"
-                  src="@/assets/images/profile-arrow-right.svg"
-                  alt=""
+                class="profile-item__arrow"
+                src="@/assets/images/profile-arrow-right.svg"
+                alt=""
               />
             </div>
           </div>
@@ -194,7 +204,7 @@ WebAppController.ready();
         <!--      </router-link>-->
 
         <a href="tel:712051548" target="_blank" class="profile-item">
-          <support-icon class="profile-item__icon"/>
+          <support-icon class="profile-item__icon" />
           <div class="flex align-center justify-between b-bottom">
             <div>
               <p class="profile-item__title">Call center</p>
@@ -202,9 +212,9 @@ WebAppController.ready();
 
             <div class="flex align-center">
               <img
-                  class="profile-item__arrow"
-                  src="@/assets/images/profile-arrow-right.svg"
-                  alt=""
+                class="profile-item__arrow"
+                src="@/assets/images/profile-arrow-right.svg"
+                alt=""
               />
             </div>
           </div>
@@ -212,9 +222,9 @@ WebAppController.ready();
 
         <router-link :to="{ name: 'informers' }" class="profile-item">
           <img
-              class="profile-item__icon"
-              src="@/assets/images/profile-informers-icon.svg"
-              alt=""
+            class="profile-item__icon"
+            src="@/assets/images/profile-informers-icon.svg"
+            alt=""
           />
           <div class="flex align-center justify-between b-bottom">
             <div>
@@ -225,16 +235,16 @@ WebAppController.ready();
 
             <div class="flex align-center">
               <img
-                  class="profile-item__arrow"
-                  src="@/assets/images/profile-arrow-right.svg"
-                  alt=""
+                class="profile-item__arrow"
+                src="@/assets/images/profile-arrow-right.svg"
+                alt=""
               />
             </div>
           </div>
         </router-link>
 
         <router-link :to="{ name: 'profile-privacy' }" class="profile-item">
-          <document-text-icon fill="#00BBF9" class="profile-item__icon"/>
+          <document-text-icon fill="#00BBF9" class="profile-item__icon" />
           <div class="flex align-center justify-between b-bottom">
             <div>
               <p class="profile-item__title">{{ $t("public_offer") }}</p>
@@ -242,9 +252,9 @@ WebAppController.ready();
 
             <div class="flex align-center">
               <img
-                  class="profile-item__arrow"
-                  src="@/assets/images/profile-arrow-right.svg"
-                  alt=""
+                class="profile-item__arrow"
+                src="@/assets/images/profile-arrow-right.svg"
+                alt=""
               />
             </div>
           </div>
@@ -252,9 +262,9 @@ WebAppController.ready();
 
         <div class="profile-item" @click="showLogoutModal">
           <img
-              class="profile-item__icon"
-              src="@/assets/images/profile-exit-icon.svg"
-              alt=""
+            class="profile-item__icon"
+            src="@/assets/images/profile-exit-icon.svg"
+            alt=""
           />
           <div class="flex align-center justify-between b-bottom">
             <div>
@@ -263,9 +273,9 @@ WebAppController.ready();
 
             <div class="flex align-center">
               <img
-                  class="profile-item__arrow"
-                  src="@/assets/images/profile-arrow-right.svg"
-                  alt=""
+                class="profile-item__arrow"
+                src="@/assets/images/profile-arrow-right.svg"
+                alt=""
               />
             </div>
           </div>
@@ -273,11 +283,11 @@ WebAppController.ready();
       </div>
     </div>
     <modal-dialog
-        v-model="profileState.showLogoutWarn"
-        @close-modal="hideLogoutModal"
+      v-model="profileState.showLogoutWarn"
+      @close-modal="hideLogoutModal"
     >
       <template #header>
-        <logout-icon/>
+        <logout-icon />
         <h3 class="ol-md-title">{{ t("profile_page.exit_title") }}</h3>
       </template>
       <template #content>
@@ -289,8 +299,8 @@ WebAppController.ready();
             {{ t("profile_page.exit_yes") }}
           </button>
           <button
-              class="ol-md-button ol-md-close-button"
-              @click="hideLogoutModal"
+            class="ol-md-button ol-md-close-button"
+            @click="hideLogoutModal"
           >
             {{ t("profile_page.exit_no") }}
           </button>
