@@ -1,31 +1,29 @@
 <script setup>
-import {onMounted, ref} from "vue";
+import { onMounted, ref } from "vue";
 
-import {useTelegram} from "@/composables/telegram.composable";
-import {loadingComposable} from "@/composables/loading.composable";
-import {WebAppController} from "@/utils/telegram/web.app.util";
+import { useTelegram } from "@/composables/telegram.composable";
+import { loadingComposable } from "@/composables/loading.composable";
+import { WebAppController } from "@/utils/telegram/web.app.util";
 
 import Popover from "@/components/ui/Popover/Popover.vue";
 import AppLoader from "@/components/elements/loader/AppLoader.vue";
-import {profileApi} from "@/services/profile.service";
-import {useTelegramStore} from "@/stores/telegram.store";
-import {useRouter} from "vue-router";
+import { profileApi } from "@/services/profile.service";
+import { useTelegramStore } from "@/stores/telegram.store";
+import { useRouter } from "vue-router";
 import BaseInput from "@/components/ui/BaseInput/BaseInput.vue";
 
+const { tUser } = useTelegramStore();
 
-const {tUser} = useTelegramStore();
+const router = useRouter();
 
-const router = useRouter()
-
-const user = ref({})
+const user = ref({});
 const userNewData = ref({
   upload_id: null,
   first_name: null,
-  last_name: null
-})
-const avatars = ref([])
+  last_name: null,
+});
+const avatars = ref([]);
 const popoverValue = ref(false);
-
 
 const {
   loading: isFetching,
@@ -33,14 +31,14 @@ const {
   finishLoading,
 } = loadingComposable();
 
-const {isNotFetched, checkTelegramUser} = useTelegram();
+const { isNotFetched, checkTelegramUser } = useTelegram();
 const closePopover = () => {
   userNewData.value.upload_id = user.value.upload?.id || null;
   popoverValue.value = false;
 };
 
 const openPopover = () => {
-  userNewData.value.upload_id = null
+  userNewData.value.upload_id = null;
   popoverValue.value = true;
 };
 const popoverApply = () => {
@@ -56,95 +54,91 @@ if (isNotFetched) {
   }
 }
 
-
 function selectAvatar(item) {
-  userNewData.value.upload_id = item.id
-  user.value.upload = item
+  userNewData.value.upload_id = item.id;
+  user.value.upload = item;
 }
-
 
 const getAvatars = async () => {
   try {
-    const {data} = await profileApi.fetchAvatars()
-    avatars.value = data.result
+    const { data } = await profileApi.fetchAvatars();
+    avatars.value = data.result;
   } catch (e) {
-    console.log(e, 'e');
+    console.log(e, "e");
   }
-}
+};
 
 const getMe = async () => {
   try {
-    const {data} = await profileApi.fetchMe()
-    user.value = data.result
-    user.value.first_name = data.result.first_name || tUser.first_name
-    user.value.last_name = data.result.last_name || tUser.last_name
+    const { data } = await profileApi.fetchMe();
+    user.value = data.result;
+    user.value.first_name = data.result.first_name || tUser.first_name;
+    user.value.last_name = data.result.last_name || tUser.last_name;
 
-    userNewData.value.first_name = data.result.first_name || tUser.first_name
-    userNewData.value.last_name = data.result.last_name || tUser.last_name
-    userNewData.value.upload_id = data.result.upload?.id || null
+    userNewData.value.first_name = data.result.first_name || tUser.first_name;
+    userNewData.value.last_name = data.result.last_name || tUser.last_name;
+    userNewData.value.upload_id = data.result.upload?.id || null;
   } catch (e) {
-    console.log(e, 'e');
+    console.log(e, "e");
   }
-}
-
+};
 
 const updateProfile = async () => {
   try {
-    const body = userNewData.value
-    const {data} = await profileApi.updateMe(body)
+    const body = userNewData.value;
+    const { data } = await profileApi.updateMe(body);
     if (data) {
-      router.push({name: 'profile'})
+      router.push({ name: "profile" });
     }
   } catch (e) {
-    console.log(e, 'e');
+    console.log(e, "e");
   }
-}
-
+};
 
 onMounted(async () => {
-  await getMe()
-  await getAvatars()
-})
-
+  await getMe();
+  await getAvatars();
+});
 
 WebAppController.ready();
 </script>
 
 <template>
   <div class="profile-edit">
-    <app-loader :active="isFetching"/>
+    <app-loader :active="isFetching" />
     <div class="layout-container">
       <!--   PROFILE DETAILS   -->
       <div class="flex flex-column align-center">
         <div class="profile-edit__image">
-          <img v-if="user && user.upload" :src="user.upload['path']" alt=""/>
-          <img v-else src="@/assets/images/profile-image.svg" alt=""/>
+          <img v-if="user && user.upload" :src="user.upload['path']" alt="" />
+          <img v-else src="@/assets/images/profile-image.svg" alt="" />
         </div>
-        <p class="profile-edit__name">{{ user.first_name }} {{ user.last_name }}</p>
+        <p class="profile-edit__name">
+          {{ user.first_name }} {{ user.last_name }}
+        </p>
         <span class="profile-edit__id">ID: {{ user.id }}</span>
 
         <button
-            @click="openPopover"
-            class="profile-edit__choose flex align-center"
+          @click="openPopover"
+          class="profile-edit__choose flex align-center"
         >
-          <img src="@/assets/images/profile-choose-photo.svg" alt=""/>
+          <img src="@/assets/images/profile-choose-photo.svg" alt="" />
           <span>Выбрать фото профиля</span>
         </button>
 
         <!--    FORM    -->
         <div class="form">
-
           <div class="form-content">
             <base-input
-                v-model="userNewData.first_name"
-                label="Имя"
-                name="name"
+              v-model="userNewData.first_name"
+              label="Имя"
+              name="name"
             />
 
             <base-input
-                v-model="userNewData.last_name"
-                label="Фамилия"
-                name="surname"
+              v-model="userNewData.last_name"
+              label="Фамилия"
+              name="surname"
             />
           </div>
 
@@ -161,14 +155,22 @@ WebAppController.ready();
       </template>
       <template #content>
         <div class="avatar-popover__content">
-          <div v-for="avatar in avatars" :key="avatar.id+'_avatar'" class="avatar-popover__item"
-               @click="selectAvatar(avatar)">
-            <img :src="avatar.path" alt=""/>
+          <div
+            v-for="avatar in avatars"
+            :key="avatar.id + '_avatar'"
+            class="avatar-popover__item"
+            @click="selectAvatar(avatar)"
+          >
+            <img :src="avatar.path" alt="" />
           </div>
         </div>
       </template>
       <template #footer>
-        <button @click="popoverApply" :disabled="!userNewData.upload_id" class="avatar-popover__footer">
+        <button
+          @click="popoverApply"
+          :disabled="!userNewData.upload_id"
+          class="avatar-popover__footer"
+        >
           <p class="footer-button">Окей</p>
         </button>
       </template>
@@ -177,8 +179,6 @@ WebAppController.ready();
 </template>
 
 <style lang="scss" scoped>
-
-
 .profile-edit {
   &__image {
     width: 80px;
@@ -212,7 +212,7 @@ WebAppController.ready();
 
   &__choose {
     padding: 10px 1rem;
-    background: var(--gf-form-btn-bg);
+    background: var(--gf-choose-image-profile);
     border-radius: 8px;
     margin-bottom: 1.5rem;
 
@@ -282,12 +282,7 @@ WebAppController.ready();
       letter-spacing: -0.32px;
       border-radius: 0.5rem;
       padding: 12px;
-      background: linear-gradient(
-              107.32deg,
-              #4adaff -22.08%,
-              #0062ca 122.03%
-      );
-
+      background: linear-gradient(107.32deg, #4adaff -22.08%, #0062ca 122.03%);
     }
   }
 }
@@ -328,11 +323,7 @@ WebAppController.ready();
     letter-spacing: -0.32px;
     border-radius: 0.5rem;
     padding: 12px;
-    background: linear-gradient(
-            107.32deg,
-            #4adaff -22.08%,
-            #0062ca 122.03%
-    );
+    background: linear-gradient(107.32deg, #4adaff -22.08%, #0062ca 122.03%);
 
     .footer-button {
       @extend .font-16-white;
