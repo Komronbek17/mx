@@ -60,6 +60,7 @@ const getMe = async () => {
 onMounted(async () => {
   try {
     startLoading();
+    await getMe()
     const data = await checkTelegramUser();
     const hasUser = hasOwnProperty(data, "user");
     if (hasUser) {
@@ -68,7 +69,6 @@ onMounted(async () => {
         locale.value = data.user.language;
       }
     }
-    await getMe()
     localStorageController.set(ACCEPT_LANGUAGE, locale.value);
   } finally {
     finishLoading();

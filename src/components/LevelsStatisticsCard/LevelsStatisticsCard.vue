@@ -34,7 +34,7 @@ const checkLevelName = (name) => {
       <div class="level-card__name">
         {{ checkLevelName(props.level.name) }}
       </div>
-      <div class="level-card__percent">{{ props.level.percent }} %</div>
+      <div class="level-card__percent">{{ props.level.percent || 0}} %</div>
     </div>
   </div>
 </template>
