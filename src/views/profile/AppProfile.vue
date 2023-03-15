@@ -147,7 +147,7 @@ WebAppController.ready();
           />
           <div class="flex align-center justify-between b-bottom">
             <div>
-              <p class="profile-item__title">{{t('edit_profile')}}</p>
+              <p class="profile-item__title">{{ t("edit_profile") }}</p>
             </div>
 
             <div class="flex align-center">
@@ -220,28 +220,28 @@ WebAppController.ready();
           </div>
         </a>
 
-        <router-link :to="{ name: 'informers' }" class="profile-item">
-          <img
-            class="profile-item__icon"
-            src="@/assets/images/profile-informers-icon.svg"
-            alt=""
-          />
-          <div class="flex align-center justify-between b-bottom">
-            <div>
-              <p class="profile-item__title">
-                {{ t("profile_page.informers.title") }}
-              </p>
-            </div>
+        <!--        <router-link :to="{ name: 'informers' }" class="profile-item">-->
+        <!--          <img-->
+        <!--            class="profile-item__icon"-->
+        <!--            src="@/assets/images/profile-informers-icon.svg"-->
+        <!--            alt=""-->
+        <!--          />-->
+        <!--          <div class="flex align-center justify-between b-bottom">-->
+        <!--            <div>-->
+        <!--              <p class="profile-item__title">-->
+        <!--                {{ t("profile_page.informers.title") }}-->
+        <!--              </p>-->
+        <!--            </div>-->
 
-            <div class="flex align-center">
-              <img
-                class="profile-item__arrow"
-                src="@/assets/images/profile-arrow-right.svg"
-                alt=""
-              />
-            </div>
-          </div>
-        </router-link>
+        <!--            <div class="flex align-center">-->
+        <!--              <img-->
+        <!--                class="profile-item__arrow"-->
+        <!--                src="@/assets/images/profile-arrow-right.svg"-->
+        <!--                alt=""-->
+        <!--              />-->
+        <!--            </div>-->
+        <!--          </div>-->
+        <!--        </router-link>-->
 
         <router-link :to="{ name: 'profile-privacy' }" class="profile-item">
           <document-text-icon fill="#00BBF9" class="profile-item__icon" />

@@ -8,6 +8,8 @@ import MarketIcon from "@/components/icons/MarketIcon.vue";
 import NewsIcon from "@/components/icons/NewsIcon.vue";
 import SettingsIcon from "@/components/icons/SettingsIcon.vue";
 import UserIcon from "@/components/icons/UserIcon.vue";
+import { useI18n } from "vue-i18n";
+const { t } = useI18n();
 </script>
 
 <template>
@@ -20,7 +22,7 @@ import UserIcon from "@/components/icons/UserIcon.vue";
       <template #icon>
         <prize-icon />
       </template>
-      <template #content> Левел</template>
+      <template #content>{{ t("home_page.level") }}</template>
     </catalog-card>
 
     <catalog-card
@@ -33,7 +35,7 @@ import UserIcon from "@/components/icons/UserIcon.vue";
         <premium-icon />
       </template>
       <template #content>
-        <span class="premium-catalog-card-yellow-text"> Premium </span>
+        <span class="premium-catalog-card-yellow-text">Premium</span>
       </template>
     </catalog-card>
 
@@ -45,19 +47,19 @@ import UserIcon from "@/components/icons/UserIcon.vue";
       <template #icon>
         <news-icon />
       </template>
-      <template #content> Новости</template>
+      <template #content>{{ t("home_page.news") }}</template>
     </catalog-card>
 
-    <catalog-card
-      :to="{
-        name: 'market',
-      }"
-    >
-      <template #icon>
-        <market-icon />
-      </template>
-      <template #content> Магазин</template>
-    </catalog-card>
+    <!--    <catalog-card-->
+    <!--      :to="{-->
+    <!--        name: 'market',-->
+    <!--      }"-->
+    <!--    >-->
+    <!--      <template #icon>-->
+    <!--        <market-icon />-->
+    <!--      </template>-->
+    <!--      <template #content>{{ t("home_page.shop") }}</template>-->
+    <!--    </catalog-card>-->
 
     <!--    <catalog-card-->
     <!--      :to="{-->
@@ -78,18 +80,18 @@ import UserIcon from "@/components/icons/UserIcon.vue";
       <template #icon>
         <user-icon />
       </template>
-      <template #content> Профиль</template>
+      <template #content>{{ t("home_page.profile") }}</template>
     </catalog-card>
 
     <catalog-card
       :to="{
-        name: 'bonus-active',
+        name: 'bonus-recent',
       }"
     >
       <template #icon>
         <bonuses-icon />
       </template>
-      <template #content> Бонусы</template>
+      <template #content>{{ t("home_page.bonuses") }}</template>
     </catalog-card>
 
     <catalog-card
@@ -100,7 +102,7 @@ import UserIcon from "@/components/icons/UserIcon.vue";
       <template #icon>
         <settings-icon />
       </template>
-      <template #content> Настройки</template>
+      <template #content>{{ t("home_page.settings") }}</template>
     </catalog-card>
   </div>
 </template>
