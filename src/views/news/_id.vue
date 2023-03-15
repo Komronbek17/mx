@@ -68,7 +68,8 @@ WebAppController.ready();
 <template>
   <div class="one-news">
     <app-loader :active="isFetching" />
-    <img :src="newData.image" alt="" />
+    <img v-if="newData.image" :src="newData.image.path" alt="" />
+    <img v-else src="@/assets/images/no-photo.png" alt="" class="no-photo" />
     <div class="layout-container">
       <span class="one-news__date">{{ newData.date }}</span>
 
@@ -221,5 +222,9 @@ WebAppController.ready();
       }
     }
   }
+}
+
+.no-photo {
+  object-fit: contain !important;
 }
 </style>

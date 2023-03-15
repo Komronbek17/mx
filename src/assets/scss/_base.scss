@@ -49,6 +49,7 @@
   --gf-login-input-bg: #F5F5F5;
   --gf-login-input-text: #333333;
   --gf-close-svg: #151522;
+  --gf-choose-image-profile: #F2FBFD;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -103,6 +104,7 @@
     --gf-login-input-bg: rgba(255, 255, 255, 0.3);
     --gf-login-input-text: #FFFFFF;
     --gf-close-svg: #797D81;
+    --gf-choose-image-profile: #2F353D;
   }
 }
 

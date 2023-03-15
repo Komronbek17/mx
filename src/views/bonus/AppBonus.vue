@@ -1,7 +1,9 @@
 <script setup>
 import { useRoute } from "vue-router";
 import { WebAppController } from "@/utils/telegram/web.app.util";
+import { useI18n } from "vue-i18n";
 
+const { t } = useI18n();
 const route = useRoute();
 WebAppController.ready();
 </script>
@@ -22,14 +24,14 @@ WebAppController.ready();
           class="history-tab"
           :class="route.name === 'bonus-recent' ? 'router-link-active' : ''"
         >
-          Недавние
+          {{ t("bonus_page.recent") }}
         </router-link>
         <router-link
           :to="{ name: 'bonus-prize', params: {} }"
           class="history-tab"
           :class="route.name === 'bonus-prize' ? 'router-link-active' : ''"
         >
-          Призы
+          {{ t("bonus_page.prizes") }}
         </router-link>
         <!--        <router-link-->
         <!--          :to="{ name: 'bonus-archive', params: {} }"-->

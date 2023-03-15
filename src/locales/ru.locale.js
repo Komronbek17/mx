@@ -118,6 +118,10 @@ export default {
     exit_yes: "Да, выйти",
     exit_no: "Остаться",
   },
+  bonus_page: {
+    recent: "Недавние",
+    prizes: "Призы",
+  },
   login_page: {
     text_1: "Авторизация",
     text_2: "На ваш номер будет отправлен SMS для активации вашего аккаунта.",
@@ -136,12 +140,12 @@ export default {
   level_page: {
     take_prize: "Получить приз",
   },
-  yup:{
+  yup: {
     max: "Поле {_field_} не может быть более {length} символов",
     max_value: "Поле {_field_} должно быть {max} или менее",
     mimes: "Поле {_field_} должно иметь допустимый тип файла",
     min: "Поле {_field_} должно быть не менее {length} символов",
     min_value: "Поле {_field_} должно быть {min} или больше",
     required: "Поле {_field_} обязательно для заполнения",
-  }
+  },
 };

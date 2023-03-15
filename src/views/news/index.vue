@@ -30,6 +30,7 @@ const getNews = async () => {
     const { data } = await newsApi.fetchNews(body);
     news.value = [...news.value, ...data.result];
     pagination.value = Object.assign(pagination.value, data.pagination);
+    console.log(news);
   } catch (e) {
     console.log(e, "newsApi");
   }
@@ -89,7 +90,8 @@ onMounted(async () => {
           class="news-list__item flex align-center"
         >
           <div class="news-list__item-img">
-            <img :src="item.img" alt="" />
+            <img v-if="item.image" :src="item.image.path" alt="" />
+            <img v-else src="@/assets/images/no-photo.png" alt="" />
           </div>
           <div>
             <p>{{ item.name }}</p>
@@ -145,7 +147,7 @@ onMounted(async () => {
         height: 66px;
         padding-right: 1rem;
 
-        img{
+        img {
           height: 100%;
           min-width: 66px;
           max-width: 66px;
@@ -159,6 +161,10 @@ onMounted(async () => {
         line-height: 133%;
         color: var(--gf-text-33);
         margin: 0 0 8px 0;
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
       }
 
       span {
