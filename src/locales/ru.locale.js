@@ -102,6 +102,11 @@ export default {
     text: "2Х бонус {level}го уровня успешно активирован",
   },
   profile_page: {
+    change_photo: "Выбрать фото профиля",
+    save_changes: "Сохранить изменения",
+    set_photo: "Установить фото профиля",
+    label_name: "Имя",
+    label_surname: "Фамилия",
     soon: "Совсем скоро...",
     informers: {
       title: "Информеры",
@@ -117,6 +122,10 @@ export default {
     exit_text: "Вы уверены что хотите выйти из аккаунта?",
     exit_yes: "Да, выйти",
     exit_no: "Остаться",
+  },
+  bonus_page: {
+    recent: "Недавние",
+    prizes: "Призы",
   },
   login_page: {
     text_1: "Авторизация",
@@ -137,12 +146,12 @@ export default {
   level_page: {
     take_prize: "Получить приз",
   },
-  yup:{
+  yup: {
     max: "Поле {_field_} не может быть более {length} символов",
     max_value: "Поле {_field_} должно быть {max} или менее",
     mimes: "Поле {_field_} должно иметь допустимый тип файла",
     min: "Поле {_field_} должно быть не менее {length} символов",
     min_value: "Поле {_field_} должно быть {min} или больше",
     required: "Поле {_field_} обязательно для заполнения",
-  }
+  },
 };

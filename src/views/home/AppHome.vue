@@ -1,29 +1,29 @@
 <script setup>
-import {onMounted, ref} from "vue";
-import {useI18n} from "vue-i18n";
-import {useRouter} from "vue-router";
+import { onMounted, ref } from "vue";
+import { useI18n } from "vue-i18n";
+import { useRouter } from "vue-router";
 
 import CatalogHome from "@/components/home/CatalogHome.vue";
 import OltinBaliqIcon from "@/components/icons/OltinBaliqIcon.vue";
 import UserCardHome from "@/components/home/UserCardHome.vue";
 import AppLoader from "@/components/elements/loader/AppLoader.vue";
 
-import {hasOwnProperty} from "@/utils/object.util";
-import {WebAppController} from "@/utils/telegram/web.app.util";
-import {localStorageController} from "@/utils/localstorage.util";
-import {useTelegram} from "@/composables/telegram.composable";
-import {loadingComposable} from "@/composables/loading.composable";
+import { hasOwnProperty } from "@/utils/object.util";
+import { WebAppController } from "@/utils/telegram/web.app.util";
+import { localStorageController } from "@/utils/localstorage.util";
+import { useTelegram } from "@/composables/telegram.composable";
+import { loadingComposable } from "@/composables/loading.composable";
 
-import {ACCEPT_LANGUAGE, USER_DATA} from "@/constants";
-import {useTelegramStore} from "@/stores/telegram.store";
-import VoteModal from "@/views/vote/VoteModal.vue";
-import {profileApi} from "@/services/profile.service";
+import { ACCEPT_LANGUAGE, USER_DATA } from "@/constants";
+import { useTelegramStore } from "@/stores/telegram.store";
+// import VoteModal from "@/views/vote/VoteModal.vue";
+import { profileApi } from "@/services/profile.service";
 
-const {tUserFullName} = useTelegramStore();
-const {tUserUniqueId, checkTelegramUser} = useTelegram();
+const { tUserFullName } = useTelegramStore();
+const { tUserUniqueId, checkTelegramUser } = useTelegram();
 
 const router = useRouter();
-const {locale, t} = useI18n();
+const { locale, t } = useI18n();
 const {
   loading: isFetching,
   startLoading,
@@ -36,26 +36,30 @@ function openDailyBonusPage() {
   });
 }
 
-
 const user = ref({
   id: null,
   fullName: null,
   avatar: null,
-})
+});
 
 const getMe = async () => {
   try {
-    const {data: {result}} = await profileApi.fetchMe()
-    user.value.id = result.id || tUserUniqueId
-    user.value.fullName = (result.first_name || result.last_name) ? (result.first_name + ' ' + result.last_name) : tUserFullName
-    user.value.avatar = result.upload?.path || '@/assets/images/profile-image.svg'
+    const {
+      data: { result },
+    } = await profileApi.fetchMe();
+    user.value.id = result.id || tUserUniqueId;
+    user.value.fullName =
+      result.first_name || result.last_name
+        ? result.first_name + " " + result.last_name
+        : tUserFullName;
+    user.value.avatar =
+      result.upload?.path || "@/assets/images/profile-image.svg";
     localStorageController.set(ACCEPT_LANGUAGE, result.language);
     localStorageController.set(USER_DATA, result);
   } catch (e) {
-    console.log(e, 'e');
+    console.log(e, "e");
   }
-}
-
+};
 
 onMounted(async () => {
   try {
@@ -80,24 +84,24 @@ WebAppController.ready();
 
 <template>
   <div class="app-home">
-    <app-loader :active="isFetching"/>
+    <app-loader :active="isFetching" />
     <user-card-home
-        :user-full-name="user.fullName"
-        :user-unique-id="user.id"
-        :user-avatar="user.avatar"
-        class="mb-1"
+      :user-full-name="user.fullName"
+      :user-unique-id="user.id"
+      :user-avatar="user.avatar"
+      class="mb-1"
     />
 
     <div class="ol-main-banner mb-1" @click="openDailyBonusPage">
       <img
-          src="@/assets/images/home-card-layout.png"
-          alt="banner"
-          class="ol-main-banner-image"
+        src="@/assets/images/home-card-layout.png"
+        alt="banner"
+        class="ol-main-banner-image"
       />
       <div
-          class="ol-main-banner-content flex flex-column align-center justify-around"
+        class="ol-main-banner-content flex flex-column align-center justify-around"
       >
-        <oltin-baliq-icon/>
+        <oltin-baliq-icon />
         <div class="flex flex-column justify-center align-center">
           <span class="ol-main-banner-message">
             {{ t("home_page.try_luck") }}
@@ -106,9 +110,9 @@ WebAppController.ready();
       </div>
     </div>
 
-    <catalog-home/>
+    <catalog-home />
 
-    <vote-modal/>
+<!--    <vote-modal />-->
   </div>
 </template>
 
