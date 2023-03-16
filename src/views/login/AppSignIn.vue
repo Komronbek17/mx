@@ -105,9 +105,12 @@ WebAppController.ready();
           v-model="loginState.agreement"
           id="ol-terms-conditions-checkbox"
       />
-      <span class="ml-0-5 ol-accept-privacy">{{
-          t("login_page.privacy_policy")
-        }}</span>
+      <span class="ml-0-5 ol-accept-privacy">
+        {{ t("login_page.privacy_policy") }}
+        <router-link :to="{ name: 'profile-privacy' }">
+          {{ t("login_page.privacy_agree") }}
+        </router-link>
+      </span>
     </label>
 
     <p class="ol-service-message mt-4 mb-1-5">
