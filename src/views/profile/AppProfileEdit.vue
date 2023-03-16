@@ -11,7 +11,9 @@ import { profileApi } from "@/services/profile.service";
 import { useTelegramStore } from "@/stores/telegram.store";
 import { useRouter } from "vue-router";
 import BaseInput from "@/components/ui/BaseInput/BaseInput.vue";
+import { useI18n } from "vue-i18n";
 
+const { t } = useI18n();
 const { tUser } = useTelegramStore();
 
 const router = useRouter();
@@ -123,7 +125,7 @@ WebAppController.ready();
           class="profile-edit__choose flex align-center"
         >
           <img src="@/assets/images/profile-choose-photo.svg" alt="" />
-          <span>Выбрать фото профиля</span>
+          <span>{{ t("profile_page.change_photo") }}</span>
         </button>
 
         <!--    FORM    -->
@@ -131,19 +133,19 @@ WebAppController.ready();
           <div class="form-content">
             <base-input
               v-model="userNewData.first_name"
-              label="Имя"
+              :label="t('profile_page.label_name')"
               name="name"
             />
 
             <base-input
               v-model="userNewData.last_name"
-              label="Фамилия"
+              :label="t('profile_page.label_surname')"
               name="surname"
             />
           </div>
 
           <button @click="updateProfile" class="save-button">
-            Сохранить изменения
+            {{ t("profile_page.save_changes") }}
           </button>
         </div>
       </div>
@@ -151,7 +153,9 @@ WebAppController.ready();
 
     <popover :popover-value="popoverValue" @close-popover="closePopover">
       <template #header>
-        <h3 class="avatar-popover__header-title">Установить фото профиля</h3>
+        <h3 class="avatar-popover__header-title">
+          {{ t("profile_page.set_photo") }}
+        </h3>
       </template>
       <template #content>
         <div class="avatar-popover__content">
@@ -171,7 +175,7 @@ WebAppController.ready();
           :disabled="!userNewData.upload_id"
           class="avatar-popover__footer"
         >
-          <p class="footer-button">Окей</p>
+          <p class="footer-button">{{ t("ok") }}</p>
         </button>
       </template>
     </popover>
