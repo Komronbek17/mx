@@ -1,10 +1,9 @@
 <script setup>
-import {onMounted, reactive, watch} from "vue";
-import {onBeforeRouteLeave, useRouter} from "vue-router";
-import {useField} from "vee-validate";
-import {useToast} from "vue-toastification";
+import { onMounted, reactive, watch } from "vue";
+import { onBeforeRouteLeave, useRouter } from "vue-router";
+import { useField } from "vee-validate";
+import { useToast } from "vue-toastification";
 import * as yup from "yup";
-
 
 import RotateLeftIcon from "@/components/icons/RotateLeftIcon.vue";
 
@@ -13,15 +12,15 @@ import {
   sessionStorageController,
 } from "@/utils/localstorage.util";
 
-import {authApi} from "@/services/auth.service";
-import {OLTIN_BALIQ_BOT_TKN, VERIFICATION_PHONE} from "@/constants";
-import {MainButtonController} from "@/utils/telegram/main.button.controller";
-import {WebAppController} from "@/utils/telegram/web.app.util";
-import {useI18n} from "vue-i18n";
-import {telegramApi} from "@/services/telegram.service";
-import {mixed} from "yup";
+import { authApi } from "@/services/auth.service";
+import { OLTIN_BALIQ_BOT_TKN, VERIFICATION_PHONE } from "@/constants";
+import { MainButtonController } from "@/utils/telegram/main.button.controller";
+import { WebAppController } from "@/utils/telegram/web.app.util";
+import { useI18n } from "vue-i18n";
+import { telegramApi } from "@/services/telegram.service";
+import { mixed } from "yup";
 
-const {t} = useI18n();
+const { t } = useI18n();
 const router = useRouter();
 const toast = useToast();
 const LIMIT = 60;
@@ -41,15 +40,14 @@ const {
   errors,
   validate,
 } = useField(
-    "ol-verify-code",
-    yup
-        .string()
-        .required(t('yup.required', {_field_: t('login_page.verify_code')}))
-        .min(4, t('yup.min', {_field_: t('login_page.verify_code'), length: 4}))
-        .max(4, t('yup.max', {_field_: t('login_page.verify_code'), length: 4}))
-        .label(t('login_page.verify_code'))
+  "ol-verify-code",
+  yup
+    .string()
+    .required(t("yup.required", { _field_: t("login_page.verify_code") }))
+    .min(4, t("yup.min", { _field_: t("login_page.verify_code"), length: 4 }))
+    .max(4, t("yup.max", { _field_: t("login_page.verify_code"), length: 4 }))
+    .label(t("login_page.verify_code"))
 );
-
 
 // yup.setLocale({
 //   // use functions to generate an error object that includes the value from the schema
@@ -63,33 +61,32 @@ const {
 //   max: ({}) => $t('yup.max'),
 // })
 
-
 watch(
-    () => meta.valid,
-    (valid) => {
-      if (valid) {
-        MainButtonController.run();
-        MainButtonController.resetButtonDesign();
-      } else {
-        MainButtonController.setBackgroundColor("#CCE7FF");
-      }
+  () => meta.valid,
+  (valid) => {
+    if (valid) {
+      MainButtonController.run();
+      MainButtonController.resetButtonDesign();
+    } else {
+      MainButtonController.setBackgroundColor("#CCE7FF");
     }
+  }
 );
 
 function setPhoneNumber() {
   const vp = sessionStorageController.get(VERIFICATION_PHONE);
   if (vp) {
     verifyState.phone =
-        "+" +
-        vp.slice(0, 3) +
-        " " +
-        vp.slice(3, 5) +
-        " " +
-        vp.slice(5, 8) +
-        " " +
-        vp.slice(8, 10) +
-        " " +
-        vp.slice(10);
+      "+" +
+      vp.slice(0, 3) +
+      " " +
+      vp.slice(3, 5) +
+      " " +
+      vp.slice(5, 8) +
+      " " +
+      vp.slice(8, 10) +
+      " " +
+      vp.slice(10);
   } else {
     router.push({
       name: "login",
@@ -98,11 +95,11 @@ function setPhoneNumber() {
 }
 
 async function verifyCode() {
-  const {valid} = await validate();
+  const { valid } = await validate();
   if (valid) {
     MainButtonController.showProgress();
     try {
-      const {data} = await authApi.verify({
+      const { data } = await authApi.verify({
         body: {
           phone: sessionStorageController.get(VERIFICATION_PHONE),
           verify_code: olVerifyCode.value,
@@ -135,7 +132,7 @@ async function verifyCode() {
   }
 }
 
-function setTime({sec, min}) {
+function setTime({ sec, min }) {
   if (sec >= 0) {
     verifyState.time.sec = sec > 9 ? sec : `0${sec}`;
   }
@@ -146,10 +143,10 @@ function setTime({sec, min}) {
 }
 
 async function resend() {
-  setTime({sec: LIMIT});
+  setTime({ sec: LIMIT });
   try {
     await authApi.login({
-      body: {phone: sessionStorageController.get(VERIFICATION_PHONE)},
+      body: { phone: sessionStorageController.get(VERIFICATION_PHONE) },
     });
     startTimer();
   } catch (e) {
@@ -163,7 +160,7 @@ function startTimer() {
   const timeInterval = setInterval(() => {
     if (seconds > 1) {
       --seconds;
-      setTime({sec: seconds});
+      setTime({ sec: seconds });
     } else {
       clearInterval(timeInterval);
       verifyState.showResendButton = true;
@@ -198,22 +195,22 @@ WebAppController.ready();
       {{ t("login_page.verify_2") }}:
     </label>
     <input
-        class="ol-phone-input"
-        type="tel"
-        v-mask="'########'"
-        id="ol-verification-code"
-        :placeholder="t('login_page.code')"
-        v-model="olVerifyCode"
+      class="ol-phone-input"
+      type="tel"
+      v-mask="'########'"
+      id="ol-verification-code"
+      :placeholder="t('login_page.code')"
+      v-model="olVerifyCode"
     />
     <span v-if="errors.length" class="validation-failed">
       {{ errors[0] }}
     </span>
     <span
-        v-if="verifyState.showResendButton"
-        class="send-code-again mt-0-5 flex align-center"
-        @click="resend"
+      v-if="verifyState.showResendButton"
+      class="send-code-again mt-0-5 flex align-center"
+      @click="resend"
     >
-      <rotate-left-icon/>
+      <rotate-left-icon />
       <span class="ml-0-5">{{ t("login_page.retry") }}</span>
     </span>
     <span v-else class="verification-timer mt-0-5">

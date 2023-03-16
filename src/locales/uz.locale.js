@@ -100,6 +100,11 @@ export default {
     text: "{level}-darajali 2X bonus muvaffaqiyatli faollashtirildi",
   },
   profile_page: {
+    change_photo: "Profil rasmini tanlang",
+    save_changes: "O'zgarishlarni saqlash",
+    set_photo: "Profil rasmini o'rnatish",
+    label_name: "Ism",
+    label_surname: "Familiya",
     soon: "Tez kunda...",
     informers: {
       title: "Ma'lumotnoma",
@@ -121,10 +126,11 @@ export default {
     prizes: "Sovg'alar",
   },
   login_page: {
-    text_1: "Ro'yhatdan o'tish",
+    text_1: "Ro'yxatdan o'tish",
     text_2: "Hisobingizni faollashtirish uchun raqamingizga SMS yuboriladi.",
     label: "Sizning telefon raqamingiz",
-    privacy_policy: "Men taklif shartlarini qabul qilaman",
+    privacy_policy: "Men taklif shartlarini ",
+    privacy_agree: "qabul qilaman",
     confirm_btn: "Tasdiqlash",
     text_3:
       "Abonent uchun “Oltin Baliq” xizmatidan foydalanish QQS bilan birga kuniga 500 so‘m.",

@@ -102,6 +102,11 @@ export default {
     text: "2Х бонус {level}го уровня успешно активирован",
   },
   profile_page: {
+    change_photo: "Выбрать фото профиля",
+    save_changes: "Сохранить изменения",
+    set_photo: "Установить фото профиля",
+    label_name: "Имя",
+    label_surname: "Фамилия",
     soon: "Совсем скоро...",
     informers: {
       title: "Информеры",
