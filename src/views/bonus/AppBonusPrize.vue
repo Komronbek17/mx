@@ -1,7 +1,7 @@
 <script setup>
 import { onMounted, ref } from "vue";
 import { useI18n } from "vue-i18n";
-import { historyMockApi } from "@/services/history.service";
+import { historyApi, historyMockApi } from "@/services/history.service";
 import { formatDateWithDot } from "@/utils/date.formatter";
 import { WebAppController } from "@/utils/telegram/web.app.util";
 import { loadingComposable } from "@/composables/loading.composable";
@@ -29,7 +29,7 @@ const getPrizeBonuses = async () => {
       limit: pagination.value.limit,
     },
   };
-  const { data } = await historyMockApi.fetchPrizeHistories(body);
+  const { data } = await historyApi.fetchPrizeHistories(body);
   prizeBonuses.value = data.items;
   pagination.value = Object.assign(pagination.value, data.pagination);
 };
@@ -62,6 +62,7 @@ function loadMore() {
 
 const checkScrollFunction = () => {
   const listElm = document.getElementById("infinite-list");
+  // eslint-disable-next-line no-unused-vars
   listElm.addEventListener("scroll", (e) => {
     if (listElm.scrollTop + listElm.clientHeight >= listElm.scrollHeight) {
       if (pagination.value.next) {

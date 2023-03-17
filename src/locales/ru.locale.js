@@ -108,6 +108,7 @@ export default {
     label_name: "Имя",
     label_surname: "Фамилия",
     soon: "Совсем скоро...",
+    choose_region: "Укажите регион",
     informers: {
       title: "Информеры",
       balance: "Пополнение баланса",
