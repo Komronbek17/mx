@@ -75,9 +75,7 @@ WebAppController.ready();
 
       <p class="one-news__title">{{ newData.name }}</p>
 
-      <div class="one-news__description">
-        {{ newData.description }}
-      </div>
+      <div class="one-news__description" v-html="newData.description"></div>
 
       <div v-if="newData.likes" class="one-news__btns flex align-center">
         <button @click="onLike" class="flex align-center">
@@ -191,6 +189,7 @@ WebAppController.ready();
     line-height: 138%;
     letter-spacing: -0.5px;
     color: var(--gf-text-33);
+    white-space: pre-wrap;
   }
 
   &__btns {
