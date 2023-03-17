@@ -48,18 +48,6 @@ const {
     .label(t("login_page.verify_code"))
 );
 
-// yup.setLocale({
-//   // use functions to generate an error object that includes the value from the schema
-//   number: {
-//     // required: ({required}) => (t{key: 'yup.required,',  values: {required}}),
-//     // string: ({string}) => ({key: 'yup.string', values: {string}}),
-//     min: ({min}) => ({key: 'yup.min', values: {min}}),
-//     max: ({max}) => ({key: 'yup.max', values: {max}}),
-//   },
-//   min: ({}) => $t('yup.min'),
-//   max: ({}) => $t('yup.max'),
-// })
-
 watch(
   () => meta.valid,
   (valid) => {
