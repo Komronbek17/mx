@@ -198,7 +198,7 @@ WebAppController.ready();
           :disabled="!userNewData.upload_id"
           class="avatar-popover__footer"
         >
-          <p class="footer-button">{{ t("ok") }}</p>
+          <p class="footer-button">{{ t("profile_page.set") }}</p>
         </button>
       </template>
     </popover>
