@@ -145,11 +145,11 @@ export default {
     take_prize: "Sovg'ani olish",
   },
   yup: {
-    max: "Поле {_field_} не может быть более {length} символов",
-    max_value: "Поле {_field_} должно быть {max} или менее",
-    mimes: "Поле {_field_} должно иметь допустимый тип файла",
-    min: "Поле {_field_} должно быть не менее {length} символов",
-    min_value: "Поле {_field_} должно быть {min} или больше",
-    required: "Поле {_field_} обязательно для заполнения",
+    max: "{_field_} maydoni {length} belgisidan oshmasligi kerak",
+    max_value: "{_field_} maydoni {max} yoki undan kam bo'lishi kerak",
+    mimes: "{_field_} maydoni yaroqli fayl turi bo'lishi kerak",
+    min: "{_field_} maydoni kamida {length} belgidan iborat bo'lishi kerak",
+    min_value: "{_field_} maydoni {min} yoki kattaroq bo'lishi kerak",
+    required: "{_field_} maydonini kiritish shart",
   },
 };
