@@ -1,7 +1,7 @@
 <script setup>
 import { onMounted, ref } from "vue";
 import { useI18n } from "vue-i18n";
-import { historyApi, historyMockApi } from "@/services/history.service";
+import { historyApi } from "@/services/history.service";
 import { formatDateWithDot } from "@/utils/date.formatter";
 import { WebAppController } from "@/utils/telegram/web.app.util";
 import { loadingComposable } from "@/composables/loading.composable";
