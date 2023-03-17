@@ -107,7 +107,7 @@ export default {
     label_surname: "Familiya",
     soon: "Tez kunda...",
     set: "O'rnatish",
-    choose_region: "Viloyatni ko'rsating",
+    choose_region: "Hududnini ko'rsating",
     informers: {
       title: "Ma'lumotnoma",
       balance: "Balansni to'ldirish",
