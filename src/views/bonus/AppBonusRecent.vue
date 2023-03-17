@@ -6,6 +6,7 @@ import { WebAppController } from "@/utils/telegram/web.app.util";
 
 import AppLoader from "@/components/elements/loader/AppLoader.vue";
 import { loadingComposable } from "@/composables/loading.composable";
+import { formatDateWithDot } from "@/utils/date.formatter";
 
 const { t } = useI18n();
 let recentBonuses = ref([]);
@@ -35,6 +36,11 @@ const getRecentBonuses = async () => {
   pagination.value = Object.assign(pagination.value, data.pagination);
 };
 
+function formatCreatedTime(t) {
+  const d = t.replace(" ", "T");
+  return formatDateWithDot(d);
+}
+
 function filterBonusType(item) {
   if (item === "sms") {
     return t("bonus_types.sms");
@@ -45,15 +51,15 @@ function filterBonusType(item) {
   }
 }
 
-function filterBonusLevel(item) {
-  if (item === 1) {
-    return t("prize_levels.1");
-  } else if (item === 2) {
-    return t("prize_levels.2");
-  } else {
-    return t("prize_levels.3");
-  }
-}
+// function filterBonusLevel(item) {
+//   if (item === 1) {
+//     return t("prize_levels.1");
+//   } else if (item === 2) {
+//     return t("prize_levels.2");
+//   } else {
+//     return t("prize_levels.3");
+//   }
+// }
 
 function loadMore() {
   loading.value = true;
@@ -121,7 +127,7 @@ WebAppController.ready();
             <span>{{ filterBonusType(item.type) }}</span>
           </div>
           <p class="recent-level" :class="'recent-level-' + `${item.step}`">
-            {{ filterBonusLevel(item.step) }}
+            {{ formatCreatedTime(item.created_at) }}
           </p>
         </div>
       </div>
@@ -177,16 +183,12 @@ WebAppController.ready();
       }
 
       .recent-level {
-        background: linear-gradient(
-          107.32deg,
-          #4adaff -22.08%,
-          #0062ca 122.03%
-        );
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-        background-clip: text;
-        text-fill-color: transparent;
-        white-space: nowrap;
+        color: var(--gf-text-secondary-gray-2x);
+        //-webkit-background-clip: text;
+        //-webkit-text-fill-color: transparent;
+        //background-clip: text;
+        //text-fill-color: transparent;
+        //white-space: nowrap;
       }
     }
 
@@ -196,12 +198,12 @@ WebAppController.ready();
       }
 
       .recent-level {
-        background: linear-gradient(122.82deg, #f2d207 0%, #ffa329 100%);
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-        background-clip: text;
-        text-fill-color: transparent;
-        white-space: nowrap;
+        color: var(--gf-text-secondary-gray-2x);
+        //-webkit-background-clip: text;
+        //-webkit-text-fill-color: transparent;
+        //background-clip: text;
+        //text-fill-color: transparent;
+        //white-space: nowrap;
       }
     }
 
@@ -211,16 +213,12 @@ WebAppController.ready();
       }
 
       .recent-level {
-        background: linear-gradient(
-          142.74deg,
-          #00ff85 -18.06%,
-          #00b05c 110.27%
-        );
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-        background-clip: text;
-        text-fill-color: transparent;
-        white-space: nowrap;
+        color: var(--gf-text-secondary-gray-2x);
+        //-webkit-background-clip: text;
+        //-webkit-text-fill-color: transparent;
+        //background-clip: text;
+        //text-fill-color: transparent;
+        //white-space: nowrap;
       }
     }
   }

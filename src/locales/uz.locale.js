@@ -106,6 +106,8 @@ export default {
     label_name: "Ism",
     label_surname: "Familiya",
     soon: "Tez kunda...",
+    set: "O'rnatish",
+    choose_region: "Viloyatni ko'rsating",
     informers: {
       title: "Ma'lumotnoma",
       balance: "Balansni to'ldirish",
