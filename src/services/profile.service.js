@@ -1,25 +1,27 @@
 import Core from "@/services/axios/core.axios";
-import {axiosVersion} from "@/services/axios/axios";
+import { axiosVersion } from "@/services/axios/axios";
 
 class ProfileService extends Core {
-    constructor() {
-        super({
-            axios: axiosVersion({version: 'v1', endpoint: 'user/'}),
-        });
-    }
+  constructor() {
+    super({
+      axios: axiosVersion({ version: "v1", endpoint: "user/" }),
+    });
+  }
 
-    fetchAvatars() {
-        return this.get("avatars");
-    }
+  fetchAvatars() {
+    return this.get("avatars");
+  }
 
-    fetchMe() {
-        return this.get("me");
-    }
+  fetchMe() {
+    return this.get("me");
+  }
+  fetchRegions() {
+    return this.get("regions");
+  }
 
-    updateMe(body) {
-        return this.put("me", body);
-    }
-
+  updateMe(body) {
+    return this.put("me", body);
+  }
 }
 
 export const profileApi = new ProfileService();

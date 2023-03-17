@@ -23,10 +23,11 @@ const userNewData = ref({
   upload_id: null,
   first_name: null,
   last_name: null,
+  region_id: null,
 });
 const avatars = ref([]);
 const popoverValue = ref(false);
-
+const regions = ref([]);
 const {
   loading: isFetching,
   startLoading,
@@ -70,16 +71,27 @@ const getAvatars = async () => {
   }
 };
 
+const getRegions = async () => {
+  try {
+    const { data } = await profileApi.fetchRegions();
+    regions.value = data.result;
+  } catch (e) {
+    console.error(e);
+  }
+};
+
 const getMe = async () => {
   try {
     const { data } = await profileApi.fetchMe();
     user.value = data.result;
     user.value.first_name = data.result.first_name || tUser.first_name;
     user.value.last_name = data.result.last_name || tUser.last_name;
+    user.value.region = data.result.region;
 
     userNewData.value.first_name = data.result.first_name || tUser.first_name;
     userNewData.value.last_name = data.result.last_name || tUser.last_name;
     userNewData.value.upload_id = data.result.upload?.id || null;
+    userNewData.value.region_id = data.result.region?.id;
   } catch (e) {
     console.log(e, "e");
   }
@@ -99,6 +111,7 @@ const updateProfile = async () => {
 
 onMounted(async () => {
   await getMe();
+  await getRegions();
   await getAvatars();
 });
 
@@ -141,6 +154,16 @@ WebAppController.ready();
               v-model="userNewData.last_name"
               :label="t('profile_page.label_surname')"
               name="surname"
+            />
+          </div>
+
+          <div class="region-select">
+            <label>{{ t("profile_page.choose_region") }}</label>
+            <v-select
+              :options="regions"
+              :reduce="(r) => r.id"
+              v-model="userNewData.region_id"
+              label="name"
             />
           </div>
 
@@ -247,7 +270,7 @@ WebAppController.ready();
       font-weight: 500;
       font-size: 13px;
       line-height: 115%;
-      color: #dbdbdb;
+      color: var(--gf-input-text);
     }
 
     & input {
@@ -286,6 +309,7 @@ WebAppController.ready();
       letter-spacing: -0.32px;
       border-radius: 0.5rem;
       padding: 12px;
+      margin-top: 1rem;
       background: linear-gradient(107.32deg, #4adaff -22.08%, #0062ca 122.03%);
     }
   }
@@ -340,6 +364,55 @@ WebAppController.ready();
 
       background: #f5f5f5;
     }
+  }
+}
+
+::v-deep .region-select .v-select {
+  margin-top: 4px;
+  color: var(--gf-text-09);
+
+  & label {
+    font-weight: 500;
+    font-size: 13px;
+    line-height: 115%;
+    color: var(--gf-input-text) !important;
+  }
+
+  & svg {
+    fill: var(--gf-text-09);
+  }
+
+  & .vs__selected {
+    color: var(--gf-text-09);
+  }
+
+  & .vs__dropdown-toggle {
+    height: 40px;
+    border: 1px solid var(--gf-input-border);
+  }
+
+  & ul {
+    background: var(--gf-bg-main);
+    border: 1px solid var(--gf-input-border);
+    border-top-color: transparent;
+    & li {
+      color: var(--gf-text-09);
+
+      &:hover {
+        color: var(--gf-text-09);
+        background: var(--gf-blue-gradient-01);
+      }
+
+      &:focus {
+        color: var(--gf-text-09-reverse);
+        background: var(--gf-blue-gradient-01);
+      }
+    }
+  }
+
+  & .vs__dropdown-option--selected {
+    background: var(--gf-blue-gradient-01);
+    color: var(--gf-text-white-2x);
   }
 }
 </style>

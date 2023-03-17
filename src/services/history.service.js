@@ -10,15 +10,15 @@ class HistoryService extends Core {
     return this.get("/histories/", body);
   }
 
-  // fetchPrizeHistories() {
-  //   return this.get("/levels/histories/", {
-  //     method: "coin.get_prize_histories",
-  //     params: {
-  //       page: 1,
-  //       limit: 10,
-  //     },
-  //   });
-  // }
+  fetchPrizeHistories() {
+    return this.get("/levels/histories/", {
+      method: "coin.get_prize_histories",
+      params: {
+        page: 1,
+        limit: 10,
+      },
+    });
+  }
 }
 
 class HistoryMockService extends Core {

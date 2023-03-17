@@ -18,7 +18,6 @@ import { MainButtonController } from "@/utils/telegram/main.button.controller";
 import { WebAppController } from "@/utils/telegram/web.app.util";
 import { useI18n } from "vue-i18n";
 import { telegramApi } from "@/services/telegram.service";
-import { mixed } from "yup";
 
 const { t } = useI18n();
 const router = useRouter();
