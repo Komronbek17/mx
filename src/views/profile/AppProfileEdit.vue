@@ -160,6 +160,7 @@ WebAppController.ready();
           <div class="region-select">
             <label>{{ t("profile_page.choose_region") }}</label>
             <v-select
+              :searchable="false"
               :options="regions"
               :reduce="(r) => r.id"
               v-model="userNewData.region_id"
