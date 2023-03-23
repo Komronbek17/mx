@@ -1,5 +1,5 @@
 <script setup>
-import { onMounted, reactive, ref } from "vue";
+import {computed, onMounted, reactive, ref} from "vue";
 import { useRouter } from "vue-router";
 import { useI18n } from "vue-i18n";
 import { useTelegram } from "@/composables/telegram.composable";
@@ -60,6 +60,7 @@ if (isNotFetched) {
   }
 }
 
+
 const getMe = async () => {
   try {
     const { data } = await profileApi.fetchMe();
@@ -69,9 +70,17 @@ const getMe = async () => {
   }
 };
 
+const getFullName = computed(()=>{
+  return (user?.value.first_name || '') + " " +( user?.value.last_name || '' )|| tUserFullName
+})
+
 onMounted(async () => {
+  startLoading();
   await getMe();
+  finishLoading();
+
 });
+
 WebAppController.ready();
 </script>
 
@@ -83,12 +92,11 @@ WebAppController.ready();
         <!--   PROFILE DETAILS   -->
         <div class="flex flex-column align-center">
           <div class="profile-image">
-            <img v-if="user && user.upload" :src="user.upload['path']" alt="" />
-            <img v-else src="@/assets/images/profile-image.svg" alt="" />
+            <img v-if="user && user.upload" :src="user.upload['path']||'@/assets/images/profile-image.svg'" alt="" />
           </div>
 
           <p class="profile-name">
-            {{ user.first_name + " " + user.last_name || tUserFullName }}
+            {{getFullName}}
           </p>
           <span class="profile-id">ID: {{ user.id }}</span>
 

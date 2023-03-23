@@ -1,5 +1,5 @@
 <script setup>
-import { onMounted, ref } from "vue";
+import {computed, onMounted, ref} from "vue";
 
 import { useTelegram } from "@/composables/telegram.composable";
 import { loadingComposable } from "@/composables/loading.composable";
@@ -14,8 +14,7 @@ import BaseInput from "@/components/ui/BaseInput/BaseInput.vue";
 import { useI18n } from "vue-i18n";
 
 const { t } = useI18n();
-const { tUser } = useTelegramStore();
-
+const { tUser,tUserFullName } = useTelegramStore();
 const router = useRouter();
 
 const user = ref({});
@@ -102,17 +101,23 @@ const updateProfile = async () => {
     const body = userNewData.value;
     const { data } = await profileApi.updateMe(body);
     if (data) {
-      router.push({ name: "profile" });
+      await router.push({name: "profile"});
     }
   } catch (e) {
     console.log(e, "e");
   }
 };
 
+const getFullName = computed(()=>{
+  return (user?.value.first_name || '') + " " +( user?.value.last_name || '' )|| tUserFullName
+})
+
 onMounted(async () => {
+  startLoading();
   await getMe();
   await getRegions();
   await getAvatars();
+  finishLoading();
 });
 
 WebAppController.ready();
@@ -125,14 +130,12 @@ WebAppController.ready();
       <!--   PROFILE DETAILS   -->
       <div class="flex flex-column align-center">
         <div class="profile-edit__image">
-          <img v-if="user && user.upload" :src="user.upload['path']" alt="" />
-          <img v-else src="@/assets/images/profile-image.svg" alt="" />
+          <img v-if="user && user.upload" :src="user.upload['path'] || '@/assets/images/profile-image.svg'" alt="" />
         </div>
         <p class="profile-edit__name">
-          {{ user.first_name }} {{ user.last_name }}
+          {{getFullName}}
         </p>
         <span class="profile-edit__id">ID: {{ user.id }}</span>
-
         <button
           @click="openPopover"
           class="profile-edit__choose flex align-center"
