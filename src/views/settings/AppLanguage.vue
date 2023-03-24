@@ -1,17 +1,21 @@
 <script setup>
-import { computed } from "vue";
+import {computed} from "vue";
 import uzIcon from "@/assets/images/lang-uz-icon.svg";
 import ruIcon from "@/assets/images/lang-ru-icon.svg";
-import { useI18n } from "vue-i18n";
-import { useTelegramStore } from "@/stores/telegram.store";
-import { telegramApi } from "@/services/telegram.service";
-import { localStorageController } from "@/utils/localstorage.util";
-import { ACCEPT_LANGUAGE } from "@/constants";
-import { WebAppController } from "@/utils/telegram/web.app.util";
+import {useI18n} from "vue-i18n";
+import {useTelegramStore} from "@/stores/telegram.store";
+import {telegramApi} from "@/services/telegram.service";
+import {localStorageController} from "@/utils/localstorage.util";
+import {ACCEPT_LANGUAGE} from "@/constants";
+import {WebAppController} from "@/utils/telegram/web.app.util";
+import {useToast} from "vue-toastification";
+import {useRouter} from "vue-router";
 // import enIcon from "@/assets/images/lang-en-icon.svg";
 
-const { locale } = useI18n();
-const { tUserId } = useTelegramStore();
+const router = useRouter()
+const toast = useToast();
+const {locale} = useI18n();
+const {tUserId} = useTelegramStore();
 const availableLangs = [
   {
     label: "O'zbek tili",
@@ -33,13 +37,19 @@ let activeLang = computed(() => locale.value);
 
 async function changeLocale(code) {
   locale.value = code;
-  await telegramApi.switchLanguage({
-    body: {
-      telegram_id: tUserId,
-      language: code,
-    },
-  });
-  localStorageController.set(ACCEPT_LANGUAGE, locale.value);
+  try {
+    await telegramApi.switchLanguage({
+      body: {
+        telegram_id: tUserId,
+        language: code,
+      },
+    });
+  } catch (e) {
+    toast.error(e.response.data.message ?? e.message);
+  } finally {
+    localStorageController.set(ACCEPT_LANGUAGE, locale.value);
+    await router.push({name: 'settings'})
+  }
 }
 
 WebAppController.ready();
@@ -50,13 +60,13 @@ WebAppController.ready();
     <div class="layout-container">
       <div class="language-cards">
         <div
-          v-for="(lang, index) in availableLangs"
-          :key="index"
-          class="language-card"
-          :class="activeLang === lang.code ? 'active' : ''"
-          @click="changeLocale(lang.code)"
+            v-for="(lang, index) in availableLangs"
+            :key="index"
+            class="language-card"
+            :class="activeLang === lang.code ? 'active' : ''"
+            @click="changeLocale(lang.code)"
         >
-          <img :src="lang.icon" alt="" />
+          <img :src="lang.icon" alt=""/>
           <p>{{ lang.label }}</p>
         </div>
       </div>

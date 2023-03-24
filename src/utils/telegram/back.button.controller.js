@@ -37,6 +37,14 @@ export class BackButtonController {
         });
         break;
       }
+      case "settings-language":
+      case "settings-sound":
+      case "settings-unsubscribe": {
+        this.router.push({
+          name: "settings",
+        });
+        break;
+      }
       default: {
         if (window.history.state.back) {
           this.router.go(-1);
