@@ -161,9 +161,13 @@ WebAppController.ready();
 
 <style lang="scss" scoped>
 .one-news {
+  width: 100%;
+  height: 100%;
+
   & img {
     width: 100%;
-    height: 200px;
+    min-height: 200px;
+    max-height: 100%;
     object-fit: cover;
   }
 
