@@ -156,4 +156,6 @@ export default {
     min_value: "Поле {_field_} должно быть {min} или больше",
     required: "Поле {_field_} обязательно для заполнения",
   },
+  number_copied: "Номер телефона скопирован",
+  number_not_copied: "Номер не скопирован",
 };

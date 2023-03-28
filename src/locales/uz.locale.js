@@ -154,4 +154,6 @@ export default {
     min_value: "{_field_} maydoni {min} yoki kattaroq bo'lishi kerak",
     required: "{_field_} maydonini kiritish shart",
   },
+  number_copied: "Telefon raqamdan nusxa olindi",
+  number_not_copied: "Raqam aniqlanmadi",
 };

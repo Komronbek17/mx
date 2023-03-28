@@ -16,7 +16,6 @@ import SupportIcon from "@/components/icons/SupportIcon.vue";
 
 import { OLTIN_BALIQ_BOT_TKN, USER_DATA } from "@/constants";
 import { profileApi } from "@/services/profile.service";
-import { wApp } from "@/schema";
 
 const { t } = useI18n();
 const router = useRouter();
@@ -75,6 +74,19 @@ const getFullName = computed(() => {
     tUserFullName
   );
 });
+
+
+function copyNumber(number) {
+  if (WebAppController.checkAndroidDevice()) {
+    return navigator.clipboard.writeText(number)
+        .then(() => {
+          alert(t('number_copied'));
+        })
+        .catch(() => {
+          alert(t('number_not_copied'));
+        });
+  }
+}
 
 onMounted(async () => {
   startLoading();
@@ -216,7 +228,7 @@ WebAppController.ready();
         <!--        </div>-->
         <!--      </router-link>-->
 
-        <a href="tel:712051548" target="_blank" class="profile-item">
+        <a href="tel:712051548" @click="copyNumber(712051548)" target="_blank" class="profile-item">
           <support-icon class="profile-item__icon" />
           <div class="flex align-center justify-between b-bottom">
             <div>
@@ -257,7 +269,7 @@ WebAppController.ready();
         <!--        </router-link>-->
 
         <router-link :to="{ name: 'profile-privacy' }" class="profile-item">
-          <document-text-icon fill="#00BBF9" class="profile-item__icon" />
+          <document-text-icon fill="#00BBF9" class="profile-item__icon"/>
           <div class="flex align-center justify-between b-bottom">
             <div>
               <p class="profile-item__title">{{ $t("public_offer") }}</p>
@@ -265,9 +277,9 @@ WebAppController.ready();
 
             <div class="flex align-center">
               <img
-                class="profile-item__arrow"
-                src="@/assets/images/profile-arrow-right.svg"
-                alt=""
+                  class="profile-item__arrow"
+                  src="@/assets/images/profile-arrow-right.svg"
+                  alt=""
               />
             </div>
           </div>
@@ -275,9 +287,9 @@ WebAppController.ready();
 
         <div class="profile-item" @click="showLogoutModal">
           <img
-            class="profile-item__icon"
-            src="@/assets/images/profile-exit-icon.svg"
-            alt=""
+              class="profile-item__icon"
+              src="@/assets/images/profile-exit-icon.svg"
+              alt=""
           />
           <div class="flex align-center justify-between b-bottom">
             <div>
@@ -286,9 +298,9 @@ WebAppController.ready();
 
             <div class="flex align-center">
               <img
-                class="profile-item__arrow"
-                src="@/assets/images/profile-arrow-right.svg"
-                alt=""
+                  class="profile-item__arrow"
+                  src="@/assets/images/profile-arrow-right.svg"
+                  alt=""
               />
             </div>
           </div>
@@ -296,11 +308,11 @@ WebAppController.ready();
       </div>
     </div>
     <modal-dialog
-      v-model="profileState.showLogoutWarn"
-      @close-modal="hideLogoutModal"
+        v-model="profileState.showLogoutWarn"
+        @close-modal="hideLogoutModal"
     >
       <template #header>
-        <logout-icon />
+        <logout-icon/>
         <h3 class="ol-md-title">{{ t("profile_page.exit_title") }}</h3>
       </template>
       <template #content>
@@ -312,8 +324,8 @@ WebAppController.ready();
             {{ t("profile_page.exit_yes") }}
           </button>
           <button
-            class="ol-md-button ol-md-close-button"
-            @click="hideLogoutModal"
+              class="ol-md-button ol-md-close-button"
+              @click="hideLogoutModal"
           >
             {{ t("profile_page.exit_no") }}
           </button>
