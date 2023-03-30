@@ -26,9 +26,6 @@ class InfoService extends Core {
   fetchAvatars() {
     return this.get("avatars");
   }
-
-
-
 }
 
 export const infoApi = new InfoService();

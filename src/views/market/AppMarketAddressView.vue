@@ -11,17 +11,7 @@
       <div class="address-items">
         <div class="address-item">
           <label class="d-flex align-start">
-            <input type="radio" name="radio" checked/>
-            <div class="input-round">
-              <div class="d-flex flex-column align-start">
-                <h5>asd</h5>
-                <p>asd</p>
-              </div>
-            </div>
-
-          </label>
-          <label>
-            <input type="radio" name="radio"/>
+            <input type="radio" name="radio" checked />
             <div class="input-round">
               <div class="d-flex flex-column align-start">
                 <h5>asd</h5>
@@ -30,7 +20,16 @@
             </div>
           </label>
           <label>
-            <input type="radio" name="radio"/>
+            <input type="radio" name="radio" />
+            <div class="input-round">
+              <div class="d-flex flex-column align-start">
+                <h5>asd</h5>
+                <p>asd</p>
+              </div>
+            </div>
+          </label>
+          <label>
+            <input type="radio" name="radio" />
             <div class="input-round">
               <div class="d-flex flex-column align-start">
                 <h5>asd</h5>
@@ -45,7 +44,6 @@
 </template>
 
 <style lang="scss" scoped>
-
 .address {
   &-title {
     display: flex;
@@ -68,7 +66,6 @@
     }
   }
 }
-
 
 label {
   display: flex;
@@ -142,5 +139,4 @@ label {
 //  padding: 20px;
 //}
 // End Codepen spesific styling
-
 </style>
