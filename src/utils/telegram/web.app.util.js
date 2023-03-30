@@ -192,4 +192,10 @@ export class WebAppController {
       });
     }
   }
+
+  static checkAndroidDevice(){
+    if(navigator){
+      return !!navigator.userAgent.includes('Android')
+    }
+  }
 }

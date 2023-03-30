@@ -1,7 +1,7 @@
 import Core from "@/services/axios/core.axios";
 import { axiosVersion } from "@/services/axios/axios";
 
-class ProductService extends Core {
+class ProductOldService extends Core {
   constructor() {
     super({
       endpoint: "coin/",
@@ -33,7 +33,7 @@ class ProductService extends Core {
   }
 }
 
-class ProductV2Service extends Core {
+class ProductService extends Core {
   constructor() {
     super({
       endpoint: "coin/",
@@ -51,4 +51,3 @@ class ProductV2Service extends Core {
 }
 
 export const productApi = new ProductService();
-export const productApiV2 = new ProductV2Service();
