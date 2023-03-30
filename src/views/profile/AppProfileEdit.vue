@@ -1,5 +1,5 @@
 <script setup>
-import {computed, onMounted, ref} from "vue";
+import { computed, onMounted, ref } from "vue";
 
 import { useTelegram } from "@/composables/telegram.composable";
 import { loadingComposable } from "@/composables/loading.composable";
@@ -14,7 +14,7 @@ import BaseInput from "@/components/ui/BaseInput/BaseInput.vue";
 import { useI18n } from "vue-i18n";
 
 const { t } = useI18n();
-const { tUser,tUserFullName } = useTelegramStore();
+const { tUser, tUserFullName } = useTelegramStore();
 const router = useRouter();
 
 const user = ref({});
@@ -101,16 +101,19 @@ const updateProfile = async () => {
     const body = userNewData.value;
     const { data } = await profileApi.updateMe(body);
     if (data) {
-      await router.push({name: "profile"});
+      await router.push({ name: "profile" });
     }
   } catch (e) {
     console.log(e, "e");
   }
 };
 
-const getFullName = computed(()=>{
-  return (user?.value.first_name || '') + " " +( user?.value.last_name || '' )|| tUserFullName
-})
+const getFullName = computed(() => {
+  return (
+    (user?.value.first_name || "") + " " + (user?.value.last_name || "") ||
+    tUserFullName
+  );
+});
 
 onMounted(async () => {
   startLoading();
@@ -130,10 +133,14 @@ WebAppController.ready();
       <!--   PROFILE DETAILS   -->
       <div class="flex flex-column align-center">
         <div class="profile-edit__image">
-          <img v-if="user && user.upload" :src="user.upload['path'] || '@/assets/images/profile-image.svg'" alt="" />
+          <img
+            v-if="user && user.upload"
+            :src="user.upload['path'] || '@/assets/images/profile-image.svg'"
+            alt=""
+          />
         </div>
         <p class="profile-edit__name">
-          {{getFullName}}
+          {{ getFullName }}
         </p>
         <span class="profile-edit__id">ID: {{ user.id }}</span>
         <button

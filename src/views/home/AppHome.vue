@@ -64,7 +64,7 @@ const getMe = async () => {
 onMounted(async () => {
   try {
     startLoading();
-    await getMe()
+    await getMe();
     const data = await checkTelegramUser();
     const hasUser = hasOwnProperty(data, "user");
     if (hasUser) {
@@ -112,7 +112,7 @@ WebAppController.ready();
 
     <catalog-home />
 
-<!--    <vote-modal />-->
+    <!--    <vote-modal />-->
   </div>
 </template>
 

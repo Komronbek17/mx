@@ -48,6 +48,11 @@ const router = createRouter({
       name: "home",
       component: AppHome,
     },
+    {
+      path: "/chat",
+      name: "chat",
+      component: () => import("@/views/chat/AppChat.vue"),
+    },
     // {
     //   path: "/login",
     //   name: "login",
@@ -165,7 +170,7 @@ const router = createRouter({
         // },
       ],
     },
-      // MARKET
+    // MARKET
     // {
     //   path: "/market",
     //   name: "market",
@@ -250,7 +255,11 @@ const router = createRouter({
 });
 
 router.beforeEach((to, from, next) => {
-  if (to.name === "login" || to.name === "verification" || to.name === "profile-privacy") {
+  if (
+    to.name === "login" ||
+    to.name === "verification" ||
+    to.name === "profile-privacy"
+  ) {
     return next();
   }
 

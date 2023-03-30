@@ -1,5 +1,4 @@
-<script setup>
-</script>
+<script setup></script>
 
 <template>
   <div class="basket">
@@ -10,10 +9,9 @@
       </div>
 
       <div class="basket-products">
-
         <div class="basket-product">
           <div class="basket-product__image">
-            <img src="@/assets/images/basket-2.png" alt="">
+            <img src="@/assets/images/basket-2.png" alt="" />
           </div>
 
           <div class="basket-product__details">
@@ -22,7 +20,7 @@
               <span class="basket-product__model">Модель</span>
             </div>
             <div class="basket-product__price">
-              <img src="@/assets/images/coin.png" alt="">
+              <img src="@/assets/images/coin.png" alt="" />
               <span>300</span>
             </div>
           </div>
@@ -30,7 +28,7 @@
 
         <div class="basket-product">
           <div class="basket-product__image">
-            <img src="@/assets/images/basket-1.png" alt="">
+            <img src="@/assets/images/basket-1.png" alt="" />
           </div>
 
           <div class="basket-product__details">
@@ -39,12 +37,11 @@
               <span class="basket-product__model">Модель</span>
             </div>
             <div class="basket-product__price">
-              <img src="@/assets/images/coin.png" alt="">
+              <img src="@/assets/images/coin.png" alt="" />
               <span>700</span>
             </div>
           </div>
         </div>
-
       </div>
     </div>
   </div>
