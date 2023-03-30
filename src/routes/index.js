@@ -172,7 +172,7 @@ const router = createRouter({
         // },
       ],
     },
-      // MARKET
+    // MARKET
     {
       path: "/market",
       name: "market",
@@ -218,7 +218,7 @@ const router = createRouter({
       name: "map",
       component: AppMarketMap,
     },
-      // END MARKET
+    // END MARKET
     {
       path: "/level",
       name: "level",
@@ -258,7 +258,11 @@ const router = createRouter({
 });
 
 router.beforeEach((to, from, next) => {
-  if (to.name === "login" || to.name === "verification" || to.name === "profile-privacy") {
+  if (
+    to.name === "login" ||
+    to.name === "verification" ||
+    to.name === "profile-privacy"
+  ) {
     return next();
   }
 

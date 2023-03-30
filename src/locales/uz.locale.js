@@ -98,6 +98,7 @@ export default {
     activate: "Faollashtirish",
     activated: "Faollashtirilgan",
     text: "{level}-darajali 2X bonus muvaffaqiyatli faollashtirildi",
+    show_order: "Показать заказ",
   },
   profile_page: {
     change_photo: "Profil rasmini tanlang",
