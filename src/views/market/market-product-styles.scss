@@ -17,13 +17,17 @@
     @extend .heading-3;
     letter-spacing: -0.4px;
     margin-bottom: 8px;
-    color: var(--text-main);
+    color: var(--gf-text-33);
   }
 
   &__price {
     p {
       @extend .text-15-600;
-      color: var(--accent-yellow);
+      background: var(--gf-p-yellow-gradient);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      text-fill-color: transparent;
       margin-left: 8px;
     }
   }
@@ -31,25 +35,25 @@
   &__amount {
     @extend .text-16-400;
     letter-spacing: -0.5px;
-    color: var(--text-secondary);
+    color: var(--gf-text-gray-2x);
     margin-bottom: 24px;
 
     & span {
-      color: var(--text-main);
+      color: var(--gf-text-33);
     }
   }
 
   &__description-title {
     @extend .text-16-600;
     letter-spacing: -0.5px;
-    color: var(--text-main);
+    color: var(--gf-text-33);
     margin-bottom: 8px;
   }
 
   &__description {
     @extend .text-16-400;
     letter-spacing: -0.5px;
-    color: var(--text-secondary);
+    color: var(--gf-text-gray-2x);
     opacity: 0.7;
     margin-bottom: 1.5rem;
   }
@@ -58,7 +62,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    background: var(--accent-yellow);
+    background: var(--gf-yellow-gradient);
     width: 128px;
     height: 34px;
     border-radius: 100px;
@@ -72,7 +76,7 @@
 
     p {
       @extend .text-14-500;
-      color: var(--neutral-white);
+      color: var(--gf-text-white-2x);
     }
   }
 }

@@ -1,5 +1,23 @@
 <script setup>
 import { WebAppController } from "@/utils/telegram/web.app.util";
+import { MainButtonController } from "@/utils/telegram/main.button.controller";
+import { useI18n } from "vue-i18n";
+import { onBeforeRouteLeave } from "vue-router";
+
+const { t } = useI18n();
+
+async function showOrderProducts() {
+  console.log(1);
+}
+
+MainButtonController.run();
+MainButtonController.setText(`${t("market_page.show_order")}`);
+MainButtonController.setBackgroundColor("#01E075");
+MainButtonController.onClick(showOrderProducts);
+
+onBeforeRouteLeave(() => {
+  MainButtonController.makeInvisible();
+});
 
 WebAppController.ready();
 </script>
@@ -27,7 +45,7 @@ WebAppController.ready();
         придется думать о частой смене батареек.
       </p>
       <button class="market-product__btn">
-        <img src="@/assets/images/plus-icon.svg" alt="" />
+        <img src="@/assets/images/add.svg" alt="" />
         <p>В корзину</p>
       </button>
     </div>

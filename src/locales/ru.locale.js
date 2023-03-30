@@ -100,6 +100,7 @@ export default {
     activate: "Активировать",
     activated: "Активировано",
     text: "2Х бонус {level}го уровня успешно активирован",
+    show_order: "Показать заказ",
   },
   profile_page: {
     change_photo: "Выбрать фото профиля",
