@@ -1,5 +1,5 @@
 <script setup>
-import {WebAppController} from "@/utils/telegram/web.app.util";
+import { WebAppController } from "@/utils/telegram/web.app.util";
 
 WebAppController.ready();
 </script>
@@ -7,13 +7,13 @@ WebAppController.ready();
 <template>
   <div class="market-product">
     <div class="market-product__image">
-      <img src="@/assets/images/level-product__image.png" alt=""/>
+      <img src="@/assets/images/level-product__image.png" alt="" />
     </div>
     <div class="layout-container">
       <div class="flex align-center">
         <p class="market-product__title">Наушники JBL Everest V700BT BLK</p>
         <div class="flex align-center market-product__price">
-          <img src="@/assets/images/coin.png" alt="">
+          <img src="@/assets/images/coin.png" alt="" />
           <p>1000</p>
         </div>
       </div>
@@ -27,7 +27,7 @@ WebAppController.ready();
         придется думать о частой смене батареек.
       </p>
       <button class="market-product__btn">
-        <img src="@/assets/images/plus-icon.svg" alt="">
+        <img src="@/assets/images/plus-icon.svg" alt="" />
         <p>В корзину</p>
       </button>
     </div>

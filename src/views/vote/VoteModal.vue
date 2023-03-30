@@ -1,24 +1,22 @@
 <script setup>
 import ModalDialog from "@/components/ui/ModalDialog/ModalDialog.vue";
-import {useRouter} from "vue-router";
-import {onMounted, ref} from "vue";
+import { useRouter } from "vue-router";
+import { onMounted, ref } from "vue";
 
-const router = useRouter()
+const router = useRouter();
 
-const startVoteModal = ref(false)
+const startVoteModal = ref(false);
 
-function closeVoteModal(){
-  startVoteModal.value = false
+function closeVoteModal() {
+  startVoteModal.value = false;
 }
 
 function redirectVotePage() {
-  router.push({name: 'votes'})
+  router.push({ name: "votes" });
 }
 
 // onMounted(async () => {
 // })
-
-
 </script>
 
 <template>
@@ -26,7 +24,7 @@ function redirectVotePage() {
     <modal-dialog :model-value="startVoteModal" @close-modal="closeVoteModal">
       <template #header>
         <div class="modal-header">
-          <img src="@/assets/icons/money.svg" alt=""/>
+          <img src="@/assets/icons/money.svg" alt="" />
         </div>
       </template>
       <template #content>
@@ -36,8 +34,7 @@ function redirectVotePage() {
             <!--            {{ t("market_page.activated") }}!-->
           </h3>
           <p class="modal-content__subtitle">
-            Пройдите наш небольшой опросник
-            и получите монеты!
+            Пройдите наш небольшой опросник и получите монеты!
             <!--            {{-->
             <!--              t("connect_premium_service_message", {-->
             <!--                level: 1,-->
@@ -50,11 +47,10 @@ function redirectVotePage() {
         <div class="modal-footer">
           <div @click="redirectVotePage" class="modal-footer__button btn-info">
             Пройти опросник
-<!--            {{ $t("ok") }}-->
+            <!--            {{ $t("ok") }}-->
           </div>
         </div>
       </template>
     </modal-dialog>
-
   </div>
 </template>

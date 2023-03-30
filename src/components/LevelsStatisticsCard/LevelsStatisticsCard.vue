@@ -1,10 +1,9 @@
 <script setup>
 import { defineProps } from "vue";
 import ProgressStar from "@/components/ui/ProgressStar/ProgressStar.vue";
-import {useI18n} from "vue-i18n";
+import { useI18n } from "vue-i18n";
 
-
-const {t} = useI18n();
+const { t } = useI18n();
 
 const props = defineProps({
   level: Object,
@@ -12,13 +11,10 @@ const props = defineProps({
   activeIndex: Number,
 });
 
-
 const checkLevelName = (name) => {
   const levelIndex = name.slice(-1);
-  return t(`prize_levels.${levelIndex}`) || name
-}
-
-
+  return t(`prize_levels.${levelIndex}`) || name;
+};
 </script>
 
 <template>
@@ -34,7 +30,7 @@ const checkLevelName = (name) => {
       <div class="level-card__name">
         {{ checkLevelName(props.level.name) }}
       </div>
-      <div class="level-card__percent">{{ props.level.percent }} %</div>
+      <div class="level-card__percent">{{ props.level.percent || 0 }} %</div>
     </div>
   </div>
 </template>

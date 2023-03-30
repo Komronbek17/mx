@@ -16,7 +16,7 @@ import { loadingComposable } from "@/composables/loading.composable";
 
 import { ACCEPT_LANGUAGE, USER_DATA } from "@/constants";
 import { useTelegramStore } from "@/stores/telegram.store";
-import VoteModal from "@/views/vote/VoteModal.vue";
+// import VoteModal from "@/views/vote/VoteModal.vue";
 import { profileApi } from "@/services/profile.service";
 
 const { tUserFullName } = useTelegramStore();
@@ -64,6 +64,7 @@ const getMe = async () => {
 onMounted(async () => {
   try {
     startLoading();
+    await getMe();
     const data = await checkTelegramUser();
     const hasUser = hasOwnProperty(data, "user");
     if (hasUser) {
@@ -72,7 +73,6 @@ onMounted(async () => {
         locale.value = data.user.language;
       }
     }
-    await getMe();
     localStorageController.set(ACCEPT_LANGUAGE, locale.value);
   } finally {
     finishLoading();
@@ -112,7 +112,7 @@ WebAppController.ready();
 
     <catalog-home />
 
-    <vote-modal />
+    <!--    <vote-modal />-->
   </div>
 </template>
 
@@ -147,7 +147,7 @@ WebAppController.ready();
   }
 
   &-message {
-    color: white;
+    color: var(--gf-text-white-2x);
     font-weight: 600;
     font-size: 18px;
     line-height: 24px;

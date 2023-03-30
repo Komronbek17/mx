@@ -12,7 +12,7 @@ import { MainButtonController } from "@/utils/telegram/main.button.controller";
 
 import { useI18n } from "vue-i18n";
 import { VERIFICATION_PHONE } from "@/constants";
-import {useSignStore} from "@/stores/signin.store";
+import { useSignStore } from "@/stores/signin.store";
 
 const { t } = useI18n();
 const toast = useToast();
@@ -21,7 +21,7 @@ const loginState = reactive({
   agreement: false,
 });
 
-const { updateSignPhone, getSignPhone} = useSignStore()
+const { updateSignPhone, getSignPhone } = useSignStore();
 
 const {
   value: signPhone,

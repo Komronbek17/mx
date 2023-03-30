@@ -1,5 +1,5 @@
 <script setup>
-import {ref} from "vue";
+import { ref } from "vue";
 import BaseInput from "@/components/ui/BaseInput/BaseInput.vue";
 
 const form = ref({
@@ -7,8 +7,8 @@ const form = ref({
   entrance: null,
   floor: null,
   flat: null,
-  comment: null
-})
+  comment: null,
+});
 </script>
 
 <template>
@@ -17,33 +17,25 @@ const form = ref({
       <div class="market-form__block">
         <!--      -->
         <BaseInput
-            v-model="form.address"
-            :name="'address'"
-            :label="'Ваш адрес'"
+          v-model="form.address"
+          :name="'address'"
+          :label="'Ваш адрес'"
         />
 
         <BaseInput
-            v-model="form.entrance"
-            :name="'entrance'"
-            :label="'Подъезд'"
+          v-model="form.entrance"
+          :name="'entrance'"
+          :label="'Подъезд'"
         />
 
-        <BaseInput
-            v-model="form.floor"
-            :name="'floor'"
-            :label="'Этаж'"
-        />
+        <BaseInput v-model="form.floor" :name="'floor'" :label="'Этаж'" />
+
+        <BaseInput v-model="form.flat" :name="'flat'" :label="'Квартира'" />
 
         <BaseInput
-            v-model="form.flat"
-            :name="'flat'"
-            :label="'Квартира'"
-        />
-
-        <BaseInput
-            v-model="form.comment"
-            :name="'comment'"
-            :label="'Комментарий'"
+          v-model="form.comment"
+          :name="'comment'"
+          :label="'Комментарий'"
         />
       </div>
     </div>
