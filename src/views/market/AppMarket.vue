@@ -1,14 +1,14 @@
 <script setup>
-import { useToast } from "vue-toastification";
-import { onMounted, ref } from "vue";
-import { productApi } from "@/services/product.service";
+import {useToast} from "vue-toastification";
+import {onMounted, ref} from "vue";
+import {productApi} from "@/services/product.service";
 
 import ModalDialog from "@/components/ui/ModalDialog/ModalDialog.vue";
 import AppLoader from "@/components/elements/loader/AppLoader.vue";
-import { loadingComposable } from "@/composables/loading.composable";
-import { useI18n } from "vue-i18n";
+import {loadingComposable} from "@/composables/loading.composable";
+import {useI18n} from "vue-i18n";
 
-const { t } = useI18n();
+const {t} = useI18n();
 
 const {
   loading: isFetching,
@@ -66,8 +66,8 @@ const modalApply = () => {
   modalValue.value = false;
 };
 
-const addBasket = () => {
-  console.log("addBasket");
+const addBasket = (item) => {
+  console.log(item, "addBasket");
 };
 
 const submitActive = async () => {
@@ -80,7 +80,7 @@ const submitActive = async () => {
     };
 
     try {
-      const { data } = await productApi.activateProduct(body);
+      const {data} = await productApi.activateProduct(body);
       // console.log(data,'data');
       gifts.value = data.result;
     } catch (e) {
@@ -103,12 +103,12 @@ onMounted(async () => {
 
 <template>
   <div class="layout-container">
-    <app-loader :active="isFetching" />
+    <app-loader :active="isFetching"/>
     <div class="bonus-block">
       <div class="bonus-card">
         <div class="bonus-card__title">{{ $t("market_page.balance") }}:</div>
         <div class="bonus-card__price">
-          <img src="@/assets/images/coin.png" alt="" />
+          <img src="@/assets/images/coin.png" alt=""/>
           <p>{{ balance }}</p>
         </div>
       </div>
@@ -118,28 +118,28 @@ onMounted(async () => {
       <div class="gift-title">{{ t("market_page.prize") }}</div>
       <div class="gift-list">
         <router-link
-          v-for="gift in gifts"
-          :key="gift.id + '_level_1'"
-          :to="`/market/product/${gift.id}`"
-          class="gift-card"
+            v-for="gift in gifts"
+            :key="gift.id + '_level_1'"
+            :to="{name:'market-product', params:{id:gift.id}}"
+            class="gift-card"
         >
           <div class="gift-card__image">
             <img
-              :src="gift.images[0]?.path || '@/assets/images/no-photo.svg'"
-              alt=""
+                :src="gift.images[0]?.path || '@/assets/images/no-photo.svg'"
+                alt=""
             />
           </div>
           <div class="gift-card__content">
             <h5>{{ gift.name }}</h5>
             <div class="price">
-              <img src="@/assets/images/coin.png" alt="" />
+              <img src="@/assets/images/coin.png" alt=""/>
               <p>{{ gift.price }}</p>
             </div>
           </div>
           <div
-            v-if="gift.type === 'product'"
-            @click="addBasket(gift.id)"
-            class="gift-card__button"
+              v-if="gift.type === 'product'"
+              @click="addBasket(gift.id)"
+              class="gift-card__button"
           >
             <p>{{ t("market_page.to_basket") }}</p>
           </div>
@@ -153,7 +153,7 @@ onMounted(async () => {
     <modal-dialog :model-value="modalValue" @close-modal="closeDialogModal">
       <template #header>
         <div class="modal-header">
-          <img src="@/assets/images/2x-blue.png" alt="" />
+          <img src="@/assets/images/2x-blue.png" alt=""/>
         </div>
       </template>
       <template #content>

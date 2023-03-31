@@ -1,26 +1,39 @@
 .market-product {
   &__image {
-    background-color: var(--accent-gray);
-    padding: 15px 0;
+    width: auto;
+    max-width: 100%;
+    height: 225px;
+    background-color: var(--gf-accent-bg);
+    padding: 15px;
     display: flex;
     align-items: center;
     justify-content: center;
 
     & img {
-      width: auto;
-      height: auto;
+      width: 100%;
+      height: 100%;
       object-fit: contain;
     }
+  }
+
+  &__top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: .5rem;
   }
 
   &__title {
     @extend .heading-3;
     letter-spacing: -0.4px;
-    margin-bottom: 8px;
     color: var(--gf-text-33);
   }
 
   &__price {
+    display: flex;
+    align-items: center;
+    column-gap: .5rem;
+
     p {
       @extend .text-15-600;
       background: var(--gf-p-yellow-gradient);
@@ -28,7 +41,6 @@
       -webkit-text-fill-color: transparent;
       background-clip: text;
       text-fill-color: transparent;
-      margin-left: 8px;
     }
   }
 
