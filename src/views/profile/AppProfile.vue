@@ -289,7 +289,7 @@ WebAppController.ready();
           <support-icon class="profile-item__icon"/>
           <div class="flex align-center justify-between b-bottom">
             <div>
-              <p class="profile-item__title">Call center</p>
+              <p class="profile-item__title">Call center (71) 205-15-48</p>
             </div>
 
             <div class="flex align-center">
