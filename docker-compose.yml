@@ -1,0 +1,17 @@
+version: '3.7'
+
+services:
+  vue-app:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile
+    environment:
+      VITE_APP_URL: ${VITE_APP_URL}
+      VITE_APP_DEV_API: ${VITE_APP_DEV_API}
+      VITE_APP_DEV_VR: ${VITE_APP_DEV_VR}
+    ports:
+      - "8011:8090"
+    container_name: gold-fish
+    working_dir: /app
+    volumes:
+      - .:/app
