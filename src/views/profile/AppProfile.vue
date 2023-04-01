@@ -13,8 +13,9 @@ import DocumentTextIcon from "@/components/icons/DocumentTextIcon.vue";
 import ModalDialog from "@/components/ui/ModalDialog/ModalDialog.vue";
 import LogoutIcon from "@/components/icons/LogoutIcon.vue";
 import SupportIcon from "@/components/icons/SupportIcon.vue";
+import Popover from "@/components/ui/Popover/Popover.vue";
 
-import { OLTIN_BALIQ_BOT_TKN, USER_DATA } from "@/constants";
+import { OLTIN_BALIQ_BOT_TKN } from "@/constants";
 import { profileApi } from "@/services/profile.service";
 
 const { t } = useI18n();
@@ -29,11 +30,21 @@ const profileState = reactive({
 const user = ref({});
 const theme = WebAppController.webApp.colorScheme;
 
+const popoverValue = ref(false);
+
 const {
   loading: isFetching,
   startLoading,
   finishLoading,
 } = loadingComposable();
+
+const closePopover = () => {
+  popoverValue.value = false;
+};
+
+const openPopover = () => {
+  popoverValue.value = true;
+};
 
 function logout() {
   localStorageController.remove(OLTIN_BALIQ_BOT_TKN);
@@ -74,71 +85,6 @@ const getFullName = computed(() => {
     tUserFullName
   );
 });
-
-function copyNumber(number) {
-  if (WebAppController.checkAndroidDevice()) {
-    return navigator.clipboard
-      .writeText(number)
-      .then(() => {
-        alert(t("number_copied"));
-      })
-      .catch(() => {
-        alert(t("number_not_copied"));
-      });
-  }
-}
-
-const doCopy = async (number) => {
-  //
-  // navigator.permissions.query({
-  //   name: 'clipboard-write'
-  // }).then(permissionStatus => {
-  //   if (permissionStatus.state === 'granted') {
-  //     navigator.clipboard.writeText('Well, seems to work!').catch((err) => {
-  //       console.error(err, 'Failed to write text to clipboard.');
-  //     });
-  //   }
-  // }).catch(e=>{
-  //   console.error('error', e)
-  // })
-  //   const queryOpts = {name: 'clipboard-write', allowWithoutGesture: false};
-  //   const permissionStatus = await navigator.permissions.query(queryOpts);
-  // // Примет значение 'granted', 'denied' или 'prompt':
-  //   console.log(permissionStatus.state);
-  //
-  // // Прослушиваем изменения состояния разрешения
-  //   permissionStatus.onchange = () => {
-  //     console.log(permissionStatus.state);
-  //    };
-  //   navigator.permissions.query({name:'clipboard-write'})
-  //       .then(function(permissionStatus) {
-  //         console.log('geolocation permission state is ', permissionStatus.state);
-  //
-  //         permissionStatus.onchange = function() {
-  //           console.log('geolocation permission state has changed to ', this.state);
-  //         };
-  //       });
-  // navigator.clipboard.writeText(number)
-  //     .then(() => {
-  //       alert(t('number_copied'));
-  //     })
-  //     .catch((e) => {
-  //       console.log(e, 'e');
-  //       // alert(`${t('number_not_copied')} ${number}`);
-  //       alert(`${e} ${number}`);
-  //     });
-  // alert(number);
-  // copyText(number, undefined, (error, event) => {
-  //   alert(error)
-  //   if (error) {
-  //     alert(t('number_not_copied'));
-  //     console.log(error)
-  //   } else {
-  //     alert(t('number_copied'));
-  //     console.log(event)
-  //   }
-  // })
-};
 
 onMounted(async () => {
   startLoading();
@@ -280,7 +226,7 @@ WebAppController.ready();
         <!--        </div>-->
         <!--      </router-link>-->
         <!--        href="tel:712051548"-->
-        <a href="tel:712051548" target="_blank" class="profile-item">
+        <div @click="openPopover" class="profile-item">
           <support-icon class="profile-item__icon" />
           <div class="flex align-center justify-between b-bottom">
             <div>
@@ -295,7 +241,7 @@ WebAppController.ready();
               />
             </div>
           </div>
-        </a>
+        </div>
 
         <!--        <router-link :to="{ name: 'informers' }" class="profile-item">-->
         <!--          <img-->
@@ -384,6 +330,13 @@ WebAppController.ready();
         </div>
       </template>
     </modal-dialog>
+
+    <!--  CALL CENTER MODAL  -->
+    <popover :popover-value="popoverValue" @close-popover="closePopover">
+      <template #header>
+        <h3 class="call-center__number">(71) 205-25-48</h3>
+      </template>
+    </popover>
   </div>
 </template>
 
@@ -600,6 +553,10 @@ WebAppController.ready();
 .ol-md-close-button {
   color: var(--gf-text-09);
   background: var(--gf-accent-bg);
+}
+
+.call-center__number {
+  color: var(--gf-text-33);
 }
 
 //::v-deep .modal {
