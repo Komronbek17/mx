@@ -34,14 +34,14 @@ function toggleImageId() {
           />
 
           <div class="file-upload__not-uploaded">
-            <!--            <img src="@/assets/images/document-upload.svg" alt="" />-->
+            <img src="@/assets/images/document-upload.svg" alt="" />
             <p>Загрузить фото паспорта</p>
           </div>
         </div>
 
         <div v-else class="file-upload__uploaded">
           <div class="file-upload__uploaded-preview">
-            <!--            <img src="@/assets/images/document-text.svg" alt="" />-->
+            <img src="@/assets/images/document-text.svg" alt="" />
           </div>
           <div class="file-upload__uploaded-details">
             <div class="flex flex-column justify-between">
@@ -49,7 +49,7 @@ function toggleImageId() {
               <span>100 kb</span>
             </div>
             <button>
-              <!--              <img src="@/assets/images/close-circle.svg" alt="" />-->
+              <img src="@/assets/images/close-circle.svg" alt="" />
             </button>
           </div>
         </div>
@@ -61,7 +61,7 @@ function toggleImageId() {
           :disabled="imageId"
           @click="toggleImageId"
         >
-          <!--          <img src="@/assets/images/attach-icon.svg" alt="" />-->
+          <img src="@/assets/images/attach-icon.svg" alt="" />
           <span>Загрузить фото паспорта</span>
         </button>
       </div>

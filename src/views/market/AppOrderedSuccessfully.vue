@@ -3,11 +3,11 @@
 <template>
   <div class="order-success">
     <div class="layout-container flex flex-column align-center justify-center">
-      <!--      <img src="@/assets/images/success.svg" alt="" />-->
+      <img src="@/assets/images/success.svg" alt="" />
       <h4>Ваш заказ оформлен</h4>
       <p>Вы можете посмотреть статус вашего заказа в разделе “Профиль”</p>
       <router-link to="#">
-        <!--        <img src="@/assets/images/arrow-left.svg" alt="" />-->
+        <img src="@/assets/images/arrow-left.svg" alt="" />
         <span>Вернуться на главную</span>
       </router-link>
     </div>
