@@ -6,6 +6,8 @@
     "dev": "vite",
     "serve": "vite",
     "build": "vite build",
+    "build-dev": "vite build --mode=development",
+    "build-prod": "vite build --mode=production",
     "preview": "vite preview",
     "test:unit": "vitest --environment jsdom --root src/",
     "lint": "eslint . --ext .vue,.js,.jsx,.cjs,.mjs --fix --ignore-path .gitignore"
