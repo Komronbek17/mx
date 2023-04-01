@@ -15,7 +15,7 @@ import LogoutIcon from "@/components/icons/LogoutIcon.vue";
 import SupportIcon from "@/components/icons/SupportIcon.vue";
 import Popover from "@/components/ui/Popover/Popover.vue";
 
-import { OLTIN_BALIQ_BOT_TKN, USER_DATA } from "@/constants";
+import { OLTIN_BALIQ_BOT_TKN } from "@/constants";
 import { profileApi } from "@/services/profile.service";
 
 const { t } = useI18n();
@@ -85,71 +85,6 @@ const getFullName = computed(() => {
     tUserFullName
   );
 });
-
-function copyNumber(number) {
-  if (WebAppController.checkAndroidDevice()) {
-    return navigator.clipboard
-      .writeText(number)
-      .then(() => {
-        alert(t("number_copied"));
-      })
-      .catch(() => {
-        alert(t("number_not_copied"));
-      });
-  }
-}
-
-const doCopy = async (number) => {
-  //
-  // navigator.permissions.query({
-  //   name: 'clipboard-write'
-  // }).then(permissionStatus => {
-  //   if (permissionStatus.state === 'granted') {
-  //     navigator.clipboard.writeText('Well, seems to work!').catch((err) => {
-  //       console.error(err, 'Failed to write text to clipboard.');
-  //     });
-  //   }
-  // }).catch(e=>{
-  //   console.error('error', e)
-  // })
-  //   const queryOpts = {name: 'clipboard-write', allowWithoutGesture: false};
-  //   const permissionStatus = await navigator.permissions.query(queryOpts);
-  // // Примет значение 'granted', 'denied' или 'prompt':
-  //   console.log(permissionStatus.state);
-  //
-  // // Прослушиваем изменения состояния разрешения
-  //   permissionStatus.onchange = () => {
-  //     console.log(permissionStatus.state);
-  //    };
-  //   navigator.permissions.query({name:'clipboard-write'})
-  //       .then(function(permissionStatus) {
-  //         console.log('geolocation permission state is ', permissionStatus.state);
-  //
-  //         permissionStatus.onchange = function() {
-  //           console.log('geolocation permission state has changed to ', this.state);
-  //         };
-  //       });
-  // navigator.clipboard.writeText(number)
-  //     .then(() => {
-  //       alert(t('number_copied'));
-  //     })
-  //     .catch((e) => {
-  //       console.log(e, 'e');
-  //       // alert(`${t('number_not_copied')} ${number}`);
-  //       alert(`${e} ${number}`);
-  //     });
-  // alert(number);
-  // copyText(number, undefined, (error, event) => {
-  //   alert(error)
-  //   if (error) {
-  //     alert(t('number_not_copied'));
-  //     console.log(error)
-  //   } else {
-  //     alert(t('number_copied'));
-  //     console.log(event)
-  //   }
-  // })
-};
 
 onMounted(async () => {
   startLoading();
