@@ -1,12 +1,12 @@
 <script setup>
-import { computed, onMounted, reactive, ref } from "vue";
-import { useRouter } from "vue-router";
-import { useI18n } from "vue-i18n";
-import { useTelegram } from "@/composables/telegram.composable";
-import { loadingComposable } from "@/composables/loading.composable";
-import { useTelegramStore } from "@/stores/telegram.store";
-import { localStorageController } from "@/utils/localstorage.util";
-import { WebAppController } from "@/utils/telegram/web.app.util";
+import {computed, onMounted, reactive, ref} from "vue";
+import {useRouter} from "vue-router";
+import {useI18n} from "vue-i18n";
+import {useTelegram} from "@/composables/telegram.composable";
+import {loadingComposable} from "@/composables/loading.composable";
+import {useTelegramStore} from "@/stores/telegram.store";
+import {localStorageController} from "@/utils/localstorage.util";
+import {WebAppController} from "@/utils/telegram/web.app.util";
 
 import AppLoader from "@/components/elements/loader/AppLoader.vue";
 import DocumentTextIcon from "@/components/icons/DocumentTextIcon.vue";
@@ -15,17 +15,21 @@ import LogoutIcon from "@/components/icons/LogoutIcon.vue";
 import SupportIcon from "@/components/icons/SupportIcon.vue";
 import Popover from "@/components/ui/Popover/Popover.vue";
 
-import { OLTIN_BALIQ_BOT_TKN } from "@/constants";
-import { profileApi } from "@/services/profile.service";
+import {OLTIN_BALIQ_BOT_TKN} from "@/constants";
+import {profileApi} from "@/services/profile.service";
+import {authApi} from "@/services/auth.service";
+import {useToast} from "vue-toastification";
 
-const { t } = useI18n();
+const {t} = useI18n();
 const router = useRouter();
-const { tUserFullName } = useTelegramStore();
-const { isNotFetched, checkTelegramUser } = useTelegram();
+const {tUserFullName} = useTelegramStore();
+const {isNotFetched, checkTelegramUser} = useTelegram();
 const profileState = reactive({
   showLogoutWarn: false,
 });
 
+
+const toast = useToast()
 // need get localStorage
 const user = ref({});
 const theme = WebAppController.webApp.colorScheme;
@@ -46,11 +50,18 @@ const openPopover = () => {
   popoverValue.value = true;
 };
 
-function logout() {
+async function logout() {
   localStorageController.remove(OLTIN_BALIQ_BOT_TKN);
-  router.push({
-    name: "login",
-  });
+
+  try {
+    await authApi.logout()
+    await  router.push({
+      name: "login",
+    });
+
+  } catch (e) {
+    toast.error(e.response.data.message ?? e.message);
+  }
 }
 
 function showLogoutModal() {
@@ -72,7 +83,7 @@ if (isNotFetched) {
 
 const getMe = async () => {
   try {
-    const { data } = await profileApi.fetchMe();
+    const {data} = await profileApi.fetchMe();
     user.value = data.result;
   } catch (e) {
     console.log(e, "e");
@@ -81,8 +92,8 @@ const getMe = async () => {
 
 const getFullName = computed(() => {
   return (
-    (user?.value.first_name || "") + " " + (user?.value.last_name || "") ||
-    tUserFullName
+      (user?.value.first_name || "") + " " + (user?.value.last_name || "") ||
+      tUserFullName
   );
 });
 
@@ -98,15 +109,15 @@ WebAppController.ready();
 <template>
   <div>
     <div class="profile">
-      <app-loader :active="isFetching" />
+      <app-loader :active="isFetching"/>
       <div class="layout-container">
         <!--   PROFILE DETAILS   -->
         <div class="flex flex-column align-center">
           <div class="profile-image">
             <img
-              v-if="user && user.upload"
-              :src="user.upload['path'] || '@/assets/images/profile-image.svg'"
-              alt=""
+                v-if="user && user.upload"
+                :src="user.upload['path'] || '@/assets/images/profile-image.svg'"
+                alt=""
             />
           </div>
 
@@ -125,14 +136,14 @@ WebAppController.ready();
       <!--  SOON IMAGE  -->
       <div class="profile-soon">
         <img
-          v-if="theme === 'light'"
-          src="@/assets/images/profile-progress-bar.png"
-          alt=""
+            v-if="theme === 'light'"
+            src="@/assets/images/profile-progress-bar.png"
+            alt=""
         />
         <img
-          v-else
-          src="@/assets/images/profile-progress-bar-dark.png"
-          alt=""
+            v-else
+            src="@/assets/images/profile-progress-bar-dark.png"
+            alt=""
         />
         <span>{{ t("profile_page.soon") }}</span>
       </div>
@@ -164,9 +175,9 @@ WebAppController.ready();
       <div class="profile-list">
         <router-link :to="{ name: 'profile-edit' }" class="profile-item">
           <img
-            class="profile-item__icon"
-            src="@/assets/images/profile-edit-icon.svg"
-            alt=""
+              class="profile-item__icon"
+              src="@/assets/images/profile-edit-icon.svg"
+              alt=""
           />
           <div class="flex align-center justify-between b-bottom">
             <div>
@@ -175,9 +186,9 @@ WebAppController.ready();
 
             <div class="flex align-center">
               <img
-                class="profile-item__arrow"
-                src="@/assets/images/profile-arrow-right.svg"
-                alt=""
+                  class="profile-item__arrow"
+                  src="@/assets/images/profile-arrow-right.svg"
+                  alt=""
               />
             </div>
           </div>
@@ -227,7 +238,7 @@ WebAppController.ready();
         <!--      </router-link>-->
         <!--        href="tel:712051548"-->
         <div @click="openPopover" class="profile-item">
-          <support-icon class="profile-item__icon" />
+          <support-icon class="profile-item__icon"/>
           <div class="flex align-center justify-between b-bottom">
             <div>
               <p class="profile-item__title">Call center (71) 205-15-48</p>
@@ -235,9 +246,9 @@ WebAppController.ready();
 
             <div class="flex align-center">
               <img
-                class="profile-item__arrow"
-                src="@/assets/images/profile-arrow-right.svg"
-                alt=""
+                  class="profile-item__arrow"
+                  src="@/assets/images/profile-arrow-right.svg"
+                  alt=""
               />
             </div>
           </div>
@@ -267,7 +278,7 @@ WebAppController.ready();
         <!--        </router-link>-->
 
         <router-link :to="{ name: 'profile-privacy' }" class="profile-item">
-          <document-text-icon fill="#00BBF9" class="profile-item__icon" />
+          <document-text-icon fill="#00BBF9" class="profile-item__icon"/>
           <div class="flex align-center justify-between b-bottom">
             <div>
               <p class="profile-item__title">{{ $t("public_offer") }}</p>
@@ -275,9 +286,9 @@ WebAppController.ready();
 
             <div class="flex align-center">
               <img
-                class="profile-item__arrow"
-                src="@/assets/images/profile-arrow-right.svg"
-                alt=""
+                  class="profile-item__arrow"
+                  src="@/assets/images/profile-arrow-right.svg"
+                  alt=""
               />
             </div>
           </div>
@@ -285,9 +296,9 @@ WebAppController.ready();
 
         <div class="profile-item" @click="showLogoutModal">
           <img
-            class="profile-item__icon"
-            src="@/assets/images/profile-exit-icon.svg"
-            alt=""
+              class="profile-item__icon"
+              src="@/assets/images/profile-exit-icon.svg"
+              alt=""
           />
           <div class="flex align-center justify-between b-bottom">
             <div>
@@ -296,9 +307,9 @@ WebAppController.ready();
 
             <div class="flex align-center">
               <img
-                class="profile-item__arrow"
-                src="@/assets/images/profile-arrow-right.svg"
-                alt=""
+                  class="profile-item__arrow"
+                  src="@/assets/images/profile-arrow-right.svg"
+                  alt=""
               />
             </div>
           </div>
@@ -306,11 +317,11 @@ WebAppController.ready();
       </div>
     </div>
     <modal-dialog
-      v-model="profileState.showLogoutWarn"
-      @close-modal="hideLogoutModal"
+        v-model="profileState.showLogoutWarn"
+        @close-modal="hideLogoutModal"
     >
       <template #header>
-        <logout-icon />
+        <logout-icon/>
         <h3 class="ol-md-title">{{ t("profile_page.exit_title") }}</h3>
       </template>
       <template #content>
@@ -322,8 +333,8 @@ WebAppController.ready();
             {{ t("profile_page.exit_yes") }}
           </button>
           <button
-            class="ol-md-button ol-md-close-button"
-            @click="hideLogoutModal"
+              class="ol-md-button ol-md-close-button"
+              @click="hideLogoutModal"
           >
             {{ t("profile_page.exit_no") }}
           </button>
