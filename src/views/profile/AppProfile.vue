@@ -51,16 +51,16 @@ const openPopover = () => {
 };
 
 async function logout() {
-  localStorageController.remove(OLTIN_BALIQ_BOT_TKN);
 
   try {
     await authApi.logout()
+  } catch (e) {
+    toast.error(e.response.data.message ?? e.message);
+  }finally {
+    localStorageController.remove(OLTIN_BALIQ_BOT_TKN);
     await  router.push({
       name: "login",
     });
-
-  } catch (e) {
-    toast.error(e.response.data.message ?? e.message);
   }
 }
 
