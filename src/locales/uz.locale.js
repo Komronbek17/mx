@@ -93,12 +93,14 @@ export default {
   },
   market_page: {
     balance: "Balans",
-    prize: "Sovg'a",
+    prize: "Sovg'alar",
     to_basket: "Savatga",
     activate: "Faollashtirish",
     activated: "Faollashtirilgan",
     text: "{level}-darajali 2X bonus muvaffaqiyatli faollashtirildi",
     show_order: "Показать заказ",
+    quantity: "Miqdori",
+    description: "Tavsif",
   },
   profile_page: {
     change_photo: "Profil rasmini tanlang",
