@@ -48,6 +48,10 @@ class ProductService extends Core {
   fetchProducts(body) {
     return this.post("products", body);
   }
+
+  getProduct(body) {
+    return this.post("products/findOne", body);
+  }
 }
 
 export const productApi = new ProductService();

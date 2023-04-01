@@ -1,10 +1,26 @@
-import { TELEGRAM, WEB_APP } from "@/constants";
-
 export class BackButtonController {
-  constructor({ route, router }) {
-    this.route = route;
-    this.router = router;
-    this.button = window[TELEGRAM][WEB_APP].backButton;
+  static backButton = null;
+  static route = null;
+  static router = null;
+
+  static getInstance({ button = null, route, router }) {
+    if (this.backButton === null) {
+      this.backButton = button;
+    }
+
+    if (this.route === null) {
+      this.route = route;
+    }
+
+    if (this.router === null) {
+      this.router = router;
+    }
+
+    return {
+      route: this.route,
+      router: this.router,
+      backButton: this.backButton,
+    };
   }
 
   static beforeEach(to) {
@@ -59,7 +75,7 @@ export class BackButtonController {
     }
   }
 
-  async binding() {
+  static async binding() {
     switch (this.route.name) {
       default: {
         this.router.go(-1);
@@ -67,15 +83,15 @@ export class BackButtonController {
     }
   }
 
-  show() {
-    this.button.isVisible = true;
+  static show() {
+    this.backButton.isVisible = true;
   }
 
-  hide() {
-    this.button.isVisible = false;
+  static hide() {
+    this.backButton.isVisible = false;
   }
 
-  async push(name = "home", params = {}, query = {}) {
+  static async push(name = "home", params = {}, query = {}) {
     await this.router.push({
       name,
       params,

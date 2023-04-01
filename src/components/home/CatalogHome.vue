@@ -50,16 +50,16 @@ const { t } = useI18n();
       <template #content>{{ t("home_page.news") }}</template>
     </catalog-card>
 
-    <catalog-card
-      :to="{
-        name: 'market',
-      }"
-    >
-      <template #icon>
-        <market-icon />
-      </template>
-      <template #content>{{ t("home_page.shop") }}</template>
-    </catalog-card>
+    <!--    <catalog-card-->
+    <!--      :to="{-->
+    <!--        name: 'market',-->
+    <!--      }"-->
+    <!--    >-->
+    <!--      <template #icon>-->
+    <!--        <market-icon />-->
+    <!--      </template>-->
+    <!--      <template #content>{{ t("home_page.shop") }}</template>-->
+    <!--    </catalog-card>-->
 
     <!--    <catalog-card-->
     <!--      :to="{-->
