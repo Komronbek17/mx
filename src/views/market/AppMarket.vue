@@ -66,8 +66,8 @@ const modalApply = () => {
   modalValue.value = false;
 };
 
-const addBasket = () => {
-  console.log("addBasket");
+const addBasket = (item) => {
+  console.log(item, "addBasket");
 };
 
 const submitActive = async () => {
@@ -120,7 +120,7 @@ onMounted(async () => {
         <router-link
           v-for="gift in gifts"
           :key="gift.id + '_level_1'"
-          :to="`/market/product/${gift.id}`"
+          :to="{ name: 'market-product', params: { id: gift.id } }"
           class="gift-card"
         >
           <div class="gift-card__image">

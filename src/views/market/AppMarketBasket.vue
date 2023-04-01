@@ -8,41 +8,41 @@
         <router-link to="#">Изменить</router-link>
       </div>
 
-      <div class="basket-products">
-        <div class="basket-product">
-          <div class="basket-product__image">
-            <img src="@/assets/images/basket-2.png" alt="" />
-          </div>
+      <!--      <div class="basket-products">-->
+      <!--        <div class="basket-product">-->
+      <!--          <div class="basket-product__image">-->
+      <!--            <img src="@/assets/images/basket-2.png" alt="" />-->
+      <!--          </div>-->
 
-          <div class="basket-product__details">
-            <div class="flex flex-column">
-              <p class="basket-product__name">Мышь</p>
-              <span class="basket-product__model">Модель</span>
-            </div>
-            <div class="basket-product__price">
-              <img src="@/assets/images/coin.png" alt="" />
-              <span>300</span>
-            </div>
-          </div>
-        </div>
+      <!--          <div class="basket-product__details">-->
+      <!--            <div class="flex flex-column">-->
+      <!--              <p class="basket-product__name">Мышь</p>-->
+      <!--              <span class="basket-product__model">Модель</span>-->
+      <!--            </div>-->
+      <!--            <div class="basket-product__price">-->
+      <!--              <img src="@/assets/images/coin.png" alt="" />-->
+      <!--              <span>300</span>-->
+      <!--            </div>-->
+      <!--          </div>-->
+      <!--        </div>-->
 
-        <div class="basket-product">
-          <div class="basket-product__image">
-            <img src="@/assets/images/basket-1.png" alt="" />
-          </div>
+      <!--        <div class="basket-product">-->
+      <!--          <div class="basket-product__image">-->
+      <!--            <img src="@/assets/images/basket-1.png" alt="" />-->
+      <!--          </div>-->
 
-          <div class="basket-product__details">
-            <div class="flex flex-column">
-              <p class="basket-product__name">Smart Watch</p>
-              <span class="basket-product__model">Модель</span>
-            </div>
-            <div class="basket-product__price">
-              <img src="@/assets/images/coin.png" alt="" />
-              <span>700</span>
-            </div>
-          </div>
-        </div>
-      </div>
+      <!--          <div class="basket-product__details">-->
+      <!--            <div class="flex flex-column">-->
+      <!--              <p class="basket-product__name">Smart Watch</p>-->
+      <!--              <span class="basket-product__model">Модель</span>-->
+      <!--            </div>-->
+      <!--            <div class="basket-product__price">-->
+      <!--              <img src="@/assets/images/coin.png" alt="" />-->
+      <!--              <span>700</span>-->
+      <!--            </div>-->
+      <!--          </div>-->
+      <!--        </div>-->
+      <!--      </div>-->
     </div>
   </div>
 </template>
