@@ -283,7 +283,6 @@ router.beforeEach(async (to, from, next) => {
     if (!hasToken) {
         try {
             const {user} = await checkTelegramUser()
-            console.log(user, 'data');
             setLocalStorageVariable(OLTIN_BALIQ_BOT_TKN, user?.jwt)
             return next();
         } catch (e) {
