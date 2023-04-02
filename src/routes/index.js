@@ -42,6 +42,9 @@ import AppMarketForm from "@/views/market/AppMarketForm.vue";
 import AppMarketDetails from "@/views/market/AppMarketDetails.vue";
 import AppMarketPassport from "@/views/market/AppMarketPassport.vue";
 import AppBasketProduct from "@/views/market/AppBasketProduct.vue";
+import {useTelegram} from "@/composables/telegram.composable";
+import {setLocalStorageVariable} from "@/utils/localstorage.util";
+import {OLTIN_BALIQ_BOT_TKN} from "@/constants";
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -263,23 +266,34 @@ const router = createRouter({
   ],
 });
 
-router.beforeEach((to, from, next) => {
-  if (
-    to.name === "login" ||
-    to.name === "verification" ||
-    to.name === "profile-privacy"
-  ) {
+
+const {checkTelegramUser} = useTelegram()
+router.beforeEach(async (to, from, next) => {
+
+    if (
+        to.name === "login" ||
+        to.name === "verification" ||
+        to.name === "profile-privacy"
+    ) {
+        return next();
+    }
+
+    const hasToken = isNUNEZ(getToken());
+
+    if (!hasToken) {
+        try {
+            const {user} = await checkTelegramUser()
+            console.log(user, 'data');
+            setLocalStorageVariable(OLTIN_BALIQ_BOT_TKN, user?.jwt)
+            return next();
+        } catch (e) {
+            return next({
+                name: "login",
+            });
+        }
+    }
     return next();
-  }
 
-  const hasToken = isNUNEZ(getToken());
-  if (!hasToken) {
-    return next({
-      name: "login",
-    });
-  }
-
-  return next();
 });
 
 export default router;
