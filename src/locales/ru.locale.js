@@ -92,6 +92,8 @@ export default {
     unsubscribe: "Вы подписаны",
     subscribe_msg: "Вы хотите подписаться?",
     unsubscribe_msg: "Вы хотите отписаться?",
+    active: "Активна",
+    deactive: "Отключена",
   },
   market_page: {
     balance: "Баланс",
