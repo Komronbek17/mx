@@ -7,9 +7,9 @@ export default {
   bonus_minutes: "Bonus daqiqalar",
   internet_package: "Internet to'plamlari",
   premium_gifts_title: "Sizning tarifingiz bo'yicha mavjud bonuslar",
-  ok: "Ok",
+  ok: "Ha",
+  approve: "Yaxshi",
   cancel: "Bekor qilish",
-  creator: "Sultonov Komron",
   price: "Narxi %{msg} so'm",
   packages: {
     internet: "Internet paket",

@@ -7,9 +7,9 @@ export default {
   bonus_minutes: "Бонусные минуты",
   internet_package: "Интернет-пакет",
   premium_gifts_title: "По вашему тарифу доступны бонусы",
-  ok: "Окей",
+  ok: "Да",
+  approve: "Хорошо",
   cancel: "Отмена",
-  creator: "Султонов Комрон",
   price: "Стоимость %{msg} сум",
   packages: {
     internet: "Интернет пакет",

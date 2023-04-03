@@ -345,7 +345,7 @@ WebAppController.ready();
     <!--  CALL CENTER MODAL  -->
     <popover :popover-value="popoverValue" @close-popover="closePopover">
       <template #header>
-        <h3 class="call-center__number">(71) 205-25-48</h3>
+        <h3 class="call-center__number">(71) 205-15-48</h3>
       </template>
     </popover>
   </div>

@@ -228,7 +228,10 @@ function startAnimation() {
 
 function selectGiftHandler(type) {
   state.giftType = type;
-  setPremiumBonus();
+  hideGiftsModal()
+  modalState.show =true
+  modalState.showApplyButton =true
+  modalState.showCancelButton =true
 }
 
 WebAppController.ready();
@@ -250,7 +253,7 @@ fetchPremiumBonus();
               <span>{{ modalState.message }}</span>
             </span>
           </h3>
-          <div v-if="modalState.status === 402">
+          <div class="modal-content__subtitle" v-if="modalState.status === 402">
             {{
               t("connect_premium_service_message", {
                 price: modalState.price,
@@ -275,6 +278,7 @@ fetchPremiumBonus();
         </div>
       </template>
     </modal-dialog>
+
 
     <modal-dialog v-model="state.showGiftsModal" @close-modal="cancelAction">
       <template #header>
