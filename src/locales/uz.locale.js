@@ -86,7 +86,7 @@ export default {
     },
     settings_page: {
         change_lang: "Tilni o'zgartirish",
-        subscribe: "Obuna bo'lish",
+        subscribe: "Obuna",
         unsubscribe: "Siz obuna bo'lgansiz",
         subscribe_msg: "Obuna bo'lishni xohlaysizmi?",
         unsubscribe_msg: "Obunani bekor qilishni xohlaysizmi?",

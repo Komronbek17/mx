@@ -88,7 +88,7 @@ export default {
   },
   settings_page: {
     change_lang: "Сменить язык",
-    subscribe: "Подписаться",
+    subscribe: "Подписка",
     unsubscribe: "Вы подписаны",
     subscribe_msg: "Вы хотите подписаться?",
     unsubscribe_msg: "Вы хотите отписаться?",
