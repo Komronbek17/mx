@@ -1,7 +1,12 @@
 <script setup>
 import UserAvatar from "@/components/icons/UserAvatar.vue";
 import {useRouter} from "vue-router";
+import {useToast} from "vue-toastification";
 
+
+const toast = useToast()
+
+const emit = defineEmits(['send-refresh'])
 
 const props = defineProps({
   userFullName: {
@@ -9,51 +14,100 @@ const props = defineProps({
     required: true,
   },
   userUniqueId: {
-    type: String,
+    type: [String, Number],
     required: true,
   },
   userAvatar: {
     type: String,
     default: '',
   },
+  refreshLevel: {
+    type: Boolean,
+    default: false,
+  }
 });
 
 const router = useRouter();
 
+
 function openUserAccount() {
-  router.push({
-    name: "profile",
-  });
+  if (!props.refreshLevel) {
+    router.push({
+      name: "profile",
+    });
+  }
 }
+
+
 </script>
 
 <template>
   <div
       @click="openUserAccount"
-      class="ol-home-user-card flex align-center column-gap-1"
+      class="ol-home-user-card column-gap-1"
   >
-    <div class="ol-home-avatar">
-      <img v-if="userAvatar" :src="userAvatar" alt="avatar"/>
-      <div v-else>
-        <user-avatar/>
+    <div class="ol-home-user-card-content column-gap-1">
+      <div class="ol-home-avatar">
+        <img v-if="userAvatar" :src="userAvatar" alt="avatar"/>
+        <div v-else>
+          <user-avatar/>
+        </div>
       </div>
-    </div>
-    <div class="flex flex-column" style="row-gap: .25rem">
+      <div class="flex flex-column" style="row-gap: .25rem">
       <span class="ol-home-username">
         {{ props.userFullName }}
       </span>
-      <span class="ol-home-userid"> ID: {{ props.userUniqueId }} </span>
+        <span class="ol-home-userid"> ID: {{ props.userUniqueId }} </span>
+      </div>
+    </div>
+    <div v-if="refreshLevel" class="ol-home__action">
+      <div @click="emit('send-refresh')" class="ol-home__action-button">
+        <img src="@/assets/images/change-profile-white.svg" alt="">
+      </div>
     </div>
   </div>
 </template>
 
 <style lang="scss" scoped>
 .ol-home-user-card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
   background-color: var(--gf-accent-bg);
   height: 70px;
   padding: 10px 16px;
   border-radius: 8px;
   cursor: pointer;
+
+  &-content {
+    display: flex;
+    align-items: center;
+  }
+}
+
+.ol-home__action {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 40px;
+  width: 40px;
+  z-index: 2;
+
+  &-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    max-height: 40px;
+    max-width: 40px;
+    border-radius: .5rem;
+    padding: .5rem;
+    background: var(--gf-blue-gradient-01);
+
+    img {
+      width: 20px;
+      height: 20px;
+    }
+  }
 }
 
 .ol-home-username {

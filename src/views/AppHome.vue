@@ -50,13 +50,6 @@ const homeMenu = ref([
       {height: '218px'}
     ]
   },
-
-  {
-    title: t('home_page.settings'),
-    image: "/img/categories/settings.png",
-    routeName: 'settings',
-    style: {}
-  },
   {
     title: t('home_page.bonuses'),
     image: "/img/categories/bonuses.png",
@@ -67,6 +60,13 @@ const homeMenu = ref([
     // ]
   },
   {
+    title: t('home_page.prizes'),
+    image: "/img/categories/prizes.png",
+    notification: null,
+    routeName: 'level',
+    style: {}
+  },
+  {
     title: t('home_page.profile'),
     image: "/img/categories/profile.png",
     routeName: 'profile',
@@ -75,16 +75,12 @@ const homeMenu = ref([
     //   {height: '218px'}
     // ]
   },
-
-
   {
-    title: t('home_page.prizes'),
-    image: "/img/categories/prizes.png",
-    notification: null,
-    routeName: 'level',
+    title: t('home_page.settings'),
+    image: "/img/categories/settings.png",
+    routeName: 'settings',
     style: {}
   },
-
   {
     title: t('home_page.news'),
     image: "/img/categories/newspaper.png",
@@ -98,11 +94,10 @@ const homeMenu = ref([
 ])
 
 const user = ref({
-  id: null,
-  fullName: null,
+  id: '',
+  fullName: '',
   avatar: null,
 });
-
 
 const getMe = async () => {
   try {

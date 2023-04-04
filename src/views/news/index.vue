@@ -2,7 +2,6 @@
 import { onMounted, ref } from "vue";
 import { newsApi } from "@/services/news.service";
 import { loadingComposable } from "@/composables/loading.composable";
-
 import AppLoader from "@/components/elements/loader/AppLoader.vue";
 
 const {
@@ -30,9 +29,8 @@ const getNews = async () => {
     const { data } = await newsApi.fetchNews(body);
     news.value = [...news.value, ...data.result];
     pagination.value = Object.assign(pagination.value, data.pagination);
-    console.log(news);
   } catch (e) {
-    console.log(e, "newsApi");
+    toast.error(e?.response.data.message ?? e.message);
   }
 };
 
