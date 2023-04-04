@@ -20,6 +20,15 @@ function navigate() {
 function isBoolean(val) {
   return typeof val === 'boolean'
 }
+
+
+function generateImageClass() {
+  if (props.to['name'] === 'daily' || props.to['name'] === 'premium') {
+    return 'category-card__bg-large'
+  } else if (props.to['name'] === 'news') {
+    return 'category-card__bg-news'
+  }
+}
 </script>
 
 <template>
@@ -54,7 +63,7 @@ function isBoolean(val) {
         :src="image"
         alt=""
         class="category-card__bg"
-        :class="to['name']==='news'?'category-card__bg-news':''"
+        :class="generateImageClass()"
     >
   </button>
 </template>

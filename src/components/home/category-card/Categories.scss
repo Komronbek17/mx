@@ -28,11 +28,14 @@
     z-index: 1;
     //max-height: auto;
     max-height: 90%;
-    object-fit: contain;
-    max-width: 65%;
+    object-fit: cover;
+    max-width: 50%;
     border-radius: 8px;
     &-news{
       max-height: 100%;
+    }
+    &-large{
+      max-width: 65%;
     }
   }
 
