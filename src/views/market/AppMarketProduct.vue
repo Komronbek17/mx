@@ -12,11 +12,7 @@ const { t } = useI18n();
 const route = useRoute();
 const router = useRouter();
 
-const {
-  loading: isFetching,
-  startLoading,
-  finishLoading,
-} = loadingComposable();
+const { startLoading, finishLoading } = loadingComposable();
 
 async function showOrderProducts() {
   console.log(1);
@@ -77,18 +73,18 @@ WebAppController.ready();
         </div>
       </div>
       <p class="market-product__amount">
-        {{ t("market_page.quantity") }}:
+        {{ $t("market_page.quantity") }}:
         <span>{{ product.qty }} {{ product["measurement"]?.name }}</span>
       </p>
       <p class="market-product__description-title">
-        {{ t("market_page.description") }}
+        {{ $t("market_page.description") }}
       </p>
       <p class="market-product__description">
         {{ product.description }}
       </p>
       <button class="market-product__btn">
         <img src="@/assets/images/add.svg" alt="" />
-        <p>{{ t("market_page.to_basket") }}</p>
+        <p>{{ $t("market_page.to_basket") }}</p>
       </button>
     </div>
   </div>
