@@ -107,20 +107,20 @@ WebAppController.ready();
           v-for="item in recentBonuses"
           :key="item.id"
           class="recent-item"
-          :class="'recent-item-' + `${item.step}`"
+          :class="'recent-item-' + `${item.type}`"
         >
           <div class="recent-image">
             <img
-              v-if="item.step === 1"
-              src="@/assets/images/bonus-2x-icon.svg"
+              v-if="item.type === 'sms'"
+              src="@/assets/images/sms.svg"
               alt=""
             />
             <img
-              v-else-if="item.step === 2"
-              src="@/assets/images/bonus-2x-icon-orange.svg"
+              v-else-if="item.type === 'internet'"
+              src="@/assets/images/internet-mb.svg"
               alt=""
             />
-            <img v-else src="@/assets/images/bonus-2x-icon-green.svg" alt="" />
+            <img v-else src="@/assets/images/minutes.svg" alt="" />
           </div>
           <div class="recent-item__details">
             <p>{{ item.name }}</p>
@@ -177,22 +177,7 @@ WebAppController.ready();
       text-align: right;
     }
 
-    &-1 {
-      .recent-image {
-        background: rgba(0, 139, 255, 0.1);
-      }
-
-      .recent-level {
-        color: var(--gf-text-secondary-gray-2x);
-        //-webkit-background-clip: text;
-        //-webkit-text-fill-color: transparent;
-        //background-clip: text;
-        //text-fill-color: transparent;
-        //white-space: nowrap;
-      }
-    }
-
-    &-2 {
+    &-sms {
       .recent-image {
         background: rgba(250, 193, 0, 0.1);
       }
@@ -207,7 +192,22 @@ WebAppController.ready();
       }
     }
 
-    &-3 {
+    &-internet {
+      .recent-image {
+        background: rgba(0, 139, 255, 0.1);
+      }
+
+      .recent-level {
+        color: var(--gf-text-secondary-gray-2x);
+        //-webkit-background-clip: text;
+        //-webkit-text-fill-color: transparent;
+        //background-clip: text;
+        //text-fill-color: transparent;
+        //white-space: nowrap;
+      }
+    }
+
+    &-voice {
       .recent-image {
         background: rgba(0, 203, 106, 0.1);
       }

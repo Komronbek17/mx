@@ -41,7 +41,6 @@ import AppMarketMap from "@/views/market/AppMarketMap.vue";
 import AppMarketForm from "@/views/market/AppMarketForm.vue";
 import AppMarketDetails from "@/views/market/AppMarketDetails.vue";
 import AppMarketPassport from "@/views/market/AppMarketPassport.vue";
-import AppBasketProduct from "@/views/market/AppBasketProduct.vue";
 import {useTelegram} from "@/composables/telegram.composable";
 import {setLocalStorageVariable} from "@/utils/localstorage.util";
 import {OLTIN_BALIQ_BOT_TKN} from "@/constants";
@@ -222,11 +221,11 @@ const router = createRouter({
       name: "map",
       component: AppMarketMap,
     },
-    {
-      path: "/market-1",
-      name: "market-1",
-      component: AppBasketProduct,
-    },
+    // {
+    //   path: "/market-1",
+    //   name: "market-1",
+    //   component: AppBasketProduct,
+    // },
     // END MARKET
     {
       path: "/level",
