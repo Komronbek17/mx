@@ -60,6 +60,7 @@ export class WebAppController {
     "--gf-auth-input-bg": "rgba(255, 255, 255, 0.3)",
     "--gf-login-input-bg": "#F5F5F5",
     "--gf-login-input-text": "#333333",
+    "--gf-choose-image-profile":"#F2FBFD"
   };
 
   static dark = {
@@ -118,6 +119,7 @@ export class WebAppController {
     "--gf-auth-input-bg": "#F5F5F5",
     "--gf-login-input-bg": "rgba(255, 255, 255, 0.3)",
     "--gf-login-input-text": "#FFFFFF",
+    "--gf-choose-image-profile":"#2F353D"
   };
 
   static getInstance({ webApp }) {

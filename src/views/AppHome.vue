@@ -115,13 +115,15 @@ const getMe = async () => {
 
 async function getDailyInfo() {
   await infoApi.fetchDaily().then(({data}) => {
-    homeMenu.value[0].notification = data.step || null;
+    homeMenu.value[0].notification = data.step
+    homeMenu.value[0].notification = 4 - +homeMenu.value[0].notification || null;
   });
 }
 
 async function getPremiumInfo() {
   await infoApi.fetchPremium().then(({data}) => {
-    homeMenu.value[1].notification = data.step || null;
+    homeMenu.value[1].notification = data.step
+    homeMenu.value[1].notification = 4 - +homeMenu.value[1].notification || null;
   });
 }
 
