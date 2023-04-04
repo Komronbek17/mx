@@ -1,11 +1,15 @@
-<script setup></script>
+<script setup>
+import { useI18n } from "vue-i18n";
+
+const { t } = useI18n();
+</script>
 
 <template>
   <div class="address">
     <div class="layout-container">
       <div class="address-title">
-        <p>выберите адрес</p>
-        <router-link to="#">Добавить</router-link>
+        <p>{{ t("market_page.choose_address") }}</p>
+        <router-link to="#">{{ t("add") }}</router-link>
       </div>
 
       <div class="address-items">
@@ -87,7 +91,7 @@ label {
 
     &:checked + div {
       &:before {
-        box-shadow: inset 0 0 0 0.4375em #7940ae;
+        box-shadow: inset 0 0 0 0.4375em #01a8ff;
       }
     }
   }

@@ -1,53 +1,28 @@
-<script setup></script>
+<script setup>
+import AppBasketProduct from "@/views/market/AppBasketProduct.vue";
+import { useI18n } from "vue-i18n";
+
+const { t } = useI18n();
+</script>
 
 <template>
   <div class="basket">
     <div class="layout-container">
       <div class="basket-title">
-        <p>Ваш заказ</p>
-        <router-link to="#">Изменить</router-link>
+        <p>{{ t("market_page.your_order") }}</p>
+        <router-link to="#">{{ t("market_page.change") }}</router-link>
       </div>
 
-      <!--      <div class="basket-products">-->
-      <!--        <div class="basket-product">-->
-      <!--          <div class="basket-product__image">-->
-      <!--            <img src="@/assets/images/basket-2.png" alt="" />-->
-      <!--          </div>-->
-
-      <!--          <div class="basket-product__details">-->
-      <!--            <div class="flex flex-column">-->
-      <!--              <p class="basket-product__name">Мышь</p>-->
-      <!--              <span class="basket-product__model">Модель</span>-->
-      <!--            </div>-->
-      <!--            <div class="basket-product__price">-->
-      <!--              <img src="@/assets/images/coin.png" alt="" />-->
-      <!--              <span>300</span>-->
-      <!--            </div>-->
-      <!--          </div>-->
-      <!--        </div>-->
-
-      <!--        <div class="basket-product">-->
-      <!--          <div class="basket-product__image">-->
-      <!--            <img src="@/assets/images/basket-1.png" alt="" />-->
-      <!--          </div>-->
-
-      <!--          <div class="basket-product__details">-->
-      <!--            <div class="flex flex-column">-->
-      <!--              <p class="basket-product__name">Smart Watch</p>-->
-      <!--              <span class="basket-product__model">Модель</span>-->
-      <!--            </div>-->
-      <!--            <div class="basket-product__price">-->
-      <!--              <img src="@/assets/images/coin.png" alt="" />-->
-      <!--              <span>700</span>-->
-      <!--            </div>-->
-      <!--          </div>-->
-      <!--        </div>-->
-      <!--      </div>-->
+      <app-basket-product />
     </div>
   </div>
 </template>
 
 <style lang="scss" scoped>
+.layout-container {
+  background-color: var(--gf-basket-product-image-bg);
+}
+
 .basket {
   &-title {
     display: flex;

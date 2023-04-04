@@ -2,6 +2,8 @@ import { entries } from "@/utils/object.util";
 
 export class WebAppController {
   static webApp = null;
+  static router = null;
+  static route = null;
 
   static light = {
     "--gf-p-loader-color": "#037EE5",
@@ -120,7 +122,10 @@ export class WebAppController {
     "--gf-login-input-text": "#FFFFFF",
   };
 
-  static getInstance({ webApp }) {
+  static getInstance({ webApp, route, router }) {
+    this.route = route;
+    this.router = router;
+
     if (this.webApp === null) {
       this.webApp = webApp;
     }
@@ -160,6 +165,23 @@ export class WebAppController {
       this.webApp.themeParams.bg_color = "#181F27";
       this.webApp.setBackgroundColor("#181F27");
       document.documentElement.style.backgroundColor = "#181F27";
+    } else if (
+      this.webApp.colorScheme === "light" &&
+      this.route.name === "basket"
+    ) {
+      document.getElementById("app").style.backgroundColor = "#F5F5F5";
+      this.webApp.themeParams.bg_color = "#F5F5F5";
+      this.webApp.setBackgroundColor("#F5F5F5");
+      document.documentElement.style.backgroundColor = "#F5F5F5";
+    } else if (
+      // eslint-disable-next-line no-dupe-else-if
+      this.webApp.colorScheme === "dark" &&
+      this.route.name === "basket"
+    ) {
+      document.getElementById("app").style.backgroundColor = "#2A3139";
+      this.webApp.themeParams.bg_color = "#2A3139";
+      this.webApp.setBackgroundColor("#2A3139");
+      document.documentElement.style.backgroundColor = "#2A3139";
     } else {
       document.getElementById("app").style.backgroundColor = "#FFFFFF";
       this.webApp.themeParams.bg_color = "#FFFFFF";

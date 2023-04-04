@@ -1,7 +1,9 @@
 <script setup>
 import { ref } from "vue";
 import BaseInput from "@/components/ui/BaseInput/BaseInput.vue";
+import { useI18n } from "vue-i18n";
 
+const { t } = useI18n();
 const form = ref({
   pinfl: null,
   passportImage: null,
@@ -22,7 +24,11 @@ function toggleImageId() {
   <div class="market-passport">
     <div class="layout-container">
       <div class="market-passport__block">
-        <BaseInput v-model="form.pinfl" name="pinfl" label="Ваш ПИНФЛ" />
+        <BaseInput
+          v-model="form.pinfl"
+          name="pinfl"
+          :label="t('market_page.form.your_pinfl')"
+        />
 
         <div class="file-upload" v-if="!form.passportImage">
           <input
@@ -35,7 +41,7 @@ function toggleImageId() {
 
           <div class="file-upload__not-uploaded">
             <img src="@/assets/images/document-upload.svg" alt="" />
-            <p>Загрузить фото паспорта</p>
+            <p>{{ t("market_page.form.upload_passport") }}</p>
           </div>
         </div>
 
@@ -62,7 +68,7 @@ function toggleImageId() {
           @click="toggleImageId"
         >
           <img src="@/assets/images/attach-icon.svg" alt="" />
-          <span>Загрузить фото паспорта</span>
+          <span>{{ t("market_page.form.upload_passport") }}</span>
         </button>
       </div>
     </div>
