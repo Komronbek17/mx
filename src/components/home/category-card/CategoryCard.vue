@@ -54,6 +54,7 @@ function isBoolean(val) {
         :src="image"
         alt=""
         class="category-card__bg"
+        :class="to['name']==='news'?'category-card__bg-news':''"
     >
   </button>
 </template>

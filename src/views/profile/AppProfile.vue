@@ -277,22 +277,22 @@ WebAppController.ready();
         <!--          </div>-->
         <!--        </router-link>-->
 
-        <router-link :to="{ name: 'profile-privacy' }" class="profile-item">
-          <document-text-icon fill="#00BBF9" class="profile-item__icon"/>
-          <div class="flex align-center justify-between b-bottom">
-            <div>
-              <p class="profile-item__title">{{ $t("public_offer") }}</p>
-            </div>
+<!--        <router-link :to="{ name: 'profile-privacy' }" class="profile-item">-->
+<!--          <document-text-icon fill="#00BBF9" class="profile-item__icon"/>-->
+<!--          <div class="flex align-center justify-between b-bottom">-->
+<!--            <div>-->
+<!--              <p class="profile-item__title">{{ $t("public_offer") }}</p>-->
+<!--            </div>-->
 
-            <div class="flex align-center">
-              <img
-                  class="profile-item__arrow"
-                  src="@/assets/images/profile-arrow-right.svg"
-                  alt=""
-              />
-            </div>
-          </div>
-        </router-link>
+<!--            <div class="flex align-center">-->
+<!--              <img-->
+<!--                  class="profile-item__arrow"-->
+<!--                  src="@/assets/images/profile-arrow-right.svg"-->
+<!--                  alt=""-->
+<!--              />-->
+<!--            </div>-->
+<!--          </div>-->
+<!--        </router-link>-->
 
         <div class="profile-item" @click="showLogoutModal">
           <img
