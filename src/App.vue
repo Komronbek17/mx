@@ -26,6 +26,8 @@ function getWebApp() {
 }
 
 WebAppController.getInstance({
+  route,
+  router,
   webApp: window[TELEGRAM][WEB_APP],
 });
 

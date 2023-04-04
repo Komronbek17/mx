@@ -11,6 +11,8 @@ export default {
   cancel: "Bekor qilish",
   creator: "Sultonov Komron",
   price: "Narxi %{msg} so'm",
+  add: "Qo'shish",
+  continue: "Davom ettirish",
   packages: {
     internet: "Internet paket",
     voice: "Daqiqalar",
@@ -101,6 +103,23 @@ export default {
     show_order: "Показать заказ",
     quantity: "Miqdori",
     description: "Tavsif",
+    your_order: "Sizning buyurtmangiz",
+    choose_address: "Adresni tanlash",
+    product_left: "Qolgan",
+    unavailable: "Mavjud emas",
+    change: "O'zgartirish",
+
+    form: {
+      your_pinfl: "JShShIR ni kiriting",
+      address: "Adresni kiriting",
+      entrance: "Kirish (Podyezd)",
+      floor: "Qavat",
+      flat: "Xonadon",
+      comment: "Izoh",
+      receiver: "Qabul qiluvchi",
+      upload_passport: "Pasport fotosuratini yuklang",
+      date: "Sana",
+    },
   },
   profile_page: {
     change_photo: "Profil rasmini tanlang",

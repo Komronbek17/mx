@@ -41,7 +41,7 @@ import AppMarketMap from "@/views/market/AppMarketMap.vue";
 import AppMarketForm from "@/views/market/AppMarketForm.vue";
 import AppMarketDetails from "@/views/market/AppMarketDetails.vue";
 import AppMarketPassport from "@/views/market/AppMarketPassport.vue";
-import AppBasketProduct from "@/views/market/AppBasketProduct.vue";
+// import AppBasketProduct from "@/views/market/AppBasketProduct.vue";
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -219,11 +219,11 @@ const router = createRouter({
       name: "map",
       component: AppMarketMap,
     },
-    {
-      path: "/market-1",
-      name: "market-1",
-      component: AppBasketProduct,
-    },
+    // {
+    //   path: "/market-1",
+    //   name: "market-1",
+    //   component: AppBasketProduct,
+    // },
     // END MARKET
     {
       path: "/level",

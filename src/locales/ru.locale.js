@@ -11,6 +11,8 @@ export default {
   cancel: "Отмена",
   creator: "Султонов Комрон",
   price: "Стоимость %{msg} сум",
+  add: "Добавить",
+  continue: "Продолжить",
   packages: {
     internet: "Интернет пакет",
     voice: "Голосовой пакет",
@@ -103,6 +105,23 @@ export default {
     show_order: "Показать заказ",
     quantity: "Количество",
     description: "Описание",
+    your_order: "Ваш заказ",
+    choose_address: "выберите адрес",
+    product_left: "Осталось",
+    unavailable: "Нет в наличии",
+    change: "Изменить",
+
+    form: {
+      your_pinfl: "Введите ПИНФЛ",
+      address: "Введите адрес",
+      entrance: "Подъезд",
+      floor: "Этаж",
+      flat: "Квартира",
+      comment: "Комментарий",
+      receiver: "Получатель",
+      upload_passport: "Загрузить фото паспорта",
+      date: "Дата",
+    },
   },
   profile_page: {
     change_photo: "Выбрать фото профиля",
