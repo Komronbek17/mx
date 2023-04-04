@@ -2,7 +2,7 @@ export default {
   public_offer: "Публичная оферта",
   edit_profile: "Редактировать профиль",
   connect_premium_service_message:
-    "Вы не подключены к премиум услуге, сумма подключения {price} сумов",
+    "Хотите получить премиум бонусы? Стоимость услуги: {price} сум",
   sms_package: "СМС пакеты",
   bonus_minutes: "Бонусные минуты",
   internet_package: "Интернет-пакет",

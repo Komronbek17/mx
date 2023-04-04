@@ -2,7 +2,7 @@ export default {
     public_offer: "Ommaviy oferta",
     edit_profile: "Profilni tahrirlash",
     connect_premium_service_message:
-        "Premium xizmatiga ulanmagansiz , ulanish miqdori {price} so'm",
+        "Premium bonuslarni olishni xohlaysizmi? Xizmat narxi: {price} soʻm",
     sms_package: "SMS to'plamlari",
     bonus_minutes: "Bonus daqiqalar",
     internet_package: "Internet to'plamlari",
