@@ -33,6 +33,7 @@ export default {
         price: "Narxi",
         sum: "so'm",
         news: "Yangiliklar",
+        settings: "Sozlamalar",
     },
     loginPage: {
         title: "Telefon raqamingizni kiriting:",
@@ -77,11 +78,14 @@ export default {
     quantity: "dona",
     home_page: {
         try_luck: "Omadingizni sinab ko'ring",
+        daily: "Baliqni tuting",
+        premium: "Premium",
         level: "Bosqich",
         news: "Yangiliklar",
         shop: "Do'kon",
         profile: "Profil",
         bonuses: "Bonuslar",
+        prizes: "Sovrinlar",
         settings: "Sozlamalar",
     },
     settings_page: {

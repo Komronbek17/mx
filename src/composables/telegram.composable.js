@@ -25,14 +25,14 @@ export function useTelegram() {
       telegramInfo.data = data;
       return data;
     } catch (e) {
-      toast.error(e.response.data.message ?? e.message);
+      toast.error(e.response?.data?.message ?? e.message);
       return {};
     }
   }
 
   const tUserUniqueId = computed(() => {
     if (telegramInfo.data) {
-      return telegramInfo.data.user.user_id;
+      return telegramInfo.data?.user?.user_id;
     }
     return "";
   });

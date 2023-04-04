@@ -3,7 +3,7 @@ import { createRouter, createWebHistory } from "vue-router";
 import { getToken } from "@/utils/auth.util";
 import { isNUNEZ } from "@/utils/inspect.util";
 
-import AppHome from "@/views/home/AppHome.vue";
+import AppHome from "@/views/AppHome.vue";
 import AppPremium from "@/views/premium/AppPremium.vue";
 import AppShop from "@/views/shop/AppShop.vue";
 import AppPrize from "@/views/prize/AppPrize.vue";

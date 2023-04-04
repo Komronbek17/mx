@@ -1,6 +1,7 @@
 <script setup>
 import UserAvatar from "@/components/icons/UserAvatar.vue";
-import { useRouter } from "vue-router";
+import {useRouter} from "vue-router";
+
 
 const props = defineProps({
   userFullName: {
@@ -13,7 +14,7 @@ const props = defineProps({
   },
   userAvatar: {
     type: String,
-    default: null,
+    default: '',
   },
 });
 
@@ -28,13 +29,16 @@ function openUserAccount() {
 
 <template>
   <div
-    @click="openUserAccount"
-    class="ol-home-user-card flex align-center column-gap-1"
+      @click="openUserAccount"
+      class="ol-home-user-card flex align-center column-gap-1"
   >
     <div class="ol-home-avatar">
-      <img :src="props.userAvatar" alt="" />
+      <img v-if="userAvatar" :src="userAvatar" alt="avatar"/>
+      <div v-else>
+        <user-avatar/>
+      </div>
     </div>
-    <div class="flex flex-column">
+    <div class="flex flex-column" style="row-gap: .25rem">
       <span class="ol-home-username">
         {{ props.userFullName }}
       </span>
@@ -56,6 +60,7 @@ function openUserAccount() {
   font-weight: 600;
   font-size: 20px;
   line-height: 28px;
+  letter-spacing: -0.4px;
   text-align: right;
   color: var(--gf-text-09);
 }

@@ -35,6 +35,7 @@ export default {
     price: "Стоимость",
     sum: "сум",
     news: "Новости",
+    profile: "Настройки",
   },
   loginPage: {
     title: "Введите номер телефона:",
@@ -79,11 +80,14 @@ export default {
   quantity: "шт",
   home_page: {
     try_luck: "Испытать удачу",
+    daily: "Поймать рыбку",
+    premium: "Премиум",
     level: "Левел",
     news: "Новости",
     shop: "Магазин",
     profile: "Профиль",
     bonuses: "Бонусы",
+    prizes: "Призы",
     settings: "Настройки",
   },
   settings_page: {
