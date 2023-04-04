@@ -9,7 +9,7 @@ import {WebAppController} from "@/utils/telegram/web.app.util";
 import {loadingComposable} from "@/composables/loading.composable";
 
 const {t} = useI18n();
-const isSubscribed = ref(null);
+const isSubscribed = ref(true);
 const {
   loading: isFetching,
   startLoading,
@@ -19,7 +19,7 @@ const getStatus = async () => {
   startLoading();
   try {
     const response = await subscribeApi.fetchStatus();
-    isSubscribed.value = response.data.isSubscribed;
+    isSubscribed.value = response.data.isSubscribed || null;
   } finally {
     finishLoading();
   }
@@ -63,13 +63,22 @@ WebAppController.ready();
             :to="{ name: 'settings-unsubscribe' }"
             class="settings-card"
         >
-          <div class="card-belt" :class="isSubscribed ? 'active' : 'deActive'">
-            <p v-if="isSubscribed"> {{ t("settings_page.active") }} </p>
-            <p v-else> {{ t("settings_page.deactive") }} </p>
-          </div>
+<!--          <div class="card-belt" :class="isSubscribed ? 'active' : 'deActive'">-->
+<!--            <p v-if="isSubscribed"> {{ t("settings_page.active") }} </p>-->
+<!--            <p v-else> {{ t("settings_page.deactive") }} </p>-->
+<!--          </div>-->
           <img src="@/assets/images/message-icon.svg" alt=""/>
-          <p class="subscribe">
+          <p class="subscribe" v-if="isSubscribed">
+            {{ t("settings_page.unsubscribe") }}
+            <span class="active">
+              {{ t("settings_page.active") }}
+            </span>
+          </p>
+          <p class="subscribe" v-else>
             {{ t("settings_page.subscribe") }}
+            <span class="deActive">
+              {{ t("settings_page.deactive") }}
+            </span>
           </p>
         </router-link>
       </div>
@@ -105,41 +114,66 @@ WebAppController.ready();
     }
 
     p {
+      display: flex;
+      flex-direction: column;
+      row-gap: .25rem;
       @extend .font-15-small-dark;
       color: var(--gf-text-09);
       text-align: center;
+
+      .active {
+        @extend .font-14;
+        @include text-gradient(var(--gf-green-gradient));
+      }
+
+      .deActive {
+        @extend .font-14;
+        color: var(--gf-notification-text-bg);
+      }
     }
   }
 }
 
-.card-belt {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  position: absolute;
-
-  transform: rotate(45deg);
-  text-align: center;
-  padding: 4px 40px;
-  height: 20px;
-
-
-  p {
-    color: var(--gf-text-white-2x);
-    @extend .font-10;
-  }
-
-  &.active {
-    top: 17px;
-    right: -34px;
-    background: var(--gf-green-gradient);
-  }
-
-  &.deActive {
-    right: -45px;
-    top: 20px;
-    background-color: var(--gf-notification-text-bg);
-  }
-
-}
+//.card-belt {
+//  display: flex;
+//  align-items: center;
+//  justify-content: center;
+//  position: absolute;
+//
+//  transform: rotate(45deg);
+//  text-align: center;
+//  padding: 4px 40px;
+//  height: 20px;
+//
+//
+//  p {
+//    display: flex;
+//    flex-direction: column;
+//    row-gap: .25rem;
+//    @extend .font-15-small-dark;
+//    color: var(--gf-text-09);
+//    text-align: center;
+//
+//    .active {
+//      @include text-gradient(var(--gf-green-gradient));
+//    }
+//
+//    .deActive {
+//      color: var(--gf-notification-text-bg);
+//    }
+//  }
+//
+//  //&.active {
+//  //  top: 17px;
+//  //  right: -34px;
+//  //  background: var(--gf-green-gradient);
+//  //}
+//  //
+//  //&.deActive {
+//  //  right: -45px;
+//  //  top: 20px;
+//  //  background-color: var(--gf-notification-text-bg);
+//  //}
+//
+//}
 </style>
