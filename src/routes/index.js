@@ -44,6 +44,8 @@ import AppMarketPassport from "@/views/market/AppMarketPassport.vue";
 import {useTelegram} from "@/composables/telegram.composable";
 import {setLocalStorageVariable} from "@/utils/localstorage.util";
 import {OLTIN_BALIQ_BOT_TKN} from "@/constants";
+import {useTelegramStore} from "@/stores/telegram.store";
+import {telegramApi} from "@/services/telegram.service";
 
 const router = createRouter({
     history: createWebHistory(import.meta.env.BASE_URL),
@@ -268,8 +270,6 @@ const router = createRouter({
 
 router.beforeEach(async (to, from, next) => {
 
-    const {checkTelegramUser} = useTelegram()
-
     if (
         to.name === "login" ||
         to.name === "verification" ||
@@ -282,8 +282,13 @@ router.beforeEach(async (to, from, next) => {
 
     if (!hasToken) {
         try {
-            const data = await checkTelegramUser()
-            console.log(data,'data');
+            const {tUserId} = useTelegramStore();
+
+            const body = {
+                telegram_id: tUserId,
+            }
+            const data = await telegramApi.authJwt(body);
+            console.log(data, 'datajwt');
             if (data && data.user && data.user.jwt) {
                 setLocalStorageVariable(OLTIN_BALIQ_BOT_TKN, data.user.jwt)
                 return next('/');
