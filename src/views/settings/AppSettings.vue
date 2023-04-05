@@ -1,14 +1,14 @@
 <script setup>
-import {onMounted, ref} from "vue";
-import {useI18n} from "vue-i18n";
+import { onMounted, ref } from "vue";
+import { useI18n } from "vue-i18n";
 
 import AppLoader from "@/components/elements/loader/AppLoader.vue";
 
-import {subscribeApi} from "@/services/subscribe.service";
-import {WebAppController} from "@/utils/telegram/web.app.util";
-import {loadingComposable} from "@/composables/loading.composable";
+import { subscribeApi } from "@/services/subscribe.service";
+import { WebAppController } from "@/utils/telegram/web.app.util";
+import { loadingComposable } from "@/composables/loading.composable";
 
-const {t} = useI18n();
+const { t } = useI18n();
 const isSubscribed = ref(true);
 const {
   loading: isFetching,
@@ -25,7 +25,6 @@ const getStatus = async () => {
   }
 };
 
-
 onMounted(async () => {
   await getStatus();
 });
@@ -35,10 +34,10 @@ WebAppController.ready();
 
 <template>
   <div class="settings">
-    <app-loader :active="isFetching"/>
+    <app-loader :active="isFetching" />
     <div class="settings-cards">
       <router-link :to="{ name: 'settings-language' }" class="settings-card">
-        <img src="@/assets/images/lang-icon.svg" alt=""/>
+        <img src="@/assets/images/lang-icon.svg" alt="" />
         <p>{{ t("settings_page.change_lang") }}</p>
       </router-link>
 
@@ -58,34 +57,29 @@ WebAppController.ready();
       <!--        </router-link>-->
 
       <router-link :to="{ name: 'profile-privacy' }" class="settings-card">
-        <img src="@/assets/images/document-icon.svg" alt=""/>
+        <img src="@/assets/images/document-icon.svg" alt="" />
         <p>{{ t("public_offer") }}</p>
       </router-link>
 
-      <router-link
-          :to="{ name: 'settings-unsubscribe' }"
-          class="settings-card"
-      >
+      <router-link :to="{ name: 'settings-unsubscribe' }" class="settings-card">
         <!--          <div class="card-belt" :class="isSubscribed ? 'active' : 'deActive'">-->
         <!--            <p v-if="isSubscribed"> {{ t("settings_page.active") }} </p>-->
         <!--            <p v-else> {{ t("settings_page.deactive") }} </p>-->
         <!--          </div>-->
-        <img src="@/assets/images/message-icon.svg" alt=""/>
+        <img src="@/assets/images/message-icon.svg" alt="" />
         <p class="subscribe" v-if="isSubscribed">
           {{ t("settings_page.unsubscribe") }}
           <span class="active">
-              {{ t("settings_page.active") }}
-            </span>
+            {{ t("settings_page.active") }}
+          </span>
         </p>
         <p class="subscribe" v-else>
           {{ t("settings_page.subscribe") }}
           <span class="deActive">
-              {{ t("settings_page.deactive") }}
-            </span>
+            {{ t("settings_page.deactive") }}
+          </span>
         </p>
       </router-link>
-
-
     </div>
   </div>
 </template>
@@ -95,7 +89,7 @@ WebAppController.ready();
   &-cards {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    gap: .5rem;
+    gap: 0.5rem;
   }
 
   &-card {
@@ -120,7 +114,7 @@ WebAppController.ready();
     p {
       display: flex;
       flex-direction: column;
-      row-gap: .25rem;
+      row-gap: 0.25rem;
       @extend .font-15-small-dark;
       color: var(--gf-text-09);
       text-align: center;

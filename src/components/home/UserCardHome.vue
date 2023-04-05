@@ -1,12 +1,11 @@
 <script setup>
 import UserAvatar from "@/components/icons/UserAvatar.vue";
-import {useRouter} from "vue-router";
-import {useToast} from "vue-toastification";
+import { useRouter } from "vue-router";
+import { useToast } from "vue-toastification";
 
+const toast = useToast();
 
-const toast = useToast()
-
-const emit = defineEmits(['send-refresh'])
+const emit = defineEmits(["send-refresh"]);
 
 const props = defineProps({
   userFullName: {
@@ -19,16 +18,15 @@ const props = defineProps({
   },
   userAvatar: {
     type: String,
-    default: '',
+    default: "",
   },
   refreshLevel: {
     type: Boolean,
     default: false,
-  }
+  },
 });
 
 const router = useRouter();
-
 
 function openUserAccount() {
   if (!props.refreshLevel) {
@@ -37,32 +35,27 @@ function openUserAccount() {
     });
   }
 }
-
-
 </script>
 
 <template>
-  <div
-      @click="openUserAccount"
-      class="ol-home-user-card column-gap-1"
-  >
+  <div @click="openUserAccount" class="ol-home-user-card column-gap-1">
     <div class="ol-home-user-card-content column-gap-1">
       <div class="ol-home-avatar">
-        <img v-if="userAvatar" :src="userAvatar" alt="avatar"/>
+        <img v-if="userAvatar" :src="userAvatar" alt="avatar" />
         <div v-else>
-          <user-avatar/>
+          <user-avatar />
         </div>
       </div>
-      <div class="flex flex-column" style="row-gap: .25rem">
-      <span class="ol-home-username">
-        {{ props.userFullName }}
-      </span>
+      <div class="flex flex-column" style="row-gap: 0.25rem">
+        <span class="ol-home-username">
+          {{ props.userFullName }}
+        </span>
         <span class="ol-home-userid"> ID: {{ props.userUniqueId }} </span>
       </div>
     </div>
     <div v-if="refreshLevel" class="ol-home__action">
       <div @click="emit('send-refresh')" class="ol-home__action-button">
-        <img src="@/assets/images/change-profile-white.svg" alt="">
+        <img src="@/assets/images/change-profile-white.svg" alt="" />
       </div>
     </div>
   </div>
@@ -99,8 +92,8 @@ function openUserAccount() {
     justify-content: center;
     max-height: 40px;
     max-width: 40px;
-    border-radius: .5rem;
-    padding: .5rem;
+    border-radius: 0.5rem;
+    padding: 0.5rem;
     background: var(--gf-blue-gradient-01);
 
     img {

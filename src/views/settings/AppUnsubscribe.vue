@@ -1,15 +1,15 @@
 <script setup>
-import {onMounted, ref} from "vue";
-import {useRouter} from "vue-router";
-import {useI18n} from "vue-i18n";
+import { onMounted, ref } from "vue";
+import { useRouter } from "vue-router";
+import { useI18n } from "vue-i18n";
 
 import AppLoader from "@/components/elements/loader/AppLoader.vue";
 
-import {subscribeApi} from "@/services/subscribe.service";
-import {WebAppController} from "@/utils/telegram/web.app.util";
-import {loadingComposable} from "@/composables/loading.composable";
+import { subscribeApi } from "@/services/subscribe.service";
+import { WebAppController } from "@/utils/telegram/web.app.util";
+import { loadingComposable } from "@/composables/loading.composable";
 
-const {t} = useI18n();
+const { t } = useI18n();
 const isSubscribed = ref(null);
 const router = useRouter();
 
@@ -32,33 +32,33 @@ const getStatus = async () => {
 async function toggleSubscribing() {
   if (isSubscribed.value === true) {
     await subscribeApi
-        .subscribeStop()
-        .then((res) => {
-          console.log(res);
-        })
-        .catch((err) => {
-          console.error(err);
-        })
-        .finally(() => {
-          router.push({name: "settings"});
-        });
+      .subscribeStop()
+      .then((res) => {
+        console.log(res);
+      })
+      .catch((err) => {
+        console.error(err);
+      })
+      .finally(() => {
+        router.push({ name: "settings" });
+      });
   } else {
     await subscribeApi
-        .subscribeActivate()
-        .then((res) => {
-          console.log(res);
-        })
-        .catch((err) => {
-          console.error(err);
-        })
-        .finally(() => {
-          router.push({name: "settings"});
-        });
+      .subscribeActivate()
+      .then((res) => {
+        console.log(res);
+      })
+      .catch((err) => {
+        console.error(err);
+      })
+      .finally(() => {
+        router.push({ name: "settings" });
+      });
   }
 }
 
 function backToSettings() {
-  router.push({name: "settings"});
+  router.push({ name: "settings" });
 }
 
 onMounted(async () => {
@@ -70,11 +70,11 @@ WebAppController.ready();
 
 <template>
   <div class="unsubscribe">
-    <app-loader :active="isFetching"/>
+    <app-loader :active="isFetching" />
     <div class="layout-container">
       <div class="unsubscribe-block">
         <div class="unsubscribe-image">
-          <img src="@/assets/images/message-icon.svg" alt=""/>
+          <img src="@/assets/images/message-icon.svg" alt="" />
         </div>
 
         <p v-if="isSubscribed" class="unsubscribe-title">
@@ -88,8 +88,8 @@ WebAppController.ready();
             {{ t("no") }}
           </button>
           <button
-              class="unsubscribe-btn__yes"
-              @click.prevent="toggleSubscribing"
+            class="unsubscribe-btn__yes"
+            @click.prevent="toggleSubscribing"
           >
             {{ t("yes") }}
           </button>

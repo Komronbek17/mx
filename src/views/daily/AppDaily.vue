@@ -179,8 +179,8 @@ WebAppController.ready();
     <rotating-fish :stop="state.stopAnimation" />
     <modal-dialog v-model="modalState.show" :show-close-icon="false">
       <template #header>
-        <img v-if="isStatusSuccess" src="@/assets/icons/sms.svg" alt="">
-        <img v-else src="@/assets/icons/daily.svg" alt="">
+        <img v-if="isStatusSuccess" src="@/assets/icons/sms.svg" alt="" />
+        <img v-else src="@/assets/icons/daily.svg" alt="" />
       </template>
       <template #content>
         <div class="modal-content">

@@ -20,7 +20,6 @@ const instanceGenerator = (baseUrl) => {
 };
 
 export const axiosVersion = ({
-  version,
   endpoint = "",
   baseUrl = import.meta.env.VITE_APP_URL,
 }) => {
