@@ -8,7 +8,7 @@ class TelegramService extends CoreAxios {
   }
 
   async authJwt(body) {
-    return this.post("", body);
+    return this.post("", {body});
   }
 
   login({ body }) {
