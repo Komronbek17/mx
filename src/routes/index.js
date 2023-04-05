@@ -287,9 +287,8 @@ router.beforeEach(async (to, from, next) => {
                 setLocalStorageVariable(OLTIN_BALIQ_BOT_TKN, data.user.jwt)
                 return next();
             }
-            return next({
-                name: "login",
-            });
+
+            return next();
         } catch (e) {
             return next({
                 name: "login",

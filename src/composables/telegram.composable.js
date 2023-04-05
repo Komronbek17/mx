@@ -28,7 +28,7 @@ export function useTelegram() {
             return data;
         } catch (e) {
             // console.log(e, 'error');
-            toast.error(e.response?.data?.message ?? e.message);
+            toast.error(e?.response?.data?.message ?? e.message);
             return {};
         }
     }
