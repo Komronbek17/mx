@@ -228,10 +228,10 @@ function startAnimation() {
 
 function selectGiftHandler(type) {
   state.giftType = type;
-  hideGiftsModal()
-  modalState.show =true
-  modalState.showApplyButton =true
-  modalState.showCancelButton =true
+  hideGiftsModal();
+  modalState.show = true;
+  modalState.showApplyButton = true;
+  modalState.showCancelButton = true;
 }
 
 WebAppController.ready();
@@ -244,8 +244,8 @@ fetchPremiumBonus();
     <rotating-fish type="premium" :stop="state.stopAnimation" />
     <modal-dialog v-model="modalState.show" :show-close-icon="false">
       <template #header>
-        <img v-if="isStatusSuccess" src="@/assets/icons/sms.svg" alt="">
-        <img v-else src="@/assets/icons/premium.svg" alt="">
+        <img v-if="isStatusSuccess" src="@/assets/icons/sms.svg" alt="" />
+        <img v-else src="@/assets/icons/premium.svg" alt="" />
       </template>
       <template #content>
         <div class="modal-content">
@@ -287,7 +287,6 @@ fetchPremiumBonus();
         </div>
       </template>
     </modal-dialog>
-
 
     <modal-dialog v-model="state.showGiftsModal" @close-modal="cancelAction">
       <template #header>
