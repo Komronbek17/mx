@@ -24,6 +24,7 @@ export function useTelegram() {
                 telegram_id: tUserId,
             }
             const data = await telegramApi.authJwt(body);
+            console.log(data, 'checkTelegramUser');
             telegramInfo.data = data?.data;
             return data;
         } catch (e) {
