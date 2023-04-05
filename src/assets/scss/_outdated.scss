@@ -73,7 +73,6 @@ body {
 }
 
 .home {
-  padding: 16px;
 
   &__title {
     font-weight: 500;
@@ -593,7 +592,7 @@ body {
       font-size: 18px;
       line-height: 22px;
       letter-spacing: -0.4px;
-      color: #FFFFFF;
+      color: var(--gf-p-primary-color);
       margin-bottom: 5px;
     }
 

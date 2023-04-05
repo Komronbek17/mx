@@ -1,33 +1,40 @@
 <script setup>
-import { computed, onMounted, reactive, ref } from "vue";
-import { useRouter } from "vue-router";
-import { useI18n } from "vue-i18n";
-import { useTelegram } from "@/composables/telegram.composable";
-import { loadingComposable } from "@/composables/loading.composable";
-import { useTelegramStore } from "@/stores/telegram.store";
-import { localStorageController } from "@/utils/localstorage.util";
-import { WebAppController } from "@/utils/telegram/web.app.util";
+import {computed, onMounted, reactive, ref} from "vue";
+import {useRouter} from "vue-router";
+import {useI18n} from "vue-i18n";
+import {useTelegram} from "@/composables/telegram.composable";
+import {loadingComposable} from "@/composables/loading.composable";
+import {useTelegramStore} from "@/stores/telegram.store";
+import {localStorageController} from "@/utils/localstorage.util";
+import {WebAppController} from "@/utils/telegram/web.app.util";
 
 import AppLoader from "@/components/elements/loader/AppLoader.vue";
 import DocumentTextIcon from "@/components/icons/DocumentTextIcon.vue";
 import ModalDialog from "@/components/ui/ModalDialog/ModalDialog.vue";
 import LogoutIcon from "@/components/icons/LogoutIcon.vue";
 import SupportIcon from "@/components/icons/SupportIcon.vue";
+import Popover from "@/components/ui/Popover/Popover.vue";
 
-import { OLTIN_BALIQ_BOT_TKN, USER_DATA } from "@/constants";
-import { profileApi } from "@/services/profile.service";
+import {OLTIN_BALIQ_BOT_TKN} from "@/constants";
+import {profileApi} from "@/services/profile.service";
+import {authApi} from "@/services/auth.service";
+import {useToast} from "vue-toastification";
 
-const { t } = useI18n();
+const {t} = useI18n();
 const router = useRouter();
-const { tUserFullName } = useTelegramStore();
-const { isNotFetched, checkTelegramUser } = useTelegram();
+const {tUserFullName} = useTelegramStore();
+const {isNotFetched, checkTelegramUser} = useTelegram();
 const profileState = reactive({
   showLogoutWarn: false,
 });
 
+
+const toast = useToast()
 // need get localStorage
 const user = ref({});
 const theme = WebAppController.webApp.colorScheme;
+
+const popoverValue = ref(false);
 
 const {
   loading: isFetching,
@@ -35,11 +42,26 @@ const {
   finishLoading,
 } = loadingComposable();
 
-function logout() {
-  localStorageController.remove(OLTIN_BALIQ_BOT_TKN);
-  router.push({
-    name: "login",
-  });
+const closePopover = () => {
+  popoverValue.value = false;
+};
+
+const openPopover = () => {
+  popoverValue.value = true;
+};
+
+async function logout() {
+
+  try {
+    await authApi.logout()
+  } catch (e) {
+    toast.error(e.response.data.message ?? e.message);
+  }finally {
+    localStorageController.remove(OLTIN_BALIQ_BOT_TKN);
+    await  router.push({
+      name: "login",
+    });
+  }
 }
 
 function showLogoutModal() {
@@ -61,7 +83,7 @@ if (isNotFetched) {
 
 const getMe = async () => {
   try {
-    const { data } = await profileApi.fetchMe();
+    const {data} = await profileApi.fetchMe();
     user.value = data.result;
   } catch (e) {
     console.log(e, "e");
@@ -70,75 +92,10 @@ const getMe = async () => {
 
 const getFullName = computed(() => {
   return (
-    (user?.value.first_name || "") + " " + (user?.value.last_name || "") ||
-    tUserFullName
+      (user?.value.first_name || "") + " " + (user?.value.last_name || "") ||
+      tUserFullName
   );
 });
-
-function copyNumber(number) {
-  if (WebAppController.checkAndroidDevice()) {
-    return navigator.clipboard
-      .writeText(number)
-      .then(() => {
-        alert(t("number_copied"));
-      })
-      .catch(() => {
-        alert(t("number_not_copied"));
-      });
-  }
-}
-
-const doCopy = async (number) => {
-  //
-  // navigator.permissions.query({
-  //   name: 'clipboard-write'
-  // }).then(permissionStatus => {
-  //   if (permissionStatus.state === 'granted') {
-  //     navigator.clipboard.writeText('Well, seems to work!').catch((err) => {
-  //       console.error(err, 'Failed to write text to clipboard.');
-  //     });
-  //   }
-  // }).catch(e=>{
-  //   console.error('error', e)
-  // })
-  //   const queryOpts = {name: 'clipboard-write', allowWithoutGesture: false};
-  //   const permissionStatus = await navigator.permissions.query(queryOpts);
-  // // Примет значение 'granted', 'denied' или 'prompt':
-  //   console.log(permissionStatus.state);
-  //
-  // // Прослушиваем изменения состояния разрешения
-  //   permissionStatus.onchange = () => {
-  //     console.log(permissionStatus.state);
-  //    };
-  //   navigator.permissions.query({name:'clipboard-write'})
-  //       .then(function(permissionStatus) {
-  //         console.log('geolocation permission state is ', permissionStatus.state);
-  //
-  //         permissionStatus.onchange = function() {
-  //           console.log('geolocation permission state has changed to ', this.state);
-  //         };
-  //       });
-  // navigator.clipboard.writeText(number)
-  //     .then(() => {
-  //       alert(t('number_copied'));
-  //     })
-  //     .catch((e) => {
-  //       console.log(e, 'e');
-  //       // alert(`${t('number_not_copied')} ${number}`);
-  //       alert(`${e} ${number}`);
-  //     });
-  // alert(number);
-  // copyText(number, undefined, (error, event) => {
-  //   alert(error)
-  //   if (error) {
-  //     alert(t('number_not_copied'));
-  //     console.log(error)
-  //   } else {
-  //     alert(t('number_copied'));
-  //     console.log(event)
-  //   }
-  // })
-};
 
 onMounted(async () => {
   startLoading();
@@ -152,15 +109,15 @@ WebAppController.ready();
 <template>
   <div>
     <div class="profile">
-      <app-loader :active="isFetching" />
+      <app-loader :active="isFetching"/>
       <div class="layout-container">
         <!--   PROFILE DETAILS   -->
         <div class="flex flex-column align-center">
           <div class="profile-image">
             <img
-              v-if="user && user.upload"
-              :src="user.upload['path'] || '@/assets/images/profile-image.svg'"
-              alt=""
+                v-if="user && user.upload"
+                :src="user.upload['path'] || '@/assets/images/profile-image.svg'"
+                alt=""
             />
           </div>
 
@@ -179,14 +136,14 @@ WebAppController.ready();
       <!--  SOON IMAGE  -->
       <div class="profile-soon">
         <img
-          v-if="theme === 'light'"
-          src="@/assets/images/profile-progress-bar.png"
-          alt=""
+            v-if="theme === 'light'"
+            src="@/assets/images/profile-progress-bar.png"
+            alt=""
         />
         <img
-          v-else
-          src="@/assets/images/profile-progress-bar-dark.png"
-          alt=""
+            v-else
+            src="@/assets/images/profile-progress-bar-dark.png"
+            alt=""
         />
         <span>{{ t("profile_page.soon") }}</span>
       </div>
@@ -218,9 +175,9 @@ WebAppController.ready();
       <div class="profile-list">
         <router-link :to="{ name: 'profile-edit' }" class="profile-item">
           <img
-            class="profile-item__icon"
-            src="@/assets/images/profile-edit-icon.svg"
-            alt=""
+              class="profile-item__icon"
+              src="@/assets/images/profile-edit-icon.svg"
+              alt=""
           />
           <div class="flex align-center justify-between b-bottom">
             <div>
@@ -229,9 +186,9 @@ WebAppController.ready();
 
             <div class="flex align-center">
               <img
-                class="profile-item__arrow"
-                src="@/assets/images/profile-arrow-right.svg"
-                alt=""
+                  class="profile-item__arrow"
+                  src="@/assets/images/profile-arrow-right.svg"
+                  alt=""
               />
             </div>
           </div>
@@ -280,8 +237,8 @@ WebAppController.ready();
         <!--        </div>-->
         <!--      </router-link>-->
         <!--        href="tel:712051548"-->
-        <a href="tel:712051548" target="_blank" class="profile-item">
-          <support-icon class="profile-item__icon" />
+        <div @click="openPopover" class="profile-item">
+          <support-icon class="profile-item__icon"/>
           <div class="flex align-center justify-between b-bottom">
             <div>
               <p class="profile-item__title">Call center (71) 205-15-48</p>
@@ -289,13 +246,13 @@ WebAppController.ready();
 
             <div class="flex align-center">
               <img
-                class="profile-item__arrow"
-                src="@/assets/images/profile-arrow-right.svg"
-                alt=""
+                  class="profile-item__arrow"
+                  src="@/assets/images/profile-arrow-right.svg"
+                  alt=""
               />
             </div>
           </div>
-        </a>
+        </div>
 
         <!--        <router-link :to="{ name: 'informers' }" class="profile-item">-->
         <!--          <img-->
@@ -320,28 +277,28 @@ WebAppController.ready();
         <!--          </div>-->
         <!--        </router-link>-->
 
-        <router-link :to="{ name: 'profile-privacy' }" class="profile-item">
-          <document-text-icon fill="#00BBF9" class="profile-item__icon" />
-          <div class="flex align-center justify-between b-bottom">
-            <div>
-              <p class="profile-item__title">{{ $t("public_offer") }}</p>
-            </div>
+<!--        <router-link :to="{ name: 'profile-privacy' }" class="profile-item">-->
+<!--          <document-text-icon fill="#00BBF9" class="profile-item__icon"/>-->
+<!--          <div class="flex align-center justify-between b-bottom">-->
+<!--            <div>-->
+<!--              <p class="profile-item__title">{{ $t("public_offer") }}</p>-->
+<!--            </div>-->
 
-            <div class="flex align-center">
-              <img
-                class="profile-item__arrow"
-                src="@/assets/images/profile-arrow-right.svg"
-                alt=""
-              />
-            </div>
-          </div>
-        </router-link>
+<!--            <div class="flex align-center">-->
+<!--              <img-->
+<!--                  class="profile-item__arrow"-->
+<!--                  src="@/assets/images/profile-arrow-right.svg"-->
+<!--                  alt=""-->
+<!--              />-->
+<!--            </div>-->
+<!--          </div>-->
+<!--        </router-link>-->
 
         <div class="profile-item" @click="showLogoutModal">
           <img
-            class="profile-item__icon"
-            src="@/assets/images/profile-exit-icon.svg"
-            alt=""
+              class="profile-item__icon"
+              src="@/assets/images/profile-exit-icon.svg"
+              alt=""
           />
           <div class="flex align-center justify-between b-bottom">
             <div>
@@ -350,9 +307,9 @@ WebAppController.ready();
 
             <div class="flex align-center">
               <img
-                class="profile-item__arrow"
-                src="@/assets/images/profile-arrow-right.svg"
-                alt=""
+                  class="profile-item__arrow"
+                  src="@/assets/images/profile-arrow-right.svg"
+                  alt=""
               />
             </div>
           </div>
@@ -360,11 +317,11 @@ WebAppController.ready();
       </div>
     </div>
     <modal-dialog
-      v-model="profileState.showLogoutWarn"
-      @close-modal="hideLogoutModal"
+        v-model="profileState.showLogoutWarn"
+        @close-modal="hideLogoutModal"
     >
       <template #header>
-        <logout-icon />
+        <logout-icon/>
         <h3 class="ol-md-title">{{ t("profile_page.exit_title") }}</h3>
       </template>
       <template #content>
@@ -376,14 +333,21 @@ WebAppController.ready();
             {{ t("profile_page.exit_yes") }}
           </button>
           <button
-            class="ol-md-button ol-md-close-button"
-            @click="hideLogoutModal"
+              class="ol-md-button ol-md-close-button"
+              @click="hideLogoutModal"
           >
             {{ t("profile_page.exit_no") }}
           </button>
         </div>
       </template>
     </modal-dialog>
+
+    <!--  CALL CENTER MODAL  -->
+    <popover :popover-value="popoverValue" @close-popover="closePopover">
+      <template #header>
+        <h3 class="call-center__number">(71) 205-15-48</h3>
+      </template>
+    </popover>
   </div>
 </template>
 
@@ -409,7 +373,7 @@ WebAppController.ready();
     font-weight: 600;
     font-size: 20px;
     line-height: 140%;
-    text-align: right;
+    text-align: center;
     letter-spacing: -0.4px;
     color: var(--gf-text-09);
     margin-bottom: 0.5rem;
@@ -600,6 +564,10 @@ WebAppController.ready();
 .ol-md-close-button {
   color: var(--gf-text-09);
   background: var(--gf-accent-bg);
+}
+
+.call-center__number {
+  color: var(--gf-text-33);
 }
 
 //::v-deep .modal {

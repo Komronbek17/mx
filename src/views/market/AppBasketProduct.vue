@@ -2,51 +2,99 @@
 import { ref } from "vue";
 import PlusIcon from "@/components/icons/PlusIcon.vue";
 import MinusIcon from "@/components/icons/MinusIcon.vue";
+import { useI18n } from "vue-i18n";
 
 const isAvailable = ref(true);
+const { t } = useI18n();
 </script>
 
 <template>
   <div class="product">
-    <div class="layout-container">
-      <div class="product-block" :class="isAvailable ? 'success-border' : ''">
-        <!--    TOP   -->
-        <div class="product-block__top">
-          <div class="product-block__top-image">
-            <img src="@/assets/images/level-product__image.png" alt="" />
-          </div>
-          <div class="product-block__top-details">
-            <h4>Наушники JBL Everest V700BT BLK</h4>
-            <div class="flex align-center">
-              <img src="@/assets/images/coin.png" alt="" />
-              <span>1000</span>
-            </div>
-          </div>
-          <div class="product-block__tick">
-            <img
-              v-if="!isAvailable"
-              src="@/assets/images/tick-circle-false.svg"
-              alt=""
-            />
-            <img src="@/assets/images/tick-circle.svg" alt="" />
+    <div class="product-block" :class="isAvailable ? 'success-border' : 'blur'">
+      <!--    TOP   -->
+      <div class="product-block__top">
+        <div class="product-block__top-image">
+          <img src="@/assets/images/level-product__image.png" alt="" />
+        </div>
+        <div class="product-block__top-details">
+          <h4>Наушники JBL Everest V700BT BLK</h4>
+          <div class="flex align-center">
+            <img src="@/assets/images/coin.png" alt="" />
+            <span>1000</span>
           </div>
         </div>
+        <div class="product-block__tick">
+          <img
+            v-if="!isAvailable"
+            src="@/assets/images/tick-circle-false.svg"
+            alt=""
+          />
+          <img src="@/assets/images/tick-circle.svg" alt="" />
+        </div>
+      </div>
 
-        <!--    BOTTOM   -->
-        <div class="product-block__bottom">
-          <div>
-            <p v-if="isAvailable">Осталось: <span>50 шт</span></p>
-            <p v-else>Нет в наличии</p>
+      <!--    BOTTOM   -->
+      <div class="product-block__bottom">
+        <div>
+          <p v-if="isAvailable">
+            {{ t("market_page.product_left") }}:
+            <span>50 {{ t("quantity") }}</span>
+          </p>
+          <p v-else class="unavailable">{{ t("market_page.unavailable") }}</p>
+        </div>
+
+        <div class="product-block__amount">
+          <div class="badge minus">
+            <minus-icon color="var(--gf-text-white-2x)" />
           </div>
+          <p>1</p>
+          <div class="badge plus">
+            <plus-icon color="var(--gf-text-white-2x)" />
+          </div>
+        </div>
+      </div>
+    </div>
 
-          <div class="product-block__amount">
-            <div class="badge minus">
-              <minus-icon color="var(--gf-text-white-2x)" />
-            </div>
-            <p>1</p>
-            <div class="badge plus">
-              <plus-icon color="var(--gf-text-white-2x)" />
-            </div>
+    <div class="product-block blur">
+      <!--    TOP   -->
+      <div class="product-block__top">
+        <div class="product-block__top-image">
+          <img src="@/assets/images/level-product__image.png" alt="" />
+        </div>
+        <div class="product-block__top-details">
+          <h4>Наушники JBL Everest V700BT BLK</h4>
+          <div class="flex align-center">
+            <img src="@/assets/images/coin.png" alt="" />
+            <span>1000</span>
+          </div>
+        </div>
+        <div class="product-block__tick">
+          <img
+            v-if="!isAvailable"
+            src="@/assets/images/tick-circle-false.svg"
+            alt=""
+          />
+          <img src="@/assets/images/tick-circle.svg" alt="" />
+        </div>
+      </div>
+
+      <!--    BOTTOM   -->
+      <div class="product-block__bottom">
+        <div>
+          <p v-if="isAvailable">
+            {{ t("market_page.product_left") }}:
+            <span>50 {{ t("quantity") }}</span>
+          </p>
+          <p v-else class="unavailable">{{ t("market_page.unavailable") }}</p>
+        </div>
+
+        <div class="product-block__amount">
+          <div class="badge minus">
+            <minus-icon color="var(--gf-text-white-2x)" />
+          </div>
+          <p>1</p>
+          <div class="badge plus">
+            <plus-icon color="var(--gf-text-white-2x)" />
           </div>
         </div>
       </div>
@@ -55,15 +103,24 @@ const isAvailable = ref(true);
 </template>
 
 <style scoped lang="scss">
+.layout-container {
+  background-color: #f5f5f5;
+}
 .product {
   &-block {
     background: var(--gf-bg-main);
     border-radius: 8px;
     border: 1px solid #2a3139;
     padding: 1rem;
+    margin-bottom: 1rem;
 
     &.success-border {
       border: 1px solid #01cc6b;
+    }
+
+    &.blur {
+      filter: blur(4px);
+      border: none;
     }
 
     &__top {
@@ -147,7 +204,6 @@ const isAvailable = ref(true);
         border-radius: 50%;
         line-height: 32px;
         font-size: 24px;
-        color: red;
         background-color: var(--gf-basket-product-image-bg);
       }
 
@@ -160,5 +216,9 @@ const isAvailable = ref(true);
       }
     }
   }
+}
+
+.unavailable {
+  color: var(--gf-notification-text-bg);
 }
 </style>

@@ -36,42 +36,42 @@ export function useBonus() {
     isAbortBtnAvailable.value = false;
   }
 
-  async function getDailyBonus(method) {
-    try {
-      let data;
-      if (method === "get") {
-        const response = await bonusApi.fetchDailyLamp();
-        data = response.data;
-      } else if (method === "post") {
-        const response = await bonusApi.setDailyGift();
-        data = response.data;
-      }
-      Object.keys(data).forEach((key) => {
-        dailyResponse[key] = data[key];
-      });
-
-      statusCode.value = 200;
-      hideCancelButton();
-    } catch (e) {
-      const response = e.response;
-      statusCode.value = response.status;
-
-      Object.keys(response.data).forEach((key) => {
-        dailyResponse[key] = response.data[key];
-      });
-
-      if (statusCode.value === 403) {
-        return hideCancelButton();
-      }
-
-      showCancelButton();
-    } finally {
-      showSubmitButton();
-      setTimeout(() => {
-        openModal();
-      }, 2500);
-    }
-  }
+  // async function getDailyBonus(method) {
+  //   try {
+  //     let data;
+  //     if (method === "get") {
+  //       const response = await bonusApi.fetchDailyLamp();
+  //       data = response.data;
+  //     } else if (method === "post") {
+  //       const response = await bonusApi.setDailyGift();
+  //       data = response.data;
+  //     }
+  //     Object.keys(data).forEach((key) => {
+  //       dailyResponse[key] = data[key];
+  //     });
+  //
+  //     statusCode.value = 200;
+  //     hideCancelButton();
+  //   } catch (e) {
+  //     const response = e.response;
+  //     statusCode.value = response.status;
+  //
+  //     Object.keys(response.data).forEach((key) => {
+  //       dailyResponse[key] = response.data[key];
+  //     });
+  //
+  //     if (statusCode.value === 403) {
+  //       return hideCancelButton();
+  //     }
+  //
+  //     showCancelButton();
+  //   } finally {
+  //     showSubmitButton();
+  //     setTimeout(() => {
+  //       openModal();
+  //     }, 2500);
+  //   }
+  // }
 
   async function getPremiumBonus(method) {
     isSubmitBtnAvailable.value = false;
@@ -122,7 +122,7 @@ export function useBonus() {
   }
 
   return {
-    getDailyBonus,
+    // getDailyBonus,
     getPremiumBonus,
     resetValues,
     statusCode,

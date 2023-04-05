@@ -178,6 +178,10 @@ WebAppController.ready();
     <app-loader :active="isFetching" />
     <rotating-fish :stop="state.stopAnimation" />
     <modal-dialog v-model="modalState.show" :show-close-icon="false">
+      <template #header>
+        <img v-if="isStatusSuccess" src="@/assets/icons/sms.svg" alt="">
+        <img v-else src="@/assets/icons/daily.svg" alt="">
+      </template>
       <template #content>
         <div class="modal-content">
           <h3 class="modal-content__title">
@@ -197,10 +201,15 @@ WebAppController.ready();
             @click="cancelAction"
             class="modal-footer__button btn-danger"
           >
-            {{ $t("cancel") }}
+            {{ $t("no") }}
           </div>
           <div @click="applyAction" class="modal-footer__button btn-yellow">
-            {{ $t("ok") }}
+            <template v-if="isStatusSuccess">
+              {{ $t("approve") }}
+            </template>
+            <template v-else>
+              {{ $t("ok") }}
+            </template>
           </div>
         </div>
       </template>

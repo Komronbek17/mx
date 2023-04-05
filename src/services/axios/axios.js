@@ -21,17 +21,12 @@ const instanceGenerator = (baseUrl) => {
 
 export const axiosVersion = ({
   endpoint = "",
-  baseUrl = import.meta.env.VITE_APP_DEV_VR,
+  baseUrl = import.meta.env.VITE_APP_URL,
 }) => {
-  return instanceGenerator(baseUrl + `api/` + endpoint);
+  return instanceGenerator(baseUrl + `/v1/api/` + endpoint);
 };
 
 export const axiosV1 = ({ endpoint = "" }) => {
   // eslint-disable-next-line
     return instanceGenerator(import.meta.env.VITE_APP_URL + '/v1/' + endpoint);
-};
-
-export const axiosMock = ({ endpoint = "" }) => {
-  // eslint-disable-next-line
-    return instanceGenerator(import.meta.env.VITE_APP_MOCK_API + '/' + endpoint);
 };

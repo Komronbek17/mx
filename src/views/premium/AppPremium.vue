@@ -228,7 +228,10 @@ function startAnimation() {
 
 function selectGiftHandler(type) {
   state.giftType = type;
-  setPremiumBonus();
+  hideGiftsModal()
+  modalState.show =true
+  modalState.showApplyButton =true
+  modalState.showCancelButton =true
 }
 
 WebAppController.ready();
@@ -240,6 +243,10 @@ fetchPremiumBonus();
     <app-loader :active="isFetching" />
     <rotating-fish type="premium" :stop="state.stopAnimation" />
     <modal-dialog v-model="modalState.show" :show-close-icon="false">
+      <template #header>
+        <img v-if="isStatusSuccess" src="@/assets/icons/sms.svg" alt="">
+        <img v-else src="@/assets/icons/premium.svg" alt="">
+      </template>
       <template #content>
         <div class="modal-content">
           <h3 class="modal-content__title">
@@ -250,7 +257,7 @@ fetchPremiumBonus();
               <span>{{ modalState.message }}</span>
             </span>
           </h3>
-          <div v-if="modalState.status === 402">
+          <div class="modal-content__subtitle" v-if="modalState.status === 402">
             {{
               t("connect_premium_service_message", {
                 price: modalState.price,
@@ -267,14 +274,20 @@ fetchPremiumBonus();
             @click="cancelAction"
             class="modal-footer__button btn-danger"
           >
-            {{ $t("cancel") }}
+            {{ $t("no") }}
           </div>
           <div @click="applyAction" class="modal-footer__button btn-yellow">
-            {{ $t("ok") }}
+            <template v-if="isStatusSuccess">
+              {{ $t("approve") }}
+            </template>
+            <template v-else>
+              {{ $t("ok") }}
+            </template>
           </div>
         </div>
       </template>
     </modal-dialog>
+
 
     <modal-dialog v-model="state.showGiftsModal" @close-modal="cancelAction">
       <template #header>

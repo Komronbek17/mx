@@ -1,7 +1,9 @@
 <script setup>
 import { ref } from "vue";
 import BaseInput from "@/components/ui/BaseInput/BaseInput.vue";
+import { useI18n } from "vue-i18n";
 
+const { t } = useI18n();
 const form = ref({
   date: null,
   receiver: null,
@@ -13,11 +15,24 @@ const form = ref({
   <div class="market-details">
     <div class="layout-container">
       <div class="market-details__block">
-        <BaseInput v-model="form.date" name="date" type="date" label="Дата" />
+        <BaseInput
+          v-model="form.date"
+          name="date"
+          type="date"
+          :label="t('market_page.form.date')"
+        />
 
-        <BaseInput v-model="form.receiver" name="receiver" label="Получатель" />
+        <BaseInput
+          v-model="form.receiver"
+          name="receiver"
+          :label="t('market_page.form.receiver')"
+        />
 
-        <BaseInput v-model="form.comment" name="comment" label="Комментарий" />
+        <BaseInput
+          v-model="form.comment"
+          name="comment"
+          :label="t('market_page.form.comment')"
+        />
       </div>
     </div>
   </div>
