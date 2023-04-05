@@ -21,8 +21,6 @@ const vMaskV3 = {
   unmounted: vMaskV2.unbind,
 };
 
-import VueClipboard from "vue3-clipboard";
-app.use(VueClipboard);
 
 app.directive("mask", vMaskV3);
 
