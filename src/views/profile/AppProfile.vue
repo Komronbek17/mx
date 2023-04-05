@@ -9,7 +9,6 @@ import { localStorageController } from "@/utils/localstorage.util";
 import { WebAppController } from "@/utils/telegram/web.app.util";
 
 import AppLoader from "@/components/elements/loader/AppLoader.vue";
-import DocumentTextIcon from "@/components/icons/DocumentTextIcon.vue";
 import ModalDialog from "@/components/ui/ModalDialog/ModalDialog.vue";
 import LogoutIcon from "@/components/icons/LogoutIcon.vue";
 import SupportIcon from "@/components/icons/SupportIcon.vue";
