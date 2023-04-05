@@ -1,16 +1,16 @@
 <script setup>
-import { computed, defineAsyncComponent, reactive } from "vue";
-import { useRouter } from "vue-router";
-import { useI18n } from "vue-i18n";
-import { useToast } from "vue-toastification";
-import { loadingComposable } from "@/composables/loading.composable";
-import { bonusApi } from "@/services/bonus.service";
+import {computed, defineAsyncComponent, reactive} from "vue";
+import {useRouter} from "vue-router";
+import {useI18n} from "vue-i18n";
+import {useToast} from "vue-toastification";
+import {loadingComposable} from "@/composables/loading.composable";
+import {bonusApi} from "@/services/bonus.service";
 
 import AppLoader from "@/components/elements/loader/AppLoader.vue";
 import RotatingFish from "@/components/outdated/RotatingFish.vue";
 import ModalDialog from "@/components/ui/ModalDialog/ModalDialog.vue";
 import PrizeIcon from "@/components/icons/PrizeIcon.vue";
-import { WebAppController } from "@/utils/telegram/web.app.util";
+import {WebAppController} from "@/utils/telegram/web.app.util";
 
 const InternetIconComponent = defineAsyncComponent(() => {
   return import("@/components/icons/InternetIcon.vue");
@@ -26,7 +26,7 @@ const SmsIconComponent = defineAsyncComponent(() => {
 
 const router = useRouter();
 const toast = useToast();
-const { t } = useI18n();
+const {t} = useI18n();
 
 const {
   loading: isFetching,
@@ -118,6 +118,7 @@ async function fetchPremiumBonus() {
     showModal();
   }
 }
+
 async function setPremiumBonus() {
   startAnimation();
   try {
@@ -157,7 +158,7 @@ function errorHandler(e) {
     modalState.message = e.response.data.message;
     e.response.data.types.forEach((type) => {
       const gift = state.giftTypesOption.find(
-        (giftType) => giftType.type === type
+          (giftType) => giftType.type === type
       );
       if (gift) {
         state.gifts.push(gift);
@@ -166,6 +167,9 @@ function errorHandler(e) {
     showGiftsModal();
   } else if (e.response.status === 403) {
     modalState.message = e.response.data.message;
+    hideModalCancelButton();
+    showModalCancelButton();
+  } else if (e.response.status === 406) {
     hideModalCancelButton();
     showModalCancelButton();
   } else {
@@ -240,12 +244,12 @@ fetchPremiumBonus();
 
 <template>
   <div>
-    <app-loader :active="isFetching" />
-    <rotating-fish type="premium" :stop="state.stopAnimation" />
+    <app-loader :active="isFetching"/>
+    <rotating-fish type="premium" :stop="state.stopAnimation"/>
     <modal-dialog v-model="modalState.show" :show-close-icon="false">
       <template #header>
-        <img v-if="isStatusSuccess" src="@/assets/icons/sms.svg" alt="" />
-        <img v-else src="@/assets/icons/premium.svg" alt="" />
+        <img v-if="isStatusSuccess" src="@/assets/icons/sms.svg" alt=""/>
+        <img v-else src="@/assets/icons/premium.svg" alt=""/>
       </template>
       <template #content>
         <div class="modal-content">
@@ -270,9 +274,9 @@ fetchPremiumBonus();
       <template #footer>
         <div class="modal-footer footer-actions">
           <div
-            v-if="modalState.showCancelButton"
-            @click="cancelAction"
-            class="modal-footer__button btn-danger"
+              v-if="modalState.showCancelButton"
+              @click="cancelAction"
+              class="modal-footer__button btn-danger"
           >
             {{ $t("no") }}
           </div>
@@ -291,19 +295,19 @@ fetchPremiumBonus();
     <modal-dialog v-model="state.showGiftsModal" @close-modal="cancelAction">
       <template #header>
         <div class="ol-gifts-modal">
-          <prize-icon :size="100" />
+          <prize-icon :size="100"/>
           <span class="ol-gifts-modal-title">
             {{ $t("premium_gifts_title") }}:
           </span>
           <div class="ol-gifts-modal-buttons-group">
             <button
-              class="ol-premium-button"
-              v-for="gift in state.gifts"
-              :key="gift.text"
-              :class="gift.btnClass"
-              @click="selectGiftHandler(gift.type)"
+                class="ol-premium-button"
+                v-for="gift in state.gifts"
+                :key="gift.text"
+                :class="gift.btnClass"
+                @click="selectGiftHandler(gift.type)"
             >
-              <component :is="gift.icon" />
+              <component :is="gift.icon"/>
               <span class="button-text">{{ t(gift.text) }}</span>
             </button>
           </div>
