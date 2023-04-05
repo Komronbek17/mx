@@ -7,10 +7,8 @@ class TelegramService extends CoreAxios {
     });
   }
 
-  async authJwt({ telegram_id }) {
-    return this.post("", {
-      telegram_id,
-    });
+  async authJwt(body) {
+    return this.post("", body);
   }
 
   login({ body }) {

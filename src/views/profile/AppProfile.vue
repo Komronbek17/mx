@@ -373,7 +373,7 @@ WebAppController.ready();
     font-weight: 600;
     font-size: 20px;
     line-height: 140%;
-    text-align: right;
+    text-align: center;
     letter-spacing: -0.4px;
     color: var(--gf-text-09);
     margin-bottom: 0.5rem;

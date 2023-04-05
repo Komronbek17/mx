@@ -111,11 +111,18 @@ function openUserAccount() {
 }
 
 .ol-home-username {
+  max-width: 180px;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
   font-weight: 600;
   font-size: 20px;
   line-height: 28px;
   letter-spacing: -0.4px;
-  text-align: right;
+  //text-align: right;
   color: var(--gf-text-09);
 }
 

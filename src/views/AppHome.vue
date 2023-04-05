@@ -137,8 +137,8 @@ onMounted(async () => {
   try {
     startLoading();
     await getMe();
-    await getDailyInfo();
     await getPremiumInfo();
+    await getDailyInfo();
     const data = await checkTelegramUser();
     const hasUser = hasOwnProperty(data, "user");
     if (hasUser) {
