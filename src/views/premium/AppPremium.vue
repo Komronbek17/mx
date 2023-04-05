@@ -170,7 +170,6 @@ function errorHandler(e) {
     hideModalCancelButton();
     showModalCancelButton();
   } else if (e.response.status === 406) {
-    hideModalCancelButton();
     showModalCancelButton();
   } else {
     toast.error(e.response.data.message ?? e.message);
