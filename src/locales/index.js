@@ -4,7 +4,7 @@ import ru from "@/locales/ru.locale";
 import uz from "@/locales/uz.locale";
 
 export const i18n = createI18n({
-  locale: "ru",
+  locale: "uz",
   legacy: false,
   globalInjection: true,
   messages: {
@@ -13,7 +13,7 @@ export const i18n = createI18n({
   },
 });
 
-export function setupI18n(options = { locale: "ru" }) {
+export function setupI18n(options = { locale:'uz' }) {
   const i18n = createI18n(options);
   setI18nLanguage(i18n, options.locale);
   return i18n;

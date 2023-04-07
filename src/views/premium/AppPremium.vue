@@ -11,6 +11,7 @@ import RotatingFish from "@/components/outdated/RotatingFish.vue";
 import ModalDialog from "@/components/ui/ModalDialog/ModalDialog.vue";
 import PrizeIcon from "@/components/icons/PrizeIcon.vue";
 import {WebAppController} from "@/utils/telegram/web.app.util";
+import {subscribeApi} from "@/services/subscribe.service";
 
 const InternetIconComponent = defineAsyncComponent(() => {
   return import("@/components/icons/InternetIcon.vue");
@@ -104,6 +105,7 @@ function hideGiftsModal() {
 }
 
 async function fetchPremiumBonus() {
+  console.log('fetch')
   startLoading();
   try {
     const response = await bonusApi.fetchPremiumLampInfo();
@@ -176,6 +178,18 @@ function errorHandler(e) {
   }
 }
 
+async function switchSubscribe(){
+  await subscribeApi
+      .subscribeActivate()
+      .then(async () => {
+        await resetFields()
+        await fetchPremiumBonus()
+      })
+      .catch((e) => {
+        toast.error(e.response.data.message ?? e.message);
+      })
+}
+
 function applyAction() {
   switch (modalState.status) {
     case 402: {
@@ -183,9 +197,10 @@ function applyAction() {
       break;
     }
     case 406: {
-      router.push({
-        name: "settings-unsubscribe",
-      });
+      switchSubscribe();
+      // router.push({
+      //   name: "settings-unsubscribe",
+      // });
       break;
     }
     default: {

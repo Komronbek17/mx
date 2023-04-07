@@ -41,10 +41,10 @@ import AppMarketMap from "@/views/market/AppMarketMap.vue";
 import AppMarketForm from "@/views/market/AppMarketForm.vue";
 import AppMarketDetails from "@/views/market/AppMarketDetails.vue";
 import AppMarketPassport from "@/views/market/AppMarketPassport.vue";
-import { setLocalStorageVariable } from "@/utils/localstorage.util";
-import { OLTIN_BALIQ_BOT_TKN } from "@/constants";
+import {ACCEPT_LANGUAGE, OLTIN_BALIQ_BOT_TKN} from "@/constants";
 import { useTelegramStore } from "@/stores/telegram.store";
 import { telegramApi } from "@/services/telegram.service";
+import {localStorageController} from "@/utils/localstorage.util";
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -285,20 +285,22 @@ router.beforeEach(async (to, from, next) => {
         telegram_id: tUserId,
       };
 
-      return await telegramApi
-        .authJwt(body)
-        .then(({ data }) => {
-          console.log("data", data);
-          if (data && data.user && data.user.jwt) {
-            setLocalStorageVariable(OLTIN_BALIQ_BOT_TKN, data.user.jwt);
-            return next("/");
-          }
-        })
-        .catch(() => {
-          return next({
-            name: "login",
-          });
-        });
+            return await telegramApi
+                .authJwt(body)
+                .then(({data}) => {
+                    // console.log("data", data);
+                    if (data && data.user && data.user.jwt) {
+                        localStorageController.set(OLTIN_BALIQ_BOT_TKN, data.user.jwt);
+                        localStorageController.set(ACCEPT_LANGUAGE, data.user.language);
+                        // setupI18n({locale: data.user.language || 'uz'})
+                        return next("/");
+                    }
+                })
+                .catch(() => {
+                    return next({
+                        name: "login",
+                    });
+                });
 
       // const data = await telegramApi.authJwt(body);
       // console.log(data, "datajwt");

@@ -16,7 +16,7 @@ import { hasOwnProperty } from "@/utils/object.util";
 import { useToast } from "vue-toastification";
 
 const { tUserFullName } = useTelegramStore();
-const { tUserUniqueId, checkTelegramUser } = useTelegram();
+const { tUserUniqueId } = useTelegram();
 
 const { locale, t } = useI18n();
 const toast = useToast();
@@ -101,6 +101,7 @@ const getMe = async () => {
     user.value.avatar = result.upload?.path || "";
     localStorageController.set(ACCEPT_LANGUAGE, result.language);
     localStorageController.set(USER_DATA, result);
+    locale.value = result.language || 'uz'
   } catch (e) {
     toast.error(e.response?.data?.message ?? e.message);
   }
@@ -128,15 +129,6 @@ onMounted(async () => {
     await getMe();
     await getPremiumInfo();
     await getDailyInfo();
-    const data = await checkTelegramUser();
-    const hasUser = hasOwnProperty(data, "user");
-    if (hasUser) {
-      const hasLanguage = hasOwnProperty(data.user, "language");
-      if (hasLanguage) {
-        locale.value = data.user.language;
-      }
-    }
-    localStorageController.set(ACCEPT_LANGUAGE, locale.value);
   } finally {
     finishLoading();
   }
@@ -147,22 +139,22 @@ WebAppController.ready();
 
 <template>
   <div class="home layout-container">
-    <app-loader :active="isFetching" />
+    <app-loader :active="isFetching"/>
     <user-card-home
-      :user-full-name="user.fullName"
-      :user-unique-id="user.id"
-      :user-avatar="user.avatar"
-      class="mb-1"
+        :user-full-name="user.fullName"
+        :user-unique-id="user.id"
+        :user-avatar="user.avatar"
+        class="mb-1"
     />
     <div class="home__menu grid-menu">
       <category-card
-        v-for="(item, index) in homeMenu"
-        :key="index"
-        :to="{ name: item.routeName }"
-        :title="item.title"
-        :image="item.image"
-        :notification="item.notification"
-        :style="item.style"
+          v-for="(item, index) in homeMenu"
+          :key="index"
+          :to="{ name: item.routeName }"
+          :title="item.title"
+          :image="item.image"
+          :notification="item.notification"
+          :style="item.style"
       />
     </div>
   </div>

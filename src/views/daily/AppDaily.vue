@@ -10,6 +10,7 @@ import AppLoader from "@/components/elements/loader/AppLoader.vue";
 import { bonusApi } from "@/services/bonus.service";
 import { WebAppController } from "@/utils/telegram/web.app.util";
 import { loadingComposable } from "@/composables/loading.composable";
+import {subscribeApi} from "@/services/subscribe.service";
 
 const router = useRouter();
 const toast = useToast();
@@ -106,6 +107,19 @@ function errorHandler(e) {
   showModalCancelButton();
 }
 
+async function switchSubscribe(){
+  await resetFields()
+  await subscribeApi
+      .subscribeActivate()
+      .then(async () => {
+        // console.log(modalState,'log')
+        await fetchDailyBonus()
+      })
+      .catch((e) => {
+        toast.error(e.response.data.message ?? e.message);
+      })
+}
+
 function applyAction() {
   switch (modalState.status) {
     case 402: {
@@ -113,9 +127,10 @@ function applyAction() {
       break;
     }
     case 406: {
-      router.push({
-        name: "settings-unsubscribe",
-      });
+      switchSubscribe()
+      // router.push({
+      //   name: "settings-unsubscribe",
+      // });
       break;
     }
     default: {
