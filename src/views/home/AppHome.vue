@@ -7,6 +7,7 @@ import CatalogHome from "@/components/home/CatalogHome.vue";
 import OltinBaliqIcon from "@/components/icons/OltinBaliqIcon.vue";
 import UserCardHome from "@/components/home/UserCardHome.vue";
 import AppLoader from "@/components/elements/loader/AppLoader.vue";
+// import VoteModal from "@/views/vote/VoteModal.vue";
 
 import { hasOwnProperty } from "@/utils/object.util";
 import { WebAppController } from "@/utils/telegram/web.app.util";
@@ -16,7 +17,6 @@ import { loadingComposable } from "@/composables/loading.composable";
 
 import { ACCEPT_LANGUAGE, USER_DATA } from "@/constants";
 import { useTelegramStore } from "@/stores/telegram.store";
-// import VoteModal from "@/views/vote/VoteModal.vue";
 import { profileApi } from "@/services/profile.service";
 
 const { tUserFullName } = useTelegramStore();
