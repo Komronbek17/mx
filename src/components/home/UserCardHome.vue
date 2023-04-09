@@ -104,13 +104,12 @@ function openUserAccount() {
 }
 
 .ol-home-username {
-  max-width: 180px;
-  white-space: nowrap;
-  text-overflow: ellipsis;
-  overflow: hidden;
-  display: -webkit-box;
-  -webkit-line-clamp: 1;
+  min-height: 28px;
   -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  width: 180px;
   font-weight: 600;
   font-size: 20px;
   line-height: 28px;

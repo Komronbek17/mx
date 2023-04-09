@@ -9,7 +9,7 @@ import { WebAppController } from "@/utils/telegram/web.app.util";
 import { loadingComposable } from "@/composables/loading.composable";
 
 const { t } = useI18n();
-const isSubscribed = ref(true);
+const isSubscribed = ref(null);
 const {
   loading: isFetching,
   startLoading,
