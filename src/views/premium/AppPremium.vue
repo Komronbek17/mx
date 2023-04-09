@@ -11,6 +11,8 @@ import RotatingFish from "@/components/outdated/RotatingFish.vue";
 import ModalDialog from "@/components/ui/ModalDialog/ModalDialog.vue";
 import PrizeIcon from "@/components/icons/PrizeIcon.vue";
 import { WebAppController } from "@/utils/telegram/web.app.util";
+import { useMeStore } from "@/stores/me.store";
+import { AmplitudeTracker } from "@/libs/amplitude/analyticsBrowser";
 
 const InternetIconComponent = defineAsyncComponent(() => {
   return import("@/components/icons/InternetIcon.vue");
@@ -27,6 +29,8 @@ const SmsIconComponent = defineAsyncComponent(() => {
 const router = useRouter();
 const toast = useToast();
 const { t } = useI18n();
+
+const meStore = useMeStore();
 
 const {
   loading: isFetching,
@@ -129,6 +133,15 @@ async function setPremiumBonus() {
     modalState.status = response.status;
     modalState.type = response.data.type;
     modalState.name = response.data.name;
+
+    if (response.status === 200) {
+      AmplitudeTracker.receivePayingBonus({
+        properties: {
+          user_id: meStore.meUniqueId,
+        },
+      });
+    }
+
     hideGiftsModal();
     stopAnimation();
     showModal();
@@ -236,6 +249,12 @@ function selectGiftHandler(type) {
 
 WebAppController.ready();
 fetchPremiumBonus();
+
+AmplitudeTracker.activatePremium({
+  properties: {
+    user_id: meStore.meUniqueId,
+  },
+});
 </script>
 
 <template>

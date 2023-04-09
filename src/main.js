@@ -12,10 +12,6 @@ import Toast from "vue-toastification";
 import "./assets/scss/main.scss";
 import "vue-toastification/dist/index.css";
 
-/*LIBS*/
-import { Amplitude } from "@/libs/amplitude/analyticsBrowser";
-Amplitude.initialize();
-
 const app = createApp(App);
 
 const vMaskV2 = VueMaskDirective;

@@ -14,8 +14,10 @@ import UserCardHome from "@/components/home/UserCardHome.vue";
 import AppLoader from "@/components/elements/loader/AppLoader.vue";
 import { hasOwnProperty } from "@/utils/object.util";
 import { useToast } from "vue-toastification";
+import { useMeStore } from "@/stores/me.store";
 
 const { tUserFullName } = useTelegramStore();
+const meStore = useMeStore();
 const { tUserUniqueId, checkTelegramUser } = useTelegram();
 
 const { locale, t } = useI18n();
@@ -93,6 +95,7 @@ const getMe = async () => {
     const {
       data: { result },
     } = await profileApi.fetchMe();
+    meStore.initMe({ meCtx: result });
     user.value.id = result.id || tUserUniqueId;
     user.value.fullName =
       result.first_name || result.last_name

@@ -18,6 +18,7 @@ import { MainButtonController } from "@/utils/telegram/main.button.controller";
 import { WebAppController } from "@/utils/telegram/web.app.util";
 import { useI18n } from "vue-i18n";
 import { telegramApi } from "@/services/telegram.service";
+import { AmplitudeTracker } from "@/libs/amplitude/analyticsBrowser";
 
 const { t } = useI18n();
 const router = useRouter();
@@ -101,6 +102,14 @@ async function verifyCode() {
           user_id: data.user.id,
           telegram_id: WebAppController.webApp.initDataUnsafe.user.id,
           jwt: data["access_token"],
+        },
+      });
+
+      AmplitudeTracker.signUpCompleted({
+        properties: {
+          user_id: data.user.id,
+          sign_up_at: new Date(),
+          phone_number: sessionStorageController.get(VERIFICATION_PHONE),
         },
       });
 

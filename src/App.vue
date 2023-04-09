@@ -10,6 +10,7 @@ import { MainButtonController } from "@/utils/telegram/main.button.controller";
 
 import { hasOwnProperty } from "@/utils/object.util";
 import { WebAppController } from "@/utils/telegram/web.app.util";
+import { AmplitudeTracker } from "@/libs/amplitude/analyticsBrowser";
 
 const route = useRoute();
 const router = useRouter();
@@ -60,6 +61,8 @@ watch(
     immediate: true,
   }
 );
+
+AmplitudeTracker.initialize();
 </script>
 
 <template>

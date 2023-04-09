@@ -1,7 +1,7 @@
 import * as amplitude from "@amplitude/analytics-browser";
 import { track } from "@amplitude/analytics-browser";
 
-export class Amplitude {
+export class AmplitudeTracker {
   static initialize() {
     amplitude.init("c304134ab0ca312632e1d538cf3b7363", undefined, {
       defaultTracking: {
@@ -10,6 +10,15 @@ export class Amplitude {
         formInteractions: true,
         fileDownloads: true,
       },
+    });
+  }
+
+  static lunch({
+    message = "Free Chance Activated",
+    properties: { platform = "Web", webapp_launched_at },
+  }) {
+    this.tracker(message, {
+      properties: { platform, webapp_launched_at },
     });
   }
 
@@ -23,15 +32,6 @@ export class Amplitude {
   }) {
     this.tracker(message, {
       properties: { user_id, phone_number, sign_up_at },
-    });
-  }
-
-  static lunch({
-    message = "Free Chance Activated",
-    properties: { platform = "Web", webapp_launched_at },
-  }) {
-    this.tracker(message, {
-      properties: { platform, webapp_launched_at },
     });
   }
 
