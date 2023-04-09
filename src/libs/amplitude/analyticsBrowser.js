@@ -3,7 +3,8 @@ import { track } from "@amplitude/analytics-browser";
 
 export class AmplitudeTracker {
   static initialize() {
-    amplitude.init("c304134ab0ca312632e1d538cf3b7363", undefined, {
+    // eslint-disable-next-line no-undef
+    amplitude.init(process.env.VITE_APP_AMPLITUDE_API_KEY, undefined, {
       defaultTracking: {
         sessions: true,
         pageViews: true,
