@@ -13,7 +13,7 @@ export const i18n = createI18n({
   },
 });
 
-export function setupI18n(options = { locale:'uz' }) {
+export function setupI18n(options = { locale: "uz" }) {
   const i18n = createI18n(options);
   setI18nLanguage(i18n, options.locale);
   return i18n;

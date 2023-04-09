@@ -1,22 +1,21 @@
 <script setup>
-import {onMounted, ref} from "vue";
-import {loadingComposable} from "@/composables/loading.composable";
-import {WebAppController} from "@/utils/telegram/web.app.util";
+import { onMounted, ref } from "vue";
+import { loadingComposable } from "@/composables/loading.composable";
+import { WebAppController } from "@/utils/telegram/web.app.util";
 import Popover from "@/components/ui/Popover/Popover.vue";
 import AppLoader from "@/components/elements/loader/AppLoader.vue";
-import {profileApi} from "@/services/profile.service";
-import {useRouter} from "vue-router";
+import { profileApi } from "@/services/profile.service";
+import { useRouter } from "vue-router";
 import BaseInput from "@/components/ui/BaseInput/BaseInput.vue";
-import {useI18n} from "vue-i18n";
-import userAvatar from '@/assets/images/profile-image.svg'
-import {useToast} from "vue-toastification";
-import {useUserStore} from "@/stores/user.store";
+import { useI18n } from "vue-i18n";
+import userAvatar from "@/assets/images/profile-image.svg";
+import { useToast } from "vue-toastification";
+import { useUserStore } from "@/stores/user.store";
 
 const router = useRouter();
-const toast = useToast()
-const {t} = useI18n();
-const {user, initUser, updateUser} = useUserStore()
-
+const toast = useToast();
+const { t } = useI18n();
+const { user, initUser, updateUser } = useUserStore();
 
 const userNewData = ref({
   avatar: null,
@@ -37,7 +36,7 @@ const {
 const closePopover = () => {
   // console.log(user.avatar,'user.value.avatar');
   userNewData.value.upload_id = user.upload?.id || null;
-  userNewData.value.avatar = user.avatar || '';
+  userNewData.value.avatar = user.avatar || "";
   popoverValue.value = false;
 };
 
@@ -51,14 +50,14 @@ const popoverApply = () => {
 
 function selectAvatar(item) {
   userNewData.value.upload_id = item.id;
-  userNewData.value.avatar = item?.path || '';
+  userNewData.value.avatar = item?.path || "";
   // user.upload = item;
   // updateAvatar(item)
 }
 
 const getAvatars = async () => {
   try {
-    const {data} = await profileApi.fetchAvatars();
+    const { data } = await profileApi.fetchAvatars();
     avatars.value = data.result;
   } catch (e) {
     toast.error(e?.response?.data.message ?? e.message);
@@ -67,13 +66,12 @@ const getAvatars = async () => {
 
 const getRegions = async () => {
   try {
-    const {data} = await profileApi.fetchRegions();
+    const { data } = await profileApi.fetchRegions();
     regions.value = data.result;
   } catch (e) {
     toast.error(e?.response?.data.message ?? e.message);
   }
 };
-
 
 function initializeNewUser() {
   userNewData.value.first_name = user.first_name;
@@ -83,29 +81,31 @@ function initializeNewUser() {
   userNewData.value.avatar = user.upload?.path || null;
 }
 
-
 const updateProfile = async () => {
   const body = userNewData.value;
-  await profileApi.updateMe(body).then(async ({data}) => {
-    if (data) {
-      updateUser(data.result)
-    } else {
-      await initUser()
-    }
-  }).catch((e) => {
-    toast.error(e?.response?.data.message ?? e.message);
-  }).finally(async () => {
-    await router.push({name: "profile"});
-  })
+  await profileApi
+    .updateMe(body)
+    .then(async ({ data }) => {
+      if (data) {
+        updateUser(data.result);
+      } else {
+        await initUser();
+      }
+    })
+    .catch((e) => {
+      toast.error(e?.response?.data.message ?? e.message);
+    })
+    .finally(async () => {
+      await router.push({ name: "profile" });
+    });
 };
-
 
 onMounted(async () => {
   startLoading();
   if (!(user && user.id)) {
     await initUser();
   }
-  initializeNewUser()
+  initializeNewUser();
   await getRegions();
   await getAvatars();
   finishLoading();
@@ -116,25 +116,22 @@ WebAppController.ready();
 
 <template>
   <div class="profile-edit">
-    <app-loader :active="isFetching"/>
+    <app-loader :active="isFetching" />
     <div class="layout-container">
       <!--   PROFILE DETAILS   -->
       <div class="flex flex-column align-center">
         <div class="profile-edit__image">
-          <img
-              :src="userNewData?.avatar || userAvatar"
-              alt="avatar"
-          />
+          <img :src="userNewData?.avatar || userAvatar" alt="avatar" />
         </div>
         <p class="profile-edit__name">
           {{ user.fullName }}
         </p>
         <span class="profile-edit__id">ID: {{ user.id }}</span>
         <button
-            @click="openPopover"
-            class="profile-edit__choose flex align-center"
+          @click="openPopover"
+          class="profile-edit__choose flex align-center"
         >
-          <img src="@/assets/images/profile-choose-photo.svg" alt=""/>
+          <img src="@/assets/images/profile-choose-photo.svg" alt="" />
           <span>{{ $t("profile_page.change_photo") }}</span>
         </button>
 
@@ -142,26 +139,26 @@ WebAppController.ready();
         <div class="form">
           <div class="form-content">
             <base-input
-                v-model="userNewData.first_name"
-                :label="t('profile_page.label_name')"
-                name="name"
+              v-model="userNewData.first_name"
+              :label="t('profile_page.label_name')"
+              name="name"
             />
 
             <base-input
-                v-model="userNewData.last_name"
-                :label="t('profile_page.label_surname')"
-                name="surname"
+              v-model="userNewData.last_name"
+              :label="t('profile_page.label_surname')"
+              name="surname"
             />
           </div>
 
           <div class="region-select">
             <label>{{ t("profile_page.choose_region") }}</label>
             <v-select
-                :searchable="false"
-                :options="regions"
-                :reduce="(r) => r.id"
-                v-model="userNewData.region_id"
-                label="name"
+              :searchable="false"
+              :options="regions"
+              :reduce="(r) => r.id"
+              v-model="userNewData.region_id"
+              label="name"
             />
           </div>
 
@@ -181,21 +178,21 @@ WebAppController.ready();
       <template #content>
         <div class="avatar-popover__content">
           <div
-              v-for="avatar in avatars"
-              :key="avatar.id + '_avatar'"
-              class="avatar-popover__item"
-              :class="{'active-avatar':userNewData.upload_id === avatar.id}"
-              @click="selectAvatar(avatar)"
+            v-for="avatar in avatars"
+            :key="avatar.id + '_avatar'"
+            class="avatar-popover__item"
+            :class="{ 'active-avatar': userNewData.upload_id === avatar.id }"
+            @click="selectAvatar(avatar)"
           >
-            <img :src="avatar.path" alt=""/>
+            <img :src="avatar.path" alt="" />
           </div>
         </div>
       </template>
       <template #footer>
         <button
-            @click="popoverApply"
-            :disabled="!userNewData.upload_id"
-            class="avatar-popover__footer"
+          @click="popoverApply"
+          :disabled="!userNewData.upload_id"
+          class="avatar-popover__footer"
         >
           <p class="footer-button">{{ $t("profile_page.set") }}</p>
         </button>
@@ -333,14 +330,14 @@ WebAppController.ready();
     cursor: pointer;
     width: 3rem;
     height: 3rem;
-    border-radius: .5rem;
+    border-radius: 0.5rem;
     border: 2px solid transparent;
 
     &.active-avatar {
       position: relative;
       border: 2px solid var(--gf-p-green);
-      &:after{
-        content: '';
+      &:after {
+        content: "";
         position: absolute;
         top: -0.4rem;
         right: -0.4rem;
