@@ -4,7 +4,7 @@ import { MainButtonController } from "@/utils/telegram/main.button.controller";
 import { useI18n } from "vue-i18n";
 import { onBeforeRouteLeave, useRoute, useRouter } from "vue-router";
 import { onMounted, ref } from "vue";
-import { productApi } from "@/services/product.service";
+import { coinApi } from "@/services/market.service";
 import { loadingComposable } from "@/composables/loading.composable";
 
 const { t } = useI18n();
@@ -18,7 +18,44 @@ async function showOrderProducts() {
   console.log(1);
 }
 
-MainButtonController.run();
+
+const product = ref({});
+const basket = ref([]);
+
+async function fetchProduct() {
+  try {
+    const body = {
+      method: "coin.get_product",
+      params: route.params,
+    };
+    const { data } = await coinApi.getProduct(body);
+    product.value = data.result;
+  } catch (e) {
+    console.error(e);
+  }
+}
+
+async function fetchBasket() {
+  try {
+    const body = {
+      page: 1,
+      limit: 100,
+    };
+    const {data} = await coinApi.getBasket(body);
+    basket.value = data.result;
+  } catch (e) {
+    console.error(e);
+  }
+}
+
+if (basket && basket.value.products && basket.value.products.length) {
+  MainButtonController.run();
+  MainButtonController.setBackgroundColor("#555333");
+}else{
+  MainButtonController.run();
+}
+
+
 MainButtonController.setText(`${t("market_page.show_order")}`);
 MainButtonController.setBackgroundColor("#01E075");
 MainButtonController.onClick(showOrderProducts);
@@ -27,26 +64,14 @@ onBeforeRouteLeave(() => {
   MainButtonController.makeInvisible();
 });
 
-const product = ref({});
 
-async function fetchProduct() {
-  try {
-    const body = {
-      method: "coin.get_product",
-      params: route.params,
-    };
-    const { data } = await productApi.getProduct(body);
-    console.log(data, "data");
-    product.value = data.result;
-  } catch (e) {
-    console.error(e);
-  }
-}
+
 
 onMounted(async () => {
   startLoading();
   try {
     await fetchProduct();
+    await fetchBasket();
   } finally {
     finishLoading();
   }

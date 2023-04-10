@@ -110,14 +110,14 @@ export default {
     quantity: "Miqdori",
     description: "Tavsif",
     your_order: "Sizning buyurtmangiz",
-    choose_address: "Adresni tanlash",
+    choose_address: "Manzilni tanlash",
     product_left: "Qolgan",
     unavailable: "Mavjud emas",
     change: "O'zgartirish",
 
     form: {
       your_pinfl: "JShShIR ni kiriting",
-      address: "Adresni kiriting",
+      address: "Manzilni kiriting",
       entrance: "Kirish (Podyezd)",
       floor: "Qavat",
       flat: "Xonadon",
