@@ -1,12 +1,10 @@
 <script setup>
-import { computed, onMounted, reactive, ref } from "vue";
-import { useRouter } from "vue-router";
-import { useI18n } from "vue-i18n";
-import { useTelegram } from "@/composables/telegram.composable";
-import { loadingComposable } from "@/composables/loading.composable";
-import { useTelegramStore } from "@/stores/telegram.store";
-import { localStorageController } from "@/utils/localstorage.util";
-import { WebAppController } from "@/utils/telegram/web.app.util";
+import { onMounted, reactive, ref} from "vue";
+import {useRouter} from "vue-router";
+import {useI18n} from "vue-i18n";
+import {loadingComposable} from "@/composables/loading.composable";
+import {localStorageController} from "@/utils/localstorage.util";
+import {WebAppController} from "@/utils/telegram/web.app.util";
 
 import AppLoader from "@/components/elements/loader/AppLoader.vue";
 import ModalDialog from "@/components/ui/ModalDialog/ModalDialog.vue";
@@ -14,25 +12,28 @@ import LogoutIcon from "@/components/icons/LogoutIcon.vue";
 import SupportIcon from "@/components/icons/SupportIcon.vue";
 import Popover from "@/components/ui/Popover/Popover.vue";
 
-import { OLTIN_BALIQ_BOT_TKN } from "@/constants";
-import { profileApi } from "@/services/profile.service";
-import { authApi } from "@/services/auth.service";
-import { useToast } from "vue-toastification";
+import {OLTIN_BALIQ_BOT_TKN} from "@/constants";
+import {authApi} from "@/services/auth.service";
+import {useToast} from "vue-toastification";
 
-const { t } = useI18n();
+const {t} = useI18n();
 const router = useRouter();
-const { tUserFullName } = useTelegramStore();
-const { isNotFetched, checkTelegramUser } = useTelegram();
 const profileState = reactive({
   showLogoutWarn: false,
 });
+import {useUserStore} from "@/stores/user.store";
+
+import userAvatar from '@/assets/images/profile-image.svg'
 
 const toast = useToast();
-// need get localStorage
-const user = ref({});
 const theme = WebAppController.webApp.colorScheme;
 
 const popoverValue = ref(false);
+
+const {user,initUser} = useUserStore()
+
+
+
 
 const {
   loading: isFetching,
@@ -69,35 +70,12 @@ function hideLogoutModal() {
   profileState.showLogoutWarn = false;
 }
 
-if (isNotFetched) {
-  startLoading();
-  try {
-    checkTelegramUser();
-  } finally {
+onMounted(async () => {
+  if (!(user && user.id)) {
+    startLoading();
+    await initUser();
     finishLoading();
   }
-}
-
-const getMe = async () => {
-  try {
-    const { data } = await profileApi.fetchMe();
-    user.value = data.result;
-  } catch (e) {
-    console.log(e, "e");
-  }
-};
-
-const getFullName = computed(() => {
-  return (
-    (user?.value.first_name || "") + " " + (user?.value.last_name || "") ||
-    tUserFullName
-  );
-});
-
-onMounted(async () => {
-  startLoading();
-  await getMe();
-  finishLoading();
 });
 
 WebAppController.ready();
@@ -106,20 +84,19 @@ WebAppController.ready();
 <template>
   <div>
     <div class="profile">
-      <app-loader :active="isFetching" />
+      <app-loader :active="isFetching"/>
       <div class="layout-container">
         <!--   PROFILE DETAILS   -->
         <div class="flex flex-column align-center">
           <div class="profile-image">
             <img
-              v-if="user && user.upload"
-              :src="user.upload['path'] || '@/assets/images/profile-image.svg'"
-              alt=""
+                :src="user?.avatar || userAvatar"
+                alt="avatar"
             />
           </div>
 
           <p class="profile-name">
-            {{ getFullName }}
+            {{ user.fullName }}
           </p>
           <span class="profile-id">ID: {{ user.id }}</span>
 
@@ -133,14 +110,14 @@ WebAppController.ready();
       <!--  SOON IMAGE  -->
       <div class="profile-soon">
         <img
-          v-if="theme === 'light'"
-          src="@/assets/images/profile-progress-bar.png"
-          alt=""
+            v-if="theme === 'light'"
+            src="@/assets/images/profile-progress-bar.png"
+            alt=""
         />
         <img
-          v-else
-          src="@/assets/images/profile-progress-bar-dark.png"
-          alt=""
+            v-else
+            src="@/assets/images/profile-progress-bar-dark.png"
+            alt=""
         />
         <span>{{ t("profile_page.soon") }}</span>
       </div>
@@ -172,9 +149,9 @@ WebAppController.ready();
       <div class="profile-list">
         <router-link :to="{ name: 'profile-edit' }" class="profile-item">
           <img
-            class="profile-item__icon"
-            src="@/assets/images/profile-edit-icon.svg"
-            alt=""
+              class="profile-item__icon"
+              src="@/assets/images/profile-edit-icon.svg"
+              alt=""
           />
           <div class="flex align-center justify-between b-bottom">
             <div>
@@ -183,9 +160,9 @@ WebAppController.ready();
 
             <div class="flex align-center">
               <img
-                class="profile-item__arrow"
-                src="@/assets/images/profile-arrow-right.svg"
-                alt=""
+                  class="profile-item__arrow"
+                  src="@/assets/images/profile-arrow-right.svg"
+                  alt=""
               />
             </div>
           </div>
@@ -235,7 +212,7 @@ WebAppController.ready();
         <!--      </router-link>-->
         <!--        href="tel:712051548"-->
         <div @click="openPopover" class="profile-item">
-          <support-icon class="profile-item__icon" />
+          <support-icon class="profile-item__icon"/>
           <div class="flex align-center justify-between b-bottom">
             <div>
               <p class="profile-item__title">Call center (71) 205-15-48</p>
@@ -243,9 +220,9 @@ WebAppController.ready();
 
             <div class="flex align-center">
               <img
-                class="profile-item__arrow"
-                src="@/assets/images/profile-arrow-right.svg"
-                alt=""
+                  class="profile-item__arrow"
+                  src="@/assets/images/profile-arrow-right.svg"
+                  alt=""
               />
             </div>
           </div>
@@ -293,9 +270,9 @@ WebAppController.ready();
 
         <div class="profile-item" @click="showLogoutModal">
           <img
-            class="profile-item__icon"
-            src="@/assets/images/profile-exit-icon.svg"
-            alt=""
+              class="profile-item__icon"
+              src="@/assets/images/profile-exit-icon.svg"
+              alt=""
           />
           <div class="flex align-center justify-between b-bottom">
             <div>
@@ -304,9 +281,9 @@ WebAppController.ready();
 
             <div class="flex align-center">
               <img
-                class="profile-item__arrow"
-                src="@/assets/images/profile-arrow-right.svg"
-                alt=""
+                  class="profile-item__arrow"
+                  src="@/assets/images/profile-arrow-right.svg"
+                  alt=""
               />
             </div>
           </div>
@@ -314,11 +291,11 @@ WebAppController.ready();
       </div>
     </div>
     <modal-dialog
-      v-model="profileState.showLogoutWarn"
-      @close-modal="hideLogoutModal"
+        v-model="profileState.showLogoutWarn"
+        @close-modal="hideLogoutModal"
     >
       <template #header>
-        <logout-icon />
+        <logout-icon/>
         <h3 class="ol-md-title">{{ t("profile_page.exit_title") }}</h3>
       </template>
       <template #content>
@@ -330,8 +307,8 @@ WebAppController.ready();
             {{ t("profile_page.exit_yes") }}
           </button>
           <button
-            class="ol-md-button ol-md-close-button"
-            @click="hideLogoutModal"
+              class="ol-md-button ol-md-close-button"
+              @click="hideLogoutModal"
           >
             {{ t("profile_page.exit_no") }}
           </button>
@@ -367,6 +344,12 @@ WebAppController.ready();
   }
 
   &-name {
+    -webkit-box-orient: vertical;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    overflow: hidden;
+    line-break: anywhere;
+    width: 80%;
     font-weight: 600;
     font-size: 20px;
     line-height: 140%;

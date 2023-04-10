@@ -146,12 +146,11 @@ WebAppController.ready();
             @click="activateLevel(index)"
           />
         </div>
-
         <button
           @click="getLevelGift(levels[activeLevel].id)"
           class="levels-button"
-          :class="levels[activeLevel] !== 100 ? 'disabled' : ''"
-          :disabled="levels[activeLevel] !== 100"
+          :class="levels[activeLevel]?.percent > 100 ? '' : 'disabled'"
+          :disabled="levels[activeLevel]?.percent < 100"
         >
           <img src="@/assets/images/prize.svg" alt="" />
           <p>{{ t("level_page.take_prize") }}</p>
