@@ -18,16 +18,9 @@ async function showOrderProducts() {
   console.log(1);
 }
 
-MainButtonController.run();
-MainButtonController.setText(`${t("market_page.show_order")}`);
-MainButtonController.setBackgroundColor("#01E075");
-MainButtonController.onClick(showOrderProducts);
-
-onBeforeRouteLeave(() => {
-  MainButtonController.makeInvisible();
-});
 
 const product = ref({});
+const basket = ref([]);
 
 async function fetchProduct() {
   try {
@@ -36,17 +29,49 @@ async function fetchProduct() {
       params: route.params,
     };
     const { data } = await coinApi.getProduct(body);
-    console.log(data, "data");
     product.value = data.result;
   } catch (e) {
     console.error(e);
   }
 }
 
+async function fetchBasket() {
+  try {
+    const body = {
+      page: 1,
+      limit: 100,
+    };
+    const {data} = await coinApi.getBasket(body);
+    basket.value = data.result;
+  } catch (e) {
+    console.error(e);
+  }
+}
+
+if (basket && basket.value.products && basket.value.products.length) {
+  MainButtonController.run();
+  MainButtonController.setBackgroundColor("#555333");
+}else{
+  MainButtonController.run();
+}
+
+
+MainButtonController.setText(`${t("market_page.show_order")}`);
+MainButtonController.setBackgroundColor("#01E075");
+MainButtonController.onClick(showOrderProducts);
+
+onBeforeRouteLeave(() => {
+  MainButtonController.makeInvisible();
+});
+
+
+
+
 onMounted(async () => {
   startLoading();
   try {
     await fetchProduct();
+    await fetchBasket();
   } finally {
     finishLoading();
   }

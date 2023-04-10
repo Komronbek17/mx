@@ -81,10 +81,8 @@ const submitActive = async () => {
 
     try {
       const { data } = await coinApi.activateProduct(body);
-      // console.log(data,'data');
       gifts.value = data.result;
     } catch (e) {
-      console.log(e, "getProducts();");
       toast.error(e.response?.data?.message ?? e.message);
     }
   }
