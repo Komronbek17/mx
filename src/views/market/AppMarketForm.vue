@@ -1,9 +1,12 @@
 <script setup>
-import { ref } from "vue";
 import BaseInput from "@/components/ui/BaseInput/BaseInput.vue";
 import { useI18n } from "vue-i18n";
+import { useToast } from "vue-toastification";
+import { coinApi } from "@/services/market.service";
+import { onMounted, ref } from "vue";
+import { loadingComposable } from "@/composables/loading.composable";
+import AppLoader from "@/components/elements/loader/AppLoader.vue";
 
-const { t } = useI18n();
 const form = ref({
   address: null,
   entrance: null,
@@ -11,11 +14,45 @@ const form = ref({
   flat: null,
   comment: null,
 });
+
+const { t } = useI18n();
+const toast = useToast();
+const addresses = ref([]);
+const {
+  loading: isFetching,
+  startLoading,
+  finishLoading,
+} = loadingComposable();
+const createAddress = async () => {
+  try {
+    const body = {
+      page: 1,
+      limit: 10,
+    };
+
+    await coinApi.fetchAddresses(body).then((response) => {
+      console.log(response);
+      addresses.value = response.data.result;
+    });
+  } catch (e) {
+    toast.error(e?.response?.data?.message);
+  }
+};
+
+onMounted(async () => {
+  startLoading();
+  try {
+    // await getAddresses();
+  } finally {
+    finishLoading();
+  }
+});
 </script>
 
 <template>
   <div class="market-form">
     <div class="layout-container">
+      <app-loader :active="isFetching" />
       <div class="market-form__block">
         <BaseInput
           v-model="form.address"
