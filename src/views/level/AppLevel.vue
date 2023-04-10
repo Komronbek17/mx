@@ -149,7 +149,7 @@ WebAppController.ready();
         <button
           @click="getLevelGift(levels[activeLevel].id)"
           class="levels-button"
-          :class="levels[activeLevel]?.percent > 100 ? '' : 'disabled'"
+          :class="levels[activeLevel]?.percent >= 100 ? '' : 'disabled'"
           :disabled="levels[activeLevel]?.percent < 100"
         >
           <img src="@/assets/images/prize.svg" alt="" />
