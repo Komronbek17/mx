@@ -57,6 +57,10 @@ class CoinService extends Core {
   fetchAddresses(body) {
     return this.post("address/findAll", body);
   }
+
+  createAddress(body) {
+    return this.post("address", body);
+  }
 }
 
 export const coinApi = new CoinService();

@@ -6452,6 +6452,11 @@ space-separated-tokens@^2.0.0:
   resolved "https://registry.npmjs.org/space-separated-tokens/-/space-separated-tokens-2.0.2.tgz"
   integrity sha512-PEGlAwrG8yXGXRjW32fGbg66JAlOAwbObuqVoJpv/mRgoWDQfgH1wDPvtzWyUSNAXBGSk8h755YDbbcEy3SH2Q==
 
+ssr-window@^4.0.2:
+  version "4.0.2"
+  resolved "https://registry.yarnpkg.com/ssr-window/-/ssr-window-4.0.2.tgz#dc6b3ee37be86ac0e3ddc60030f7b3bc9b8553be"
+  integrity sha512-ISv/Ch+ig7SOtw7G2+qkwfVASzazUnvlDTwypdLoPoySv+6MqlOV10VwPSE6EWkGjhW50lUmghPmpYZXMu/+AQ==
+
 ssri@^8.0.1:
   version "8.0.1"
   resolved "https://registry.npmjs.org/ssri/-/ssri-8.0.1.tgz"
@@ -6564,6 +6569,13 @@ supports-preserve-symlinks-flag@^1.0.0:
   version "1.0.0"
   resolved "https://registry.npmjs.org/supports-preserve-symlinks-flag/-/supports-preserve-symlinks-flag-1.0.0.tgz"
   integrity sha512-ot0WnXS9fgdkgIcePe6RHNk1WA8+muPa6cSjeR3V8K27q9BB1rTE3R1p7Hv0z1ZyAc8s6Vvv8DIyWf681MAt0w==
+
+swiper@^9.2.0:
+  version "9.2.0"
+  resolved "https://registry.yarnpkg.com/swiper/-/swiper-9.2.0.tgz#40e950b1c0d516403b3bf7083560ebac22a6f325"
+  integrity sha512-lWK9toYumUQss+YuTL+Mt0+8twiMJEyzioER4bbS4rrGHlkeLrDM8uhtAmnpdijELrNscuNUujDgKoMQZfQGlQ==
+  dependencies:
+    ssr-window "^4.0.2"
 
 symbol-tree@^3.2.4:
   version "3.2.4"
@@ -7062,6 +7074,11 @@ vm2@^3.9.8:
   dependencies:
     acorn "^8.7.0"
     acorn-walk "^8.2.0"
+
+vue-awesome-swiper@^5.0.1:
+  version "5.0.1"
+  resolved "https://registry.yarnpkg.com/vue-awesome-swiper/-/vue-awesome-swiper-5.0.1.tgz#ba0d20ec9ca4dff2b7b4e99592cf59308335dfcc"
+  integrity sha512-mWjFJzUqA4lG+DmsmibvMpoiBnl+IH2SSeiiQ3i5M0t1y9FknTxnGT0DsMb2YdJLgjYMEK3sYOWzqgLnZMH8Lg==
 
 vue-demi@*:
   version "0.13.11"
