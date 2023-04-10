@@ -58,6 +58,12 @@ class CoinService extends Core {
     return this.post("address/findAll", body);
   }
 
+  // Basket
+  getBasket(body) {
+    return this.post("basket/findAll", body);
+  }
+
+
   createAddress(body) {
     return this.post("address", body);
   }
