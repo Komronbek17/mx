@@ -1,7 +1,7 @@
 <script setup>
 import { useToast } from "vue-toastification";
 import { onMounted, ref } from "vue";
-import { productApi } from "@/services/product.service";
+import { coinApi } from "@/services/market.service";
 
 import ModalDialog from "@/components/ui/ModalDialog/ModalDialog.vue";
 import AppLoader from "@/components/elements/loader/AppLoader.vue";
@@ -31,7 +31,7 @@ const getProducts = async () => {
         limit: 10,
       },
     };
-    await productApi.fetchProducts(body).then((response) => {
+    await coinApi.fetchProducts(body).then((response) => {
       gifts.value = response.data.result;
     });
   } catch (e) {
@@ -41,7 +41,7 @@ const getProducts = async () => {
 
 const fetchBalance = async () => {
   try {
-    await productApi.getBalance().then((response) => {
+    await coinApi.getBalance().then((response) => {
       balance.value = response.data.balance;
     });
   } catch (e) {
@@ -80,7 +80,7 @@ const submitActive = async () => {
     };
 
     try {
-      const { data } = await productApi.activateProduct(body);
+      const { data } = await coinApi.activateProduct(body);
       // console.log(data,'data');
       gifts.value = data.result;
     } catch (e) {

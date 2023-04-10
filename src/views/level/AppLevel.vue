@@ -16,7 +16,7 @@ import { ACCEPT_LANGUAGE, USER_DATA } from "@/constants";
 import { useTelegramStore } from "@/stores/telegram.store";
 import { useTelegram } from "@/composables/telegram.composable";
 import UserCardHome from "@/components/home/UserCardHome.vue";
-import { productApi } from "@/services/product.service";
+import { coinApi } from "@/services/market.service";
 
 const { t } = useI18n();
 const toast = useToast();
@@ -96,7 +96,7 @@ const balance = ref(null);
 
 const fetchBalance = async () => {
   try {
-    await productApi.getBalance().then((response) => {
+    await coinApi.getBalance().then((response) => {
       balance.value = response.data.balance;
     });
   } catch (e) {

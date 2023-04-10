@@ -4,7 +4,7 @@ import { MainButtonController } from "@/utils/telegram/main.button.controller";
 import { useI18n } from "vue-i18n";
 import { onBeforeRouteLeave, useRoute, useRouter } from "vue-router";
 import { onMounted, ref } from "vue";
-import { productApi } from "@/services/product.service";
+import { coinApi } from "@/services/market.service";
 import { loadingComposable } from "@/composables/loading.composable";
 
 const { t } = useI18n();
@@ -35,7 +35,7 @@ async function fetchProduct() {
       method: "coin.get_product",
       params: route.params,
     };
-    const { data } = await productApi.getProduct(body);
+    const { data } = await coinApi.getProduct(body);
     console.log(data, "data");
     product.value = data.result;
   } catch (e) {
