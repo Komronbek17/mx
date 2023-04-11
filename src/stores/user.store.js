@@ -44,6 +44,7 @@ export const useUserStore = defineStore("user", () => {
       } = await profileApi.fetchMe();
       setUser(result);
     } catch (e) {
+      // eslint-disable-next-line no-undef
       toast.error(e.response?.data?.message ?? e.message);
     }
   }
