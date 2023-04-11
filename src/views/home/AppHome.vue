@@ -93,11 +93,7 @@ WebAppController.ready();
     />
 
     <div class="ol-main-banner mb-1" @click="openDailyBonusPage">
-      <img
-        src="@/assets/images/home-card-layout.png"
-        alt="banner"
-        class="ol-main-banner-image"
-      />
+
       <div
         class="ol-main-banner-content flex flex-column align-center justify-around"
       >
@@ -119,11 +115,11 @@ WebAppController.ready();
 <style lang="scss" scoped>
 .app-home {
   padding: 1rem;
+  background-color: var(--neutral-background);
 }
 
 .ol-main-title {
-  font-weight: 400;
-  font-size: 1rem;
+  @extend .text-16-400;
 }
 
 .ol-main-banner {
@@ -131,12 +127,13 @@ WebAppController.ready();
   height: 98px;
   cursor: pointer;
   white-space: nowrap;
+  background: var(--gradient-purple);
+  border-radius: 8px;
 
-  &-image {
-    border-radius: 8px;
-    width: 100%;
-    height: 100%;
-  }
+  //&-image {
+  //  width: 100%;
+  //  height: 100%;
+  //}
 
   &-content {
     position: absolute;
@@ -147,17 +144,13 @@ WebAppController.ready();
   }
 
   &-message {
-    color: var(--gf-text-white-2x);
-    font-weight: 600;
-    font-size: 18px;
-    line-height: 24px;
+    color: var(--neutral-white);
+    @extend .text-16-600;
   }
 
   &-user-id {
-    color: white;
-    font-weight: 400;
-    font-size: 14px;
-    line-height: 18px;
+    color: var(--neutral-white);
+    @extend .text-14-400;
   }
 }
 </style>

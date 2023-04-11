@@ -90,7 +90,7 @@ WebAppController.ready();
     align-items: center;
     margin-bottom: 16px;
     padding: 1rem;
-    background: var(--gf-hover-bg);
+    background: var(--accent-gray);
     border-radius: 8px;
 
     &__image {
@@ -106,18 +106,14 @@ WebAppController.ready();
     }
 
     &__text {
+      @extend .text-16-500;
       width: 60%;
-      font-weight: 500;
-      font-size: 16px;
-      line-height: 125%;
       letter-spacing: -0.32px;
-      color: var(--gf-text-33);
+      color: var(--text-main);
     }
 
     &__sum {
-      font-weight: 500;
-      font-size: 14px;
-      line-height: 129%;
+      @extend .text-14-500;
       text-align: right;
       color: #00db72;
     }

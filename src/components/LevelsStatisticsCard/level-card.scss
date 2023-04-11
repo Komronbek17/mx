@@ -16,17 +16,17 @@
     max-height: 114px;
     border-radius: .5rem;
     padding: 16px 12px 12px;
-    border: 1px solid var(--gf-disable-btn);
+    border: 1px solid var(--accent-gray);
 
 
     &__name {
       @extend .font-15-dark;
-      color: var(--gf-text-09);
+      color: var(--text-main);
     }
 
     &__percent {
       @extend .font-15-gray;
-      color: var(--gf-text-gray-2x);
+      color: var(--text-secondary);
     }
 
     //
@@ -71,26 +71,26 @@
       }
 
       &.level-card__n0 {
-        background: linear-gradient(107.32deg, #4ADAFF -22.08%, #0062CA 122.03%);
+        background: var(--gradient-purple);
 
         .progress-star__index {
-          background: linear-gradient(107.32deg, #4ADAFF -22.08%, #0062CA 122.03%) !important;
+          background: var(--gradient-purple) !important;
         }
       }
 
       &.level-card__n1 {
-        background: linear-gradient(122.82deg, #F2D207 0%, #FFA329 100%);
+        background: var(--accent-yellow);
 
         .progress-star__index {
-          background: linear-gradient(122.82deg, #F2D207 0%, #FFA329 100%);
+          background: var(--accent-yellow);
         }
       }
 
       &.level-card__n2 {
-        background: #00CB6A;
+        background: var(--gradient-green);
 
         .progress-star__index {
-          background: #00CB6A;
+          background: var(--gradient-green);
         }
       }
     }
