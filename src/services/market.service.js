@@ -46,6 +46,10 @@ class CoinService extends Core {
     return this.post("products", body);
   }
 
+  fetchProductsBasket(){
+    return this.post("products/withBasket", body);
+  }
+
   getProduct(body) {
     return this.post("products/findOne", body);
   }
