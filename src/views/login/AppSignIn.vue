@@ -12,6 +12,7 @@ import { MainButtonController } from "@/utils/telegram/main.button.controller";
 
 import { useI18n } from "vue-i18n";
 import { VERIFICATION_PHONE } from "@/constants";
+import { useSignStore } from "@/stores/signin.store";
 
 const { t } = useI18n();
 const toast = useToast();
@@ -19,16 +20,23 @@ const router = useRouter();
 const loginState = reactive({
   agreement: false,
 });
+
+const { updateSignPhone, getSignPhone } = useSignStore();
+
 const {
-  value: olSigninNumber,
+  value: signPhone,
   errors,
   meta,
   validate,
 } = useField(
   "ol-signin-phone",
-  yup.string().required().min(8).label("Phone number"),
+  yup
+    .string()
+    .required(t("yup.required", { _field_: t("login_page.phone_number") }))
+    .min(17, t("yup.min", { _field_: t("login_page.phone_number"), length: 9 }))
+    .label(t("login_page.phone_number")),
   {
-    initialValue: "+998 ",
+    initialValue: getSignPhone,
   }
 );
 
@@ -47,7 +55,7 @@ async function sendCode() {
     MainButtonController.showProgress();
     try {
       const response = await authApi.login({
-        body: { phone: olSigninNumber.value.replace(/[\s+-]/g, "") },
+        body: { phone: signPhone.value.replace(/[\s+-]/g, "") },
       });
       MainButtonController.hideProgress();
       sessionStorageController.set(VERIFICATION_PHONE, response.data.phone);
@@ -85,7 +93,8 @@ WebAppController.ready();
     </label>
     <input
       v-mask="'+998 ##-###-##-##'"
-      v-model="olSigninNumber"
+      v-model="signPhone"
+      @input="updateSignPhone($event.target.value)"
       class="ol-phone-input"
       type="tel"
       id="ol-phone-number"
@@ -101,9 +110,12 @@ WebAppController.ready();
         v-model="loginState.agreement"
         id="ol-terms-conditions-checkbox"
       />
-      <span class="ml-0-5 ol-accept-privacy">{{
-        t("login_page.privacy_policy")
-      }}</span>
+      <span class="ml-0-5 ol-accept-privacy">
+        {{ t("login_page.privacy_policy") }}
+        <router-link :to="{ name: 'profile-privacy' }">
+          {{ t("login_page.privacy_agree") }}
+        </router-link>
+      </span>
     </label>
 
     <p class="ol-service-message mt-4 mb-1-5">

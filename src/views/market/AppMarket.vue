@@ -1,7 +1,7 @@
 <script setup>
 import { useToast } from "vue-toastification";
 import { onMounted, ref } from "vue";
-import { productApiV2 } from "@/services/product.service";
+import { coinApi } from "@/services/market.service";
 
 import ModalDialog from "@/components/ui/ModalDialog/ModalDialog.vue";
 import AppLoader from "@/components/elements/loader/AppLoader.vue";
@@ -31,7 +31,7 @@ const getProducts = async () => {
         limit: 10,
       },
     };
-    await productApiV2.fetchProducts(body).then((response) => {
+    await coinApi.fetchProducts(body).then((response) => {
       gifts.value = response.data.result;
     });
   } catch (e) {
@@ -41,7 +41,7 @@ const getProducts = async () => {
 
 const fetchBalance = async () => {
   try {
-    await productApiV2.getBalance().then((response) => {
+    await coinApi.getBalance().then((response) => {
       balance.value = response.data.balance;
     });
   } catch (e) {
@@ -66,8 +66,8 @@ const modalApply = () => {
   modalValue.value = false;
 };
 
-const addBasket = () => {
-  console.log("addBasket");
+const addBasket = (item) => {
+  console.log(item, "addBasket");
 };
 
 const submitActive = async () => {
@@ -80,11 +80,9 @@ const submitActive = async () => {
     };
 
     try {
-      const { data } = await productApiV2.activateProduct(body);
-      // console.log(data,'data');
+      const { data } = await coinApi.activateProduct(body);
       gifts.value = data.result;
     } catch (e) {
-      console.log(e, "getProducts();");
       toast.error(e.response?.data?.message ?? e.message);
     }
   }
@@ -117,9 +115,10 @@ onMounted(async () => {
     <div class="gifts-block">
       <div class="gift-title">{{ t("market_page.prize") }}</div>
       <div class="gift-list">
-        <div
+        <router-link
           v-for="gift in gifts"
           :key="gift.id + '_level_1'"
+          :to="{ name: 'market-product', params: { id: gift.id } }"
           class="gift-card"
         >
           <div class="gift-card__image">
@@ -145,7 +144,7 @@ onMounted(async () => {
           <div v-else @click="askActivate(gift.id)" class="gift-card__button">
             <p>{{ t("market_page.activate") }}</p>
           </div>
-        </div>
+        </router-link>
       </div>
     </div>
 

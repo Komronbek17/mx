@@ -22,6 +22,10 @@ class InfoService extends Core {
   fetchPremium() {
     return this.get("premium");
   }
+
+  fetchAvatars() {
+    return this.get("avatars");
+  }
 }
 
 export const infoApi = new InfoService();

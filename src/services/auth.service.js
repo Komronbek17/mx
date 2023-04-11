@@ -15,8 +15,8 @@ class AuthService extends CoreAxios {
     return this.post("verify", body);
   }
 
-  logout({ body }) {
-    return this.post("logout", body);
+  logout() {
+    return this.post("logout");
   }
 }
 

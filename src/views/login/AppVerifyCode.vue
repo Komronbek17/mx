@@ -18,7 +18,6 @@ import { MainButtonController } from "@/utils/telegram/main.button.controller";
 import { WebAppController } from "@/utils/telegram/web.app.util";
 import { useI18n } from "vue-i18n";
 import { telegramApi } from "@/services/telegram.service";
-import { useTelegram } from "@/composables/telegram.composable";
 
 const { t } = useI18n();
 const router = useRouter();
@@ -41,7 +40,12 @@ const {
   validate,
 } = useField(
   "ol-verify-code",
-  yup.string().required().min(4).label("Verification code")
+  yup
+    .string()
+    .required(t("yup.required", { _field_: t("login_page.verify_code") }))
+    .min(4, t("yup.min", { _field_: t("login_page.verify_code"), length: 4 }))
+    .max(4, t("yup.max", { _field_: t("login_page.verify_code"), length: 4 }))
+    .label(t("login_page.verify_code"))
 );
 
 watch(

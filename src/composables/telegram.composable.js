@@ -14,25 +14,28 @@ export function useTelegram() {
   const isNotFetched = computed(() => {
     return keys(telegramInfo.data.user).length < 1;
   });
+
   async function checkTelegramUser() {
     const toast = useToast();
     try {
       const { tUserId } = useTelegramStore();
 
-      const { data } = await telegramApi.authJwt({
+      const body = {
         telegram_id: tUserId,
-      });
-      telegramInfo.data = data;
+      };
+      const data = await telegramApi.authJwt(body);
+      telegramInfo.data = data?.data;
       return data;
     } catch (e) {
-      toast.error(e.response.data.message ?? e.message);
+      // console.log(e, 'error');
+      toast.error(e?.response?.data?.message ?? e.message);
       return {};
     }
   }
 
   const tUserUniqueId = computed(() => {
     if (telegramInfo.data) {
-      return telegramInfo.data.user.user_id;
+      return telegramInfo.data?.user?.user_id;
     }
     return "";
   });

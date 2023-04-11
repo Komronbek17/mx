@@ -1,28 +1,36 @@
 <script setup>
-import { reactive } from "vue";
+import { onMounted, reactive, ref } from "vue";
 import { useRouter } from "vue-router";
 import { useI18n } from "vue-i18n";
-import { useTelegram } from "@/composables/telegram.composable";
 import { loadingComposable } from "@/composables/loading.composable";
-import { useTelegramStore } from "@/stores/telegram.store";
 import { localStorageController } from "@/utils/localstorage.util";
 import { WebAppController } from "@/utils/telegram/web.app.util";
 
 import AppLoader from "@/components/elements/loader/AppLoader.vue";
-import DocumentTextIcon from "@/components/icons/DocumentTextIcon.vue";
 import ModalDialog from "@/components/ui/ModalDialog/ModalDialog.vue";
 import LogoutIcon from "@/components/icons/LogoutIcon.vue";
 import SupportIcon from "@/components/icons/SupportIcon.vue";
+import Popover from "@/components/ui/Popover/Popover.vue";
 
 import { OLTIN_BALIQ_BOT_TKN } from "@/constants";
+import { authApi } from "@/services/auth.service";
+import { useToast } from "vue-toastification";
 
 const { t } = useI18n();
 const router = useRouter();
-const { tUserFullName } = useTelegramStore();
-const { isNotFetched, tUserUniqueId, checkTelegramUser } = useTelegram();
 const profileState = reactive({
   showLogoutWarn: false,
 });
+import { useUserStore } from "@/stores/user.store";
+
+import userAvatar from "@/assets/images/profile-image.svg";
+
+const toast = useToast();
+const theme = WebAppController.webApp.colorScheme;
+
+const popoverValue = ref(false);
+
+const { user, initUser } = useUserStore();
 
 const {
   loading: isFetching,
@@ -30,11 +38,25 @@ const {
   finishLoading,
 } = loadingComposable();
 
-function logout() {
-  localStorageController.remove(OLTIN_BALIQ_BOT_TKN);
-  router.push({
-    name: "login",
-  });
+const closePopover = () => {
+  popoverValue.value = false;
+};
+
+const openPopover = () => {
+  popoverValue.value = true;
+};
+
+async function logout() {
+  try {
+    await authApi.logout();
+  } catch (e) {
+    toast.error(e.response.data.message ?? e.message);
+  } finally {
+    localStorageController.remove(OLTIN_BALIQ_BOT_TKN);
+    await router.push({
+      name: "login",
+    });
+  }
 }
 
 function showLogoutModal() {
@@ -45,14 +67,13 @@ function hideLogoutModal() {
   profileState.showLogoutWarn = false;
 }
 
-if (isNotFetched) {
-  startLoading();
-  try {
-    checkTelegramUser();
-  } finally {
+onMounted(async () => {
+  if (!(user && user.id)) {
+    startLoading();
+    await initUser();
     finishLoading();
   }
-}
+});
 
 WebAppController.ready();
 </script>
@@ -65,11 +86,13 @@ WebAppController.ready();
         <!--   PROFILE DETAILS   -->
         <div class="flex flex-column align-center">
           <div class="profile-image">
-            <img src="@/assets/images/profile-image.svg" alt="" />
+            <img :src="user?.avatar || userAvatar" alt="avatar" />
           </div>
 
-          <p class="profile-name">{{ tUserFullName }}</p>
-          <span class="profile-id">ID: {{ tUserUniqueId }}</span>
+          <p class="profile-name">
+            {{ user.fullName }}
+          </p>
+          <span class="profile-id">ID: {{ user.id }}</span>
 
           <!--        <div class="profile-change flex align-center">-->
           <!--          <img src="@/assets/images/change-profile.svg" alt="" />-->
@@ -80,7 +103,16 @@ WebAppController.ready();
 
       <!--  SOON IMAGE  -->
       <div class="profile-soon">
-        <img src="@/assets/images/profile-progress-bar.png" alt="" />
+        <img
+          v-if="theme === 'light'"
+          src="@/assets/images/profile-progress-bar.png"
+          alt=""
+        />
+        <img
+          v-else
+          src="@/assets/images/profile-progress-bar-dark.png"
+          alt=""
+        />
         <span>{{ t("profile_page.soon") }}</span>
       </div>
 
@@ -109,26 +141,26 @@ WebAppController.ready();
 
       <!--   LIST   -->
       <div class="profile-list">
-        <!--      <router-link :to="{ name: 'profile-edit' }" class="profile-item">-->
-        <!--        <img-->
-        <!--          class="profile-item__icon"-->
-        <!--          src="@/assets/images/profile-edit-icon.svg"-->
-        <!--          alt=""-->
-        <!--        />-->
-        <!--        <div class="flex align-center justify-between b-bottom">-->
-        <!--          <div>-->
-        <!--            <p class="profile-item__title">Редактировать профиль</p>-->
-        <!--          </div>-->
+        <router-link :to="{ name: 'profile-edit' }" class="profile-item">
+          <img
+            class="profile-item__icon"
+            src="@/assets/images/profile-edit-icon.svg"
+            alt=""
+          />
+          <div class="flex align-center justify-between b-bottom">
+            <div>
+              <p class="profile-item__title">{{ t("edit_profile") }}</p>
+            </div>
 
-        <!--          <div class="flex align-center">-->
-        <!--            <img-->
-        <!--              class="profile-item__arrow"-->
-        <!--              src="@/assets/images/profile-arrow-right.svg"-->
-        <!--              alt=""-->
-        <!--            />-->
-        <!--          </div>-->
-        <!--        </div>-->
-        <!--      </router-link>-->
+            <div class="flex align-center">
+              <img
+                class="profile-item__arrow"
+                src="@/assets/images/profile-arrow-right.svg"
+                alt=""
+              />
+            </div>
+          </div>
+        </router-link>
 
         <!--      <router-link :to="{ name: 'notification' }" class="profile-item">-->
         <!--        <img-->
@@ -172,12 +204,12 @@ WebAppController.ready();
         <!--          </div>-->
         <!--        </div>-->
         <!--      </router-link>-->
-
-        <a href="tel:712051548" target="_blank" class="profile-item">
+        <!--        href="tel:712051548"-->
+        <div @click="openPopover" class="profile-item">
           <support-icon class="profile-item__icon" />
           <div class="flex align-center justify-between b-bottom">
             <div>
-              <p class="profile-item__title">Call center</p>
+              <p class="profile-item__title">Call center (71) 205-15-48</p>
             </div>
 
             <div class="flex align-center">
@@ -188,47 +220,47 @@ WebAppController.ready();
               />
             </div>
           </div>
-        </a>
+        </div>
 
-        <router-link :to="{ name: 'informers' }" class="profile-item">
-          <img
-            class="profile-item__icon"
-            src="@/assets/images/profile-informers-icon.svg"
-            alt=""
-          />
-          <div class="flex align-center justify-between b-bottom">
-            <div>
-              <p class="profile-item__title">
-                {{ t("profile_page.informers.title") }}
-              </p>
-            </div>
+        <!--        <router-link :to="{ name: 'informers' }" class="profile-item">-->
+        <!--          <img-->
+        <!--            class="profile-item__icon"-->
+        <!--            src="@/assets/images/profile-informers-icon.svg"-->
+        <!--            alt=""-->
+        <!--          />-->
+        <!--          <div class="flex align-center justify-between b-bottom">-->
+        <!--            <div>-->
+        <!--              <p class="profile-item__title">-->
+        <!--                {{ t("profile_page.informers.title") }}-->
+        <!--              </p>-->
+        <!--            </div>-->
 
-            <div class="flex align-center">
-              <img
-                class="profile-item__arrow"
-                src="@/assets/images/profile-arrow-right.svg"
-                alt=""
-              />
-            </div>
-          </div>
-        </router-link>
+        <!--            <div class="flex align-center">-->
+        <!--              <img-->
+        <!--                class="profile-item__arrow"-->
+        <!--                src="@/assets/images/profile-arrow-right.svg"-->
+        <!--                alt=""-->
+        <!--              />-->
+        <!--            </div>-->
+        <!--          </div>-->
+        <!--        </router-link>-->
 
-        <router-link :to="{ name: 'profile-privacy' }" class="profile-item">
-          <document-text-icon fill="#00BBF9" class="profile-item__icon" />
-          <div class="flex align-center justify-between b-bottom">
-            <div>
-              <p class="profile-item__title">{{ $t("public_offer") }}</p>
-            </div>
+        <!--        <router-link :to="{ name: 'profile-privacy' }" class="profile-item">-->
+        <!--          <document-text-icon fill="#00BBF9" class="profile-item__icon"/>-->
+        <!--          <div class="flex align-center justify-between b-bottom">-->
+        <!--            <div>-->
+        <!--              <p class="profile-item__title">{{ $t("public_offer") }}</p>-->
+        <!--            </div>-->
 
-            <div class="flex align-center">
-              <img
-                class="profile-item__arrow"
-                src="@/assets/images/profile-arrow-right.svg"
-                alt=""
-              />
-            </div>
-          </div>
-        </router-link>
+        <!--            <div class="flex align-center">-->
+        <!--              <img-->
+        <!--                  class="profile-item__arrow"-->
+        <!--                  src="@/assets/images/profile-arrow-right.svg"-->
+        <!--                  alt=""-->
+        <!--              />-->
+        <!--            </div>-->
+        <!--          </div>-->
+        <!--        </router-link>-->
 
         <div class="profile-item" @click="showLogoutModal">
           <img
@@ -277,6 +309,13 @@ WebAppController.ready();
         </div>
       </template>
     </modal-dialog>
+
+    <!--  CALL CENTER MODAL  -->
+    <popover :popover-value="popoverValue" @close-popover="closePopover">
+      <template #header>
+        <h3 class="call-center__number">(71) 205-15-48</h3>
+      </template>
+    </popover>
   </div>
 </template>
 
@@ -299,23 +338,31 @@ WebAppController.ready();
   }
 
   &-name {
-    @extend .heading-3;
-    text-align: right;
+    -webkit-box-orient: vertical;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    overflow: hidden;
+    line-break: anywhere;
+    width: 80%;
+    font-weight: 600;
+    font-size: 20px;
+    line-height: 140%;
+    text-align: center;
     letter-spacing: -0.4px;
-    color: var(--text-main);
+    color: var(--gf-text-09);
     margin-bottom: 0.5rem;
   }
 
   &-id {
-    @extend .text-14-400;
     display: block;
-    color: var(--text-secondary);
+    line-height: 129%;
+    color: var(--gf-text-gray-2x);
     margin-bottom: 1rem;
   }
 
   &-change {
     padding: 10px 1rem;
-    background: var(--accent-gray);
+    background: #f2fbfd;
     border-radius: 8px;
     margin-bottom: 1.5rem;
 
@@ -328,7 +375,7 @@ WebAppController.ready();
       font-size: 16px;
       line-height: 138%;
       letter-spacing: -0.5px;
-      color: var(--text-main);
+      color: #090909;
     }
   }
 
@@ -337,12 +384,14 @@ WebAppController.ready();
     margin-bottom: 24px;
 
     & span {
-      @extend .text-16-600;
       position: absolute;
       top: 50%;
       left: 50%;
       transform: translate(-50%, -50%);
-      background: var(--gradient-purple);
+
+      font-weight: 600;
+      font-size: 17px;
+      background: var(--gf-blue-gradient-01);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
       background-clip: text;
@@ -368,7 +417,7 @@ WebAppController.ready();
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    background: var(--accent-gray);
+    background: var(--gf-accent-bg);
     border-radius: 8px;
     text-decoration: none;
 
@@ -382,7 +431,7 @@ WebAppController.ready();
       line-height: 107%;
       text-align: center;
       letter-spacing: -0.4px;
-      color: var(--text-main);
+      color: var(--gf-text-09);
     }
   }
 
@@ -398,12 +447,12 @@ WebAppController.ready();
     cursor: pointer;
 
     &:hover {
-      background-color: var(--accent-gray);
+      background-color: var(--gf-hover-bg);
     }
 
     & .b-bottom {
       width: 100%;
-      border-bottom: 1px solid var(--accent-gray);
+      border-bottom: 1px solid var(--gf-hover-bg);
       padding: 12px 1rem 12px 0;
     }
 
@@ -421,23 +470,27 @@ WebAppController.ready();
     }
 
     &__title {
-      @extend .text-16-400;
+      font-weight: 400;
+      font-size: 16px;
+      line-height: 138%;
       letter-spacing: -0.5px;
-      color: var(--text-main);
+      color: var(--gf-text-09);
     }
 
     &__length {
-      @extend .text-16-500;
       display: flex;
       align-items: center;
       justify-content: center;
       width: 24px;
       height: 24px;
       border-radius: 50%;
-      background-color: var(--accent-red);
+      background-color: var(--gf-notification-text-bg);
+      font-weight: 500;
+      font-size: 16px;
+      line-height: 125%;
       text-align: center;
       letter-spacing: -0.32px;
-      color: var(--neutral-white);
+      color: var(--gf-text-white-2x);
     }
 
     &__arrow {
@@ -450,21 +503,27 @@ WebAppController.ready();
 }
 
 .ol-md-title {
-  @extend .heading-2;
+  font-weight: 600;
+  font-size: 24px;
+  line-height: 125%;
   letter-spacing: -0.4px;
-  color: var(--text-main);
+  color: var(--gf-text-09);
 }
 
 .ol-md-message {
-  @extend .text-16-400;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 22px;
   text-align: center;
-  color: var(--text-secondary);
+  color: var(--gf-text-gray-2x);
 }
 
 .ol-md-button {
-  @extend .text-16-500;
   border-radius: 8px;
   width: 100%;
+  font-weight: 600;
+  font-size: 15px;
+  line-height: 20px;
   text-align: center;
   padding-top: 0.75rem;
   padding-bottom: 0.75rem;
@@ -472,13 +531,17 @@ WebAppController.ready();
 }
 
 .ol-md-logout-button {
-  color: var(--accent-red);
-  background: var(--exit-btn);
+  color: var(--gf-notification-text-bg);
+  background: var(--gf-exit-btn-bg);
 }
 
 .ol-md-close-button {
-  color: var(--text-main);
-  background: var(--accent-gray);
+  color: var(--gf-text-09);
+  background: var(--gf-accent-bg);
+}
+
+.call-center__number {
+  color: var(--gf-text-33);
 }
 
 //::v-deep .modal {

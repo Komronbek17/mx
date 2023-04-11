@@ -16,7 +16,7 @@ WebAppController.ready();
         </div>
 
         <p class="referral-name">Отабек Каримов</p>
-        <span class="referral-score">ID: 270869</span>
+        <span class="referral-score">120 баллов</span>
 
         <div></div>
       </div>
@@ -25,14 +25,14 @@ WebAppController.ready();
         <router-link
           :to="{ name: 'referral-view', params: {} }"
           class="referral-tab"
-          :class="route.name === 'referral-view' ? 'active' : ''"
+          :class="route.name === 'referral-view' ? 'router-link-active' : ''"
         >
           Рефералы
         </router-link>
         <router-link
           :to="{ name: 'referral-bonus', params: {} }"
           class="referral-tab"
-          :class="route.name === 'referral-bonus' ? 'active' : ''"
+          :class="route.name === 'referral-bonus' ? 'router-link-active' : ''"
           >Бонусы</router-link
         >
       </div>
@@ -84,7 +84,7 @@ WebAppController.ready();
     border-radius: 72px;
     height: 50px;
     padding: 4px 8px;
-    margin: 0 auto;
+    margin: 0 auto 1rem;
   }
 
   &-tab {

@@ -8,8 +8,12 @@ import { telegramApi } from "@/services/telegram.service";
 import { localStorageController } from "@/utils/localstorage.util";
 import { ACCEPT_LANGUAGE } from "@/constants";
 import { WebAppController } from "@/utils/telegram/web.app.util";
+import { useToast } from "vue-toastification";
+import { useRouter } from "vue-router";
 // import enIcon from "@/assets/images/lang-en-icon.svg";
 
+const router = useRouter();
+const toast = useToast();
 const { locale } = useI18n();
 const { tUserId } = useTelegramStore();
 const availableLangs = [
@@ -33,13 +37,19 @@ let activeLang = computed(() => locale.value);
 
 async function changeLocale(code) {
   locale.value = code;
-  await telegramApi.switchLanguage({
-    body: {
-      telegram_id: tUserId,
-      language: code,
-    },
-  });
-  localStorageController.set(ACCEPT_LANGUAGE, locale.value);
+  try {
+    await telegramApi.switchLanguage({
+      body: {
+        telegram_id: tUserId,
+        language: code,
+      },
+    });
+  } catch (e) {
+    toast.error(e.response.data.message ?? e.message);
+  } finally {
+    localStorageController.set(ACCEPT_LANGUAGE, locale.value);
+    await router.push({ name: "settings" });
+  }
 }
 
 WebAppController.ready();
@@ -68,7 +78,7 @@ WebAppController.ready();
 .language {
   &-cards {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(2, 1fr);
     column-gap: 1rem;
   }
 
@@ -77,7 +87,7 @@ WebAppController.ready();
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    background: var(--accent-gray);
+    background: var(--gf-accent-bg);
     border-radius: 8px;
     padding: 16px 9px;
     row-gap: 1rem;
@@ -91,14 +101,15 @@ WebAppController.ready();
 
     & p {
       @extend .font-15-dark;
+      color: var(--gf-text-09);
     }
 
     &.active {
-      background: var(--gradient-purple);
+      background: linear-gradient(107.32deg, #4adaff -22.08%, #0062ca 122.03%);
+      color: #fff;
 
       & p {
         @extend .font-15-white;
-        color: var(--neutral-white);
       }
     }
   }

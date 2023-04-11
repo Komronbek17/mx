@@ -11,6 +11,10 @@ class LevelService extends Core {
     return this.get("");
   }
 
+  refreshLevels() {
+    return this.get("refresh");
+  }
+
   fetchLevelsWithFloat() {
     return this.get("float");
   }

@@ -20,34 +20,13 @@ const instanceGenerator = (baseUrl) => {
 };
 
 export const axiosVersion = ({
-  version,
   endpoint = "",
-  baseUrl = import.meta.env.VITE_APP_DEV_VR,
+  baseUrl = import.meta.env.VITE_APP_URL,
 }) => {
-  console.log("ve", version);
-  return instanceGenerator(baseUrl + `api/` + endpoint);
+  return instanceGenerator(baseUrl + `/v1/api/` + endpoint);
 };
 
 export const axiosV1 = ({ endpoint = "" }) => {
   // eslint-disable-next-line
     return instanceGenerator(import.meta.env.VITE_APP_URL + '/v1/' + endpoint);
-};
-
-export const axiosBase = ({ endpoint = "" }) => {
-  return instanceGenerator(import.meta.env.VITE_APP_URL + "/" + endpoint);
-};
-
-export const axiosDev = ({ endpoint = "" }) => {
-  // eslint-disable-next-line
-    return instanceGenerator(import.meta.env.VITE_APP_DEV_API + '/' + endpoint);
-};
-
-export const axiosGoldFish = ({ endpoint = "" }) => {
-  // eslint-disable-next-line
-    return instanceGenerator(import.meta.env.VITE_APP_OLTIN_BALIQ + '/' + endpoint);
-};
-
-export const axiosMock = ({ endpoint = "" }) => {
-  // eslint-disable-next-line
-    return instanceGenerator(import.meta.env.VITE_APP_MOCK_API + '/' + endpoint);
 };

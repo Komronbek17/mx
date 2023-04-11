@@ -1,5 +1,5 @@
 <script setup>
-import { onMounted } from "vue";
+import { onMounted, ref } from "vue";
 import { useI18n } from "vue-i18n";
 import { useRouter } from "vue-router";
 
@@ -14,8 +14,10 @@ import { localStorageController } from "@/utils/localstorage.util";
 import { useTelegram } from "@/composables/telegram.composable";
 import { loadingComposable } from "@/composables/loading.composable";
 
-import { ACCEPT_LANGUAGE } from "@/constants";
+import { ACCEPT_LANGUAGE, USER_DATA } from "@/constants";
 import { useTelegramStore } from "@/stores/telegram.store";
+// import VoteModal from "@/views/vote/VoteModal.vue";
+import { profileApi } from "@/services/profile.service";
 
 const { tUserFullName } = useTelegramStore();
 const { tUserUniqueId, checkTelegramUser } = useTelegram();
@@ -34,9 +36,35 @@ function openDailyBonusPage() {
   });
 }
 
+const user = ref({
+  id: null,
+  fullName: null,
+  avatar: null,
+});
+
+const getMe = async () => {
+  try {
+    const {
+      data: { result },
+    } = await profileApi.fetchMe();
+    user.value.id = result.id || tUserUniqueId;
+    user.value.fullName =
+      result.first_name || result.last_name
+        ? result.first_name + " " + result.last_name
+        : tUserFullName;
+    user.value.avatar =
+      result.upload?.path || "@/assets/images/profile-image.svg";
+    localStorageController.set(ACCEPT_LANGUAGE, result.language);
+    localStorageController.set(USER_DATA, result);
+  } catch (e) {
+    console.log(e, "e");
+  }
+};
+
 onMounted(async () => {
   try {
     startLoading();
+    await getMe();
     const data = await checkTelegramUser();
     const hasUser = hasOwnProperty(data, "user");
     if (hasUser) {
@@ -58,8 +86,9 @@ WebAppController.ready();
   <div class="app-home">
     <app-loader :active="isFetching" />
     <user-card-home
-      :user-full-name="tUserFullName"
-      :user-unique-id="tUserUniqueId"
+      :user-full-name="user.fullName"
+      :user-unique-id="user.id"
+      :user-avatar="user.avatar"
       class="mb-1"
     />
 
@@ -78,6 +107,8 @@ WebAppController.ready();
     </div>
 
     <catalog-home />
+
+    <!--    <vote-modal />-->
   </div>
 </template>
 

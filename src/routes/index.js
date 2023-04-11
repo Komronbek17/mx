@@ -3,11 +3,10 @@ import { createRouter, createWebHistory } from "vue-router";
 import { getToken } from "@/utils/auth.util";
 import { isNUNEZ } from "@/utils/inspect.util";
 
-import AppHome from "@/views/home/AppHome.vue";
+import AppHome from "@/views/AppHome.vue";
 import AppPremium from "@/views/premium/AppPremium.vue";
 import AppShop from "@/views/shop/AppShop.vue";
 import AppPrize from "@/views/prize/AppPrize.vue";
-import AppMarket from "@/views/market/AppMarket.vue";
 import AppSettings from "@/views/settings/AppSettings.vue";
 import AppLanguage from "@/views/settings/AppLanguage.vue";
 import AppGame from "@/views/game/AppGame.vue";
@@ -30,6 +29,22 @@ import AppBonusRecent from "@/views/bonus/AppBonusRecent.vue";
 import AppBonusPrize from "@/views/bonus/AppBonusPrize.vue";
 import AppLevel from "@/views/level/AppLevel.vue";
 import AppLevelProduct from "@/views/level/level-product/AppLevelProduct.vue";
+import AppVote from "@/views/vote/AppVote.vue";
+
+// APP - MARKET
+import AppMarket from "@/views/market/AppMarket.vue";
+import AppMarketProduct from "@/views/market/AppMarketProduct.vue";
+import AppMarketBasket from "@/views/market/AppMarketBasket.vue";
+import AppMarketAddressView from "@/views/market/AppMarketAddressView.vue";
+import AppOrderedSuccessfully from "@/views/market/AppOrderedSuccessfully.vue";
+import AppMarketMap from "@/views/market/AppMarketMap.vue";
+import AppMarketForm from "@/views/market/AppMarketForm.vue";
+import AppMarketDetails from "@/views/market/AppMarketDetails.vue";
+import AppMarketPassport from "@/views/market/AppMarketPassport.vue";
+import { ACCEPT_LANGUAGE, OLTIN_BALIQ_BOT_TKN } from "@/constants";
+import { useTelegramStore } from "@/stores/telegram.store";
+import { telegramApi } from "@/services/telegram.service";
+import { localStorageController } from "@/utils/localstorage.util";
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -38,6 +53,11 @@ const router = createRouter({
       path: "/",
       name: "home",
       component: AppHome,
+    },
+    {
+      path: "/chat",
+      name: "chat",
+      component: () => import("@/views/chat/AppChat.vue"),
     },
     // {
     //   path: "/login",
@@ -156,11 +176,58 @@ const router = createRouter({
         // },
       ],
     },
+    // MARKET
     {
       path: "/market",
       name: "market",
       component: AppMarket,
     },
+    {
+      path: "/market/product/:id",
+      name: "market-product",
+      component: AppMarketProduct,
+    },
+    {
+      path: "/market/form",
+      name: "market-form",
+      component: AppMarketForm,
+    },
+    {
+      path: "/market/details",
+      name: "market-details",
+      component: AppMarketDetails,
+    },
+    {
+      path: "/market/passport",
+      name: "market-passport",
+      component: AppMarketPassport,
+    },
+    {
+      path: "/basket",
+      name: "basket",
+      component: AppMarketBasket,
+    },
+    {
+      path: "/addresses",
+      name: "addresses",
+      component: AppMarketAddressView,
+    },
+    {
+      path: "/ordered",
+      name: "ordered-successfully",
+      component: AppOrderedSuccessfully,
+    },
+    {
+      path: "/map",
+      name: "map",
+      component: AppMarketMap,
+    },
+    // {
+    //   path: "/market-1",
+    //   name: "market-1",
+    //   component: AppBasketProduct,
+    // },
+    // END MARKET
     {
       path: "/level",
       name: "level",
@@ -191,21 +258,55 @@ const router = createRouter({
       name: "news-show",
       component: _id,
     },
+    {
+      path: "/vote",
+      name: "votes",
+      component: AppVote,
+    },
   ],
 });
 
-router.beforeEach((to, from, next) => {
-  if (to.name === "login" || to.name === "verification") {
+router.beforeEach(async (to, from, next) => {
+  if (
+    to.name === "login" ||
+    to.name === "verification" ||
+    to.name === "profile-privacy"
+  ) {
     return next();
   }
 
   const hasToken = isNUNEZ(getToken());
-  if (!hasToken) {
-    return next({
-      name: "login",
-    });
-  }
 
+  if (!hasToken) {
+    try {
+      const { tUserId } = useTelegramStore();
+
+      const body = {
+        telegram_id: tUserId,
+      };
+
+      return await telegramApi
+        .authJwt(body)
+        .then(({ data }) => {
+          // console.log("data", data);
+          if (data && data.user && data.user.jwt) {
+            localStorageController.set(OLTIN_BALIQ_BOT_TKN, data.user.jwt);
+            localStorageController.set(ACCEPT_LANGUAGE, data.user.language);
+            // setupI18n({locale: data.user.language || 'uz'})
+            return next("/");
+          }
+        })
+        .catch(() => {
+          return next({
+            name: "login",
+          });
+        });
+    } catch (e) {
+      return next({
+        name: "login",
+      });
+    }
+  }
   return next();
 });
 

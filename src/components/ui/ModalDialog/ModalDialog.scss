@@ -46,8 +46,8 @@
   padding: 20px;
   margin: auto;
   row-gap: 1.5rem;
-  background: var(--neutral-background);
-  border-radius: 8px;
+  background: var(--gf-bg-main);
+  border-radius: 1rem;
   width: 80%;
   max-width: 300px;
 
@@ -85,9 +85,11 @@
     flex-direction: column;
     row-gap: .5rem;
     text-align: center;
+    align-items: center;
 
     &__title {
-      @extend .font-24-dark;
+      @extend .font-22;
+      color: var(--gf-p-primary-color);
       max-width: 95%;
     }
 
@@ -112,8 +114,13 @@
     }
 
     .btn-yellow {
-      background: var(--gradient-lime);
-      color: var(--neutral-white);
+      background: linear-gradient(122.82deg, #F2D207 0%, #FFA329 100%);
+      color: #fff;
+    }
+
+    .btn-info{
+      background: linear-gradient(107.32deg, #4ADAFF -22.08%, #0062CA 122.03%);
+      color: #fff;
     }
 
     .btn-danger{

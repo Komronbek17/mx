@@ -5,6 +5,7 @@ defineProps({
 });
 
 import { useSlots } from "vue";
+
 const slots = useSlots();
 
 const closePopover = () => {
@@ -20,7 +21,21 @@ const closePopover = () => {
         <div class="popover-header">
           <slot name="header" />
           <div @click="closePopover" class="popover-close">
-            <img src="@/assets/images/close.svg" alt="" />
+            <svg
+              width="14"
+              height="14"
+              viewBox="0 0 14 14"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M13 1L1 13M1 1L13 13"
+                stroke="var(--gf-close-svg)"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+            </svg>
+            <!--            <img src="@/assets/images/close.svg" alt="" />-->
           </div>
         </div>
         <slot name="content" />

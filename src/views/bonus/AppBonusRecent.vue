@@ -6,6 +6,7 @@ import { WebAppController } from "@/utils/telegram/web.app.util";
 
 import AppLoader from "@/components/elements/loader/AppLoader.vue";
 import { loadingComposable } from "@/composables/loading.composable";
+import { formatDateWithDot } from "@/utils/date.formatter";
 
 const { t } = useI18n();
 let recentBonuses = ref([]);
@@ -35,6 +36,11 @@ const getRecentBonuses = async () => {
   pagination.value = Object.assign(pagination.value, data.pagination);
 };
 
+function formatCreatedTime(t) {
+  const d = t.replace(" ", "T");
+  return formatDateWithDot(d);
+}
+
 function filterBonusType(item) {
   if (item === "sms") {
     return t("bonus_types.sms");
@@ -45,15 +51,15 @@ function filterBonusType(item) {
   }
 }
 
-function filterBonusLevel(item) {
-  if (item === 1) {
-    return t("prize_levels.1");
-  } else if (item === 2) {
-    return t("prize_levels.2");
-  } else {
-    return t("prize_levels.3");
-  }
-}
+// function filterBonusLevel(item) {
+//   if (item === 1) {
+//     return t("prize_levels.1");
+//   } else if (item === 2) {
+//     return t("prize_levels.2");
+//   } else {
+//     return t("prize_levels.3");
+//   }
+// }
 
 function loadMore() {
   loading.value = true;
@@ -101,27 +107,27 @@ WebAppController.ready();
           v-for="item in recentBonuses"
           :key="item.id"
           class="recent-item"
-          :class="'recent-item-' + `${item.step}`"
+          :class="'recent-item-' + `${item.type}`"
         >
           <div class="recent-image">
             <img
-              v-if="item.step === 1"
-              src="@/assets/images/bonus-2x-icon.svg"
+              v-if="item.type === 'sms'"
+              src="@/assets/images/sms.svg"
               alt=""
             />
             <img
-              v-else-if="item.step === 2"
-              src="@/assets/images/bonus-2x-icon-orange.svg"
+              v-else-if="item.type === 'internet'"
+              src="@/assets/images/internet-mb.svg"
               alt=""
             />
-            <img v-else src="@/assets/images/bonus-2x-icon-green.svg" alt="" />
+            <img v-else src="@/assets/images/minutes.svg" alt="" />
           </div>
           <div class="recent-item__details">
             <p>{{ item.name }}</p>
             <span>{{ filterBonusType(item.type) }}</span>
           </div>
           <p class="recent-level" :class="'recent-level-' + `${item.step}`">
-            {{ filterBonusLevel(item.step) }}
+            {{ formatCreatedTime(item.created_at) }}
           </p>
         </div>
       </div>
@@ -148,65 +154,71 @@ WebAppController.ready();
       width: 100%;
 
       & p {
-        @extend .text-15-600;
+        font-weight: 600;
+        font-size: 15px;
+        line-height: 133%;
         letter-spacing: -0.4px;
-        color: var(--text-main);
+        color: var(--gf-text-33);
         margin-bottom: 6px;
       }
 
       & span {
-        @extend .text-14-400;
-        color: var(--text-secondary);
+        font-weight: 400;
+        font-size: 14px;
+        line-height: 129%;
+        color: var(--gf-text-secondary-gray-2x);
       }
     }
 
     &-level {
-      @extend .text-14-500;
+      font-weight: 500;
+      font-size: 14px;
+      line-height: 129%;
       text-align: right;
     }
 
-    &-1 {
-      .recent-image {
-        background: linear-gradient(145.01deg, rgba(114, 67, 160, 0.1) 0%, rgba(149, 48, 235, 0.1) 100%);
-      }
-
-      .recent-level {
-        background: var(--gradient-purple);
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-        background-clip: text;
-        text-fill-color: transparent;
-        white-space: nowrap;
-      }
-    }
-
-    &-2 {
+    &-sms {
       .recent-image {
         background: rgba(250, 193, 0, 0.1);
       }
 
       .recent-level {
-        background: var(--gradient-orange);
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-        background-clip: text;
-        text-fill-color: transparent;
-        white-space: nowrap;
+        color: var(--gf-text-secondary-gray-2x);
+        //-webkit-background-clip: text;
+        //-webkit-text-fill-color: transparent;
+        //background-clip: text;
+        //text-fill-color: transparent;
+        //white-space: nowrap;
       }
     }
 
-    &-3 {
+    &-internet {
+      .recent-image {
+        background: rgba(0, 139, 255, 0.1);
+      }
+
+      .recent-level {
+        color: var(--gf-text-secondary-gray-2x);
+        //-webkit-background-clip: text;
+        //-webkit-text-fill-color: transparent;
+        //background-clip: text;
+        //text-fill-color: transparent;
+        //white-space: nowrap;
+      }
+    }
+
+    &-voice {
       .recent-image {
         background: rgba(0, 203, 106, 0.1);
       }
 
       .recent-level {
-        background: var(--gradient-green);
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-        background-clip: text;
-        text-fill-color: transparent;
-        white-space: nowrap;
+        color: var(--gf-text-secondary-gray-2x);
+        //-webkit-background-clip: text;
+        //-webkit-text-fill-color: transparent;
+        //background-clip: text;
+        //text-fill-color: transparent;
+        //white-space: nowrap;
       }
     }
   }
