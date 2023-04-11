@@ -4,20 +4,22 @@ import {MainButtonController} from "@/utils/telegram/main.button.controller";
 import {useI18n} from "vue-i18n";
 import {onBeforeRouteLeave, useRoute, useRouter} from "vue-router";
 import {onMounted, ref} from "vue";
-import {coinApi} from "@/services/market.service";
+import {coinApi} from "@/services/coin.service";
 import {loadingComposable} from "@/composables/loading.composable";
 
-import { Pagination} from 'swiper';
+import {Pagination} from 'swiper';
 // Import Swiper Vue.js components
 import {Swiper, SwiperSlide} from 'swiper/vue';
 // Import Swiper styles
 import 'swiper/css';
 import 'swiper/css/pagination';
+import {useToast} from "vue-toastification";
 
 const modules = [Pagination]
 
 const {t} = useI18n();
 
+const toast = useToast()
 const route = useRoute();
 const router = useRouter();
 
@@ -33,14 +35,13 @@ const basket = ref([]);
 
 async function fetchProduct() {
   try {
-    const body = {
-      method: "coin.get_product",
-      params: route.params,
-    };
-    const {data} = await coinApi.getProduct(body);
+    const params = {
+      id: route.params.id
+    }
+    const {data} = await coinApi.getProduct({params});
     product.value = data.result;
   } catch (e) {
-    console.error(e);
+    toast.error(e?.response?.data?.message);
   }
 }
 
@@ -53,7 +54,7 @@ async function fetchBasket() {
     const {data} = await coinApi.getBasket(body);
     basket.value = data.result;
   } catch (e) {
-    console.error(e);
+    toast.error(e?.response?.data?.message);
   }
 }
 
