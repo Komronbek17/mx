@@ -9,6 +9,11 @@ import {loadingComposable} from "@/composables/loading.composable";
 import {useI18n} from "vue-i18n";
 import ProductCard from "@/views/market/ProductCard.vue";
 
+import levelImage_1 from '@/assets/images/bonus-2x-level_1.svg'
+import levelImage_2 from '@/assets/images/bonus-2x-level_2.svg'
+import levelImage_3 from '@/assets/images/bonus-2x-level_3.svg'
+
+
 const {t} = useI18n();
 
 const {
@@ -21,7 +26,7 @@ const gifts = ref([]);
 const balance = ref(0);
 
 const modalValue = ref(false);
-const activeId = ref(null);
+const level = ref(3);
 
 const getProducts = async () => {
   try {
@@ -50,20 +55,17 @@ const fetchBalance = async () => {
   }
 };
 const askActivate = (id) => {
-  activeId.value = id;
-  openModal();
+  submitActive(id);
 };
 
 const closeDialogModal = () => {
   modalValue.value = false;
-  activeId.value = null;
 };
 
 const openModal = () => {
   modalValue.value = true;
 };
 const modalApply = () => {
-  submitActive();
   modalValue.value = false;
 };
 
@@ -71,23 +73,31 @@ const addBasket = (item) => {
   console.log(item, "addBasket");
 };
 
-const submitActive = async () => {
-  if (activeId.value) {
+const submitActive = async (id) => {
+  if (id) {
     const body = {
       method: "coin.activation_product",
       params: {
-        id: activeId.value,
+        id: id,
       },
     };
 
     try {
       const {data} = await coinApi.activateProduct(body);
       gifts.value = data.result;
+      openModal();
     } catch (e) {
       toast.error(e.response?.data?.message ?? e.message);
     }
   }
 };
+
+const generatedImage = () => {
+  if (level.value === 1) return levelImage_1
+  if (level.value === 2) return levelImage_2
+  return levelImage_3
+}
+
 
 onMounted(async () => {
   startLoading();
@@ -129,7 +139,7 @@ onMounted(async () => {
     <modal-dialog :model-value="modalValue" @close-modal="closeDialogModal">
       <template #header>
         <div class="modal-header">
-          <img src="@/assets/images/2x-blue.png" alt=""/>
+          <img :src="generatedImage()" alt=""/>
         </div>
       </template>
       <template #content>
@@ -139,7 +149,7 @@ onMounted(async () => {
           </h3>
           <p class="modal-content__subtitle">
             {{
-              t("market_page.text", {level: 1,})
+              t("market_page.text", {level,})
             }}!
           </p>
         </div>
