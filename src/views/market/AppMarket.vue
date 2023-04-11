@@ -1,7 +1,7 @@
 <script setup>
 import {useToast} from "vue-toastification";
 import {onMounted, ref} from "vue";
-import {coinApi} from "@/services/market.service";
+import {coinApi} from "@/services/coin.service";
 
 import ModalDialog from "@/components/ui/ModalDialog/ModalDialog.vue";
 import AppLoader from "@/components/elements/loader/AppLoader.vue";
@@ -30,14 +30,11 @@ const level = ref(3);
 
 const getProducts = async () => {
   try {
-    const body = {
-      method: "coin.get_all_products",
-      params: {
-        page: 1,
-        limit: 10,
-      },
-    };
-    await coinApi.fetchProducts(body).then((response) => {
+    const params = {
+      page: 1,
+      limit: 100,
+    }
+    await coinApi.getAllProducts({params}).then((response) => {
       gifts.value = response.data.result;
     });
   } catch (e) {

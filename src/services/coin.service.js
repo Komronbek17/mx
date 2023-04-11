@@ -7,13 +7,13 @@ class CoinService extends Core {
     });
   }
 
-  balance() {
+  getBalance() {
     return this.post("balance");
   }
 
   getAllProducts({
     method = "coin.get_all_products",
-    params = { page: 1, limit: 10 },
+    params = { page: 1, limit: 100 },
   }) {
     return this.post("products", {
       method,
@@ -26,6 +26,10 @@ class CoinService extends Core {
       method,
       params,
     });
+  }
+
+  activateProduct(body) {
+    return this.post("products/activation", body);
   }
 
   addressFindAll({ params = { page: 1, limit: 10 } }) {
