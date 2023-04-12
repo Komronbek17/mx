@@ -1,14 +1,20 @@
 <script setup>
-import { useToast } from "vue-toastification";
-import { onMounted, ref } from "vue";
-import { coinApi } from "@/services/market.service";
+import {useToast} from "vue-toastification";
+import {onMounted, ref} from "vue";
+import {coinApi} from "@/services/coin.service";
 
 import ModalDialog from "@/components/ui/ModalDialog/ModalDialog.vue";
 import AppLoader from "@/components/elements/loader/AppLoader.vue";
-import { loadingComposable } from "@/composables/loading.composable";
-import { useI18n } from "vue-i18n";
+import {loadingComposable} from "@/composables/loading.composable";
+import {useI18n} from "vue-i18n";
+import ProductCard from "@/views/market/ProductCard.vue";
 
-const { t } = useI18n();
+import levelImage_1 from '@/assets/images/bonus-2x-level_1.svg'
+import levelImage_2 from '@/assets/images/bonus-2x-level_2.svg'
+import levelImage_3 from '@/assets/images/bonus-2x-level_3.svg'
+
+
+const {t} = useI18n();
 
 const {
   loading: isFetching,
@@ -20,18 +26,15 @@ const gifts = ref([]);
 const balance = ref(0);
 
 const modalValue = ref(false);
-const activeId = ref(null);
+const level = ref(3);
 
 const getProducts = async () => {
   try {
-    const body = {
-      method: "coin.get_all_products",
-      params: {
-        page: 1,
-        limit: 10,
-      },
-    };
-    await coinApi.fetchProducts(body).then((response) => {
+    const params = {
+      page: 1,
+      limit: 100,
+    }
+    await coinApi.getAllProducts({params}).then((response) => {
       gifts.value = response.data.result;
     });
   } catch (e) {
@@ -49,20 +52,17 @@ const fetchBalance = async () => {
   }
 };
 const askActivate = (id) => {
-  activeId.value = id;
-  openModal();
+  submitActive(id);
 };
 
 const closeDialogModal = () => {
   modalValue.value = false;
-  activeId.value = null;
 };
 
 const openModal = () => {
   modalValue.value = true;
 };
 const modalApply = () => {
-  submitActive();
   modalValue.value = false;
 };
 
@@ -70,23 +70,31 @@ const addBasket = (item) => {
   console.log(item, "addBasket");
 };
 
-const submitActive = async () => {
-  if (activeId.value) {
+const submitActive = async (id) => {
+  if (id) {
     const body = {
       method: "coin.activation_product",
       params: {
-        id: activeId.value,
+        id: id,
       },
     };
 
     try {
-      const { data } = await coinApi.activateProduct(body);
+      const {data} = await coinApi.activateProduct(body);
       gifts.value = data.result;
+      openModal();
     } catch (e) {
       toast.error(e.response?.data?.message ?? e.message);
     }
   }
 };
+
+const generatedImage = () => {
+  if (level.value === 1) return levelImage_1
+  if (level.value === 2) return levelImage_2
+  return levelImage_3
+}
+
 
 onMounted(async () => {
   startLoading();
@@ -101,12 +109,12 @@ onMounted(async () => {
 
 <template>
   <div class="layout-container">
-    <app-loader :active="isFetching" />
+    <app-loader :active="isFetching"/>
     <div class="bonus-block">
       <div class="bonus-card">
         <div class="bonus-card__title">{{ $t("market_page.balance") }}:</div>
         <div class="bonus-card__price">
-          <img src="@/assets/images/coin.png" alt="" />
+          <img src="@/assets/images/coin.png" alt=""/>
           <p>{{ balance }}</p>
         </div>
       </div>
@@ -115,43 +123,20 @@ onMounted(async () => {
     <div class="gifts-block">
       <div class="gift-title">{{ t("market_page.prize") }}</div>
       <div class="gift-list">
-        <router-link
-          v-for="gift in gifts"
-          :key="gift.id + '_level_1'"
-          :to="{ name: 'market-product', params: { id: gift.id } }"
-          class="gift-card"
-        >
-          <div class="gift-card__image">
-            <img
-              :src="gift.images[0]?.path || '@/assets/images/no-photo.svg'"
-              alt=""
-            />
-          </div>
-          <div class="gift-card__content">
-            <h5>{{ gift.name }}</h5>
-            <div class="price">
-              <img src="@/assets/images/coin.png" alt="" />
-              <p>{{ gift.price }}</p>
-            </div>
-          </div>
-          <div
-            v-if="gift.type === 'product'"
-            @click="addBasket(gift.id)"
-            class="gift-card__button"
-          >
-            <p>{{ t("market_page.to_basket") }}</p>
-          </div>
-          <div v-else @click="askActivate(gift.id)" class="gift-card__button">
-            <p>{{ t("market_page.activate") }}</p>
-          </div>
-        </router-link>
+        <product-card
+            v-for="gift in gifts"
+            :key="gift.id + '_level_1'"
+            :item="gift"
+            @add-basket="addBasket(gift.id)"
+            @ask-activate="askActivate(gift.id)"
+        />
       </div>
     </div>
 
     <modal-dialog :model-value="modalValue" @close-modal="closeDialogModal">
       <template #header>
         <div class="modal-header">
-          <img src="@/assets/images/2x-blue.png" alt="" />
+          <img :src="generatedImage()" alt=""/>
         </div>
       </template>
       <template #content>
@@ -161,9 +146,7 @@ onMounted(async () => {
           </h3>
           <p class="modal-content__subtitle">
             {{
-              t("connect_premium_service_message", {
-                level: 1,
-              })
+              t("market_page.text", {level,})
             }}!
           </p>
         </div>

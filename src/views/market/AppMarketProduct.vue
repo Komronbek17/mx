@@ -1,18 +1,29 @@
 <script setup>
-import { WebAppController } from "@/utils/telegram/web.app.util";
-import { MainButtonController } from "@/utils/telegram/main.button.controller";
-import { useI18n } from "vue-i18n";
-import { onBeforeRouteLeave, useRoute, useRouter } from "vue-router";
-import { onMounted, ref } from "vue";
-import { coinApi } from "@/services/market.service";
-import { loadingComposable } from "@/composables/loading.composable";
+import {WebAppController} from "@/utils/telegram/web.app.util";
+import {MainButtonController} from "@/utils/telegram/main.button.controller";
+import {useI18n} from "vue-i18n";
+import {onBeforeRouteLeave, useRoute, useRouter} from "vue-router";
+import {onMounted, ref} from "vue";
+import {coinApi} from "@/services/coin.service";
+import {loadingComposable} from "@/composables/loading.composable";
 
-const { t } = useI18n();
+import {Pagination} from 'swiper';
+// Import Swiper Vue.js components
+import {Swiper, SwiperSlide} from 'swiper/vue';
+// Import Swiper styles
+import 'swiper/css';
+import 'swiper/css/pagination';
+import {useToast} from "vue-toastification";
 
+const modules = [Pagination]
+
+const {t} = useI18n();
+
+const toast = useToast()
 const route = useRoute();
 const router = useRouter();
 
-const { startLoading, finishLoading } = loadingComposable();
+const {startLoading, finishLoading} = loadingComposable();
 
 async function showOrderProducts() {
   console.log(1);
@@ -24,14 +35,13 @@ const basket = ref([]);
 
 async function fetchProduct() {
   try {
-    const body = {
-      method: "coin.get_product",
-      params: route.params,
-    };
-    const { data } = await coinApi.getProduct(body);
+    const params = {
+      id: route.params.id
+    }
+    const {data} = await coinApi.getProduct({params});
     product.value = data.result;
   } catch (e) {
-    console.error(e);
+    toast.error(e?.response?.data?.message);
   }
 }
 
@@ -44,14 +54,14 @@ async function fetchBasket() {
     const {data} = await coinApi.getBasket(body);
     basket.value = data.result;
   } catch (e) {
-    console.error(e);
+    toast.error(e?.response?.data?.message);
   }
 }
 
 if (basket && basket.value.products && basket.value.products.length) {
   MainButtonController.run();
   MainButtonController.setBackgroundColor("#555333");
-}else{
+} else {
   MainButtonController.run();
 }
 
@@ -63,8 +73,6 @@ MainButtonController.onClick(showOrderProducts);
 onBeforeRouteLeave(() => {
   MainButtonController.makeInvisible();
 });
-
-
 
 
 onMounted(async () => {
@@ -82,18 +90,27 @@ WebAppController.ready();
 
 <template>
   <div class="market-product">
-    <div class="market-product__image">
-      <img
-        v-if="product.images && product.images.length"
-        :src="product?.images[0].path"
-        alt=""
-      />
-    </div>
+    <swiper
+        :pagination="{
+          dynamicBullets: true,
+        }"
+        :modules="modules"
+        :slides-per-view="1"
+        :space-between="16"
+        class="market-product__image"
+    >
+      <swiper-slide v-for="image in product.images" :key="image.id">
+        <img
+            :src="image?.path || '@/assets/images/no-photo.svg'"
+            alt=""
+        />
+      </swiper-slide>
+    </swiper>
     <div class="layout-container">
       <div class="market-product__top">
         <p class="market-product__title">{{ product.name }}</p>
         <div class="market-product__price">
-          <img src="@/assets/images/coin.png" alt="" />
+          <img src="@/assets/images/coin.png" alt=""/>
           <p>{{ product.price }}</p>
         </div>
       </div>
@@ -108,7 +125,7 @@ WebAppController.ready();
         {{ product.description }}
       </p>
       <button class="market-product__btn">
-        <img src="@/assets/images/add.svg" alt="" />
+        <img src="@/assets/images/add.svg" alt=""/>
         <p>{{ t("market_page.to_basket") }}</p>
       </button>
     </div>

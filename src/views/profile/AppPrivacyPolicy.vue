@@ -49,20 +49,16 @@ fetchPolicy();
 .privacy {
   &-title {
     letter-spacing: -0.32px;
-    color: var(--gf-text-33);
+    color: var(--text-main);
     text-align: center;
     margin-bottom: 0.5rem;
     text-transform: uppercase;
-    font-weight: 600;
-    font-size: 20px;
-    line-height: 28px;
+    @extend .text-15-600;
   }
 
   &-description {
-    font-weight: 400;
-    font-size: 14px;
-    line-height: 143%;
-    color: var(--gf-text-33);
+    @extend .text-14-400;
+    color: var(--text-main);
   }
 }
 </style>

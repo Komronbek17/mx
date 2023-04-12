@@ -124,7 +124,7 @@ WebAppController.ready();
     font-size: 15px;
     line-height: 133%;
     letter-spacing: -0.4px;
-    color: var(--gf-text-09);
+    color: var(--text-main);
     margin-bottom: 1rem;
   }
 
@@ -144,18 +144,18 @@ WebAppController.ready();
   }
 
   &-btn__no {
-    background: #f2fbfd;
+    background: var(--accent-gray);
     border-radius: 8px;
     margin-right: 1rem;
     font-weight: 600;
     font-size: 15px;
     line-height: 133%;
     letter-spacing: -0.4px;
-    color: #090909;
+    color: var(--text-main);
   }
 
   &-btn__yes {
-    background: linear-gradient(107.32deg, #4adaff -22.08%, #0062ca 122.03%);
+    background: var(--gradient-purple);
     border-radius: 8px;
     font-weight: 600;
     font-size: 15px;

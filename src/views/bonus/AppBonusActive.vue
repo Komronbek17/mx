@@ -24,7 +24,7 @@ WebAppController.ready();
     <div class="layout-container">
       <div class="active-items">
         <div class="active-item">
-          <img src="@/assets/images/bonus-2x-icon.svg" alt="" />
+          <img src="@/assets/images/bonus-2x-level_1.svg" alt="" />
           <div class="active-item__details">
             <p>2Х Мегабайты</p>
             <span>Осталось 10 часов</span>

@@ -20,6 +20,7 @@
     "linkifyjs": "2.1.9",
     "pinia": "^2.0.28",
     "sass": "^1.58.3",
+    "swiper": "^9.2.0",
     "v-mask": "^2.3.0",
     "vee-validate": "^4.7.4",
     "vercel": "^28.16.15",

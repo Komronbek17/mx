@@ -12,11 +12,14 @@ import { loadingComposable } from "@/composables/loading.composable";
 import { infoApi } from "@/services/info.service";
 import UserCardHome from "@/components/home/UserCardHome.vue";
 import AppLoader from "@/components/elements/loader/AppLoader.vue";
+// import { hasOwnProperty } from "@/utils/object.util";
+import { useToast } from "vue-toastification";
 
 // const {tUserFullName} = useTelegramStore();
 // const {tUserUniqueId} = useTelegram();
 
 const { t } = useI18n();
+const toast = useToast();
 
 import { useUserStore } from "@/stores/user.store";
 const { user, initUser } = useUserStore();

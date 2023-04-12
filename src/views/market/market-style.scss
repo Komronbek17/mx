@@ -47,71 +47,7 @@
   flex-wrap: wrap;
 }
 
-.gift-card {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  row-gap: 1rem;
-  padding: 16px 10px;
-  background: var(--gf-hover-bg);
-  border-radius: 8px;
-  max-width: 300px;
 
-  &__image {
-    width: 100px;
-    height: 100px;
-
-    img {
-      width: 100%;
-      height: 100%;
-      object-fit: contain;
-    }
-  }
-
-  &__content {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    row-gap: .5rem;
-
-    h5 {
-      @extend .font-h5;
-      text-align: center;
-      max-width: 120px;
-      overflow: hidden;
-      white-space: nowrap;
-      text-overflow: ellipsis;
-      color: var(--gf-text-33);
-    }
-
-    .price {
-      display: flex;
-      column-gap: .5rem;
-
-      p {
-        @extend .font-15;
-        @include text-gradient(linear-gradient(122.82deg, #F2D207 0%, #FFA329 100%))
-      }
-
-      img {
-        max-width: 100%;
-        object-fit: contain;
-      }
-    }
-  }
-
-  &__button {
-    background: linear-gradient(122.82deg, #F2D207 0%, #FFA329 100%);
-    border-radius: 16px;
-    padding: 7px 14px;
-
-    p {
-      @extend .font-14-white;
-      color: var(--gf-text-white-2x);
-    }
-  }
-}
 
 ::v-deep .modal {
   &--content__title {

@@ -163,7 +163,7 @@ export default {
     privacy_agree: "qabul qilaman",
     confirm_btn: "Tasdiqlash",
     text_3:
-      "Abonent uchun “Oltin Baliq” xizmatidan foydalanish QQS bilan birga kuniga 500 so‘m.",
+      "Abonent uchun “Al-Chiroq” xizmatidan foydalanish QQS bilan birga kuniga 500 so‘m.",
     verify_1: "Sizning raqamingizga faollashtirish kodi SMS orqali yuborildi",
     verify_2: "Kodni kiriting",
     code: "Kod",

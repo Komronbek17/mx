@@ -27,17 +27,16 @@ defineProps({
 
 <style lang="scss" scoped>
 .ol-catalog-card {
-  background-color: var(--gf-accent-bg);
+  background-color: var(--accent-gray);
   border-radius: 8px;
   //min-width: 100px;
   //min-height: 100px;
   padding: 1rem 0;
   //flex-grow: 1;
-  color: var(--gf-p-primary-color);
+  color: var(--text-main);
   text-decoration: none;
   &-content {
-    line-height: 20px;
-    font-weight: 600;
+    @extend .text-15-600;
   }
 }
 </style>
