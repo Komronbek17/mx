@@ -1,19 +1,62 @@
 <script setup>
-import AppBasketProduct from "@/views/market/AppBasketProduct.vue";
+import AppLoader from "@/components/elements/loader/AppLoader.vue";
+import AppBasketProduct from "@/views/market/basket/BasketProduct.vue";
 import { useI18n } from "vue-i18n";
+import { coinApi } from "@/services/coin.service";
+import { loadingComposable } from "@/composables/loading.composable";
+import { useToast } from "vue-toastification";
+import { reactive } from "vue";
 
 const { t } = useI18n();
+
+const {
+  loading: isFetching,
+  startLoading,
+  finishLoading,
+} = loadingComposable();
+
+const toast = useToast();
+
+const basketStore = reactive({
+  summary: {
+    total: 0,
+    balance: 0,
+  },
+  products: [],
+});
+
+async function getBasketItems() {
+  try {
+    startLoading();
+    const response = await coinApi.basketFindAll({
+      body: { limit: 50 },
+    });
+
+    console.log("response", response);
+  } catch (e) {
+    toast.error(e.response.data.message ?? e.message);
+  } finally {
+    finishLoading();
+  }
+}
+
+getBasketItems();
 </script>
 
 <template>
   <div class="basket">
+    <app-loader :active="isFetching" />
     <div class="layout-container">
       <div class="basket-title">
         <p>{{ t("market_page.your_order") }}</p>
         <router-link to="#">{{ t("market_page.change") }}</router-link>
       </div>
 
-      <app-basket-product />
+      <app-basket-product
+        v-for="basketItem in basketStore.products"
+        :key="basketItem.id"
+        :basket-item="basketItem"
+      />
     </div>
   </div>
 </template>

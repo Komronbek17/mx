@@ -1,16 +1,28 @@
 <script setup>
-import { ref } from "vue";
+import { computed, ref } from "vue";
 import PlusIcon from "@/components/icons/PlusIcon.vue";
 import MinusIcon from "@/components/icons/MinusIcon.vue";
 import { useI18n } from "vue-i18n";
 
+const props = defineProps({
+  basketItem: {
+    type: Object,
+    required: true,
+  },
+});
+
 const isAvailable = ref(true);
 const { t } = useI18n();
+
+const productBlockClass = computed(() => {
+  return [isAvailable.value ? "success-border" : "blur"];
+});
 </script>
 
 <template>
   <div class="product">
-    <div class="product-block" :class="isAvailable ? 'success-border' : 'blur'">
+    {{ props.basketItem }}
+    <div class="product-block" :class="productBlockClass">
       <!--    TOP   -->
       <div class="product-block__top">
         <div class="product-block__top-image">
@@ -32,52 +44,6 @@ const { t } = useI18n();
           <img src="@/assets/images/tick-circle.svg" alt="" />
         </div>
       </div>
-
-      <!--    BOTTOM   -->
-      <div class="product-block__bottom">
-        <div>
-          <p v-if="isAvailable">
-            {{ t("market_page.product_left") }}:
-            <span>50 {{ t("quantity") }}</span>
-          </p>
-          <p v-else class="unavailable">{{ t("market_page.unavailable") }}</p>
-        </div>
-
-        <div class="product-block__amount">
-          <div class="badge minus">
-            <minus-icon color="var(--gf-text-white-2x)" />
-          </div>
-          <p>1</p>
-          <div class="badge plus">
-            <plus-icon color="var(--gf-text-white-2x)" />
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div class="product-block blur">
-      <!--    TOP   -->
-      <div class="product-block__top">
-        <div class="product-block__top-image">
-          <img src="@/assets/images/level-product__image.png" alt="" />
-        </div>
-        <div class="product-block__top-details">
-          <h4>Наушники JBL Everest V700BT BLK</h4>
-          <div class="flex align-center">
-            <img src="@/assets/images/coin.png" alt="" />
-            <span>1000</span>
-          </div>
-        </div>
-        <div class="product-block__tick">
-          <img
-            v-if="!isAvailable"
-            src="@/assets/images/tick-circle-false.svg"
-            alt=""
-          />
-          <img src="@/assets/images/tick-circle.svg" alt="" />
-        </div>
-      </div>
-
       <!--    BOTTOM   -->
       <div class="product-block__bottom">
         <div>

@@ -3,7 +3,7 @@ import AppMarketProduct from "@/views/market/AppMarketProduct.vue";
 import AppMarketForm from "@/views/market/AppMarketForm.vue";
 import AppMarketDetails from "@/views/market/AppMarketDetails.vue";
 import AppMarketPassport from "@/views/market/AppMarketPassport.vue";
-import AppMarketBasket from "@/views/market/AppMarketBasket.vue";
+import AppMarketBasket from "@/views/market/basket/Basket.vue";
 import AppMarketAddressView from "@/views/market/AppMarketAddressView.vue";
 import AppOrderedSuccessfully from "@/views/market/AppOrderedSuccessfully.vue";
 import AppMarketMap from "@/views/market/AppMarketMap.vue";
