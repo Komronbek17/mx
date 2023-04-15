@@ -1,18 +1,34 @@
-import AppMarket from "@/views/market/AppMarket.vue";
+import AppMarket from "@/views/market/views/Market.vue";
 import AppMarketProduct from "@/views/market/AppMarketProduct.vue";
 import AppMarketForm from "@/views/market/AppMarketForm.vue";
 import AppMarketDetails from "@/views/market/AppMarketDetails.vue";
 import AppMarketPassport from "@/views/market/AppMarketPassport.vue";
-import AppMarketBasket from "@/views/market/basket/Basket.vue";
-import AppMarketAddressView from "@/views/market/AppMarketAddressView.vue";
+import AppMarketBasket from "@/views/market/views/Basket.vue";
 import AppOrderedSuccessfully from "@/views/market/AppOrderedSuccessfully.vue";
 import AppMarketMap from "@/views/market/AppMarketMap.vue";
+import Checkout from "@/views/market/views/Checkout.vue";
+import AddressCreate from "@/views/market/views/AddressCreate.vue";
 
 export const marketRoutes = [
   {
     path: "/market",
     name: "market",
     component: AppMarket,
+  },
+  {
+    path: "/market/basket",
+    name: "market-basket",
+    component: AppMarketBasket,
+  },
+  {
+    path: "/market/checkout",
+    name: "market-checkout",
+    component: Checkout,
+  },
+  {
+    path: "/market/checkout/address/create",
+    name: "checkout-address-create",
+    component: AddressCreate,
   },
   {
     path: "/market/product/:id",
@@ -33,16 +49,6 @@ export const marketRoutes = [
     path: "/market/passport",
     name: "market-passport",
     component: AppMarketPassport,
-  },
-  {
-    path: "/market/basket",
-    name: "basket",
-    component: AppMarketBasket,
-  },
-  {
-    path: "/checkout/addresses",
-    name: "checkout-addresses",
-    component: AppMarketAddressView,
   },
   {
     path: "/checkout/ordered",

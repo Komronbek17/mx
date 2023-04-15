@@ -32,10 +32,8 @@ class CoinService extends Core {
     return this.post("products/activation", body);
   }
 
-  addressFindAll({ params: { page = 1, limit = 10 } }) {
-    return this.post("address/findAll", {
-      params: { page, limit },
-    });
+  addressFindAll({ body: { page = 1, limit = 10 } }) {
+    return this.post("address/findAll", { page, limit });
   }
 
   addressFinOne({ params: { id = null } }) {
@@ -65,7 +63,7 @@ class CoinService extends Core {
   }
 
   basketAddItem({ body: { product_id = null, quantity = null } }) {
-    return this.post("basket/create", { product_id, quantity });
+    return this.post("basket/", { product_id, quantity });
   }
 
   basketUpdateItem({ body: { id = null, quantity = null } }) {

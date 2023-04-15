@@ -152,7 +152,7 @@ WebAppController.ready();
 <template>
   <div class="home layout-container">
     <app-loader :active="isFetching" />
-    <router-link :to="{ name: 'basket' }"> go to basket </router-link>
+    <router-link :to="{ name: 'market-basket' }"> go to basket </router-link>
     <user-card-home
       :user-full-name="user.fullName"
       :user-unique-id="user.id"

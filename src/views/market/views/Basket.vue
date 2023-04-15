@@ -1,14 +1,19 @@
 <script setup>
 import AppLoader from "@/components/elements/loader/AppLoader.vue";
-import AppBasketProduct from "@/views/market/basket/BasketProduct.vue";
+import AppBasketProduct from "@/views/market/elements/BasketProduct.vue";
 import { useI18n } from "vue-i18n";
+import { useToast } from "vue-toastification";
 import { coinApi } from "@/services/coin.service";
 import { loadingComposable } from "@/composables/loading.composable";
-import { useToast } from "vue-toastification";
-import { reactive } from "vue";
+import { useMarketStore } from "@/views/market/market.store";
+import { watch } from "vue";
+import { MainButtonController } from "@/utils/telegram/main.button.controller";
+import { onBeforeRouteLeave, useRouter } from "vue-router";
+import { WebAppController } from "@/utils/telegram/web.app.util";
 
 const { t } = useI18n();
-
+const router = useRouter();
+const marketStore = useMarketStore();
 const {
   loading: isFetching,
   startLoading,
@@ -17,14 +22,6 @@ const {
 
 const toast = useToast();
 
-const basketStore = reactive({
-  summary: {
-    total: 0,
-    balance: 0,
-  },
-  products: [],
-});
-
 async function getBasketItems() {
   try {
     startLoading();
@@ -32,7 +29,9 @@ async function getBasketItems() {
       body: { limit: 50 },
     });
 
-    console.log("response", response);
+    marketStore.initializeBasket({
+      products: response.data.products,
+    });
   } catch (e) {
     toast.error(e.response.data.message ?? e.message);
   } finally {
@@ -40,7 +39,34 @@ async function getBasketItems() {
   }
 }
 
+function openCheckoutPage() {
+  router.push({
+    name: "market-checkout",
+  });
+}
+
+watch(
+  () => marketStore.total,
+  (total) => {
+    if (total) {
+      MainButtonController.run();
+      MainButtonController.setText("Оформить выбранные товары");
+      MainButtonController.onClick(openCheckoutPage);
+    } else {
+      MainButtonController.deactivate();
+    }
+  },
+  {
+    immediate: true,
+  }
+);
+
+WebAppController.ready();
 getBasketItems();
+onBeforeRouteLeave(() => {
+  MainButtonController.makeInvisible();
+  MainButtonController.offClick(openCheckoutPage);
+});
 </script>
 
 <template>
@@ -53,10 +79,29 @@ getBasketItems();
       </div>
 
       <app-basket-product
-        v-for="basketItem in basketStore.products"
+        v-for="basketItem in marketStore.basketThing.products"
         :key="basketItem.id"
         :basket-item="basketItem"
+        @update-quantity="marketStore.updateProductQuantity"
+        @inactivate-product="marketStore.inactivateBasketProduct"
       />
+    </div>
+
+    <div class="basket-summary">
+      <div class="flex justify-between basket-summary-total">
+        <h3 class="">Итого к оплате:</h3>
+        <p class="yellow-gradient-color flex align-center basket-summary-price">
+          <img
+            :width="24"
+            :height="24"
+            src="@/assets/images/coin.png"
+            alt="coin png"
+          />
+          <span class="ml-0-5">
+            {{ marketStore.total }}
+          </span>
+        </p>
+      </div>
     </div>
   </div>
 </template>
@@ -64,6 +109,9 @@ getBasketItems();
 <style lang="scss" scoped>
 .layout-container {
   background-color: var(--gf-basket-product-image-bg);
+  position: relative;
+  padding-bottom: 72px;
+  min-height: calc(100vh - 72px);
 }
 
 .basket {
@@ -152,6 +200,28 @@ getBasketItems();
         color: var(--accent-yellow);
       }
     }
+  }
+}
+
+.basket-summary {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  width: 100%;
+  background-color: var(--gf-bg-main);
+  //border-top: 1px solid #f5f5f5;
+  border-radius: 16px 16px 0 0;
+
+  .basket-summary-total {
+    padding: 1.5rem 1rem;
+    color: var(--gf-text-33);
+  }
+
+  .basket-summary-price {
+    font-weight: 600;
+    font-size: 17px;
+    line-height: 22px;
   }
 }
 </style>
