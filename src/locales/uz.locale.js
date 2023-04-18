@@ -89,6 +89,7 @@ export default {
     bonuses: "Bonuslar",
     prizes: "Sovrinlar",
     settings: "Sozlamalar",
+    market: "Market",
   },
   settings_page: {
     change_lang: "Tilni o'zgartirish",
@@ -104,8 +105,8 @@ export default {
     prize: "Sovg'alar",
     to_basket: "Savatga",
     activate: "Faollashtirish",
-    activated: "Faollashtirilgan",
-    text: "{level}-darajali 2X bonus muvaffaqiyatli faollashtirildi",
+    activated: "Faollashtirildi",
+    text: "{level} muvaffaqiyatli faollashtirildi",
     show_order: "Показать заказ",
     quantity: "Miqdori",
     description: "Tavsif",
