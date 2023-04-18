@@ -115,6 +115,7 @@ export default {
     product_left: "Qolgan",
     unavailable: "Mavjud emas",
     change: "O'zgartirish",
+    activate_bonus_title: "Bonus faollashtirilsinmi?",
 
     form: {
       your_pinfl: "JShShIR ni kiriting",

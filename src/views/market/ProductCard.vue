@@ -131,10 +131,12 @@ async function decreaseBasketItem({ count = -1 }) {
 }
 
 function viewProduct() {
-  return router.push({
-    name: "market-product",
-    params: { id: props.item["id"] },
-  });
+  if (isProductType.value) {
+    router.push({
+      name: "market-product",
+      params: { id: props.item["id"] },
+    });
+  }
 }
 </script>
 
