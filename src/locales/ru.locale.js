@@ -91,6 +91,7 @@ export default {
     bonuses: "Бонусы",
     prizes: "Призы",
     settings: "Настройки",
+    market: "Маркет",
   },
   settings_page: {
     change_lang: "Сменить язык",
@@ -107,7 +108,7 @@ export default {
     to_basket: "В корзину",
     activate: "Активировать",
     activated: "Активировано",
-    text: "2Х бонус {level}го уровня успешно активирован",
+    text: "{level} успешно активирован",
     show_order: "Показать заказ",
     quantity: "Количество",
     description: "Описание",
