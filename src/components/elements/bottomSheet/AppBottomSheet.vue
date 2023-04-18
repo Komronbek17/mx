@@ -1,5 +1,5 @@
 <script setup>
-import Hammer from "hammerjs";
+// import Hammer from "hammerjs";
 import { nextTick, onBeforeUnmount, ref } from "vue";
 
 const props = defineProps({
@@ -66,8 +66,8 @@ const hammer = {
   content: null,
 };
 
-let inited = false;
-let contentScroll = 0;
+// let inited = false;
+// let contentScroll = 0;
 let cardH = 0;
 let stripe = 0;
 
@@ -87,31 +87,31 @@ const init = async () => {
   contentH.value = "auto";
   stripe = isIphone() ? 20 : 0;
   cardH = bottomSheetCard.value.clientHeight;
-  contentH.value = `${cardH - pan.value.clientHeight}px`;
+  // contentH.value = `${cardH - pan.value.clientHeight}px`;
   bottomSheetCard.value.style.maxHeight = props.maxHeight;
   cardP.value =
     props.effect === "fx-slide-from-right" ||
     props.effect === "fx-slide-from-left"
       ? 0
       : -cardH - stripe;
-  if (!inited) {
-    const options = {
-      recognizers: [[Hammer.Pan, { direction: Hammer.DIRECTION_VERTICAL }]],
-    };
-    hammer.pan = new Hammer(pan.value, options);
-    if (hammer.pan) {
-      hammer.pan.on("panstart panup pandown panend", (e) => {
-        move(e, "pan");
-      });
-    }
-    hammer.content = new Hammer(bottomSheetCardContent.value, options);
-    if (hammer.content) {
-      hammer.content.on("panstart panup pandown panend", (e) => {
-        move(e, "content");
-      });
-    }
-    inited = true;
-  }
+  // if (!inited) {
+  //   const options = {
+  //     recognizers: [[Hammer.Pan, { direction: Hammer.DIRECTION_VERTICAL }]],
+  //   };
+  //   hammer.pan = new Hammer(pan.value, options);
+  //   if (hammer.pan) {
+  //     hammer.pan.on("panstart panup pandown panend", (e) => {
+  //       move(e, "pan");
+  //     });
+  //   }
+  //   hammer.content = new Hammer(bottomSheetCardContent.value, options);
+  //   if (hammer.content) {
+  //     hammer.content.on("panstart panup pandown panend", (e) => {
+  //       move(e, "content");
+  //     });
+  //   }
+  //   inited = true;
+  // }
 };
 
 const open = () => {
@@ -123,34 +123,34 @@ const open = () => {
   emit("opened");
 };
 
-const move = (event, type) => {
-  if (props.swipeable) {
-    const delta = -event.deltaY;
-    if (
-      (type === "content" && event.type === "panup") ||
-      (type === "content" && event.type === "pandown" && contentScroll > 0)
-    ) {
-      bottomSheetCardContent.value.scrollTop = contentScroll + delta;
-    } else if (event.type === "panup" || event.type === "pandown") {
-      moving.value = true;
-      if (event.deltaY > 0) {
-        cardP.value = delta;
-      }
-    }
-    if (event.isFinal) {
-      contentScroll = bottomSheetCardContent.value.scrollTop;
-      moving.value = false;
-      if (cardP.value < -30) {
-        opened.value = false;
-        cardP.value = -cardH - stripe;
-        document.documentElement.style.overflowY = "";
-        emit("closed");
-      } else {
-        cardP.value = 0;
-      }
-    }
-  }
-};
+// const move = (event, type) => {
+//   if (props.swipeable) {
+//     const delta = -event.deltaY;
+//     if (
+//       (type === "content" && event.type === "panup") ||
+//       (type === "content" && event.type === "pandown" && contentScroll > 0)
+//     ) {
+//       bottomSheetCardContent.value.scrollTop = contentScroll + delta;
+//     } else if (event.type === "panup" || event.type === "pandown") {
+//       moving.value = true;
+//       if (event.deltaY > 0) {
+//         cardP.value = delta;
+//       }
+//     }
+//     if (event.isFinal) {
+//       contentScroll = bottomSheetCardContent.value.scrollTop;
+//       moving.value = false;
+//       if (cardP.value < -30) {
+//         opened.value = false;
+//         cardP.value = -cardH - stripe;
+//         document.documentElement.style.overflowY = "";
+//         emit("closed");
+//       } else {
+//         cardP.value = 0;
+//       }
+//     }
+//   }
+// };
 
 const close = () => {
   opened.value = false;
@@ -223,9 +223,9 @@ init();
           props.effect,
         ]"
       >
-        <div ref="pan" class="bottom-sheet__pan">
-          <div class="bottom-sheet__bar"></div>
-        </div>
+        <!--        <div ref="pan" class="bottom-sheet__pan">-->
+        <!--          <div class="bottom-sheet__bar"></div>-->
+        <!--        </div>-->
         <div ref="bottomSheetCardContent" class="bottom-sheet__content">
           <slot></slot>
         </div>
@@ -246,7 +246,12 @@ init();
 
   &__content {
     overflow-y: scroll;
-    height: v-bind(contentH);
+    //height: v-bind(contentH);
+    //min-height: 50vh;
+    height: 75vh;
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+    padding-left: 0.5rem;
   }
 
   &__backdrop {

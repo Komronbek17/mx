@@ -21,7 +21,7 @@
     "sass": "^1.58.3",
     "swiper": "^9.2.0",
     "v-mask": "^2.3.0",
-    "vee-validate": "^4.7.4",
+    "vee-validate": "^4.8.6",
     "vercel": "^28.16.15",
     "vue": "^3.2.47",
     "vue-i18n": "^9.3.0-beta.16",
@@ -29,7 +29,7 @@
     "vue-select": "^4.0.0-beta.6",
     "vue-toastification": "^2.0.0-rc.5",
     "vue3-google-map": "^0.15.0",
-    "yup": "^1.0.2"
+    "yup": "^1.1.1"
   },
   "devDependencies": {
     "@dotlottie/player-component": "^1.1.1",

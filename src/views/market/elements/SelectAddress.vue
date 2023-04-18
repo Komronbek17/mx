@@ -12,7 +12,7 @@ const props = defineProps({
 
 const router = useRouter();
 
-const address = reactive({
+const location = reactive({
   select: null,
 });
 
