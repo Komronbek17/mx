@@ -1,18 +1,18 @@
 <script setup>
 import { onMounted, ref } from "vue";
-import { profileApi } from "@/services/profile.service";
-import { localStorageController } from "@/utils/localstorage.util";
-import { ACCEPT_LANGUAGE, USER_DATA } from "@/constants";
+// import { profileApi } from "@/services/profile.service";
+// import { localStorageController } from "@/utils/localstorage.util";
+// import { ACCEPT_LANGUAGE, USER_DATA } from "@/constants";
 import { WebAppController } from "@/utils/telegram/web.app.util";
 import { useI18n } from "vue-i18n";
-import { useTelegramStore } from "@/stores/telegram.store";
-import { useTelegram } from "@/composables/telegram.composable";
+// import { useTelegramStore } from "@/stores/telegram.store";
+// import { useTelegram } from "@/composables/telegram.composable";
 import CategoryCard from "@/components/home/category-card/CategoryCard.vue";
 import { loadingComposable } from "@/composables/loading.composable";
 import { infoApi } from "@/services/info.service";
 import UserCardHome from "@/components/home/UserCardHome.vue";
 import AppLoader from "@/components/elements/loader/AppLoader.vue";
-import { hasOwnProperty } from "@/utils/object.util";
+// import { hasOwnProperty } from "@/utils/object.util";
 import { useToast } from "vue-toastification";
 
 // const {tUserFullName} = useTelegramStore();
@@ -45,13 +45,13 @@ const homeMenu = ref([
     routeName: "premium",
     style: [{ gridRow: "1/3" }, { height: "218px" }],
   },
-  // {
-  //   title: t("home_page.market"),
-  //   image: "/img/categories/market.png",
-  //   notification: null,
-  //   routeName: "market",
-  //   // style: [{gridRow: "1/3"}, {height: "218px"}],
-  // },
+  {
+    title: t("home_page.market"),
+    image: "/img/categories/market.png",
+    notification: null,
+    routeName: "market",
+    // style: [{gridRow: "1/3"}, {height: "218px"}],
+  },
   {
     title: t("home_page.bonuses"),
     image: "/img/categories/bonuses.png",
@@ -152,6 +152,7 @@ WebAppController.ready();
 <template>
   <div class="home layout-container">
     <app-loader :active="isFetching" />
+    <router-link :to="{ name: 'market-basket' }"> go to basket </router-link>
     <user-card-home
       :user-full-name="user.fullName"
       :user-unique-id="user.id"

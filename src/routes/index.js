@@ -31,24 +31,17 @@ import AppLevel from "@/views/level/AppLevel.vue";
 import AppLevelProduct from "@/views/level/level-product/AppLevelProduct.vue";
 import AppVote from "@/views/vote/AppVote.vue";
 
-// APP - MARKET
-import AppMarket from "@/views/market/AppMarket.vue";
-import AppMarketProduct from "@/views/market/AppMarketProduct.vue";
-import AppMarketBasket from "@/views/market/AppMarketBasket.vue";
-import AppMarketAddressView from "@/views/market/AppMarketAddressView.vue";
-import AppOrderedSuccessfully from "@/views/market/AppOrderedSuccessfully.vue";
-import AppMarketMap from "@/views/market/AppMarketMap.vue";
-import AppMarketForm from "@/views/market/AppMarketForm.vue";
-import AppMarketDetails from "@/views/market/AppMarketDetails.vue";
-import AppMarketPassport from "@/views/market/AppMarketPassport.vue";
+import { marketRoutes } from "@/routes/market/market.routes";
+
 import { ACCEPT_LANGUAGE, OLTIN_BALIQ_BOT_TKN } from "@/constants";
-import { useTelegramStore } from "@/stores/telegram.store";
 import { telegramApi } from "@/services/telegram.service";
+import { useTelegramStore } from "@/stores/telegram.store";
 import { localStorageController } from "@/utils/localstorage.util";
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
+    ...marketRoutes,
     {
       path: "/",
       name: "home",
@@ -59,11 +52,6 @@ const router = createRouter({
       name: "chat",
       component: () => import("@/views/chat/AppChat.vue"),
     },
-    // {
-    //   path: "/login",
-    //   name: "login",
-    //   component: AppLogin,
-    // },
     {
       path: "/login",
       name: "login",
@@ -176,58 +164,6 @@ const router = createRouter({
         // },
       ],
     },
-    // MARKET
-    {
-      path: "/market",
-      name: "market",
-      component: AppMarket,
-    },
-    {
-      path: "/market/product/:id",
-      name: "market-product",
-      component: AppMarketProduct,
-    },
-    {
-      path: "/market/form",
-      name: "market-form",
-      component: AppMarketForm,
-    },
-    {
-      path: "/market/details",
-      name: "market-details",
-      component: AppMarketDetails,
-    },
-    {
-      path: "/market/passport",
-      name: "market-passport",
-      component: AppMarketPassport,
-    },
-    {
-      path: "/basket",
-      name: "basket",
-      component: AppMarketBasket,
-    },
-    {
-      path: "/addresses",
-      name: "addresses",
-      component: AppMarketAddressView,
-    },
-    {
-      path: "/ordered",
-      name: "ordered-successfully",
-      component: AppOrderedSuccessfully,
-    },
-    {
-      path: "/map",
-      name: "map",
-      component: AppMarketMap,
-    },
-    // {
-    //   path: "/market-1",
-    //   name: "market-1",
-    //   component: AppBasketProduct,
-    // },
-    // END MARKET
     {
       path: "/level",
       name: "level",

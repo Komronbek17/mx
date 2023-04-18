@@ -15,6 +15,10 @@ const props = defineProps({
     type: String,
     default: "text",
   },
+  disabled: {
+    type: Boolean,
+    default: false,
+  },
 });
 const emit = defineEmits(["update:modelValue"]);
 
@@ -37,6 +41,7 @@ const value = computed({
       :name="props.name"
       :id="props.label + '_id'"
       :placeholder="props.label"
+      :disabled="disabled"
     />
     <label class="floating-label" :for="props.name">{{ props.label }}</label>
   </div>

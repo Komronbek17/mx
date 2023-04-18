@@ -3,7 +3,7 @@ import PrizeIcon from "@/components/icons/PrizeIcon.vue";
 import PremiumIcon from "@/components/icons/PremiumIcon.vue";
 import CatalogCard from "@/components/elements/cards/CatalogCard.vue";
 import BonusesIcon from "@/components/icons/BonusesIcon.vue";
-import GameIcon from "@/components/icons/GameIcon.vue";
+// import GameIcon from "@/components/icons/GameIcon.vue";
 import MarketIcon from "@/components/icons/MarketIcon.vue";
 import NewsIcon from "@/components/icons/NewsIcon.vue";
 import SettingsIcon from "@/components/icons/SettingsIcon.vue";
@@ -50,16 +50,16 @@ const { t } = useI18n();
       <template #content>{{ t("home_page.news") }}</template>
     </catalog-card>
 
-    <!--    <catalog-card-->
-    <!--      :to="{-->
-    <!--        name: 'market',-->
-    <!--      }"-->
-    <!--    >-->
-    <!--      <template #icon>-->
-    <!--        <market-icon />-->
-    <!--      </template>-->
-    <!--      <template #content>{{ t("home_page.shop") }}</template>-->
-    <!--    </catalog-card>-->
+    <catalog-card
+      :to="{
+        name: 'market',
+      }"
+    >
+      <template #icon>
+        <market-icon />
+      </template>
+      <template #content>{{ t("home_page.shop") }}</template>
+    </catalog-card>
 
     <!--    <catalog-card-->
     <!--      :to="{-->
@@ -117,9 +117,7 @@ const { t } = useI18n();
   background: var(--premium-bg);
 
   &-yellow-text {
-    @include text-gradient(
-      var(--accent-yellow)
-    );
+    @include text-gradient(var(--accent-yellow));
     @extend .text-15-600;
   }
 }

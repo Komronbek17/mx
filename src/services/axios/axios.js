@@ -30,3 +30,8 @@ export const axiosV1 = ({ endpoint = "" }) => {
   // eslint-disable-next-line
     return instanceGenerator(import.meta.env.VITE_APP_URL + '/v1/' + endpoint);
 };
+
+export const axiosDev = ({ endpoint = "" }) => {
+  // eslint-disable-next-line
+  return instanceGenerator('https://dev.oltin-baliq.1it.uz' + '/v1/api/' + endpoint);
+};
