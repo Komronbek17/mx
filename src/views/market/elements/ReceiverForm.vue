@@ -5,7 +5,6 @@ import { useField } from "vee-validate";
 import { useToast } from "vue-toastification";
 import { isArray } from "@/utils/inspect.util";
 import { uploadApi } from "@/services/upload.service";
-import { loadingComposable } from "@/composables/loading.composable";
 
 import AttachIcon from "@/components/icons/AttachIcon.vue";
 import BotCloseIcon from "@/components/icons/BotCloseIcon.vue";
@@ -16,11 +15,22 @@ import AppCircleProgress from "@/components/elements/progress/AppCircleProgress.
 
 const uploadInput = ref(null);
 const toast = useToast();
-const uploadFile = reactive({
+const upload = reactive({
   percentCompleted: 65,
-  show: true,
+  file: null,
+  progressEvent: {
+    loaded: 0,
+    total: 0,
+    progress: 1,
+    bytes: 0,
+    event: {
+      isTrusted: true,
+    },
+    upload: true,
+  },
+  show: false,
   load: false,
-  details: {
+  result: {
     id: 345,
     uuid: "e09696d2-ff61-4e77-bea2-4fef552dffb4",
     type: "passports",
@@ -56,12 +66,6 @@ const uploadFile = reactive({
   },
 });
 
-const {
-  loading: fileLoading,
-  startLoading: startFileLoading,
-  finishLoading: finishFileLoading,
-} = loadingComposable();
-
 const { value: fullName, errorMessage: fullNameEMessage } = useField(
   "clientFullName",
   yup.string().required().label("Получатель")
@@ -72,25 +76,30 @@ const { value: pinfl, errorMessage: pinflEMessage } = useField(
   yup.string().required().label("Введите ПИНФЛ получателя")
 );
 
-const { value: clientIdentification, errorMessage: IdentifyErrorMessage } =
-  useField(
-    "clientIdentification",
-    yup.object().required().label("Identification file")
-  );
+const {
+  value: passportFile,
+  errorMessage: identifyErrorMessage,
+  setValue: setPassportFile,
+} = useField("passportFile", yup.object().required().label("Passport file"));
 
 function onPickFile() {
   uploadInput.value.click();
 }
 async function uploadIdentificationFile(e) {
   try {
-    startFileLoading();
+    startUploadEvent();
+
     const files = e.target.files;
+
+    setPassportFile(files[0]);
 
     let config = {
       onUploadProgress: function (progressEvent) {
-        uploadFile.percentCompleted = Math.round(
+        upload.percentCompleted = Math.round(
           (progressEvent.loaded * 100) / progressEvent.total
         );
+        upload.progressEvent.loaded = progressEvent.loaded;
+        upload.progressEvent.total = progressEvent.total;
       },
     };
 
@@ -104,10 +113,11 @@ async function uploadIdentificationFile(e) {
     });
 
     if (response) {
-      uploadFile.load = true;
+      upload.load = true;
+      upload.result = response.data.result;
     }
   } catch (e) {
-    uploadFile.load = false;
+    upload.load = false;
     if (e?.response?.data?.message) {
       const { message } = e.response.data;
       if (isArray(message) && message.length) {
@@ -118,10 +128,30 @@ async function uploadIdentificationFile(e) {
     } else {
       toast.error(e.message);
     }
+
+    finishUploadEvent();
   } finally {
     e.target.value = "";
-    finishFileLoading();
   }
+}
+
+function startUploadEvent() {
+  upload.show = true;
+}
+
+function finishUploadEvent() {
+  upload.show = false;
+}
+
+function byteToMegabyte(b) {
+  const m = b / Math.pow(10, 6);
+  return m.toFixed(2);
+}
+
+function removeUploadFile() {
+  finishUploadEvent();
+  upload.load = false;
+  setPassportFile(null);
 }
 </script>
 
@@ -142,27 +172,48 @@ async function uploadIdentificationFile(e) {
       </span>
     </div>
 
-    <div v-if="uploadFile.show || fileLoading">
-      <app-circle-progress
-        :size="48"
-        :border-bg-width="3"
-        :border-width="4"
-        :percent="uploadFile.percentCompleted"
-        :viewport="true"
-        :is-shadow="false"
-        :is-bg-shadow="false"
-        empty-color="#F5F5F5"
-        background="#F5F5F5"
-      >
-        <div v-if="uploadFile.load">
-          <span>
-            <document-text-icon />
+    <div class="flex justify-between align-center mt-1-5" v-if="upload.show">
+      <div class="flex align-center column-gap-1">
+        <app-circle-progress
+          :size="48"
+          :border-bg-width="3"
+          :border-width="upload.load ? 0 : 3"
+          :percent="upload.percentCompleted"
+          :viewport="true"
+          :is-shadow="false"
+          :is-bg-shadow="false"
+          empty-color="#F5F5F5"
+          background="#F5F5F5"
+        >
+          <div v-if="upload.load">
+            <span>
+              <document-text-icon />
+            </span>
+          </div>
+          <div v-else>
+            <bot-close-icon />
+          </div>
+        </app-circle-progress>
+        <span class="flex flex-column row-gap-0-5">
+          <span class="ol-file-name">{{ passportFile.name }}</span>
+          <span class="ol-file-size">
+            <span v-if="!upload.load">
+              <span>
+                {{ byteToMegabyte(upload.progressEvent.loaded) }}
+              </span>
+              <span>/</span>
+            </span>
+            <span>{{ byteToMegabyte(upload.progressEvent.total) }}</span>
+            <span class="ml-0-5">MB</span>
           </span>
-        </div>
-        <div v-else>
-          <bot-close-icon />
-        </div>
-      </app-circle-progress>
+        </span>
+      </div>
+      <div
+        @click="removeUploadFile"
+        class="ol-cancel-upload-file flex align-center justify-center"
+      >
+        <bot-close-icon :size="18" fill="#ffffff" />
+      </div>
     </div>
 
     <div v-else class="ol-upload-container mt-1-5">
@@ -171,7 +222,7 @@ async function uploadIdentificationFile(e) {
       >
         <input
           ref="uploadInput"
-          :value="clientIdentification"
+          :value="passportFile"
           @input="uploadIdentificationFile"
           type="file"
           accept="image/*"
@@ -180,9 +231,7 @@ async function uploadIdentificationFile(e) {
         <document-upload-icon />
         <p>Загрузить фото паспорта</p>
       </div>
-      <span v-if="IdentifyErrorMessage" class="error-message d-block mt-0-5">
-        {{ IdentifyErrorMessage }}
-      </span>
+
       <div
         ref="uploadIdentificationButton"
         class="ol-upload-button mt-1 flex align-center justify-center"
@@ -193,6 +242,13 @@ async function uploadIdentificationFile(e) {
         </span>
         <span>Загрузить фото паспорта</span>
       </div>
+
+      <span
+        v-if="identifyErrorMessage"
+        class="flex justify-end error-message d-block mt-0-5"
+      >
+        <span> {{ identifyErrorMessage }}</span>
+      </span>
     </div>
   </div>
 </template>
@@ -200,6 +256,7 @@ async function uploadIdentificationFile(e) {
 <style lang="scss" scoped>
 .ol-receiver-form {
   margin: 1rem;
+  color: var(--gf-text-33);
 }
 
 .error-message {
@@ -240,5 +297,26 @@ async function uploadIdentificationFile(e) {
     color: var(--gf-text-33);
     background-color: var(--gf-p-main-gray);
   }
+}
+
+.ol-file-name {
+  font-weight: 600;
+  font-size: 16px;
+  line-height: 20px;
+}
+
+.ol-file-size {
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 18px;
+  color: #a3abb8;
+}
+
+.ol-cancel-upload-file {
+  width: 24px;
+  height: 24px;
+  cursor: pointer;
+  border-radius: 50%;
+  background: #a3abb8;
 }
 </style>
