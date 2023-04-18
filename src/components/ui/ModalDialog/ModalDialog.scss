@@ -127,5 +127,10 @@
       background: #feeae4;
       color: #c61717;
     }
+
+    .btn-gray {
+      background-color: var(--gf-hover-bg);
+      color: var(--gf-text-secondary-gray);
+    }
   }
 }

@@ -78,14 +78,14 @@ const submitActive = async (item) => {
         id: item.id,
       },
     };
+    openModal();
 
-    try {
-      const { data } = await coinApi.activateProduct(body);
-      gifts.value = data.result;
-      openModal();
-    } catch (e) {
-      toast.error(e.response?.data?.message ?? e.message);
-    }
+    // try {
+    //   const { data } = await coinApi.activateProduct(body);
+    //   gifts.value = data.result;
+    // } catch (e) {
+    //   toast.error(e.response?.data?.message ?? e.message);
+    // }
   }
 };
 
@@ -176,7 +176,7 @@ fetchItems();
       <template #content>
         <div class="modal-content">
           <h3 class="modal-content__title">
-            {{ t("market_page.activated") }}!
+            {{ t("market_page.activate_bonus_title") }}!
           </h3>
           <p class="modal-content__subtitle">
             {{ t("market_page.text", { level: levelProduct.name }) }}!
@@ -185,8 +185,12 @@ fetchItems();
       </template>
       <template #footer>
         <div class="modal-footer">
-          <div @click="modalApply" class="modal-footer__button btn-yellow">
-            {{ t("ok") }}
+          <div @click="modalApply" class="modal-footer__button btn-info">
+            {{ t("market_page.activate") }}
+          </div>
+
+          <div @click="modalApply" class="modal-footer__button btn-gray">
+            {{ t("cancel") }}
           </div>
         </div>
       </template>
