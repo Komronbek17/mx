@@ -1,5 +1,5 @@
 <script setup>
-import { ref } from "vue";
+import { computed, ref } from "vue";
 import { useI18n } from "vue-i18n";
 import { useToast } from "vue-toastification";
 import { coinApi } from "@/services/coin.service";
@@ -9,8 +9,8 @@ import ProductCard from "@/views/market/ProductCard.vue";
 import AppLoader from "@/components/elements/loader/AppLoader.vue";
 import ModalDialog from "@/components/ui/ModalDialog/ModalDialog.vue";
 
-import levelImage_1 from "@/assets/images/bonus-2x-level_1.svg";
-import levelImage_2 from "@/assets/images/bonus-2x-level_2.svg";
+// import levelImage_1 from "@/assets/images/bonus-2x-level_1.svg";
+// import levelImage_2 from "@/assets/images/bonus-2x-level_2.svg";
 import levelImage_3 from "@/assets/images/bonus-2x-level_3.svg";
 import { WebAppController } from "@/utils/telegram/web.app.util";
 import { MainButtonController } from "@/utils/telegram/main.button.controller";
@@ -30,7 +30,7 @@ const gifts = ref([]);
 const balance = ref(0);
 
 const modalValue = ref(false);
-const level = ref(3);
+const levelProduct = ref({});
 
 const getProducts = async () => {
   try {
@@ -69,12 +69,13 @@ const modalApply = () => {
   modalValue.value = false;
 };
 
-const submitActive = async (id) => {
-  if (id) {
+const submitActive = async (item) => {
+  if (item) {
+    levelProduct.value = item;
     const body = {
       method: "coin.activation_product",
       params: {
-        id: id,
+        id: item.id,
       },
     };
 
@@ -88,11 +89,15 @@ const submitActive = async (id) => {
   }
 };
 
-const generatedImage = () => {
-  if (level.value === 1) return levelImage_1;
-  if (level.value === 2) return levelImage_2;
+const generatedImage = computed(() => {
+  if (
+    levelProduct.value &&
+    levelProduct.value.images &&
+    levelProduct.value.images[0]
+  )
+    return levelProduct.value.images[0].path;
   return levelImage_3;
-};
+});
 
 function updateProductBasketState({ basket }) {
   const pIdx = gifts.value.findIndex((g) => g["id"] === basket["product_id"]);
@@ -152,7 +157,7 @@ fetchItems();
           v-for="gift in gifts"
           :key="gift.id + '_level_1'"
           :item="gift"
-          @ask-activate="askActivate(gift.id)"
+          @ask-activate="askActivate(gift)"
           @update-product-basket="updateProductBasketState"
         />
       </div>
@@ -161,7 +166,11 @@ fetchItems();
     <modal-dialog :model-value="modalValue" @close-modal="closeDialogModal">
       <template #header>
         <div class="modal-header">
-          <img :src="generatedImage()" alt="" />
+          <img
+            v-if="levelProduct && levelProduct.images"
+            :src="generatedImage"
+            alt=""
+          />
         </div>
       </template>
       <template #content>
@@ -170,7 +179,7 @@ fetchItems();
             {{ t("market_page.activated") }}!
           </h3>
           <p class="modal-content__subtitle">
-            {{ t("market_page.text", { level }) }}!
+            {{ t("market_page.text", { level: levelProduct.name }) }}!
           </p>
         </div>
       </template>
