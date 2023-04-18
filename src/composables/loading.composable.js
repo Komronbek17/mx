@@ -5,13 +5,21 @@ export function loadingComposable() {
     loading: false,
   });
 
-  const startLoading = () => {
+  function startLoading() {
     state.loading = true;
-  };
+  }
 
-  const finishLoading = () => {
+  function finishLoading() {
     state.loading = false;
-  };
+  }
+
+  // const startLoading = () => {
+  //   state.loading = true;
+  // };
+  //
+  // const finishLoading = () => {
+  //   state.loading = false;
+  // };
 
   return {
     ...toRefs(state),

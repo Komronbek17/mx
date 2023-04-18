@@ -16,7 +16,7 @@ import { ACCEPT_LANGUAGE, USER_DATA } from "@/constants";
 import { useTelegramStore } from "@/stores/telegram.store";
 import { useTelegram } from "@/composables/telegram.composable";
 import UserCardHome from "@/components/home/UserCardHome.vue";
-import { coinApi } from "@/services/market.service";
+import { coinApi } from "@/services/coin.service";
 
 const { t } = useI18n();
 const toast = useToast();

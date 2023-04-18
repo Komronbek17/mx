@@ -45,13 +45,13 @@ const homeMenu = ref([
     routeName: "premium",
     style: [{ gridRow: "1/3" }, { height: "218px" }],
   },
-  // {
-  //   title: t("home_page.market"),
-  //   image: "/img/categories/market.png",
-  //   notification: null,
-  //   routeName: "market",
-  //   // style: [{gridRow: "1/3"}, {height: "218px"}],
-  // },
+  {
+    title: t("home_page.market"),
+    image: "/img/categories/market.png",
+    notification: null,
+    routeName: "market",
+    // style: [{gridRow: "1/3"}, {height: "218px"}],
+  },
   {
     title: t("home_page.bonuses"),
     image: "/img/categories/bonuses.png",
@@ -152,6 +152,7 @@ WebAppController.ready();
 <template>
   <div class="home layout-container">
     <app-loader :active="isFetching" />
+    <router-link :to="{ name: 'market-basket' }"> go to basket </router-link>
     <user-card-home
       :user-full-name="user.fullName"
       :user-unique-id="user.id"

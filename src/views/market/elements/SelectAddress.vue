@@ -1,63 +1,73 @@
 <script setup>
 import { useI18n } from "vue-i18n";
-import { useToast } from "vue-toastification";
-import { coinApi } from "@/services/market.service";
-import { onMounted, ref } from "vue";
-import { loadingComposable } from "@/composables/loading.composable";
-import AppLoader from "@/components/elements/loader/AppLoader.vue";
+import { useRouter } from "vue-router";
+import { reactive } from "vue";
+
+const props = defineProps({
+  addressList: {
+    type: Array,
+    required: true,
+  },
+});
+
+const router = useRouter();
+
+const location = reactive({
+  select: null,
+});
+
+function getHomeLocation(adds) {
+  let zipCode = "";
+  if (adds?.address) {
+    zipCode += adds.address;
+  }
+  if (adds?.apartment) {
+    zipCode += adds.apartment;
+  }
+  if (adds?.entrance) {
+    zipCode += adds.entrance;
+  }
+  if (adds?.floor) {
+    zipCode += adds.floor;
+  }
+  return zipCode;
+}
+
+function openAddNewAddressPage() {
+  router.push({
+    name: "checkout-address-create",
+  });
+}
 
 const { t } = useI18n();
-const toast = useToast();
-const addresses = ref([]);
-const {
-  loading: isFetching,
-  startLoading,
-  finishLoading,
-} = loadingComposable();
-const getAddresses = async () => {
-  try {
-    const body = {
-      page: 1,
-      limit: 10,
-    };
-
-    await coinApi.fetchAddresses(body).then((response) => {
-      console.log(response);
-      addresses.value = response.data.result;
-    });
-  } catch (e) {
-    toast.error(e?.response?.data?.message);
-  }
-};
-
-onMounted(async () => {
-  startLoading();
-  try {
-    await getAddresses();
-  } finally {
-    finishLoading();
-  }
-});
 </script>
 
 <template>
   <div class="address">
     <div class="layout-container">
-      <app-loader :active="isFetching" />
       <div class="address-title">
         <p>{{ t("market_page.choose_address") }}</p>
-        <router-link :to="{ name: 'market-form' }">{{ t("add") }}</router-link>
+        <!--        <router-link :to="{ name: 'market-form' }">{{ t("add") }}</router-link>-->
       </div>
     </div>
 
     <div class="address-items">
-      <div class="address-item">
+      <div
+        class="address-item"
+        v-for="direction in props.addressList"
+        :key="direction.id"
+      >
         <label class="d-flex align-start">
-          <input type="radio" name="radio" checked />
+          <input
+            name="radio"
+            type="radio"
+            :value="direction.id"
+            v-model="address.select"
+          />
           <div class="input-round">
             <div class="d-flex flex-column align-start">
-              <h5>asd</h5>
-              <p>asd</p>
+              <h5>{{ direction.name }}</h5>
+              <p>{{ getHomeLocation(direction) }}</p>
             </div>
           </div>
           <div class="address-controller">
@@ -67,8 +77,11 @@ onMounted(async () => {
           </div>
         </label>
       </div>
-      <h3 class="no-address_title">Нет адреса</h3>
     </div>
+    <!--      <h3 class="no-address_title">Нет адреса</h3> -->
+    <button style="color: red" @click="openAddNewAddressPage">
+      Добавить новый адрес
+    </button>
   </div>
 </template>
 

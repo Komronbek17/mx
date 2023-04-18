@@ -2,7 +2,7 @@
 import BaseInput from "@/components/ui/BaseInput/BaseInput.vue";
 import { useI18n } from "vue-i18n";
 import { useToast } from "vue-toastification";
-import { coinApi } from "@/services/market.service";
+import { coinApi } from "@/services/coin.service";
 import { onMounted, ref } from "vue";
 import { loadingComposable } from "@/composables/loading.composable";
 import AppLoader from "@/components/elements/loader/AppLoader.vue";
@@ -25,15 +25,12 @@ const {
 } = loadingComposable();
 const createAddress = async () => {
   try {
-    const body = {
-      page: 1,
-      limit: 10,
-    };
-
-    await coinApi.fetchAddresses(body).then((response) => {
-      console.log(response);
-      addresses.value = response.data.result;
-    });
+    await coinApi
+      .addressFindAll({ params: { page: 1, limit: 10 } })
+      .then((response) => {
+        console.log(response);
+        addresses.value = response.data.result;
+      });
   } catch (e) {
     toast.error(e?.response?.data?.message);
   }

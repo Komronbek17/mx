@@ -103,7 +103,6 @@ AmplitudeTracker.lunch({
     />
 
     <div class="ol-main-banner mb-1" @click="openDailyBonusPage">
-
       <div
         class="ol-main-banner-content flex flex-column align-center justify-around"
       >

@@ -3,14 +3,13 @@ import { onMounted, ref } from "vue";
 import { newsApi } from "@/services/news.service";
 import { loadingComposable } from "@/composables/loading.composable";
 import AppLoader from "@/components/elements/loader/AppLoader.vue";
-import {useToast} from "vue-toastification";
+import { useToast } from "vue-toastification";
 
 const {
   loading: isFetching,
   startLoading,
   finishLoading,
 } = loadingComposable();
-
 
 const toast = useToast();
 
