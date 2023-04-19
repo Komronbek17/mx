@@ -6,3 +6,4 @@ export const MAIN_BUTTON = "MainButton";
 export const VERIFICATION_PHONE = "verification-number";
 export const ACCEPT_LANGUAGE = "ACCEPT_LANGUAGE";
 export const USER_DATA = "USER_DATA";
+export const BASKET_TOTAL_PRICE = "BASKET_TOTAL_PRICE";

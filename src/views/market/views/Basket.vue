@@ -1,15 +1,17 @@
 <script setup>
-import AppLoader from "@/components/elements/loader/AppLoader.vue";
-import AppBasketProduct from "@/views/market/elements/BasketProduct.vue";
+import { watch } from "vue";
+import { onBeforeRouteLeave, useRouter } from "vue-router";
 import { useI18n } from "vue-i18n";
 import { useToast } from "vue-toastification";
 import { coinApi } from "@/services/coin.service";
-import { loadingComposable } from "@/composables/loading.composable";
+import { BASKET_TOTAL_PRICE } from "@/constants";
 import { useMarketStore } from "@/views/market/market.store";
-import { watch } from "vue";
-import { MainButtonController } from "@/utils/telegram/main.button.controller";
-import { onBeforeRouteLeave, useRouter } from "vue-router";
 import { WebAppController } from "@/utils/telegram/web.app.util";
+import { loadingComposable } from "@/composables/loading.composable";
+import { MainButtonController } from "@/utils/telegram/main.button.controller";
+import { sessionStorageController } from "@/utils/localstorage.util";
+import AppLoader from "@/components/elements/loader/AppLoader.vue";
+import AppBasketProduct from "@/views/market/elements/BasketProduct.vue";
 
 const { t } = useI18n();
 const router = useRouter();
@@ -55,6 +57,8 @@ watch(
     } else {
       MainButtonController.deactivate();
     }
+
+    sessionStorageController.set(BASKET_TOTAL_PRICE, total);
   },
   {
     immediate: true,

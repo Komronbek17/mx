@@ -1,7 +1,7 @@
 <script setup>
 import * as yup from "yup";
 import { reactive, ref } from "vue";
-import { useField } from "vee-validate";
+import { useField, useForm } from "vee-validate";
 import { useToast } from "vue-toastification";
 import { isArray } from "@/utils/inspect.util";
 import { uploadApi } from "@/services/upload.service";
@@ -66,6 +66,8 @@ const upload = reactive({
   },
 });
 
+const { validate, values } = useForm();
+
 const { value: fullName, errorMessage: fullNameEMessage } = useField(
   "clientFullName",
   yup.string().required().label("Получатель")
@@ -80,6 +82,7 @@ const {
   value: passportFile,
   errorMessage: identifyErrorMessage,
   setValue: setPassportFile,
+  errors,
 } = useField("passportFile", yup.object().required().label("Passport file"));
 
 function onPickFile() {
@@ -91,7 +94,10 @@ async function uploadIdentificationFile(e) {
 
     const files = e.target.files;
 
-    setPassportFile(files[0]);
+    setPassportFile({
+      name: files[0].name,
+      size: files[0].size,
+    });
 
     let config = {
       onUploadProgress: function (progressEvent) {
@@ -153,6 +159,12 @@ function removeUploadFile() {
   upload.load = false;
   setPassportFile(null);
 }
+
+defineExpose({
+  values,
+  errors,
+  validate,
+});
 </script>
 
 <template>
@@ -222,7 +234,6 @@ function removeUploadFile() {
       >
         <input
           ref="uploadInput"
-          :value="passportFile"
           @input="uploadIdentificationFile"
           type="file"
           accept="image/*"
@@ -243,11 +254,8 @@ function removeUploadFile() {
         <span>Загрузить фото паспорта</span>
       </div>
 
-      <span
-        v-if="identifyErrorMessage"
-        class="flex justify-end error-message d-block mt-0-5"
-      >
-        <span> {{ identifyErrorMessage }}</span>
+      <span v-if="identifyErrorMessage" class="error-message d-block mt-0-5">
+        {{ identifyErrorMessage }}
       </span>
     </div>
   </div>
