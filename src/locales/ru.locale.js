@@ -117,6 +117,7 @@ export default {
     product_left: "Осталось",
     unavailable: "Нет в наличии",
     change: "Изменить",
+    activate_bonus_title: "Активировать бонус?",
 
     form: {
       your_pinfl: "Введите ПИНФЛ",
