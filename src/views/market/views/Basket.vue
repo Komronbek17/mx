@@ -4,7 +4,7 @@ import { onBeforeRouteLeave, useRouter } from "vue-router";
 import { useI18n } from "vue-i18n";
 import { useToast } from "vue-toastification";
 import { coinApi } from "@/services/coin.service";
-import { BASKET_TOTAL_PRICE } from "@/constants";
+import { BASKET_PRODUCTS, BASKET_TOTAL_PRICE } from "@/constants";
 import { useMarketStore } from "@/views/market/market.store";
 import { WebAppController } from "@/utils/telegram/web.app.util";
 import { loadingComposable } from "@/composables/loading.composable";
@@ -59,6 +59,7 @@ watch(
     }
 
     sessionStorageController.set(BASKET_TOTAL_PRICE, total);
+    sessionStorageController.set(BASKET_PRODUCTS, marketStore.products);
   },
   {
     immediate: true,

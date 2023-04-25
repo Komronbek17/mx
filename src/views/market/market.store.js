@@ -15,6 +15,8 @@ export const useMarketStore = defineStore("market", () => {
     }, 0)
   );
 
+  const products = computed(() => basketThing.products);
+
   function findPIdx(idx) {
     return basketThing.products.findIndex((p) => p?.id === idx);
   }
@@ -53,6 +55,7 @@ export const useMarketStore = defineStore("market", () => {
 
   return {
     total,
+    products,
     basketThing,
     initializeBasket,
     updateBasketProduct,

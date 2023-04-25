@@ -68,14 +68,19 @@ const upload = reactive({
 
 const { validate, values } = useForm();
 
-const { value: fullName, errorMessage: fullNameEMessage } = useField(
-  "clientFullName",
-  yup.string().required().label("Получатель")
+const { value: firstName, errorMessage: firstNameEMessage } = useField(
+  "clientFirstName",
+  yup.string().required().label("Имя получателя")
+);
+
+const { value: lastName, errorMessage: lastNameEMessage } = useField(
+  "clientLastName",
+  yup.string().required().label("Фамилия получателя")
 );
 
 const { value: pinfl, errorMessage: pinflEMessage } = useField(
   "clientPinfl",
-  yup.string().required().label("Введите ПИНФЛ получателя")
+  yup.string().length(14).required().label("Введите ПИНФЛ получателя")
 );
 
 const {
@@ -164,6 +169,7 @@ defineExpose({
   values,
   errors,
   validate,
+  passport: upload.result.id,
 });
 </script>
 
@@ -172,13 +178,23 @@ defineExpose({
     <div>данные получателя</div>
 
     <div>
-      <base-input v-model="fullName" label="Получатель" />
-      <span v-if="fullNameEMessage" class="error-message d-block mt-0-5">
-        {{ fullNameEMessage }}
+      <base-input v-model="firstName" label="Имя получателя" />
+      <span v-if="firstNameEMessage" class="error-message d-block mt-0-5">
+        {{ firstNameEMessage }}
       </span>
     </div>
     <div>
-      <base-input v-model="pinfl" label="Введите ПИНФЛ получателя" />
+      <base-input v-model="lastName" label="Фамилия получателя" />
+      <span v-if="lastNameEMessage" class="error-message d-block mt-0-5">
+        {{ lastNameEMessage }}
+      </span>
+    </div>
+    <div>
+      <base-input
+        type="number"
+        v-model="pinfl"
+        label="Введите ПИНФЛ получателя"
+      />
       <span v-if="pinflEMessage" class="error-message d-block mt-0-5">
         {{ pinflEMessage }}
       </span>

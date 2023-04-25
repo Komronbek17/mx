@@ -39,6 +39,8 @@ function clientFullName(client) {
 
   return name;
 }
+
+function openAddNewAddressPage() {}
 </script>
 
 <template>
@@ -58,7 +60,7 @@ function clientFullName(client) {
       >
         <label class="d-flex align-start">
           <input
-            name="radio"
+            name="ol-radio-client"
             type="radio"
             :value="client"
             v-model="addressValue"

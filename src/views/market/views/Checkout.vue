@@ -97,7 +97,23 @@ async function fetchClientDetails({ page = 1, limit = 20 }) {
   }
 }
 
-async function saveClient() {}
+async function saveClient() {
+  try {
+    const { clientFirstName, clientLastName, clientPinfl } =
+      receiverForm.value.values;
+    const cForm = {};
+    cForm.pinfl = clientPinfl;
+    cForm.last_name = clientFirstName;
+    cForm.first_name = clientLastName;
+    cForm.passport = receiverForm.value.passport;
+    const response = await coinApi.clientCreate({
+      body: cForm,
+    });
+    return response.data.result;
+  } catch (e) {
+    toast.error(e?.response?.data?.message ?? e.message);
+  }
+}
 
 async function initialize() {
   try {
@@ -112,7 +128,8 @@ async function submitOrder() {
   const { valid: hasAddressSelect } = await validateAddress();
   const { valid: hasReceiverFill } = await receiverForm.value.validate();
   if (hasAddressSelect && hasReceiverFill) {
-    console.log("order", receiverForm.value.values);
+    const client = await saveClient();
+    console.log(client.id, address.value);
   }
 }
 
@@ -120,10 +137,14 @@ WebAppController.ready();
 MainButtonController.run();
 MainButtonController.setText("Оплатить");
 MainButtonController.onClick(submitOrder);
+
+// onBefore;
+
 onBeforeRouteLeave(() => {
   MainButtonController.makeInvisible();
   MainButtonController.offClick(submitOrder);
 });
+
 initialize();
 </script>
 

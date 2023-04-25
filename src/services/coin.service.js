@@ -86,22 +86,8 @@ class CoinService extends Core {
     return this.post("client/findOne", { id });
   }
 
-  clientCreate({
-    body: {
-      first_name = null,
-      last_name = null,
-      birthdate = null,
-      passport = null,
-      pinfl = null,
-    },
-  }) {
-    return this.post("client/create", {
-      first_name,
-      last_name,
-      birthdate,
-      passport,
-      pinfl,
-    });
+  clientCreate({ body }) {
+    return this.post("client", body);
   }
 
   clientUpdate({
