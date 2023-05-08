@@ -95,11 +95,15 @@ function openAddNewAddressPage() {
     <!--      <h3 class="no-address_title">Нет адреса</h3> -->
     <div
       class="flex justify-center"
-      style="border: 1px solid black; padding: 1rem; margin: 1rem"
+      @click="openAddNewAddressPage"
+      style="
+        border: 1px solid black;
+        padding: 1rem;
+        margin: 1rem;
+        cursor: pointer;
+      "
     >
-      <button style="color: var(--gf-text-33)" @click="openAddNewAddressPage">
-        Добавить новый адрес
-      </button>
+      <button style="color: var(--gf-text-33)">Добавить новый адрес</button>
     </div>
   </div>
 </template>
