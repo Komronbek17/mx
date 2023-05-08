@@ -8,6 +8,9 @@ import AppOrderedSuccessfully from "@/views/market/AppOrderedSuccessfully.vue";
 import AppMarketMap from "@/views/market/AppMarketMap.vue";
 import Checkout from "@/views/market/views/Checkout.vue";
 import AddressCreate from "@/views/market/views/AddressCreate.vue";
+import { sessionStorageController } from "@/utils/localstorage.util";
+import { BASKET_PRODUCTS } from "@/constants";
+import router from "@/routes";
 
 export const marketRoutes = [
   {
@@ -24,6 +27,21 @@ export const marketRoutes = [
     path: "/market/checkout",
     name: "market-checkout",
     component: Checkout,
+    beforeEnter: async (to, from) => {
+      const sessionProducts = sessionStorageController.get(BASKET_PRODUCTS);
+      const products = sessionProducts ? JSON.parse(sessionProducts) : [];
+      if (products.length) {
+        return true;
+      }
+
+      if (from.name === "market-basket") {
+        return true;
+      } else {
+        return await router.push({
+          name: "market-basket",
+        });
+      }
+    },
   },
   {
     path: "/market/checkout/address/create",
