@@ -58,8 +58,11 @@ watch(
       MainButtonController.deactivate();
     }
 
-    sessionStorageController.set(BASKET_TOTAL_PRICE, total);
-    sessionStorageController.set(BASKET_PRODUCTS, marketStore.products);
+    sessionStorageController.set(BASKET_TOTAL_PRICE, JSON.stringify(total));
+    sessionStorageController.set(
+      BASKET_PRODUCTS,
+      JSON.stringify(marketStore.products)
+    );
   },
   {
     immediate: true,
@@ -67,7 +70,9 @@ watch(
 );
 
 WebAppController.ready();
+
 getBasketItems();
+
 onBeforeRouteLeave(() => {
   MainButtonController.makeInvisible();
   MainButtonController.offClick(openCheckoutPage);

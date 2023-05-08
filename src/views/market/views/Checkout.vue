@@ -4,7 +4,7 @@ import { useField } from "vee-validate";
 import { computed, reactive, ref } from "vue";
 import { useToast } from "vue-toastification";
 import { onBeforeRouteLeave } from "vue-router";
-import { BASKET_TOTAL_PRICE } from "@/constants";
+import { BASKET_PRODUCTS, BASKET_TOTAL_PRICE } from "@/constants";
 import { coinApi } from "@/services/coin.service";
 import { hasOwnProperty } from "@/utils/object.util";
 import { formatToPrice } from "@/utils/number.util";
@@ -17,6 +17,10 @@ import AppLoader from "@/components/elements/loader/AppLoader.vue";
 import ReceiverForm from "@/views/market/elements/ReceiverForm.vue";
 import ClientDetails from "@/views/market/elements/ClientDetails.vue";
 import CheckoutSelectAddress from "@/views/market/elements/SelectAddress.vue";
+import { isArray } from "@/utils/inspect.util";
+import { useMarketStore } from "@/views/market/market.store";
+
+const marketStore = useMarketStore();
 
 const {
   loading: isFetching,
@@ -36,6 +40,12 @@ const {
   errorMessage: addressEMessage,
   validate: validateAddress,
 } = useField("selectAddress", yup.object().required().label("Address"));
+
+const {
+  value: client,
+  errorMessage: clientEMessage,
+  validate: validateClient,
+} = useField("selectAddress", yup.object().required().label("Client"));
 
 const hasClientDetails = computed(() => checkoutStuff.clientList.length > 0);
 
@@ -115,9 +125,21 @@ async function saveClient() {
   }
 }
 
+function setBasketProducts() {
+  if (marketStore.products.length) {
+    return;
+  }
+  const sessionProducts = sessionStorageController.get(BASKET_PRODUCTS);
+  const products = JSON.parse(sessionProducts);
+  if (isArray(products) && products.length) {
+    marketStore.setBasketProducts({ products });
+  }
+}
+
 async function initialize() {
   try {
     startLoading();
+    setBasketProducts();
     await Promise.allSettled([fetchUserLocations({}), fetchClientDetails({})]);
   } finally {
     finishLoading();
@@ -129,7 +151,12 @@ async function submitOrder() {
   const { valid: hasReceiverFill } = await receiverForm.value.validate();
   if (hasAddressSelect && hasReceiverFill) {
     const client = await saveClient();
-    console.log(client.id, address.value);
+    const orderForm = {
+      client_detail_id: client.id,
+      address_id: address.value.id,
+      basket_ids: marketStore.activeProducts.map((p) => p.id),
+    };
+    console.log(orderForm);
   }
 }
 
@@ -137,8 +164,6 @@ WebAppController.ready();
 MainButtonController.run();
 MainButtonController.setText("Оплатить");
 MainButtonController.onClick(submitOrder);
-
-// onBefore;
 
 onBeforeRouteLeave(() => {
   MainButtonController.makeInvisible();
@@ -166,7 +191,14 @@ initialize();
     <client-details
       v-if="hasClientDetails"
       :client-list="checkoutStuff.clientList"
-    />
+      v-model="client"
+    >
+      <template #default>
+        <span v-if="clientEMessage" class="error-message d-block mt-0-5 ml-1">
+          <span class="error-message">{{ clientEMessage }}</span>
+        </span>
+      </template>
+    </client-details>
 
     <receiver-form v-else ref="receiverForm" />
 
