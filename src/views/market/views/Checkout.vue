@@ -3,7 +3,7 @@ import * as yup from "yup";
 import { useField } from "vee-validate";
 import { computed, reactive, ref } from "vue";
 import { useToast } from "vue-toastification";
-import { onBeforeRouteLeave } from "vue-router";
+import { onBeforeRouteLeave, useRouter } from "vue-router";
 import { BASKET_PRODUCTS, BASKET_TOTAL_PRICE } from "@/constants";
 import { coinApi } from "@/services/coin.service";
 import { hasOwnProperty } from "@/utils/object.util";
@@ -29,6 +29,7 @@ const {
 } = loadingComposable();
 
 const toast = useToast();
+const router = useRouter();
 const checkoutStuff = reactive({
   addressList: [],
   clientList: [],
@@ -147,16 +148,47 @@ async function initialize() {
 }
 
 async function submitOrder() {
-  const { valid: hasAddressSelect } = await validateAddress();
-  const { valid: hasReceiverFill } = await receiverFormRef.value.validate();
-  if (hasAddressSelect && hasReceiverFill) {
-    const client = await saveClient();
-    const orderForm = {
-      client_detail_id: client.id,
-      address_id: address.value.id,
-      basket_ids: marketStore.activeProducts.map((p) => p.id),
-    };
-    console.log(orderForm);
+  try {
+    const { valid: hasAddressSelect } = await validateAddress();
+
+    let vc;
+    let clientId;
+
+    if (hasClientDetails.value) {
+      const { valid } = await validateClient();
+      vc = valid;
+      if (vc) {
+        clientId = client.value.id;
+      }
+    } else {
+      const { valid: hasReceiverFill } = await receiverFormRef.value.validate();
+      if (hasReceiverFill) {
+        const savedClient = await saveClient();
+        clientId = savedClient.id;
+      }
+    }
+
+    if (hasAddressSelect && vc) {
+      startLoading();
+      const bodyCtx = {
+        client_detail_id: clientId,
+        address_id: address.value.id,
+        basket_ids: marketStore.activeProducts.map((p) => p.id),
+      };
+
+      await coinApi.orderCreate({
+        body: bodyCtx,
+      });
+
+      await router.push({
+        name: "market-ordered-successfully",
+      });
+    }
+  } catch (e) {
+    console.error(e);
+    toast.error(e?.response?.data?.message ?? e.message);
+  } finally {
+    finishLoading();
   }
 }
 

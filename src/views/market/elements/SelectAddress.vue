@@ -35,13 +35,13 @@ function getHomeLocation(adds) {
     zipCode += adds.address;
   }
   if (adds?.apartment) {
-    zipCode += adds.apartment;
+    zipCode += ", " + adds.apartment;
   }
   if (adds?.entrance) {
-    zipCode += adds.entrance;
+    zipCode += ", " + adds.entrance;
   }
   if (adds?.floor) {
-    zipCode += adds.floor;
+    zipCode += ", " + adds.floor;
   }
   return zipCode;
 }
@@ -82,7 +82,14 @@ function openAddNewAddressPage() {
             </div>
           </div>
           <div class="address-controller">
-            <router-link :to="{ name: 'market-form' }">
+            <router-link
+              :to="{
+                name: 'checkout-address-update',
+                params: {
+                  id: direction.id,
+                },
+              }"
+            >
               <img src="@/assets/images/market-settings.svg" alt="" />
             </router-link>
           </div>

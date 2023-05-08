@@ -1,3 +1,6 @@
+import { hasOwnProperty } from "@/utils/object.util";
+import { isNUNEZ } from "@/utils/inspect.util";
+
 export class BackButtonController {
   static backButton = null;
   static route = null;
@@ -36,40 +39,47 @@ export class BackButtonController {
   }
 
   static handleOnClick() {
-    switch (this.route.name) {
-      case "game":
-      case "shop":
-      case "news":
-      case "daily":
-      case "market":
-      case "profile":
-      case "premium":
-      case "settings":
-      case "bonus-prize":
-      case "bonus-recent":
-      case "bonus-active": {
-        this.router.push({
-          name: "home",
-        });
-        break;
-      }
-      case "settings-language":
-      case "settings-sound":
-      case "settings-unsubscribe": {
-        this.router.push({
-          name: "settings",
-        });
-        break;
-      }
-      default: {
-        if (window.history.state.back) {
-          this.router.go(-1);
-        } else {
-          if (this.route.name !== "home") {
-            this.router.push({
-              name: "home",
-            });
-          }
+    const name = this.route.name;
+    const pages = {
+      game: "home",
+      shop: "home",
+      news: "home",
+      daily: "home",
+      market: "home",
+      profile: "home",
+      premium: "home",
+      settings: "home",
+
+      "bonus-prize": "home",
+      "bonus-recent": "home",
+      "bonus-active": "home",
+
+      "settings-language": "settings",
+      "settings-sound": "settings",
+      "settings-unsubscribe": "settings",
+
+      "market-basket": "market",
+      "market-checkout": "market-basket",
+
+      "checkout-address-create": "market-checkout",
+      "checkout-address-update": "market-checkout",
+      "checkout-client-create": "market-checkout",
+      "checkout-client-update": "market-checkout",
+    };
+
+    const hasInPagesList = hasOwnProperty(pages, name);
+    if (hasInPagesList && isNUNEZ(pages[name])) {
+      this.router.push({
+        name: pages[name],
+      });
+    } else {
+      if (window.history.state.back) {
+        this.router.go(-1);
+      } else {
+        if (this.route.name !== "home") {
+          this.router.push({
+            name: "home",
+          });
         }
       }
     }

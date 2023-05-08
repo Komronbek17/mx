@@ -6,7 +6,7 @@
       <img src="@/assets/images/success.svg" alt="" />
       <h4>Ваш заказ оформлен</h4>
       <p>Вы можете посмотреть статус вашего заказа в разделе “Профиль”</p>
-      <router-link to="#">
+      <router-link :to="{ name: 'home' }">
         <img src="@/assets/images/arrow-left.svg" alt="" />
         <span>Вернуться на главную</span>
       </router-link>

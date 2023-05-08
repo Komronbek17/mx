@@ -4,9 +4,10 @@ import BaseInput from "@/components/ui/BaseInput/BaseInput.vue";
 import AppBottomSheet from "@/components/elements/bottomSheet/AppBottomSheet.vue";
 import InputRadio from "@/components/elements/input/InputRadio.vue";
 import { isObject, isString } from "@/utils/inspect.util";
+import { hasOwnProperty } from "@/utils/object.util";
 const props = defineProps({
   modelValue: {
-    type: String,
+    type: [String, Number, Object],
     default: null,
   },
   options: {
@@ -29,12 +30,23 @@ const props = defineProps({
     type: String,
     default: "Choose",
   },
+  inputName: {
+    type: String,
+    required: true,
+  },
 });
 
 const emit = defineEmits(["update:modelValue"]);
 
 const value = computed({
   get() {
+    if (
+      isObject(props.modelValue) &&
+      hasOwnProperty(props.modelValue, props.label)
+    ) {
+      console.log("props", props.modelValue[props.label]);
+      return props.modelValue[props.label];
+    }
     return props.modelValue;
   },
   set(nValue) {
@@ -82,10 +94,14 @@ function closeBottomSheet() {
         {{ props.chooseText }}
       </span>
     </div>
-    <app-bottom-sheet ref="bottomOptionList">
+    <app-bottom-sheet v-if="props.options.length" ref="bottomOptionList">
       <ul class="ol-input-option-list">
         <li v-for="(option, index) in props.options" :key="index">
-          <input-radio v-model="value" :value="option[props.label]">
+          <input-radio
+            :name="`${props.inputName}`"
+            v-model="value"
+            :value="option[props.label]"
+          >
             {{ option[props.label] }}
           </input-radio>
         </li>

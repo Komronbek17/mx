@@ -4,6 +4,10 @@ import { defineStore } from "pinia";
 export const useMarketStore = defineStore("market", () => {
   const basketThing = reactive({
     products: [],
+    summary: {
+      total: 0,
+      balance: 0,
+    },
   });
 
   const total = computed(() =>
@@ -15,6 +19,8 @@ export const useMarketStore = defineStore("market", () => {
     }, 0)
   );
 
+  const balance = computed(() => basketThing.summary.balance);
+
   const products = computed(() => basketThing.products);
   const activeProducts = computed(() =>
     basketThing.products.filter((p) => p["isActive"])
@@ -24,7 +30,8 @@ export const useMarketStore = defineStore("market", () => {
     return basketThing.products.findIndex((p) => p?.id === idx);
   }
 
-  function initializeBasket({ products }) {
+  function initializeBasket({ products, summary }) {
+    basketThing.summary = summary;
     basketThing.products = products.map((p) => ({ ...p, isActive: true }));
   }
 
@@ -62,6 +69,7 @@ export const useMarketStore = defineStore("market", () => {
 
   return {
     total,
+    balance,
     products,
     basketThing,
     activeProducts,
