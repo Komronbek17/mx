@@ -8,6 +8,7 @@ import AppOrderedSuccessfully from "@/views/market/AppOrderedSuccessfully.vue";
 import AppMarketMap from "@/views/market/AppMarketMap.vue";
 import Checkout from "@/views/market/views/Checkout.vue";
 import AddressCreate from "@/views/market/views/AddressCreate.vue";
+import EmptyBasket from "@/views/market/elements/EmptyBasket.vue";
 import { sessionStorageController } from "@/utils/localstorage.util";
 import { BASKET_PRODUCTS } from "@/constants";
 import router from "@/routes";
@@ -22,6 +23,11 @@ export const marketRoutes = [
     path: "/market/basket",
     name: "market-basket",
     component: AppMarketBasket,
+  },
+  {
+    path: "/market/basket/empty",
+    name: "empty-basket",
+    component: EmptyBasket,
   },
   {
     path: "/market/checkout",
