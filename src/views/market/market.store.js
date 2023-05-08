@@ -16,6 +16,9 @@ export const useMarketStore = defineStore("market", () => {
   );
 
   const products = computed(() => basketThing.products);
+  const activeProducts = computed(() =>
+    basketThing.products.filter((p) => p["isActive"])
+  );
 
   function findPIdx(idx) {
     return basketThing.products.findIndex((p) => p?.id === idx);
@@ -23,6 +26,10 @@ export const useMarketStore = defineStore("market", () => {
 
   function initializeBasket({ products }) {
     basketThing.products = products.map((p) => ({ ...p, isActive: true }));
+  }
+
+  function setBasketProducts({ products }) {
+    basketThing.products = products;
   }
 
   function updateBasketProduct({ product }) {
@@ -57,7 +64,9 @@ export const useMarketStore = defineStore("market", () => {
     total,
     products,
     basketThing,
+    activeProducts,
     initializeBasket,
+    setBasketProducts,
     updateBasketProduct,
     updateProductQuantity,
     inactivateBasketProduct,
