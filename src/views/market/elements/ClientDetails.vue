@@ -1,10 +1,10 @@
 <script setup>
-import { useI18n } from "vue-i18n";
-import { useRouter } from "vue-router";
 import { computed } from "vue";
+import { useI18n } from "vue-i18n";
+import { hasOwnProperty } from "@/utils/object.util";
 
 const props = defineProps({
-  addressList: {
+  clientList: {
     type: Array,
     required: true,
   },
@@ -18,8 +18,6 @@ const emit = defineEmits(["update:modelValue"]);
 
 const { t } = useI18n();
 
-const router = useRouter();
-
 const addressValue = computed({
   get() {
     return props.modelValue;
@@ -29,28 +27,20 @@ const addressValue = computed({
   },
 });
 
-function getHomeLocation(adds) {
-  let zipCode = "";
-  if (adds?.address) {
-    zipCode += adds.address;
+function clientFullName(client) {
+  let name = "";
+  if (hasOwnProperty(client, "first_name")) {
+    name += client.first_name;
   }
-  if (adds?.apartment) {
-    zipCode += adds.apartment;
+
+  if (hasOwnProperty(client, "last_name")) {
+    name += " " + client.last_name;
   }
-  if (adds?.entrance) {
-    zipCode += adds.entrance;
-  }
-  if (adds?.floor) {
-    zipCode += adds.floor;
-  }
-  return zipCode;
+
+  return name;
 }
 
-function openAddNewAddressPage() {
-  router.push({
-    name: "checkout-address-create",
-  });
-}
+function openAddNewAddressPage() {}
 </script>
 
 <template>
@@ -65,20 +55,19 @@ function openAddNewAddressPage() {
     <div class="address-items">
       <div
         class="address-item"
-        v-for="direction in props.addressList"
-        :key="direction.id"
+        v-for="client in props.clientList"
+        :key="client.id"
       >
         <label class="d-flex align-start">
           <input
-            name="radio"
+            name="ol-radio-client"
             type="radio"
-            :value="direction"
+            :value="client"
             v-model="addressValue"
           />
           <div class="input-round">
             <div class="d-flex flex-column align-start">
-              <h5>{{ direction.name }}</h5>
-              <p>{{ getHomeLocation(direction) }}</p>
+              <h5>{{ clientFullName(client) }}</h5>
             </div>
           </div>
           <div class="address-controller">

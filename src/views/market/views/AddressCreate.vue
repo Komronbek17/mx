@@ -1,6 +1,6 @@
 <script setup>
 import { reactive, watch } from "vue";
-import { onBeforeRouteLeave } from "vue-router";
+import { onBeforeRouteLeave, useRouter } from "vue-router";
 import * as yup from "yup";
 import { useField, useForm } from "vee-validate";
 import { useToast } from "vue-toastification";
@@ -14,11 +14,16 @@ import { MainButtonController } from "@/utils/telegram/main.button.controller";
 import AppLoader from "@/components/elements/loader/AppLoader.vue";
 import BaseInput from "@/components/ui/BaseInput/BaseInput.vue";
 import InputSelectBySheet from "@/components/elements/input/InputSelectBySheet.vue";
+import { useTelegramStore } from "@/stores/telegram.store";
+
+const router = useRouter();
 
 const location = reactive({
   cityOptions: [],
   regionOptions: [],
 });
+
+const telegramStore = useTelegramStore();
 
 const toast = useToast();
 
@@ -103,8 +108,10 @@ async function createAddress() {
       startLoading();
       const response = await coinApi.addressCreate({
         body: {
-          region_id: region.id,
-          city_id: city.id,
+          is_default: true,
+          name: telegramStore.tUserFullName,
+          region_id: region.value.id,
+          city_id: city.value.id,
           address: address.value,
           entrance: entrance.value,
           floor: floor.value,
@@ -113,7 +120,11 @@ async function createAddress() {
         },
       });
 
-      console.log("response", response);
+      if (response) {
+        await router.push({
+          name: "market-checkout",
+        });
+      }
     } catch (e) {
       if (e?.response?.data?.message) {
         const { message } = e.response.data;

@@ -56,6 +56,7 @@ const inputValue = computed(() => {
   } else if (isObject(value.value)) {
     return value.value[props.label];
   }
+  return null;
 });
 const bottomOptionList = ref(null);
 

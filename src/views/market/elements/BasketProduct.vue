@@ -157,7 +157,9 @@ function toggleSelect() {
             {{ t("market_page.product_left") }}:
             <span :class="{ 'limit-warning': isBasketQtyFull }">
               {{ props.basketItem.product.qty }}
-              {{ props.basketItem.product.measurement.name }}
+              <span v-if="props.basketItem.product.measurement">
+                {{ props.basketItem.product.measurement.name }}
+              </span>
             </span>
           </p>
           <p v-else class="unavailable">{{ t("market_page.unavailable") }}</p>

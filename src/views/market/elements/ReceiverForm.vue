@@ -1,7 +1,7 @@
 <script setup>
 import * as yup from "yup";
 import { reactive, ref } from "vue";
-import { useField } from "vee-validate";
+import { useField, useForm } from "vee-validate";
 import { useToast } from "vue-toastification";
 import { isArray } from "@/utils/inspect.util";
 import { uploadApi } from "@/services/upload.service";
@@ -66,20 +66,28 @@ const upload = reactive({
   },
 });
 
-const { value: fullName, errorMessage: fullNameEMessage } = useField(
-  "clientFullName",
-  yup.string().required().label("Получатель")
+const { validate, values } = useForm();
+
+const { value: firstName, errorMessage: firstNameEMessage } = useField(
+  "clientFirstName",
+  yup.string().required().label("Имя получателя")
+);
+
+const { value: lastName, errorMessage: lastNameEMessage } = useField(
+  "clientLastName",
+  yup.string().required().label("Фамилия получателя")
 );
 
 const { value: pinfl, errorMessage: pinflEMessage } = useField(
   "clientPinfl",
-  yup.string().required().label("Введите ПИНФЛ получателя")
+  yup.string().length(14).required().label("Введите ПИНФЛ получателя")
 );
 
 const {
   value: passportFile,
   errorMessage: identifyErrorMessage,
   setValue: setPassportFile,
+  errors,
 } = useField("passportFile", yup.object().required().label("Passport file"));
 
 function onPickFile() {
@@ -91,7 +99,10 @@ async function uploadIdentificationFile(e) {
 
     const files = e.target.files;
 
-    setPassportFile(files[0]);
+    setPassportFile({
+      name: files[0].name,
+      size: files[0].size,
+    });
 
     let config = {
       onUploadProgress: function (progressEvent) {
@@ -153,6 +164,13 @@ function removeUploadFile() {
   upload.load = false;
   setPassportFile(null);
 }
+
+defineExpose({
+  values,
+  errors,
+  validate,
+  passport: upload.result.id,
+});
 </script>
 
 <template>
@@ -160,13 +178,23 @@ function removeUploadFile() {
     <div>данные получателя</div>
 
     <div>
-      <base-input v-model="fullName" label="Получатель" />
-      <span v-if="fullNameEMessage" class="error-message d-block mt-0-5">
-        {{ fullNameEMessage }}
+      <base-input v-model="firstName" label="Имя получателя" />
+      <span v-if="firstNameEMessage" class="error-message d-block mt-0-5">
+        {{ firstNameEMessage }}
       </span>
     </div>
     <div>
-      <base-input v-model="pinfl" label="Введите ПИНФЛ получателя" />
+      <base-input v-model="lastName" label="Фамилия получателя" />
+      <span v-if="lastNameEMessage" class="error-message d-block mt-0-5">
+        {{ lastNameEMessage }}
+      </span>
+    </div>
+    <div>
+      <base-input
+        type="number"
+        v-model="pinfl"
+        label="Введите ПИНФЛ получателя"
+      />
       <span v-if="pinflEMessage" class="error-message d-block mt-0-5">
         {{ pinflEMessage }}
       </span>
@@ -222,7 +250,6 @@ function removeUploadFile() {
       >
         <input
           ref="uploadInput"
-          :value="passportFile"
           @input="uploadIdentificationFile"
           type="file"
           accept="image/*"
@@ -243,11 +270,8 @@ function removeUploadFile() {
         <span>Загрузить фото паспорта</span>
       </div>
 
-      <span
-        v-if="identifyErrorMessage"
-        class="flex justify-end error-message d-block mt-0-5"
-      >
-        <span> {{ identifyErrorMessage }}</span>
+      <span v-if="identifyErrorMessage" class="error-message d-block mt-0-5">
+        {{ identifyErrorMessage }}
       </span>
     </div>
   </div>
