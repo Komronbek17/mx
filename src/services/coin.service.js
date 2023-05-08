@@ -38,7 +38,7 @@ class CoinService extends Core {
 
   addressFinOne({ params: { id = null } }) {
     return this.post("address/findOne", {
-      params: { id },
+      id,
     });
   }
 
@@ -95,7 +95,6 @@ class CoinService extends Core {
       id = null,
       first_name = null,
       last_name = null,
-      birthdate = null,
       passport = null,
       pinfl = null,
     },
@@ -103,7 +102,6 @@ class CoinService extends Core {
     return this.post("client/update", {
       first_name,
       last_name,
-      birthdate,
       passport,
       pinfl,
       id,

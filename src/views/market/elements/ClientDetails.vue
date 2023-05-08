@@ -2,6 +2,7 @@
 import { computed } from "vue";
 import { useI18n } from "vue-i18n";
 import { hasOwnProperty } from "@/utils/object.util";
+import { useRouter } from "vue-router";
 
 const props = defineProps({
   clientList: {
@@ -15,6 +16,7 @@ const props = defineProps({
 });
 
 const emit = defineEmits(["update:modelValue"]);
+const router = useRouter();
 
 const { t } = useI18n();
 
@@ -40,7 +42,11 @@ function clientFullName(client) {
   return name;
 }
 
-function openAddNewAddressPage() {}
+function openAddNewAddressPage() {
+  router.push({
+    name: "checkout-client-create",
+  });
+}
 </script>
 
 <template>
@@ -58,23 +64,31 @@ function openAddNewAddressPage() {}
         v-for="client in props.clientList"
         :key="client.id"
       >
-        <label class="d-flex align-start">
+        <label class="d-flex align-start" :for="'labelClient' + client.id">
           <input
             name="ol-radio-client"
             type="radio"
+            :id="'labelClient' + client.id"
             :value="client"
             v-model="addressValue"
           />
-          <div class="input-round">
-            <div class="d-flex flex-column align-start">
-              <h5>{{ clientFullName(client) }}</h5>
-            </div>
-          </div>
-          <div class="address-controller">
-            <router-link :to="{ name: 'market-form' }">
+          <span class="input-round">
+            <span class="d-flex flex-column align-start">
+              <span>{{ clientFullName(client) }}</span>
+            </span>
+          </span>
+          <span class="address-controller">
+            <router-link
+              :to="{
+                name: 'checkout-client-update',
+                params: {
+                  id: client.id,
+                },
+              }"
+            >
               <img src="@/assets/images/market-settings.svg" alt="" />
             </router-link>
-          </div>
+          </span>
         </label>
       </div>
     </div>
@@ -84,10 +98,16 @@ function openAddNewAddressPage() {}
     <!--      <h3 class="no-address_title">Нет адреса</h3> -->
     <div
       class="flex justify-center"
-      style="border: 1px solid black; padding: 1rem; margin: 1rem"
+      @click="openAddNewAddressPage"
+      style="
+        border: 1px solid black;
+        padding: 1rem;
+        margin: 1rem;
+        cursor: pointer;
+      "
     >
-      <button style="color: var(--gf-text-33)" @click="openAddNewAddressPage">
-        Добавить новый адрес
+      <button style="color: var(--gf-text-33)">
+        Добавить нового получателя
       </button>
     </div>
   </div>
@@ -152,7 +172,7 @@ label {
     position: absolute;
     left: -9999px;
 
-    &:checked + div {
+    &:checked + span {
       &:before {
         box-shadow: inset 0 0 0 0.4375em #01a8ff;
       }
@@ -179,7 +199,7 @@ label {
       box-shadow: inset 0 0 0 0.125em var(--gf-text-secondary-gray-2x);
     }
 
-    & h5 {
+    & span {
       font-size: 15px;
       font-weight: 600;
       color: var(--gf-text-33);

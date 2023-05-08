@@ -3,11 +3,15 @@ import { computed } from "vue";
 
 const props = defineProps({
   modelValue: {
-    type: String,
+    type: [String, Number],
     default: null,
   },
   value: {
     type: [Number, String, Object],
+    required: true,
+  },
+  name: {
+    type: String,
     required: true,
   },
 });
@@ -16,7 +20,7 @@ const emit = defineEmits(["update:modelValue"]);
 
 const vMValue = computed({
   get() {
-    return props.optionValue;
+    return props.modelValue;
   },
   set(nValue) {
     emit("update:modelValue", nValue);
@@ -27,16 +31,17 @@ const vMValue = computed({
 <template>
   <label class="d-flex align-start">
     <input
+      id=""
       type="radio"
       :value="value"
-      :name="`ol-radio-xs`"
+      :name="props.name"
       v-model="vMValue"
     />
-    <div class="input-round">
-      <div class="d-flex flex-column align-start">
+    <span class="input-round d-block">
+      <span class="d-flex flex-column align-start">
         <slot />
-      </div>
-    </div>
+      </span>
+    </span>
   </label>
 </template>
 
@@ -61,7 +66,7 @@ label {
     position: absolute;
     left: -9999px;
 
-    &:checked + div {
+    &:checked + span {
       &:before {
         box-shadow: inset 0 0 0 0.4375em #01a8ff;
       }

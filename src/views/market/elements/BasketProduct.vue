@@ -48,6 +48,8 @@ const {
   finishLoading: finishSaving,
 } = loadingComposable();
 
+const isActive = computed(() => props.basketItem["is_available"]);
+
 async function addToBasket({ quantity = 1 }) {
   if (isSavingToBasket.value) {
     return;
@@ -73,7 +75,7 @@ async function addToBasket({ quantity = 1 }) {
 }
 
 async function increaseBasketItem({ count = 1 }) {
-  if (isBasketUpdating.value) {
+  if (!isActive.value && isBasketUpdating.value) {
     return;
   }
 
@@ -92,28 +94,26 @@ async function increaseBasketItem({ count = 1 }) {
 }
 
 async function decreaseBasketItem({ count = -1 }) {
-  if (isBasketUpdating.value) {
-    return;
-  }
-
-  try {
-    startBasketUpdating();
-    if (currentQuantity.value + count === 0) {
-      await coinApi.basketRemoveItem({
-        body: {
-          id: basketId.value,
-        },
-      });
-      emits("update-quantity", { productId: basketId.value, quantity: 0 });
-    } else {
-      await addToBasket({
-        quantity: currentQuantity.value + count,
-      });
+  if (isActive.value && !isBasketUpdating.value) {
+    try {
+      startBasketUpdating();
+      if (currentQuantity.value + count === 0) {
+        await coinApi.basketRemoveItem({
+          body: {
+            id: basketId.value,
+          },
+        });
+        emits("update-quantity", { productId: basketId.value, quantity: 0 });
+      } else {
+        await addToBasket({
+          quantity: currentQuantity.value + count,
+        });
+      }
+    } catch (e) {
+      toast.error(e?.response?.data?.message ?? e.message);
+    } finally {
+      finishBasketUpdating();
     }
-  } catch (e) {
-    toast.error(e?.response?.data?.message ?? e.message);
-  } finally {
-    finishBasketUpdating();
   }
 }
 
@@ -131,7 +131,8 @@ function toggleSelect() {
       <div class="product-block__top" @click="toggleSelect">
         <div class="flex">
           <div class="product-block__top-image">
-            <img src="@/assets/images/level-product__image.png" alt="" />
+            <!--            <img src="@/assets/images/level-product__image.png" alt="" />-->
+            <img :src="props.basketItem.product?.images?.[0].path" alt="" />
           </div>
           <div class="product-block__top-details">
             <h4>{{ props.basketItem.product.name }}</h4>
@@ -216,7 +217,7 @@ function toggleSelect() {
     }
 
     &.inactive-border {
-      border: 1px solid #eb5757;
+      border: 1px solid var(--gf-bg-main);
     }
 
     &.limit-border {

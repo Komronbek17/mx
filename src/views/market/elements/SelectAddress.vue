@@ -35,13 +35,13 @@ function getHomeLocation(adds) {
     zipCode += adds.address;
   }
   if (adds?.apartment) {
-    zipCode += adds.apartment;
+    zipCode += ", " + adds.apartment;
   }
   if (adds?.entrance) {
-    zipCode += adds.entrance;
+    zipCode += ", " + adds.entrance;
   }
   if (adds?.floor) {
-    zipCode += adds.floor;
+    zipCode += ", " + adds.floor;
   }
   return zipCode;
 }
@@ -82,7 +82,14 @@ function openAddNewAddressPage() {
             </div>
           </div>
           <div class="address-controller">
-            <router-link :to="{ name: 'market-form' }">
+            <router-link
+              :to="{
+                name: 'checkout-address-update',
+                params: {
+                  id: direction.id,
+                },
+              }"
+            >
               <img src="@/assets/images/market-settings.svg" alt="" />
             </router-link>
           </div>
@@ -95,11 +102,15 @@ function openAddNewAddressPage() {
     <!--      <h3 class="no-address_title">Нет адреса</h3> -->
     <div
       class="flex justify-center"
-      style="border: 1px solid black; padding: 1rem; margin: 1rem"
+      @click="openAddNewAddressPage"
+      style="
+        border: 1px solid black;
+        padding: 1rem;
+        margin: 1rem;
+        cursor: pointer;
+      "
     >
-      <button style="color: var(--gf-text-33)" @click="openAddNewAddressPage">
-        Добавить новый адрес
-      </button>
+      <button style="color: var(--gf-text-33)">Добавить новый адрес</button>
     </div>
   </div>
 </template>

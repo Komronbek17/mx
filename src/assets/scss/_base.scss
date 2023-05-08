@@ -19,7 +19,6 @@
   --star-color1: #FFA329;
   --star-color2: #00CB6A;
   --star-opacity: 0.5;
-  --gradient-purple: linear-gradient(107.32deg, #4ADAFF -22.08%, #0062CA 122.03%);
 
   //  JAMSHID LIGHT
   --gf-bg-main: #FFFFFF;
@@ -55,7 +54,7 @@
   --gf-basket-product-image-bg: #F5F5F5;
   --gf-accent-yellow: #FFB914;
 
-
+  // LIGHT MODE
   --text-main: #333333;
   --text-secondary: #A3ABB8;
   --premium-bg: rgba(255, 185, 20, 0.15);
@@ -69,6 +68,7 @@
   --accent-yellow: #FFB914;
   --accent-gray: #F5F5F5;
   --accent-red: #EB5757;
+  --gradient-purple: linear-gradient(145.01deg, #7243A0 0%, #9530EB 100%);
   --gradient-orange: linear-gradient(145.66deg, #FCA305 -2.12%, #FF8130 101.98%);
   --gradient-lime: linear-gradient(315deg, #FFE072 31.01%, #FDA085 100%);
   --gradient-radial: radial-gradient(111.8% 111.8% at 100% 0%, #D52865 0%, #F7B55A 100%) /* warning: gradient uses a rotation that is not supported by CSS and may not behave as expected */;
@@ -101,7 +101,6 @@
     --star-color1: #FFA329;
     --star-color2: #00CB6A;
     --star-opacity: 1;
-    --gradient-purple: linear-gradient(107.32deg, #4ADAFF -22.08%, #0062CA 122.03%);
 
 
     //  JAMSHID DARK
@@ -138,8 +137,7 @@
     --gf-basket-product-image-bg: #2A3139;
     --gf-accent-yellow: #FFB914;
 
-
-
+    // DARK MODE
     --text-main: #FFFFFF;
     --text-secondary: #A3ABB8;
     --premium-bg: rgba(255, 185, 20, 0.15);
@@ -153,6 +151,7 @@
     --accent-yellow: #FFB914;
     --accent-gray: #2A3139;
     --accent-red: #EB5757;
+    --gradient-purple: linear-gradient(145.01deg, #7243A0 0%, #9530EB 100%);
     --gradient-orange: linear-gradient(145.66deg, #FCA305 -2.12%, #FF8130 101.98%);
     --gradient-lime: linear-gradient(315deg, #FFE072 31.01%, #FDA085 100%);
     --gradient-radial: radial-gradient(111.8% 111.8% at 100% 0%, #D52865 0%, #F7B55A 100%) /* warning: gradient uses a rotation that is not supported by CSS and may not behave as expected */;

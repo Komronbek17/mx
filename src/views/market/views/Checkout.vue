@@ -3,7 +3,7 @@ import * as yup from "yup";
 import { useField } from "vee-validate";
 import { computed, reactive, ref } from "vue";
 import { useToast } from "vue-toastification";
-import { onBeforeRouteLeave } from "vue-router";
+import { onBeforeRouteLeave, useRouter } from "vue-router";
 import { BASKET_PRODUCTS, BASKET_TOTAL_PRICE } from "@/constants";
 import { coinApi } from "@/services/coin.service";
 import { hasOwnProperty } from "@/utils/object.util";
@@ -29,12 +29,13 @@ const {
 } = loadingComposable();
 
 const toast = useToast();
+const router = useRouter();
 const checkoutStuff = reactive({
   addressList: [],
   clientList: [],
 });
 const selectAddress = ref(null);
-const receiverForm = ref(null);
+const receiverFormRef = ref(null);
 const {
   value: address,
   errorMessage: addressEMessage,
@@ -110,12 +111,12 @@ async function fetchClientDetails({ page = 1, limit = 20 }) {
 async function saveClient() {
   try {
     const { clientFirstName, clientLastName, clientPinfl } =
-      receiverForm.value.values;
+      receiverFormRef.value.values;
     const cForm = {};
     cForm.pinfl = clientPinfl;
     cForm.last_name = clientFirstName;
     cForm.first_name = clientLastName;
-    cForm.passport = receiverForm.value.passport;
+    cForm.passport = receiverFormRef.value.passport;
     const response = await coinApi.clientCreate({
       body: cForm,
     });
@@ -147,16 +148,47 @@ async function initialize() {
 }
 
 async function submitOrder() {
-  const { valid: hasAddressSelect } = await validateAddress();
-  const { valid: hasReceiverFill } = await receiverForm.value.validate();
-  if (hasAddressSelect && hasReceiverFill) {
-    const client = await saveClient();
-    const orderForm = {
-      client_detail_id: client.id,
-      address_id: address.value.id,
-      basket_ids: marketStore.activeProducts.map((p) => p.id),
-    };
-    console.log(orderForm);
+  try {
+    const { valid: hasAddressSelect } = await validateAddress();
+
+    let vc;
+    let clientId;
+
+    if (hasClientDetails.value) {
+      const { valid } = await validateClient();
+      vc = valid;
+      if (vc) {
+        clientId = client.value.id;
+      }
+    } else {
+      const { valid: hasReceiverFill } = await receiverFormRef.value.validate();
+      if (hasReceiverFill) {
+        const savedClient = await saveClient();
+        clientId = savedClient.id;
+      }
+    }
+
+    if (hasAddressSelect && vc) {
+      startLoading();
+      const bodyCtx = {
+        client_detail_id: clientId,
+        address_id: address.value.id,
+        basket_ids: marketStore.activeProducts.map((p) => p.id),
+      };
+
+      await coinApi.orderCreate({
+        body: bodyCtx,
+      });
+
+      await router.push({
+        name: "market-ordered-successfully",
+      });
+    }
+  } catch (e) {
+    console.error(e);
+    toast.error(e?.response?.data?.message ?? e.message);
+  } finally {
+    finishLoading();
   }
 }
 
@@ -200,7 +232,7 @@ initialize();
       </template>
     </client-details>
 
-    <receiver-form v-else ref="receiverForm" />
+    <receiver-form v-else ref="receiverFormRef" />
 
     <div class="ol-market-receipt pr-2 pl-2 mb-2">
       <h3>ПОДРОБНОСТИ ЗАКАЗА</h3>

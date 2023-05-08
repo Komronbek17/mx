@@ -16,7 +16,7 @@ import AppCircleProgress from "@/components/elements/progress/AppCircleProgress.
 const uploadInput = ref(null);
 const toast = useToast();
 const upload = reactive({
-  percentCompleted: 65,
+  percentCompleted: 0,
   file: null,
   progressEvent: {
     loaded: 0,
@@ -66,7 +66,7 @@ const upload = reactive({
   },
 });
 
-const { validate, values } = useForm();
+const { validate, values, setValues } = useForm();
 
 const { value: firstName, errorMessage: firstNameEMessage } = useField(
   "clientFirstName",
@@ -165,11 +165,27 @@ function removeUploadFile() {
   setPassportFile(null);
 }
 
+function fillOut({ firstName, lastName, pinfl, passportFile }) {
+  setValues({
+    clientPinfl: pinfl,
+    clientLastName: lastName,
+    clientFirstName: firstName,
+    passportFile: passportFile,
+  });
+
+  upload.show = true;
+  upload.load = true;
+  upload.percentCompleted = 100;
+  upload.progressEvent.upload = passportFile.size;
+  upload.progressEvent.total = passportFile.size;
+}
+
 defineExpose({
   values,
   errors,
   validate,
   passport: upload.result.id,
+  fillOut,
 });
 </script>
 

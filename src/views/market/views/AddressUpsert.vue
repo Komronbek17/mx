@@ -1,6 +1,6 @@
 <script setup>
-import { reactive, watch } from "vue";
-import { onBeforeRouteLeave, useRouter } from "vue-router";
+import { computed, reactive, watch } from "vue";
+import { onBeforeRouteLeave, useRoute, useRouter } from "vue-router";
 import * as yup from "yup";
 import { useField, useForm } from "vee-validate";
 import { useToast } from "vue-toastification";
@@ -16,6 +16,7 @@ import BaseInput from "@/components/ui/BaseInput/BaseInput.vue";
 import InputSelectBySheet from "@/components/elements/input/InputSelectBySheet.vue";
 import { useTelegramStore } from "@/stores/telegram.store";
 
+const route = useRoute();
 const router = useRouter();
 
 const location = reactive({
@@ -28,8 +29,10 @@ const telegramStore = useTelegramStore();
 const toast = useToast();
 
 const { loading, startLoading, finishLoading } = loadingComposable();
+const clientUnique = computed(() => route.params.id);
+const isUpdatingRole = computed(() => route.name === "checkout-address-update");
 
-const { validate } = useForm();
+const { validate, setValues } = useForm();
 
 const { value: region, errorMessage: regionErrorMessage } = useField(
   "olAdsRegion",
@@ -92,32 +95,101 @@ async function fetchCities({ regionId }) {
   }
 }
 
+async function getAddressDetails() {
+  try {
+    startLoading();
+    const {
+      data: { result: adds },
+    } = await coinApi.addressFinOne({
+      params: { id: clientUnique.value },
+    });
+
+    await Promise.allSettled([
+      fetchRegions(),
+      fetchCities({ regionId: adds.region.id }),
+    ]);
+
+    const vs = {
+      olAdsAddress: adds.address,
+      olAdsEntrance: adds.entrance,
+      olAdsFloor: adds.floor,
+      olAdsApartment: adds.apartment,
+      olAdsComment: adds.comment,
+    };
+
+    const region = location.regionOptions.find(
+      (rOpt) => rOpt["id"] === adds.region.id
+    );
+
+    if (region) {
+      vs.olAdsRegion = region;
+    }
+
+    const district = location.cityOptions.find(
+      (cOpt) => cOpt["id"] === adds["city"]["id"]
+    );
+
+    if (district) {
+      vs.olAdsDistrict = district;
+    }
+
+    setValues({ ...vs });
+  } catch (e) {
+    toast.error(e?.response?.data?.message ?? e.message);
+  } finally {
+    finishLoading();
+  }
+}
+
 async function init() {
   try {
-    // startLoading();
+    if (isUpdatingRole.value) {
+      startLoading();
+      await getAddressDetails();
+    }
     await Promise.allSettled([fetchRegions()]);
   } finally {
     finishLoading();
   }
 }
 
-async function createAddress() {
+function getBodyCtx() {
+  return {
+    is_default: true,
+    name: telegramStore.tUserFullName,
+    region_id: region.value.id,
+    city_id: city.value.id,
+    address: address.value,
+    entrance: entrance.value,
+    floor: floor.value,
+    apartment: apartment.value,
+    comment: comment.value,
+  };
+}
+
+async function saveAddressRecord() {
+  const { valid } = await validate();
+  if (valid) {
+    if (isUpdatingRole.value) {
+      await updateAddressHandler({
+        id: route.params.id,
+        ...getBodyCtx(),
+      });
+    } else {
+      await createAddressHandler({
+        ...getBodyCtx(),
+      });
+    }
+  }
+}
+
+async function createAddressHandler(bCtx) {
   const { valid } = await validate();
   if (valid) {
     try {
       startLoading();
       const response = await coinApi.addressCreate({
-        body: {
-          is_default: true,
-          name: telegramStore.tUserFullName,
-          region_id: region.value.id,
-          city_id: city.value.id,
-          address: address.value,
-          entrance: entrance.value,
-          floor: floor.value,
-          apartment: apartment.value,
-          comment: comment.value,
-        },
+        body: bCtx,
       });
 
       if (response) {
@@ -142,13 +214,38 @@ async function createAddress() {
   }
 }
 
+async function updateAddressHandler(bodyCtx) {
+  try {
+    startLoading();
+    await coinApi.addressUpdate({
+      body: bodyCtx,
+    });
+    await router.push({
+      name: "market-checkout",
+    });
+  } catch (e) {
+    if (e?.response?.data?.message) {
+      const { message } = e.response.data;
+      if (isArray(message) && message.length) {
+        toast.error(message[0]);
+      } else {
+        toast.error(message);
+      }
+    } else {
+      toast.error(e.message);
+    }
+  } finally {
+    finishLoading();
+  }
+}
+
 WebAppController.ready();
 MainButtonController.run();
 MainButtonController.setText("Create Address");
-MainButtonController.onClick(createAddress);
+MainButtonController.onClick(saveAddressRecord);
 onBeforeRouteLeave(() => {
   MainButtonController.makeInvisible();
-  MainButtonController.offClick(createAddress);
+  MainButtonController.offClick(saveAddressRecord);
 });
 
 init();
@@ -161,6 +258,7 @@ init();
     <div>
       <input-select-by-sheet
         label="name"
+        input-name="OlDistrictOptions"
         v-model="region"
         :options="location.regionOptions"
       />
@@ -171,6 +269,7 @@ init();
     <div>
       <input-select-by-sheet
         label="name"
+        input-name="OlCityOptions"
         v-model="city"
         :options="location.cityOptions"
       />
