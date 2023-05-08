@@ -131,7 +131,8 @@ function toggleSelect() {
       <div class="product-block__top" @click="toggleSelect">
         <div class="flex">
           <div class="product-block__top-image">
-            <img src="@/assets/images/level-product__image.png" alt="" />
+            <!--            <img src="@/assets/images/level-product__image.png" alt="" />-->
+            <img :src="props.basketItem.product?.images?.[0].path" alt="" />
           </div>
           <div class="product-block__top-details">
             <h4>{{ props.basketItem.product.name }}</h4>
@@ -216,7 +217,7 @@ function toggleSelect() {
     }
 
     &.inactive-border {
-      border: 1px solid #eb5757;
+      border: 1px solid var(--gf-bg-main);
     }
 
     &.limit-border {
