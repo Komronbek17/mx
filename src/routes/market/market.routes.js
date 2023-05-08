@@ -1,3 +1,5 @@
+import router from "@/routes";
+import { BASKET_PRODUCTS } from "@/constants";
 import AppMarket from "@/views/market/views/Market.vue";
 import AppMarketProduct from "@/views/market/AppMarketProduct.vue";
 import AppMarketForm from "@/views/market/AppMarketForm.vue";
@@ -8,9 +10,8 @@ import AppOrderedSuccessfully from "@/views/market/AppOrderedSuccessfully.vue";
 import AppMarketMap from "@/views/market/AppMarketMap.vue";
 import Checkout from "@/views/market/views/Checkout.vue";
 import AddressCreate from "@/views/market/views/AddressCreate.vue";
+import ClientUpsert from "@/views/market/views/ClientUpsert.vue";
 import { sessionStorageController } from "@/utils/localstorage.util";
-import { BASKET_PRODUCTS } from "@/constants";
-import router from "@/routes";
 
 export const marketRoutes = [
   {
@@ -47,6 +48,16 @@ export const marketRoutes = [
     path: "/market/checkout/address/create",
     name: "checkout-address-create",
     component: AddressCreate,
+  },
+  {
+    path: "/market/checkout/client/create",
+    name: "checkout-client-create",
+    component: ClientUpsert,
+  },
+  {
+    path: "/market/checkout/client/:id/update",
+    name: "checkout-client-update",
+    component: ClientUpsert,
   },
   {
     path: "/market/product/:id",

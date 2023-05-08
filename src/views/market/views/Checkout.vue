@@ -34,7 +34,7 @@ const checkoutStuff = reactive({
   clientList: [],
 });
 const selectAddress = ref(null);
-const receiverForm = ref(null);
+const receiverFormRef = ref(null);
 const {
   value: address,
   errorMessage: addressEMessage,
@@ -110,12 +110,12 @@ async function fetchClientDetails({ page = 1, limit = 20 }) {
 async function saveClient() {
   try {
     const { clientFirstName, clientLastName, clientPinfl } =
-      receiverForm.value.values;
+      receiverFormRef.value.values;
     const cForm = {};
     cForm.pinfl = clientPinfl;
     cForm.last_name = clientFirstName;
     cForm.first_name = clientLastName;
-    cForm.passport = receiverForm.value.passport;
+    cForm.passport = receiverFormRef.value.passport;
     const response = await coinApi.clientCreate({
       body: cForm,
     });
@@ -148,7 +148,7 @@ async function initialize() {
 
 async function submitOrder() {
   const { valid: hasAddressSelect } = await validateAddress();
-  const { valid: hasReceiverFill } = await receiverForm.value.validate();
+  const { valid: hasReceiverFill } = await receiverFormRef.value.validate();
   if (hasAddressSelect && hasReceiverFill) {
     const client = await saveClient();
     const orderForm = {
@@ -200,7 +200,7 @@ initialize();
       </template>
     </client-details>
 
-    <receiver-form v-else ref="receiverForm" />
+    <receiver-form v-else ref="receiverFormRef" />
 
     <div class="ol-market-receipt pr-2 pl-2 mb-2">
       <h3>ПОДРОБНОСТИ ЗАКАЗА</h3>
