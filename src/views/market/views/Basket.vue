@@ -125,10 +125,10 @@ onBeforeRouteLeave(() => {
         </div>
         <template v-if="isBalanceInsufficient">
           <div class="basket-summary-total" style="color: red">
-            Недостаточно средств
+            {{ t("market_page.not_enough_money") }}
           </div>
           <div class="flex justify-between basket-summary-total">
-            <h3 class="">Ваш баланс:</h3>
+            <h3 class="">{{ t("market_page.your_balance") }}:</h3>
             <p
               class="yellow-gradient-color flex align-center basket-summary-price"
             >
@@ -156,7 +156,7 @@ onBeforeRouteLeave(() => {
   background-color: var(--gf-basket-product-image-bg);
   position: relative;
   padding-bottom: 72px;
-  min-height: calc(100vh - 72px);
+  min-height: calc(100vh - 172px);
 }
 
 .basket {
@@ -168,7 +168,7 @@ onBeforeRouteLeave(() => {
 
     & p {
       @extend .text-15-600;
-      color: var(--text-main);
+      color: var(--gf-text-33);
       text-transform: uppercase;
     }
 
@@ -259,7 +259,7 @@ onBeforeRouteLeave(() => {
   border-radius: 16px 16px 0 0;
 
   .basket-summary-total {
-    padding: 1.5rem 1rem;
+    padding: 0.75rem 1rem;
     color: var(--gf-text-33);
   }
 

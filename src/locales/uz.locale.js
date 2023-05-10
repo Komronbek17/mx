@@ -152,6 +152,8 @@ export default {
     empty_cart_description:
       "Savatingizga hali biror narsa qo‘shmaganga o‘xshaysiz",
     go_to_market: "Marketga o'tish",
+    not_enough_money: "Mablag' yetarli emas",
+    your_balance: "Sizning balansingiz",
 
     form: {
       your_pinfl: "JShShIR ni kiriting",
@@ -189,10 +191,16 @@ export default {
     exit_yes: "Ha, chiqish",
     exit_no: "Qolish",
     earn_fitcoin: "FitCoin ishlash",
+    referrals: "Referallar",
+    my_orders: "Mening buyurtmalarim",
   },
   bonus_page: {
     recent: "Yaqinda",
     prizes: "Sovg'alar",
+  },
+  orders_page: {
+    active: "Faol buyurtmalar",
+    history: "Buyurtmalar tarixi",
   },
   login_page: {
     text_1: "Ro'yxatdan o'tish",

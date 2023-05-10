@@ -148,6 +148,8 @@ export default {
     empty_cart: "Корзина пуста",
     empty_cart_description: "Похоже вы еще не добавили товары в вашу корзину",
     go_to_market: "Перейти в маркет",
+    not_enough_money: "Недостаточно средств",
+    your_balance: "Ваш баланс",
 
     form: {
       your_pinfl: "Введите ПИНФЛ",
@@ -185,10 +187,16 @@ export default {
     exit_yes: "Да, выйти",
     exit_no: "Остаться",
     earn_fitcoin: "Заработать FitCoin",
+    referrals: "Рефералы",
+    my_orders: "Мои заказы",
   },
   bonus_page: {
     recent: "Недавние",
     prizes: "Призы",
+  },
+  orders_page: {
+    active: "Активные",
+    history: "История заказов",
   },
   login_page: {
     text_1: "Авторизация",

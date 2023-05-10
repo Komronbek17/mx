@@ -121,28 +121,28 @@ WebAppController.ready();
       <!--        <span>{{ t("profile_page.soon") }}</span>-->
       <!--      </div>-->
 
-      <!--    <div class="layout-container">-->
-      <!--      &lt;!&ndash;   CARDS   &ndash;&gt;-->
-      <!--      <div class="profile-cards">-->
-      <!--        <router-link :to="{ name: 'referral-view' }" class="profile-card">-->
-      <!--          <img-->
-      <!--            class="profile-card__image"-->
-      <!--            src="@/assets/images/profile-referal-icon.svg"-->
-      <!--            alt=""-->
-      <!--          />-->
-      <!--          <p class="profile-card__title">Рефералы</p>-->
-      <!--        </router-link>-->
+      <div class="layout-container">
+        <!--   CARDS   -->
+        <div class="profile-cards">
+          <router-link :to="{ name: 'referral-view' }" class="profile-card">
+            <img
+              class="profile-card__image"
+              src="@/assets/images/profile-referal-icon.svg"
+              alt=""
+            />
+            <p class="profile-card__title">{{ t("profile_page.referrals") }}</p>
+          </router-link>
 
-      <!--        <router-link to="#" class="profile-card">-->
-      <!--          <img-->
-      <!--            class="profile-card__image"-->
-      <!--            src="@/assets/images/profile-orders-icon.svg"-->
-      <!--            alt=""-->
-      <!--          />-->
-      <!--          <p class="profile-card__title">Мои заказы</p>-->
-      <!--        </router-link>-->
-      <!--      </div>-->
-      <!--    </div>-->
+          <router-link :to="{ name: 'orders-active' }" class="profile-card">
+            <img
+              class="profile-card__image"
+              src="@/assets/images/profile-orders-icon.svg"
+              alt=""
+            />
+            <p class="profile-card__title">{{ t("profile_page.my_orders") }}</p>
+          </router-link>
+        </div>
+      </div>
 
       <!--   LIST   -->
       <div class="profile-list">

@@ -37,6 +37,9 @@ import { ACCEPT_LANGUAGE, OLTIN_BALIQ_BOT_TKN } from "@/constants";
 import { telegramApi } from "@/services/telegram.service";
 import { useTelegramStore } from "@/stores/telegram.store";
 import { localStorageController } from "@/utils/localstorage.util";
+import AppOrders from "@/views/profile/order-history/AppOrders.vue";
+import AppActiveOrders from "@/views/profile/order-history/AppActiveOrders.vue";
+import AppOrderHistory from "@/views/profile/order-history/AppOrderHistory.vue";
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -162,6 +165,22 @@ const router = createRouter({
         //   name: "bonus-archive",
         //   component: AppBonusArchive,
         // },
+      ],
+    },
+    {
+      path: "/my-orders",
+      component: AppOrders,
+      children: [
+        {
+          path: "/orders-active",
+          name: "orders-active",
+          component: AppActiveOrders,
+        },
+        {
+          path: "/orders-history",
+          name: "orders-history",
+          component: AppOrderHistory,
+        },
       ],
     },
     {
