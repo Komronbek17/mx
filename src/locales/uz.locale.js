@@ -108,7 +108,8 @@ export default {
     activated: "Faollashtirildi",
     text: "Активировать {level}?",
     bonus: "Bonus",
-    bonus_description:"{name} bonusini {duration} {duration_type} uchun faollashtirasizmi?",
+    bonus_description:
+      "{name} bonusini {duration} {duration_type} uchun faollashtirasizmi?",
     bonus_price: "Narxi:",
     // text: "{level} muvaffaqiyatli faollashtirildi",
     show_order: "Показать заказ",
@@ -129,6 +130,20 @@ export default {
     in_cart: "Savatchada",
     delivery: "Yetkazib berish",
     sum: "Jami",
+    update_address_title: "Manzilni tahrirlash",
+    create_address_title: "Manzil qo'shish",
+    region: "Viloyat",
+    city: "Shahar",
+    choose: "Tanlang",
+    address: "Manzil",
+    entrance: "Kirish",
+    floor: "Qavat",
+    apartment: "Xonadon",
+    comment: "Izoh",
+    receiver_details_title: "qabul qiluvchi ma'lumotlari",
+    receiver_name: "Qabul qiluvchi ismi",
+    receiver_surname: "Qabul qiluvchi familiyasi",
+    receiver_pinfl: "Qabul qiluvchining JShShIR",
 
     form: {
       your_pinfl: "JShShIR ni kiriting",
@@ -199,7 +214,7 @@ export default {
   },
   number_copied: "Telefon raqamdan nusxa olindi",
   number_not_copied: "Raqam aniqlanmadi",
-  duration_types:{
+  duration_types: {
     years: "Yil",
     months: "Oy",
     weeks: "Hafta",

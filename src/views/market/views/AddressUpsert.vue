@@ -15,6 +15,7 @@ import AppLoader from "@/components/elements/loader/AppLoader.vue";
 import BaseInput from "@/components/ui/BaseInput/BaseInput.vue";
 import InputSelectBySheet from "@/components/elements/input/InputSelectBySheet.vue";
 import { useTelegramStore } from "@/stores/telegram.store";
+import { useI18n } from "vue-i18n";
 
 const route = useRoute();
 const router = useRouter();
@@ -25,7 +26,7 @@ const location = reactive({
 });
 
 const telegramStore = useTelegramStore();
-
+const { t } = useI18n();
 const toast = useToast();
 
 const { loading, startLoading, finishLoading } = loadingComposable();
@@ -254,9 +255,19 @@ init();
 <template>
   <div class="ol-address-create">
     <app-loader :active="loading" />
-    <h3>ДОБАВЛЕНИЕ АДРЕСА</h3>
+    <h3>
+      {{
+        t(
+          isUpdatingRole
+            ? "market_page.update_address_title"
+            : "market_page.create_address_title"
+        )
+      }}
+    </h3>
     <div>
       <input-select-by-sheet
+        :input-label="t('market_page.region')"
+        :choose-text="t('market_page.choose')"
         label="name"
         input-name="OlDistrictOptions"
         v-model="region"
@@ -268,6 +279,8 @@ init();
     </div>
     <div>
       <input-select-by-sheet
+        :input-label="t('market_page.city')"
+        :choose-text="t('market_page.choose')"
         label="name"
         input-name="OlCityOptions"
         v-model="city"
@@ -278,31 +291,31 @@ init();
       </span>
     </div>
     <div>
-      <base-input v-model="address" label="Address" />
+      <base-input v-model="address" :label="t('market_page.address')" />
       <span v-if="addressErrorMessage" class="error-message d-block mt-0-5">
         {{ addressErrorMessage }}
       </span>
     </div>
     <div>
-      <base-input v-model="entrance" label="Entrance" />
+      <base-input v-model="entrance" :label="t('market_page.entrance')" />
       <span v-if="entranceErrorMessage" class="error-message d-block mt-0-5">
         {{ entranceErrorMessage }}
       </span>
     </div>
     <div>
-      <base-input v-model="floor" label="Floor" />
+      <base-input v-model="floor" :label="t('market_page.floor')" />
       <span v-if="floorErrorMessage" class="error-message d-block mt-0-5">
         {{ floorErrorMessage }}
       </span>
     </div>
     <div>
-      <base-input v-model="apartment" label="Apartment" />
+      <base-input v-model="apartment" :label="t('market_page.apartment')" />
       <span v-if="apartmentErrorMessage" class="error-message d-block mt-0-5">
         {{ apartmentErrorMessage }}
       </span>
     </div>
     <div>
-      <base-input v-model="comment" label="Comment" />
+      <base-input v-model="comment" :label="t('market_page.comment')" />
       <span v-if="commentErrorMessage" class="error-message d-block mt-0-5">
         {{ commentErrorMessage }}
       </span>
