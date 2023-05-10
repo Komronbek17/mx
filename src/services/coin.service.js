@@ -166,6 +166,10 @@ class CoinService extends Core {
   orderRemoveOne({ body: { id = null } }) {
     return this.post("order/remove", { id });
   }
+
+  transactionFindAll({ body: { page = 1, limit = 10 } }) {
+    return this.post("transaction/findAll", { page, limit });
+  }
 }
 
 export const coinApi = new CoinService();

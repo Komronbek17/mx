@@ -30,6 +30,7 @@ import AppBonusPrize from "@/views/bonus/AppBonusPrize.vue";
 import AppLevel from "@/views/level/AppLevel.vue";
 import AppLevelProduct from "@/views/level/level-product/AppLevelProduct.vue";
 import AppVote from "@/views/vote/AppVote.vue";
+import AppMonitoring from "@/views/monitoring/views/AppMonitoring.vue";
 
 import { marketRoutes } from "@/routes/market/market.routes";
 
@@ -199,6 +200,11 @@ const router = createRouter({
       name: "votes",
       component: AppVote,
     },
+    {
+      path: "/monitoring",
+      name: "monitoring",
+      component: AppMonitoring,
+    },
   ],
 });
 
@@ -224,11 +230,9 @@ router.beforeEach(async (to, from, next) => {
       return await telegramApi
         .authJwt(body)
         .then(({ data }) => {
-          // console.log("data", data);
           if (data && data.user && data.user.jwt) {
             localStorageController.set(OLTIN_BALIQ_BOT_TKN, data.user.jwt);
             localStorageController.set(ACCEPT_LANGUAGE, data.user.language);
-            // setupI18n({locale: data.user.language || 'uz'})
             return next("/");
           }
         })

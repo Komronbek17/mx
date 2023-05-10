@@ -39,7 +39,7 @@ const getNews = async () => {
 
 function loadMore() {
   loading.value = true;
-  setTimeout((e) => {
+  setTimeout(() => {
     for (let i = 0; i < 1; i++) {
       pagination.value.current++;
       getNews();
