@@ -173,8 +173,13 @@ async function submitOrder() {
       const bodyCtx = {
         client_detail_id: clientId,
         address_id: address.value.id,
-        basket_ids: marketStore.activeProducts.map((p) => p.id),
+        basket_ids: marketStore.activeProducts
+          .filter((p) => p["is_available"])
+          .map((p) => p.id),
       };
+
+      console.table(marketStore.activeProducts);
+      console.table(bodyCtx);
 
       await coinApi.orderCreate({
         body: bodyCtx,
@@ -245,9 +250,9 @@ initialize();
             alt="coin icon"
             src="@/assets/images/coin.png"
           />
-          <span class="in-cart_value">{{
-            formatToPrice(productsTotalCost)
-          }}</span>
+          <span class="in-cart_value">
+            {{ formatToPrice(productsTotalCost) }}
+          </span>
         </span>
       </div>
 

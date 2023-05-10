@@ -12,6 +12,7 @@ import { MainButtonController } from "@/utils/telegram/main.button.controller";
 import { sessionStorageController } from "@/utils/localstorage.util";
 import AppLoader from "@/components/elements/loader/AppLoader.vue";
 import AppBasketProduct from "@/views/market/elements/BasketProduct.vue";
+import EmptyBasket from "@/views/market/elements/EmptyBasket.vue";
 
 const { t } = useI18n();
 const router = useRouter();
@@ -24,8 +25,9 @@ const {
 
 const toast = useToast();
 
-const isBalanceInsufficient = computed(() => true);
-// marketStore.total > marketStore.balance
+const isBalanceInsufficient = computed(
+  () => marketStore.total > marketStore.balance
+);
 
 async function getBasketItems() {
   try {
@@ -88,41 +90,25 @@ onBeforeRouteLeave(() => {
 <template>
   <div class="basket">
     <app-loader :active="isFetching" />
-    <div class="layout-container">
-      <div class="basket-title">
-        <p>{{ t("market_page.your_order") }}</p>
-      </div>
 
-      <app-basket-product
-        :key="basketItem.id"
-        :basket-item="basketItem"
-        v-for="basketItem in marketStore.basketThing.products"
-        @update-quantity="marketStore.updateProductQuantity"
-        @inactivate-product="marketStore.inactivateBasketProduct"
-      />
-    </div>
-
-    <div class="basket-summary">
-      <div class="flex justify-between basket-summary-total">
-        <h3>{{ $t("market_page.total_payment") }}:</h3>
-        <p class="yellow-gradient-color flex align-center basket-summary-price">
-          <img
-            :width="24"
-            :height="24"
-            src="@/assets/images/coin.png"
-            alt="coin png"
-          />
-          <span class="ml-0-5">
-            {{ marketStore.total }}
-          </span>
-        </p>
-      </div>
-      <template v-if="isBalanceInsufficient">
-        <div class="basket-summary-total" style="color: red">
-          Недостаточно средств
+    <template v-if="marketStore.basketThing.products.length">
+      <div class="layout-container">
+        <div class="basket-title">
+          <p>{{ t("market_page.your_order") }}</p>
         </div>
+
+        <app-basket-product
+          :key="basketItem.id"
+          :basket-item="basketItem"
+          v-for="basketItem in marketStore.basketThing.products"
+          @update-quantity="marketStore.updateProductQuantity"
+          @inactivate-product="marketStore.inactivateBasketProduct"
+        />
+      </div>
+
+      <div class="basket-summary">
         <div class="flex justify-between basket-summary-total">
-          <h3 class="">Ваш баланс:</h3>
+          <h3>{{ $t("market_page.total_payment") }}:</h3>
           <p
             class="yellow-gradient-color flex align-center basket-summary-price"
           >
@@ -133,12 +119,35 @@ onBeforeRouteLeave(() => {
               alt="coin png"
             />
             <span class="ml-0-5">
-              {{ marketStore.balance }}
+              {{ marketStore.total }}
             </span>
           </p>
         </div>
-      </template>
-    </div>
+        <template v-if="isBalanceInsufficient">
+          <div class="basket-summary-total" style="color: red">
+            Недостаточно средств
+          </div>
+          <div class="flex justify-between basket-summary-total">
+            <h3 class="">Ваш баланс:</h3>
+            <p
+              class="yellow-gradient-color flex align-center basket-summary-price"
+            >
+              <img
+                :width="24"
+                :height="24"
+                src="@/assets/images/coin.png"
+                alt="coin png"
+              />
+              <span class="ml-0-5">
+                {{ marketStore.balance }}
+              </span>
+            </p>
+          </div>
+        </template>
+      </div>
+    </template>
+
+    <empty-basket v-else />
   </div>
 </template>
 
