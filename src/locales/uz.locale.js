@@ -13,6 +13,7 @@ export default {
   price: "Narxi %{msg} so'm",
   add: "Qo'shish",
   continue: "Davom ettirish",
+  back_to_main: "Asosiy sahifaga qaytish",
   packages: {
     internet: "Internet paket",
     voice: "Daqiqalar",
@@ -136,7 +137,7 @@ export default {
     city: "Shahar",
     choose: "Tanlang",
     address: "Manzil",
-    entrance: "Kirish",
+    entrance: "Kirish (Podyezd)",
     floor: "Qavat",
     apartment: "Xonadon",
     comment: "Izoh",
@@ -144,6 +145,10 @@ export default {
     receiver_name: "Qabul qiluvchi ismi",
     receiver_surname: "Qabul qiluvchi familiyasi",
     receiver_pinfl: "Qabul qiluvchining JShShIR",
+    ordered_successfully: "Buyurtmangiz rasmiylashtirildi",
+    order_status:
+      "Buyurtmangiz holatini ”Profil” bo'limida ko'rishingiz mumkin",
+    empty_cart: "Savatcha bo'sh",
 
     form: {
       your_pinfl: "JShShIR ni kiriting",
@@ -180,6 +185,7 @@ export default {
     exit_text: "Haqiqatan ham akkauntingizdan chiqmoqchimisiz?",
     exit_yes: "Ha, chiqish",
     exit_no: "Qolish",
+    earn_fitcoin: "FitCoin ishlash",
   },
   bonus_page: {
     recent: "Yaqinda",

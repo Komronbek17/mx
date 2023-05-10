@@ -13,6 +13,7 @@ export default {
   price: "Стоимость %{msg} сум",
   add: "Добавить",
   continue: "Продолжить",
+  back_to_main: "Вернуться на главную",
   packages: {
     internet: "Интернет пакет",
     voice: "Голосовой пакет",
@@ -141,7 +142,10 @@ export default {
     receiver_name: "Имя получателя",
     receiver_surname: "Фамилия получателя",
     receiver_pinfl: "Введите ПИНФЛ получателя",
-    upload_passport: "",
+    ordered_successfully: "Ваш заказ оформлен",
+    order_status:
+      "Вы можете посмотреть статус вашего заказа в разделе “Профиль”",
+    empty_cart: "Корзина пуста",
 
     form: {
       your_pinfl: "Введите ПИНФЛ",
@@ -178,6 +182,7 @@ export default {
     exit_text: "Вы уверены что хотите выйти из аккаунта?",
     exit_yes: "Да, выйти",
     exit_no: "Остаться",
+    earn_fitcoin: "Заработать FitCoin",
   },
   bonus_page: {
     recent: "Недавние",

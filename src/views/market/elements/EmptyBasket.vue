@@ -1,14 +1,14 @@
-<script>
-export default {
-  name: "EmptyBasket",
-};
+<script setup>
+import { useI18n } from "vue-i18n";
+
+const { t } = useI18n();
 </script>
 
 <template>
   <div class="empty">
     <div class="layout-container empty-block">
       <img src="@/assets/images/empty-cart.svg" alt="" />
-      <h3>Корзина пуста</h3>
+      <h3>{{ t("market_page.empty_cart") }}</h3>
       <p>Похоже вы еще не добавили товары в вашу корзину</p>
       <button>
         <span>Перейти в маркет</span>
