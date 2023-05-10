@@ -99,22 +99,27 @@ WebAppController.ready();
           <!--          <span>Сменить аккаунт</span>-->
           <!--        </div>-->
         </div>
+
+        <router-link to="#" class="profile-button">
+          <img src="@/assets/images/fitcoin.svg" alt="" />
+          <p>{{ t("profile_page.earn_fitcoin") }}</p>
+        </router-link>
       </div>
 
       <!--  SOON IMAGE  -->
-      <div class="profile-soon">
-        <img
-          v-if="theme === 'light'"
-          src="@/assets/images/profile-progress-bar.png"
-          alt=""
-        />
-        <img
-          v-else
-          src="@/assets/images/profile-progress-bar-dark.png"
-          alt=""
-        />
-        <span>{{ t("profile_page.soon") }}</span>
-      </div>
+      <!--      <div class="profile-soon">-->
+      <!--        <img-->
+      <!--          v-if="theme === 'light'"-->
+      <!--          src="@/assets/images/profile-progress-bar.png"-->
+      <!--          alt=""-->
+      <!--        />-->
+      <!--        <img-->
+      <!--          v-else-->
+      <!--          src="@/assets/images/profile-progress-bar-dark.png"-->
+      <!--          alt=""-->
+      <!--        />-->
+      <!--        <span>{{ t("profile_page.soon") }}</span>-->
+      <!--      </div>-->
 
       <!--    <div class="layout-container">-->
       <!--      &lt;!&ndash;   CARDS   &ndash;&gt;-->
@@ -542,6 +547,34 @@ WebAppController.ready();
 
 .call-center__number {
   color: var(--gf-text-33);
+}
+
+.profile-button {
+  display: flex;
+  align-items: center;
+  text-align: center;
+  justify-content: center;
+  padding: 12px;
+  column-gap: 10px;
+  background: var(--gf-blue-gradient-01) !important;
+  border-radius: 8px;
+  max-height: 48px;
+  cursor: pointer;
+
+  p {
+    @extend .text-16-600;
+    text-align: center;
+    letter-spacing: -0.4px;
+    color: var(--neutral-white) !important;
+  }
+
+  &.disabled {
+    background: var(--accent-gray) !important;
+
+    p {
+      color: var(--text-secondary) !important;
+    }
+  }
 }
 
 //::v-deep .modal {

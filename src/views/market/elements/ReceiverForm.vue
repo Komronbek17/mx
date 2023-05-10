@@ -12,9 +12,11 @@ import BaseInput from "@/components/ui/BaseInput/BaseInput.vue";
 import DocumentUploadIcon from "@/components/icons/DocumentUploadIcon.vue";
 import DocumentTextIcon from "@/components/icons/document/DocumentTextIcon.vue";
 import AppCircleProgress from "@/components/elements/progress/AppCircleProgress.vue";
+import { useI18n } from "vue-i18n";
 
 const uploadInput = ref(null);
 const toast = useToast();
+const { t } = useI18n();
 const upload = reactive({
   percentCompleted: 0,
   file: null,
@@ -191,16 +193,21 @@ defineExpose({
 
 <template>
   <div class="ol-receiver-form">
-    <div>данные получателя</div>
+    <div class="receiver_details">
+      {{ t("market_page.receiver_details_title") }}
+    </div>
 
     <div>
-      <base-input v-model="firstName" label="Имя получателя" />
+      <base-input v-model="firstName" :label="t('market_page.receiver_name')" />
       <span v-if="firstNameEMessage" class="error-message d-block mt-0-5">
         {{ firstNameEMessage }}
       </span>
     </div>
     <div>
-      <base-input v-model="lastName" label="Фамилия получателя" />
+      <base-input
+        v-model="lastName"
+        :label="t('market_page.receiver_surname')"
+      />
       <span v-if="lastNameEMessage" class="error-message d-block mt-0-5">
         {{ lastNameEMessage }}
       </span>
@@ -209,7 +216,7 @@ defineExpose({
       <base-input
         type="number"
         v-model="pinfl"
-        label="Введите ПИНФЛ получателя"
+        :label="t('market_page.receiver_pinfl')"
       />
       <span v-if="pinflEMessage" class="error-message d-block mt-0-5">
         {{ pinflEMessage }}
@@ -272,7 +279,7 @@ defineExpose({
           class="ol-upload-input"
         />
         <document-upload-icon />
-        <p>Загрузить фото паспорта</p>
+        <p>{{ t("market_page.form.upload_passport") }}</p>
       </div>
 
       <div
@@ -283,7 +290,7 @@ defineExpose({
         <span class="mr-0-5">
           <attach-icon />
         </span>
-        <span>Загрузить фото паспорта</span>
+        <span>{{ t("market_page.form.upload_passport") }}</span>
       </div>
 
       <span v-if="identifyErrorMessage" class="error-message d-block mt-0-5">
@@ -358,5 +365,11 @@ defineExpose({
   cursor: pointer;
   border-radius: 50%;
   background: #a3abb8;
+}
+
+.receiver_details {
+  @extend .text-15-600;
+  color: var(--gf-text-33);
+  text-transform: uppercase;
 }
 </style>

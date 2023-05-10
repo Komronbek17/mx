@@ -1,17 +1,25 @@
-<script>
-export default {
-  name: "EmptyBasket",
-};
+<script setup>
+import { useI18n } from "vue-i18n";
+import { useRouter } from "vue-router";
+
+const router = useRouter();
+const { t } = useI18n();
+
+function openMarketPage() {
+  router.push({
+    name: "market",
+  });
+}
 </script>
 
 <template>
   <div class="empty">
     <div class="layout-container empty-block">
       <img src="@/assets/images/empty-cart.svg" alt="" />
-      <h3>Корзина пуста</h3>
-      <p>Похоже вы еще не добавили товары в вашу корзину</p>
-      <button>
-        <span>Перейти в маркет</span>
+      <h3>{{ t("market_page.empty_cart") }}</h3>
+      <p>{{ t("market_page.empty_cart_description") }}</p>
+      <button @click="openMarketPage">
+        <span>{{ t("market_page.go_to_market") }}</span>
         <img src="@/assets/images/arrow-right.svg" alt="" />
       </button>
     </div>
@@ -41,6 +49,7 @@ export default {
       line-height: 28px;
       color: var(--gf-text-33);
       margin-bottom: 8px;
+      margin-top: 24px;
     }
 
     & p {

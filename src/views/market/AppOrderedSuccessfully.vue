@@ -1,14 +1,18 @@
-<script setup></script>
+<script setup>
+import { useI18n } from "vue-i18n";
+
+const { t } = useI18n();
+</script>
 
 <template>
   <div class="order-success">
     <div class="layout-container flex flex-column align-center justify-center">
       <img src="@/assets/images/success.svg" alt="" />
-      <h4>Ваш заказ оформлен</h4>
-      <p>Вы можете посмотреть статус вашего заказа в разделе “Профиль”</p>
+      <h4>{{ t("market_page.ordered_successfully") }}</h4>
+      <p>{{ t("market_page.order_status") }}</p>
       <router-link :to="{ name: 'home' }">
         <img src="@/assets/images/arrow-left.svg" alt="" />
-        <span>Вернуться на главную</span>
+        <span>{{ t("back_to_main") }}</span>
       </router-link>
     </div>
   </div>
@@ -24,6 +28,7 @@
     @extend .heading-2;
     color: var(--text-main);
     margin-bottom: 6px;
+    text-align: center;
   }
 
   & p {

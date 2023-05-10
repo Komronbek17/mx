@@ -76,9 +76,11 @@ function openAddNewAddressPage() {
             v-model="addressValue"
           />
           <div class="input-round">
-            <div class="d-flex flex-column align-start">
-              <h5>{{ direction.name }}</h5>
-              <p>{{ getHomeLocation(direction) }}</p>
+            <div>
+              <h5>{{ direction.city.name }}, {{ direction.region.name }}</h5>
+              <div class="divider">
+                <p>{{ getHomeLocation(direction) }}</p>
+              </div>
             </div>
           </div>
           <div class="address-controller">
@@ -100,17 +102,13 @@ function openAddNewAddressPage() {
     <slot></slot>
 
     <!--      <h3 class="no-address_title">Нет адреса</h3> -->
-    <div
-      class="flex justify-center"
-      @click="openAddNewAddressPage"
-      style="
-        border: 1px solid black;
-        padding: 1rem;
-        margin: 1rem;
-        cursor: pointer;
-      "
-    >
-      <button style="color: var(--gf-text-33)">Добавить новый адрес</button>
+    <div class="layout-container">
+      <div class="flex justify-center">
+        <button class="add-address" @click="openAddNewAddressPage">
+          <img src="@/assets/images/add-blue.svg" alt="" />
+          <span>{{ $t("market_page.add_new_address") }}</span>
+        </button>
+      </div>
     </div>
   </div>
 </template>
@@ -141,12 +139,23 @@ function openAddNewAddressPage() {
     }
   }
 
-  &-item label {
-    padding: 0 16px 0 10px;
+  &-item {
+    position: relative;
+    padding: 0 1rem;
 
-    //&:hover {
-    //  background-color: var(--gf-basket-product-image-bg);
-    //}
+    &::after {
+      content: "";
+      position: absolute;
+      width: 81%;
+      height: 1px;
+      top: 100%;
+      right: 1rem;
+      background-color: var(--gf-hover-bg);
+    }
+
+    &:last-child::after {
+      display: none;
+    }
   }
 
   &-controller {
@@ -184,9 +193,10 @@ label {
   .input-round {
     display: flex;
     align-items: center;
-    padding: 0.75rem 0.75em 0.75rem 0.375em;
+    padding: 0.75rem 0.75em 0.75rem 0;
     border-radius: 99em; // or something higher...
     transition: 0.25s ease;
+    width: 100%;
 
     &:before {
       display: flex;
@@ -225,6 +235,32 @@ label {
 
 .error-message {
   color: #eb5757;
+}
+
+.add-address {
+  @extend .text-16-500;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid #00aee8;
+  color: #00aee8;
+  width: 100%;
+  height: 44px;
+  border-radius: 8px;
+
+  & img {
+    width: 24px;
+    height: 24px;
+    object-fit: contain;
+    margin-right: 10px;
+  }
+}
+
+.divider {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }
 
 // Codepen spesific styling - only to center the elements in the pen preview and viewport
