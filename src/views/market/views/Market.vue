@@ -1,9 +1,9 @@
 <script setup>
-import {computed, ref} from "vue";
-import {useI18n} from "vue-i18n";
-import {useToast} from "vue-toastification";
-import {coinApi} from "@/services/coin.service";
-import {loadingComposable} from "@/composables/loading.composable";
+import { computed, ref } from "vue";
+import { useI18n } from "vue-i18n";
+import { useToast } from "vue-toastification";
+import { coinApi } from "@/services/coin.service";
+import { loadingComposable } from "@/composables/loading.composable";
 
 import ProductCard from "@/views/market/ProductCard.vue";
 import AppLoader from "@/components/elements/loader/AppLoader.vue";
@@ -12,14 +12,13 @@ import ModalDialog from "@/components/ui/ModalDialog/ModalDialog.vue";
 // import levelImage_1 from "@/assets/images/bonus-2x-level_1.svg";
 // import levelImage_2 from "@/assets/images/bonus-2x-level_2.svg";
 import levelImage_3 from "@/assets/images/bonus-2x-level_3.svg";
-import {WebAppController} from "@/utils/telegram/web.app.util";
-import {MainButtonController} from "@/utils/telegram/main.button.controller";
-import {onBeforeRouteLeave, useRouter} from "vue-router";
-import LogoutIcon from "@/components/icons/LogoutIcon.vue";
+import { WebAppController } from "@/utils/telegram/web.app.util";
+import { MainButtonController } from "@/utils/telegram/main.button.controller";
+import { onBeforeRouteLeave, useRouter } from "vue-router";
 import ToastErrorIcon from "@/components/icons/ToastErrorIcon.vue";
 
 const router = useRouter();
-const {t} = useI18n();
+const { t } = useI18n();
 
 const {
   loading: isFetching,
@@ -40,7 +39,7 @@ const getProducts = async () => {
       page: 1,
       limit: 100,
     };
-    const response = await coinApi.getAllProducts({params});
+    const response = await coinApi.getAllProducts({ params });
     gifts.value = response.data.result;
   } catch (e) {
     toast.error(e?.response?.data?.message);
@@ -73,12 +72,11 @@ const modalApply = () => {
 };
 
 const modalCancel = () => {
-  closeDialogModal()
+  closeDialogModal();
   setTimeout(() => {
-    levelProduct.value = {}
-  }, 500)
+    levelProduct.value = {};
+  }, 500);
 };
-
 
 const submitActive = async (item) => {
   const body = {
@@ -89,32 +87,34 @@ const submitActive = async (item) => {
   };
   try {
     await coinApi.activateProduct(body);
-    await getProducts()
-    await fetchBalance()
-    modalCancel()
-    toast.success(t('market_page.bonus_activated'), {
-      position: 'bottom-center',
+    await getProducts();
+    await fetchBalance();
+    modalCancel();
+    toast.success(t("market_page.bonus_activated"), {
+      position: "bottom-center",
       hideProgressBar: true,
       closeButton: false,
-    })
+    });
   } catch (e) {
-    toast.error(e.response?.data?.message ?? e.message, {icon: ToastErrorIcon});
+    toast.error(e.response?.data?.message ?? e.message, {
+      icon: ToastErrorIcon,
+    });
   } finally {
-    modalCancel()
+    modalCancel();
   }
 };
 
 const generatedImage = computed(() => {
   if (
-      levelProduct.value &&
-      levelProduct.value.images &&
-      levelProduct.value.images[0]
+    levelProduct.value &&
+    levelProduct.value.images &&
+    levelProduct.value.images[0]
   )
     return levelProduct.value.images[0].path;
   return levelImage_3;
 });
 
-function updateProductBasketState({basket}) {
+function updateProductBasketState({ basket }) {
   const pIdx = gifts.value.findIndex((g) => g["id"] === basket["product_id"]);
   if (pIdx !== -1) {
     gifts.value[pIdx].basket = basket;
@@ -154,12 +154,12 @@ fetchItems();
 
 <template>
   <div class="layout-container">
-    <app-loader :active="isFetching"/>
+    <app-loader :active="isFetching" />
     <div class="bonus-block">
       <div class="bonus-card">
         <div class="bonus-card__title">{{ $t("market_page.balance") }}:</div>
         <div class="bonus-card__price">
-          <img src="@/assets/icons/coin.svg" alt=""/>
+          <img src="@/assets/icons/coin.svg" alt="" />
           <p>{{ balance }}</p>
         </div>
       </div>
@@ -169,22 +169,26 @@ fetchItems();
       <div class="gift-title">{{ t("market_page.prize") }}</div>
       <div class="gift-list">
         <product-card
-            v-for="gift in gifts"
-            :key="gift.id + '_level_1'"
-            :item="gift"
-            @ask-activate="askActivate(gift)"
-            @update-product-basket="updateProductBasketState"
+          v-for="gift in gifts"
+          :key="gift.id + '_level_1'"
+          :item="gift"
+          @ask-activate="askActivate(gift)"
+          @update-product-basket="updateProductBasketState"
         />
       </div>
     </div>
 
-    <modal-dialog design-class="bonus-modal" :model-value="modalValue" @close-modal="closeDialogModal">
+    <modal-dialog
+      design-class="bonus-modal"
+      :model-value="modalValue"
+      @close-modal="closeDialogModal"
+    >
       <template #header>
         <div class="modal-header">
           <img
-              v-if="levelProduct && levelProduct.images"
-              :src="generatedImage"
-              alt=""
+            v-if="levelProduct && levelProduct.images"
+            :src="generatedImage"
+            alt=""
           />
         </div>
       </template>
@@ -200,15 +204,15 @@ fetchItems();
                 t("market_page.bonus_description", {
                   name: levelProduct.name,
                   duration: levelProduct.duration,
-                  duration_type: t(`duration_types.${levelProduct.duration_type}`)
+                  duration_type: t(
+                    `duration_types.${levelProduct.duration_type}`
+                  ),
                 })
               }}
             </p>
             <p class="price">
-              {{
-                t("market_page.bonus_price")
-              }}
-              <img src="@/assets/icons/coin.svg" alt="coin"/>
+              {{ t("market_page.bonus_price") }}
+              <img src="@/assets/icons/coin.svg" alt="coin" />
               {{ levelProduct.price }}
             </p>
           </div>

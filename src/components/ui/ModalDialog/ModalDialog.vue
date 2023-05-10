@@ -13,7 +13,7 @@ defineProps({
   },
   designClass: {
     type: String,
-    default: '',
+    default: "",
   },
 });
 

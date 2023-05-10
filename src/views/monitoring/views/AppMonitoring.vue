@@ -4,6 +4,7 @@ import { coinApi } from "@/services/coin.service";
 import { loadingComposable } from "@/composables/loading.composable";
 import AppLoader from "@/components/elements/loader/AppLoader.vue";
 import { toastErrorMessage } from "@/utils/error.util";
+import { sortResultByDate } from "@/utils/sort.util";
 
 const mn = reactive({
   items: [],
@@ -24,8 +25,6 @@ const {
   finishLoading,
 } = loadingComposable();
 
-console.table(mn);
-
 function infiniteScroll() {
   const listElm = document.getElementById("infinite-list");
   listElm.addEventListener("scroll", () => {
@@ -35,7 +34,6 @@ function infiniteScroll() {
       }
     }
   });
-  loadMore();
 }
 
 function loadMore() {
@@ -60,7 +58,10 @@ async function getMonitoringDetails(
       },
     });
 
-    console.log(response.data);
+    mn.items = sortResultByDate({
+      arr: response.data.result,
+    });
+    mn.pagination = response.data.pagination;
   } catch (e) {
     toastErrorMessage(e);
   } finally {
