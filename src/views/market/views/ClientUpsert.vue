@@ -46,8 +46,8 @@ function generateBody() {
     receiverFormRef.value.values;
   const cForm = {};
   cForm.pinfl = clientPinfl;
-  cForm.last_name = clientFirstName;
-  cForm.first_name = clientLastName;
+  cForm.first_name = clientFirstName;
+  cForm.last_name = clientLastName;
   cForm.passport = receiverFormRef.value.passport;
   return cForm;
 }

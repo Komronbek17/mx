@@ -24,8 +24,9 @@ const {
 
 const toast = useToast();
 
-const isBalanceInsufficient = computed(() => true);
-// marketStore.total > marketStore.balance
+const isBalanceInsufficient = computed(
+  () => marketStore.total > marketStore.balance
+);
 
 async function getBasketItems() {
   try {
