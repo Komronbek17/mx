@@ -112,6 +112,7 @@ export default {
         bonus: "Бонус",
         bonus_description: "Активировать {name} бонус на {duration} {duration_type}?",
         bonus_price: "Стоимость:",
+        bonus_activated: 'Бонус успешно активирован',
         // text: "{level} успешно активирован",
         show_order: "Показать заказ",
         quantity: "Количество",
