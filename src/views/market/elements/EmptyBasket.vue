@@ -1,7 +1,13 @@
-<script>
-export default {
-  name: "EmptyBasket",
-};
+<script setup>
+import { useRouter } from "vue-router";
+
+const router = useRouter();
+
+function openMarketPage() {
+  router.push({
+    name: "market",
+  });
+}
 </script>
 
 <template>
@@ -10,7 +16,7 @@ export default {
       <img src="@/assets/images/empty-cart.svg" alt="" />
       <h3>Корзина пуста</h3>
       <p>Похоже вы еще не добавили товары в вашу корзину</p>
-      <button>
+      <button @click="openMarketPage">
         <span>Перейти в маркет</span>
         <img src="@/assets/images/arrow-right.svg" alt="" />
       </button>
