@@ -118,6 +118,15 @@ export default {
     unavailable: "Нет в наличии",
     change: "Изменить",
     activate_bonus_title: "Активировать бонус?",
+    total_payment: "Итог к оплате",
+    warning_yellow: "Вы уже добавили максимальное количество товаров",
+    add_new_address: "Добавить новый адрес",
+    add_new_receiver: "Добавить нового получателя",
+    choose_receiver: "ВЫБЕРИТЕ ПОЛУЧАТЕЛЯ",
+    order_details: "ПОДРОБНОСТИ ЗАКАЗА",
+    in_cart: "В корзине",
+    delivery: "Доставка",
+    sum: "Итого",
 
     form: {
       your_pinfl: "Введите ПИНФЛ",

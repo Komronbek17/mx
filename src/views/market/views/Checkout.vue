@@ -203,47 +203,142 @@ initialize();
     <receiver-form v-else ref="receiverFormRef" />
 
     <div class="ol-market-receipt pr-2 pl-2 mb-2">
-      <h3>ПОДРОБНОСТИ ЗАКАЗА</h3>
-      <div class="flex justify-between align-center">
-        <span>В корзине</span>
-        <span>
+      <h3 class="title">{{ $t("market_page.order_details") }}</h3>
+      <div class="in-cart flex justify-between align-center">
+        <span class="in-cart_title">{{ $t("market_page.in_cart") }}</span>
+        <span class="in-cart_img">
           <img
             :width="24"
             :height="24"
             alt="coin icon"
             src="@/assets/images/coin.png"
           />
-          <span>{{ formatToPrice(productsTotalCost) }}</span>
+          <span class="in-cart_value">{{
+            formatToPrice(productsTotalCost)
+          }}</span>
         </span>
       </div>
 
-      <div class="flex justify-between align-center">
-        <span>Доставка</span>
-        <span>
+      <div class="delivery flex justify-between align-center">
+        <span class="delivery-title">{{ $t("market_page.delivery") }}</span>
+        <span class="delivery-img">
           <img
             :width="24"
             :height="24"
             alt="coin icon"
             src="@/assets/images/coin.png"
           />
-          <span>{{ formatToPrice(deliveryCost) }}</span>
+          <span class="delivery-value">{{ formatToPrice(deliveryCost) }}</span>
         </span>
       </div>
 
-      <div class="flex justify-between align-center">
-        <span>Итого</span>
-        <span>
+      <div class="sum flex justify-between align-center">
+        <span class="sum-title">{{ $t("market_page.sum") }}</span>
+        <span class="sum-img">
           <img
             :width="24"
             :height="24"
             alt="coin icon"
             src="@/assets/images/coin.png"
           />
-          <span>{{ formatToPrice(total) }}</span>
+          <span class="sum-value">{{ formatToPrice(total) }}</span>
         </span>
       </div>
     </div>
   </div>
 </template>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.ol-market-receipt {
+  padding: 0 1rem;
+}
+
+.title {
+  @extend .text-15-600;
+  color: var(--gf-text-33);
+  text-transform: uppercase;
+  margin-bottom: 24px;
+}
+
+.in-cart {
+  margin-bottom: 1rem;
+  &_title {
+    @extend .text-16-400;
+    color: var(--gf-text-33);
+  }
+
+  &_img {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+
+    & img {
+      width: 16px;
+      height: 16px;
+      object-fit: contain;
+      margin-right: 0.5rem;
+    }
+  }
+
+  &_value {
+    @extend .text-16-400;
+    color: var(--gf-text-33);
+  }
+}
+
+.delivery {
+  padding-bottom: 24px;
+  margin-bottom: 1rem;
+  border-bottom: 1px solid var(--gf-hover-bg);
+
+  &-title {
+    @extend .text-16-400;
+    color: var(--gf-text-33);
+  }
+
+  &-img {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+
+    & img {
+      width: 16px;
+      height: 16px;
+      object-fit: contain;
+      margin-right: 0.5rem;
+    }
+  }
+
+  &-value {
+    @extend .text-16-400;
+    color: var(--gf-text-33);
+  }
+}
+
+.sum {
+  &-title {
+    font-size: 20px;
+    font-weight: 600;
+    color: var(--gf-text-33);
+  }
+
+  &-img {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+
+    & img {
+      width: 24px;
+      height: 24px;
+      object-fit: contain;
+      margin-right: 8px;
+    }
+  }
+
+  &-value {
+    font-size: 20px;
+    font-weight: 600;
+    color: var(--accent-yellow);
+  }
+}
+</style>

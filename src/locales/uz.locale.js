@@ -116,6 +116,15 @@ export default {
     unavailable: "Mavjud emas",
     change: "O'zgartirish",
     activate_bonus_title: "Bonus faollashtirilsinmi?",
+    total_payment: "Jami to'lov",
+    warning_yellow: "Siz allaqachon mahsulotning maksimal sonini qo'shdingiz",
+    add_new_address: "Yangi manzil qo'shish",
+    add_new_receiver: "Yangi qabul qiluvchi qo'shish",
+    choose_receiver: "Qabul qiluvchini tanlash",
+    order_details: "Buyurtma tafsilotlari",
+    in_cart: "Savatchada",
+    delivery: "Yetkazib berish",
+    sum: "Jami",
 
     form: {
       your_pinfl: "JShShIR ni kiriting",

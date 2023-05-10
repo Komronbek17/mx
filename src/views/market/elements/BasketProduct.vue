@@ -126,9 +126,13 @@ function toggleSelect() {
 
 <template>
   <div class="product">
-    <div class="product-block" :class="productBlockClass">
+    <div class="product-block">
       <!--    TOP   -->
-      <div class="product-block__top" @click="toggleSelect">
+      <div
+        class="product-block__top"
+        :class="productBlockClass"
+        @click="toggleSelect"
+      >
         <div class="flex">
           <div class="product-block__top-image">
             <!--            <img src="@/assets/images/level-product__image.png" alt="" />-->
@@ -166,7 +170,7 @@ function toggleSelect() {
           <p v-else class="unavailable">{{ t("market_page.unavailable") }}</p>
         </div>
 
-        <div class="product-block__amount">
+        <div class="product-block__amount" :class="productBlockClass">
           <div class="badge minus" @click="decreaseBasketItem">
             <minus-icon color="var(--gf-text-33-gray)" />
           </div>
@@ -193,7 +197,7 @@ function toggleSelect() {
       </div>
 
       <div class="limit-warning mt-1" v-if="isBasketQtyFull">
-        Вы уже добавили максимальное количество товаров
+        {{ $t("market_page.warning_yellow") }}
       </div>
     </div>
   </div>
@@ -222,11 +226,6 @@ function toggleSelect() {
 
     &.limit-border {
       border: 1px solid #ffb914;
-    }
-
-    &.blur {
-      filter: blur(4px);
-      border: none;
     }
 
     &__top {
@@ -330,10 +329,15 @@ function toggleSelect() {
   }
 }
 
+.blur {
+  filter: blur(4px) !important;
+  border: none !important;
+}
+
 .unavailable {
   font-size: 14px;
   line-height: 18px;
-  color: var(--gf-notification-text-bg);
+  color: #eb5757 !important;
 }
 
 .limit-warning {
