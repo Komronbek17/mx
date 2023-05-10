@@ -47,7 +47,7 @@ const homeMenu = ref([
   },
   {
     title: t("home_page.market"),
-    image: "/img/categories/market.png",
+    image: "/img/categories/shop.png",
     notification: null,
     routeName: "market",
     // style: [{gridRow: "1/3"}, {height: "218px"}],
@@ -88,7 +88,7 @@ const homeMenu = ref([
     image: "/img/categories/newspaper.png",
     notification: null,
     routeName: "news",
-    style: [{ gridColumn: "1 / 3" }],
+    // style: [{ gridColumn: "1 / 3" }],
   },
 ]);
 

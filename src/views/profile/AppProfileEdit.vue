@@ -344,7 +344,7 @@ WebAppController.ready();
         width: 1rem;
         height: 1rem;
         border-radius: 50%;
-        background: var(--gf-p-green);
+        background: url("@/assets/images/tick-circle.svg") 20px 20px #fff;
       }
     }
 

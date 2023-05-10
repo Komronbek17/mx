@@ -115,9 +115,7 @@ WebAppController.ready();
       <p class="market-product__description-title">
         {{ t("market_page.description") }}
       </p>
-      <p class="market-product__description">
-        {{ product.description }}
-      </p>
+      <p class="market-product__description" v-html="product.description"></p>
       <button class="market-product__btn">
         <img src="@/assets/images/add.svg" alt="" />
         <p>{{ t("market_page.to_basket") }}</p>

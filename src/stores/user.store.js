@@ -1,4 +1,4 @@
-import { ref } from "vue";
+import { computed, ref } from "vue";
 import { defineStore } from "pinia";
 import { profileApi } from "@/services/profile.service";
 import { localStorageController } from "@/utils/localstorage.util";
@@ -20,6 +20,8 @@ export const useUserStore = defineStore("user", () => {
     avatar: null,
     region: null,
   });
+
+  const meUniqueId = computed(() => user.value.id);
 
   function setUser(result) {
     user.value.id = result.id || tUserUniqueId;
@@ -61,6 +63,7 @@ export const useUserStore = defineStore("user", () => {
 
   return {
     user,
+    meUniqueId,
     initUser,
     updateUser,
   };

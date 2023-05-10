@@ -10,8 +10,10 @@ import AppLoader from "@/components/elements/loader/AppLoader.vue";
 import RotatingFish from "@/components/outdated/RotatingFish.vue";
 import ModalDialog from "@/components/ui/ModalDialog/ModalDialog.vue";
 import PrizeIcon from "@/components/icons/PrizeIcon.vue";
+import { AmplitudeTracker } from "@/libs/amplitude/analyticsBrowser";
 import { WebAppController } from "@/utils/telegram/web.app.util";
 import { subscribeApi } from "@/services/subscribe.service";
+import { useUserStore } from "@/stores/user.store";
 
 const InternetIconComponent = defineAsyncComponent(() => {
   return import("@/components/icons/InternetIcon.vue");
@@ -28,6 +30,8 @@ const SmsIconComponent = defineAsyncComponent(() => {
 const router = useRouter();
 const toast = useToast();
 const { t } = useI18n();
+
+const userStore = useUserStore();
 
 const {
   loading: isFetching,
@@ -105,7 +109,6 @@ function hideGiftsModal() {
 }
 
 async function fetchPremiumBonus() {
-  console.log("fetch");
   startLoading();
   try {
     const response = await bonusApi.fetchPremiumLampInfo();
@@ -132,6 +135,15 @@ async function setPremiumBonus() {
     modalState.status = response.status;
     modalState.type = response.data.type;
     modalState.name = response.data.name;
+
+    if (response.status === 200) {
+      AmplitudeTracker.receivePayingBonus({
+        properties: {
+          user_id: userStore.meUniqueId,
+        },
+      });
+    }
+
     hideGiftsModal();
     stopAnimation();
     showModal();
@@ -254,6 +266,12 @@ function selectGiftHandler(type) {
 
 WebAppController.ready();
 fetchPremiumBonus();
+
+AmplitudeTracker.activatePremium({
+  properties: {
+    user_id: userStore.meUniqueId,
+  },
+});
 </script>
 
 <template>
@@ -358,11 +376,13 @@ fetchPremiumBonus();
   flex-direction: column;
 
   &-title {
-    @extend .heading-2;
     margin-top: 1.5rem;
     margin-bottom: 1.5rem;
+    font-weight: 600;
+    font-size: 24px;
+    line-height: 30px;
     text-align: center;
-    color: var(--text-main);
+    color: var(--gf-text-09);
   }
 }
 
@@ -377,27 +397,28 @@ fetchPremiumBonus();
   outline-color: transparent;
   display: flex;
   align-items: center;
-  color: var(--text-main);
+  color: var(--gf-text-09);
   column-gap: 1rem;
   border-radius: 8px;
   width: 100%;
   padding: 1rem;
 
   .button-text {
-    color: var(--neutral-white);
-    @extend .text-16-500;
+    color: var(--gf-text-white-2x);
+    font-weight: 600;
+    font-size: 15px;
   }
 }
 
 .traffic-btn {
-  background: var(--gradient-purple);
+  background: var(--gf-blue-gradient-02);
 }
 
 .minute-btn {
-  background: var(--gradient-radial);
+  background: var(--gf-yellow-gradient);
 }
 
 .sms-btn {
-  background: var(--gradient-green);
+  background: var(--gf-green-gradient);
 }
 </style>

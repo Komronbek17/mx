@@ -92,7 +92,6 @@ onBeforeRouteLeave(() => {
     <div class="layout-container">
       <div class="basket-title">
         <p>{{ t("market_page.your_order") }}</p>
-        <router-link to="#">{{ t("market_page.change") }}</router-link>
       </div>
 
       <app-basket-product
@@ -106,7 +105,7 @@ onBeforeRouteLeave(() => {
 
     <div class="basket-summary">
       <div class="flex justify-between basket-summary-total">
-        <h3 class="">Итого к оплате:</h3>
+        <h3>{{ $t("market_page.total_payment") }}:</h3>
         <p class="yellow-gradient-color flex align-center basket-summary-price">
           <img
             :width="24"
