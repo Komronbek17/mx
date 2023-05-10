@@ -76,9 +76,11 @@ function openAddNewAddressPage() {
             v-model="addressValue"
           />
           <div class="input-round">
-            <h5>{{ direction.name }}</h5>
-            <div class="divider">
-              <p>{{ getHomeLocation(direction) }}</p>
+            <div>
+              <h5>{{ direction.city.name }}, {{ direction.region.name }}</h5>
+              <div class="divider">
+                <p>{{ getHomeLocation(direction) }}</p>
+              </div>
             </div>
           </div>
           <div class="address-controller">
