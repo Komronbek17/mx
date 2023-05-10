@@ -27,7 +27,6 @@ export function useTelegram() {
       telegramInfo.data = data?.data;
       return data;
     } catch (e) {
-      // console.log(e, 'error');
       toast.error(e?.response?.data?.message ?? e.message);
       return {};
     }

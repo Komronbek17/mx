@@ -73,30 +73,34 @@ const modalApply = () => {
 };
 
 const modalCancel = () => {
-  levelProduct.value = {}
-  modalValue.value = false
+  closeDialogModal()
+  setTimeout(() => {
+    levelProduct.value = {}
+  }, 500)
 };
 
 
 const submitActive = async (item) => {
-  if (item) {
-    const body = {
-      method: "coin.activation_product",
-      params: {
-        id: item.id,
-      },
-    };
-
-    try {
-      const {data} = await coinApi.activateProduct(body);
-      gifts.value = data.result;
-      toast.success('Бонус успешно активирован', {
-        hideProgressBar: true,
-        closeButton: false,
-      })
-    } catch (e) {
-      toast.error(e.response?.data?.message ?? e.message, {icon: ToastErrorIcon});
-    }
+  const body = {
+    method: "coin.activation_product",
+    params: {
+      id: item.id,
+    },
+  };
+  try {
+    await coinApi.activateProduct(body);
+    await getProducts()
+    await fetchBalance()
+    modalCancel()
+    toast.success(t('market_page.bonus_activated'), {
+      position: 'bottom-center',
+      hideProgressBar: true,
+      closeButton: false,
+    })
+  } catch (e) {
+    toast.error(e.response?.data?.message ?? e.message, {icon: ToastErrorIcon});
+  } finally {
+    modalCancel()
   }
 };
 

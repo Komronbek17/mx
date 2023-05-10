@@ -118,11 +118,15 @@ const homeMenu = ref([
 // };
 
 async function getDailyInfo() {
-  await infoApi.fetchDaily().then(({ data }) => {
-    homeMenu.value[0].notification = data.step;
-    homeMenu.value[0].notification =
-      4 - +homeMenu.value[0].notification || null;
-  });
+  try {
+    await infoApi.fetchDaily().then(({ data }) => {
+      homeMenu.value[0].notification = data.step;
+      homeMenu.value[0].notification =
+        4 - +homeMenu.value[0].notification || null;
+    });
+  } catch (e) {
+    toast.error(e.response.data.message ?? e.message);
+  }
 }
 
 async function getPremiumInfo() {
@@ -152,7 +156,6 @@ WebAppController.ready();
 <template>
   <div class="home layout-container">
     <app-loader :active="isFetching" />
-    <router-link :to="{ name: 'market-basket' }"> go to basket </router-link>
     <user-card-home
       :user-full-name="user.fullName"
       :user-unique-id="user.id"
