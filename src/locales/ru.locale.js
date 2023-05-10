@@ -111,9 +111,10 @@ export default {
     activated: "Активировано",
     text: "Активировать {level}?",
     bonus: "Бонус",
-    bonus_description: "Активировать {name} бонус на {duration} {duration_type}?",
+    bonus_description:
+      "Активировать {name} бонус на {duration} {duration_type}?",
     bonus_price: "Стоимость:",
-    bonus_activated: 'Бонус успешно активирован',
+    bonus_activated: "Бонус успешно активирован",
     show_order: "Показать заказ",
     quantity: "Количество",
     description: "Описание",
@@ -230,7 +231,7 @@ export default {
     required: "Поле {_field_} обязательно для заполнения",
   },
   number_copied: "Номер телефона скопирован",
-  number_not_copied: "Номер не скопирован",
+  number_not_copied: "Номер не скопирован ",
   duration_types: {
     years: "Год",
     months: "Месяц",
