@@ -1,10 +1,9 @@
 <script setup>
 import { useI18n } from "vue-i18n";
-
-const { t } = useI18n();
 import { useRouter } from "vue-router";
 
 const router = useRouter();
+const { t } = useI18n();
 
 function openMarketPage() {
   router.push({
@@ -18,9 +17,9 @@ function openMarketPage() {
     <div class="layout-container empty-block">
       <img src="@/assets/images/empty-cart.svg" alt="" />
       <h3>{{ t("market_page.empty_cart") }}</h3>
-      <p>Похоже вы еще не добавили товары в вашу корзину</p>
+      <p>{{ t("market_page.empty_cart_description") }}</p>
       <button @click="openMarketPage">
-        <span>Перейти в маркет</span>
+        <span>{{ t("market_page.go_to_market") }}</span>
         <img src="@/assets/images/arrow-right.svg" alt="" />
       </button>
     </div>
@@ -50,6 +49,7 @@ function openMarketPage() {
       line-height: 28px;
       color: var(--gf-text-33);
       margin-bottom: 8px;
+      margin-top: 24px;
     }
 
     & p {

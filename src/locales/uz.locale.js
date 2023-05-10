@@ -149,6 +149,9 @@ export default {
     order_status:
       "Buyurtmangiz holatini ”Profil” bo'limida ko'rishingiz mumkin",
     empty_cart: "Savatcha bo'sh",
+    empty_cart_description:
+      "Savatingizga hali biror narsa qo‘shmaganga o‘xshaysiz",
+    go_to_market: "Marketga o'tish",
 
     form: {
       your_pinfl: "JShShIR ni kiriting",
