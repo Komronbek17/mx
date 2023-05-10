@@ -9,7 +9,7 @@ import AppMarketBasket from "@/views/market/views/Basket.vue";
 import AppOrderedSuccessfully from "@/views/market/AppOrderedSuccessfully.vue";
 import AppMarketMap from "@/views/market/AppMarketMap.vue";
 import Checkout from "@/views/market/views/Checkout.vue";
-import AddressCreate from "@/views/market/views/AddressCreate.vue";
+import AddressUpsert from "@/views/market/views/AddressUpsert.vue";
 import ClientUpsert from "@/views/market/views/ClientUpsert.vue";
 import { sessionStorageController } from "@/utils/localstorage.util";
 
@@ -47,7 +47,12 @@ export const marketRoutes = [
   {
     path: "/market/checkout/address/create",
     name: "checkout-address-create",
-    component: AddressCreate,
+    component: AddressUpsert,
+  },
+  {
+    path: "/market/checkout/address/:id/update",
+    name: "checkout-address-update",
+    component: AddressUpsert,
   },
   {
     path: "/market/checkout/client/create",
@@ -81,7 +86,7 @@ export const marketRoutes = [
   },
   {
     path: "/checkout/ordered",
-    name: "ordered-successfully",
+    name: "market-ordered-successfully",
     component: AppOrderedSuccessfully,
   },
   {

@@ -7,6 +7,7 @@ import CatalogHome from "@/components/home/CatalogHome.vue";
 import OltinBaliqIcon from "@/components/icons/OltinBaliqIcon.vue";
 import UserCardHome from "@/components/home/UserCardHome.vue";
 import AppLoader from "@/components/elements/loader/AppLoader.vue";
+// import VoteModal from "@/views/vote/VoteModal.vue";
 
 import { hasOwnProperty } from "@/utils/object.util";
 import { WebAppController } from "@/utils/telegram/web.app.util";
@@ -16,10 +17,12 @@ import { loadingComposable } from "@/composables/loading.composable";
 
 import { ACCEPT_LANGUAGE, USER_DATA } from "@/constants";
 import { useTelegramStore } from "@/stores/telegram.store";
-// import VoteModal from "@/views/vote/VoteModal.vue";
 import { profileApi } from "@/services/profile.service";
+import { AmplitudeTracker } from "@/libs/amplitude/analyticsBrowser";
+import { useMeStore } from "@/stores/me.store";
 
 const { tUserFullName } = useTelegramStore();
+const meStore = useMeStore();
 const { tUserUniqueId, checkTelegramUser } = useTelegram();
 
 const router = useRouter();
@@ -47,6 +50,7 @@ const getMe = async () => {
     const {
       data: { result },
     } = await profileApi.fetchMe();
+    meStore.initMe({ meCtx: result });
     user.value.id = result.id || tUserUniqueId;
     user.value.fullName =
       result.first_name || result.last_name
@@ -80,6 +84,12 @@ onMounted(async () => {
 });
 
 WebAppController.ready();
+
+AmplitudeTracker.lunch({
+  properties: {
+    webapp_launched_at: new Date(),
+  },
+});
 </script>
 
 <template>

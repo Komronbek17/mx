@@ -1,5 +1,5 @@
 <script setup>
-import { watch } from "vue";
+import { computed, watch } from "vue";
 import { onBeforeRouteLeave, useRouter } from "vue-router";
 import { useI18n } from "vue-i18n";
 import { useToast } from "vue-toastification";
@@ -24,6 +24,9 @@ const {
 
 const toast = useToast();
 
+const isBalanceInsufficient = computed(() => true);
+// marketStore.total > marketStore.balance
+
 async function getBasketItems() {
   try {
     startLoading();
@@ -32,6 +35,7 @@ async function getBasketItems() {
     });
 
     marketStore.initializeBasket({
+      summary: response.data.summary,
       products: response.data.products,
     });
   } catch (e) {
@@ -42,9 +46,11 @@ async function getBasketItems() {
 }
 
 function openCheckoutPage() {
-  router.push({
-    name: "market-checkout",
-  });
+  if (!isBalanceInsufficient.value) {
+    router.push({
+      name: "market-checkout",
+    });
+  }
 }
 
 watch(
@@ -88,9 +94,9 @@ onBeforeRouteLeave(() => {
       </div>
 
       <app-basket-product
-        v-for="basketItem in marketStore.basketThing.products"
         :key="basketItem.id"
         :basket-item="basketItem"
+        v-for="basketItem in marketStore.basketThing.products"
         @update-quantity="marketStore.updateProductQuantity"
         @inactivate-product="marketStore.inactivateBasketProduct"
       />
@@ -111,6 +117,27 @@ onBeforeRouteLeave(() => {
           </span>
         </p>
       </div>
+      <template v-if="isBalanceInsufficient">
+        <div class="basket-summary-total" style="color: red">
+          Недостаточно средств
+        </div>
+        <div class="flex justify-between basket-summary-total">
+          <h3 class="">Ваш баланс:</h3>
+          <p
+            class="yellow-gradient-color flex align-center basket-summary-price"
+          >
+            <img
+              :width="24"
+              :height="24"
+              src="@/assets/images/coin.png"
+              alt="coin png"
+            />
+            <span class="ml-0-5">
+              {{ marketStore.balance }}
+            </span>
+          </p>
+        </div>
+      </template>
     </div>
   </div>
 </template>

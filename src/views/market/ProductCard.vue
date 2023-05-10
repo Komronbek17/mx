@@ -151,7 +151,7 @@ function viewProduct() {
     <div @click="viewProduct" class="gift-card__content">
       <h5>{{ props.item.name }}</h5>
       <div class="price">
-        <img src="@/assets/images/coin.png" alt="" />
+        <img src="@/assets/icons/coin.svg" alt=""/>
         <p>{{ props.item.price }}</p>
       </div>
     </div>

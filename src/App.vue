@@ -18,6 +18,7 @@ import { hasOwnProperty } from "@/utils/object.util";
 import { WebAppController } from "@/utils/telegram/web.app.util";
 import { localStorageController } from "@/utils/localstorage.util";
 import { useI18n } from "vue-i18n";
+import { AmplitudeTracker } from "@/libs/amplitude/analyticsBrowser";
 
 const route = useRoute();
 const router = useRouter();
@@ -72,6 +73,8 @@ watch(
     immediate: true,
   }
 );
+
+AmplitudeTracker.initialize();
 </script>
 
 <template>
