@@ -112,7 +112,7 @@ export default {
     bonus_description:
       "{name} bonusini {duration} {duration_type} uchun faollashtirasizmi?",
     bonus_price: "Narxi:",
-    bonus_activated: 'Bonus muvaffaqiyatli faollashtirildi',
+    bonus_activated: "Bonus muvaffaqiyatli faollashtirildi",
     // text: "{level} muvaffaqiyatli faollashtirildi",
     show_order: "Показать заказ",
     quantity: "Miqdori",
