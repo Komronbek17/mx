@@ -153,10 +153,10 @@ onBeforeRouteLeave(() => {
 
 <style lang="scss" scoped>
 .layout-container {
-  background-color: var(--gf-basket-product-image-bg);
+  background-color: var(--gf-bg-main);
   position: relative;
   padding-bottom: 72px;
-  min-height: calc(100vh - 172px);
+  min-height: calc(100vh - 204px);
 }
 
 .basket {
