@@ -1,13 +1,75 @@
 <script setup>
-import { onMounted, reactive } from "vue";
+import { defineAsyncComponent, onMounted, reactive } from "vue";
 import { coinApi } from "@/services/coin.service";
-import { loadingComposable } from "@/composables/loading.composable";
-import AppLoader from "@/components/elements/loader/AppLoader.vue";
 import { toastErrorMessage } from "@/utils/error.util";
 import { sortResultByDate } from "@/utils/sort.util";
+import { loadingComposable } from "@/composables/loading.composable";
+import AppLoader from "@/components/elements/loader/AppLoader.vue";
+import MonitoringCard from "@/views/monitoring/elements/MonitoringCard.vue";
+
+// const PrizeIcon = defineAsyncComponent(
+//   () =>
+//     new Promise((resolve) =>
+//       resolve(import("@/components/icons/PrizeIcon.vue"))
+//     )
+// );
+// const AdsOneIcon = defineAsyncComponent(() =>
+//   import("@/components/icons/monitoring/AdsOneIcon.vue")
+// );
+// const OrderCartIcon = defineAsyncComponent(() =>
+//   import("@/components/icons/monitoring/OrderCartIcon.vue")
+// );
+// const ReferralIcon = defineAsyncComponent(() =>
+//   import("@/components/icons/monitoring/ReferralIcon.vue")
+// );
+// const VuexyBoldStarIcon = defineAsyncComponent(() =>
+//   import("@/components/icons/monitoring/VuexyBoldStarIcon.vue")
+// );
+// const ChecklistIcon = defineAsyncComponent(() =>
+//   import("@/components/icons/monitoring/ChecklistIcon.vue.vue")
+// );
+// types: ["level", "ads", "referral", "premium", "shop", "vote"],
+const iconsList = {
+  level: defineAsyncComponent(
+    () =>
+      new Promise((resolve) =>
+        resolve(import("@/components/icons/PrizeIcon.vue"))
+      )
+  ),
+  ads: defineAsyncComponent(
+    () =>
+      new Promise((resolve) =>
+        resolve(import("@/components/icons/monitoring/AdsOneIcon.vue"))
+      )
+  ),
+  referral: defineAsyncComponent(
+    () =>
+      new Promise((resolve) =>
+        resolve(import("@/components/icons/monitoring/ReferralIcon.vue"))
+      )
+  ),
+  premium: defineAsyncComponent(
+    () =>
+      new Promise((resolve) =>
+        resolve(import("@/components/icons/monitoring/VuexyBoldStarIcon.vue"))
+      )
+  ),
+  shop: defineAsyncComponent(
+    () =>
+      new Promise((resolve) =>
+        resolve(import("@/components/icons/monitoring/OrderCartIcon.vue"))
+      )
+  ),
+  vote: defineAsyncComponent(
+    () =>
+      new Promise((resolve) =>
+        resolve(import("@/components/icons/monitoring/ChecklistIcon.vue"))
+      )
+  ),
+};
 
 const mn = reactive({
-  items: [],
+  items: [] /* { time:String, result:Array } */,
   loading: false,
   pagination: {
     current: 1,
@@ -17,6 +79,7 @@ const mn = reactive({
     totalPage: 0,
     totalItem: 0,
   },
+  types: ["level", "ads", "referral", "premium", "shop", "vote"],
 });
 
 const {
@@ -77,15 +140,23 @@ getMonitoringDetails();
 </script>
 
 <template>
-  <div>
+  <div style="color: black">
     <app-loader :active="isFetching" />
     <div>
       <div id="infinite-list">
-        <div v-for="item in mn.items" :key="item.id">
-          <span>
-            <span>{{ item.title }}</span>
-            <span>{{ item["sub_title"] }}</span>
-          </span>
+        <div
+          v-for="item in mn.items"
+          :key="item.id"
+          class="flex flex-column row-gap-1 mb-1"
+        >
+          <div>{{ item.time }}</div>
+          <div v-for="detail in item.result" :key="detail.id">
+            <monitoring-card :detail="detail">
+              <template #icon>
+                <component :is="iconsList[detail.type]"></component>
+              </template>
+            </monitoring-card>
+          </div>
         </div>
       </div>
     </div>

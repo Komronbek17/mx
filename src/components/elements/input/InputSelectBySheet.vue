@@ -44,7 +44,6 @@ const value = computed({
       isObject(props.modelValue) &&
       hasOwnProperty(props.modelValue, props.label)
     ) {
-      console.log("props", props.modelValue[props.label]);
       return props.modelValue[props.label];
     }
     return props.modelValue;

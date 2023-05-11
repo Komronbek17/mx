@@ -42,7 +42,10 @@ const { value: region, errorMessage: regionErrorMessage } = useField(
 
 const { value: city, errorMessage: cityErrorMessage } = useField(
   "olAdsDistrict",
-  yup.object().required().label("District")
+  yup.object().required().label("District"),
+  {
+    validateOnValueUpdate: false,
+  }
 );
 
 const { value: address, errorMessage: addressErrorMessage } = useField(
@@ -72,6 +75,7 @@ const { value: comment, errorMessage: commentErrorMessage } = useField(
 
 watch(region, (nRegion) => {
   if (nRegion?.id) {
+    city.value = undefined;
     fetchCities({ regionId: nRegion?.id });
   }
 });

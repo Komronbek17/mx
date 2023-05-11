@@ -155,6 +155,7 @@ WebAppController.ready();
 
 <template>
   <div class="home layout-container">
+    <router-link :to="{ name: 'monitoring' }"> Go to monitoring </router-link>
     <app-loader :active="isFetching" />
     <user-card-home
       :user-full-name="user.fullName"
