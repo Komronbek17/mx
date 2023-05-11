@@ -27,7 +27,7 @@ function exactEarningTime() {
     <div class="icon">
       <slot name="icon"></slot>
     </div>
-    <div class="flex flex-column ol-m-card-main pb-1 w-100">
+    <div class="flex flex-column row-gap-0-5 ol-m-card-main pb-1 w-100">
       <div class="flex justify-between">
         <div>{{ props.detail.title }}</div>
         <div>{{ earningPrice }} FitCoin</div>

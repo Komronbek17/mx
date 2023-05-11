@@ -70,6 +70,20 @@ const homeMenu = ref([
     style: {},
   },
   {
+    title: t("home_page.monitoring"),
+    image: "/img/categories/monitoring.png",
+    notification: null,
+    routeName: "monitoring",
+    // style: [{ gridColumn: "1 / 3" }],
+  },
+  {
+    title: t("home_page.news"),
+    image: "/img/categories/newspaper.png",
+    notification: null,
+    routeName: "news",
+    // style: [{ gridColumn: "1 / 3" }],
+  },
+  {
     title: t("home_page.profile"),
     image: "/img/categories/profile.png",
     routeName: "profile",
@@ -84,20 +98,7 @@ const homeMenu = ref([
     routeName: "settings",
     style: {},
   },
-  {
-    title: t("home_page.monitoring"),
-    image: "/img/categories/monitoring.png",
-    notification: null,
-    routeName: "monitoring",
-    // style: [{ gridColumn: "1 / 3" }],
-  },
-  {
-    title: t("home_page.news"),
-    image: "/img/categories/newspaper.png",
-    notification: null,
-    routeName: "news",
-    // style: [{ gridColumn: "1 / 3" }],
-  }
+
 ]);
 
 // const user = ref({

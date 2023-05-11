@@ -170,6 +170,10 @@ class CoinService extends Core {
   transactionFindAll({ body: { page = 1, limit = 10 } }) {
     return this.post("transaction/findAll", { page, limit });
   }
+
+  transactionTotal() {
+    return this.post("transaction/total");
+  }
 }
 
 export const coinApi = new CoinService();
