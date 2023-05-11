@@ -73,6 +73,10 @@ WebAppController.ready();
   <div class="informers">
     <app-loader :active="isFetching" />
     <div class="layout-container">
+      <div class="informers-header">
+        <p>{{ t("action") }}</p>
+        <p>{{ t("award") }}</p>
+      </div>
       <div
         class="informers-item"
         v-for="informer in informers"
@@ -81,7 +85,7 @@ WebAppController.ready();
         <div class="informers-item__image">
           <img :src="informer.upload.path" alt="" />
         </div>
-        <div class="w-100 flex align-center justify-between">
+        <div class="border-bottom w-100 flex align-center justify-between">
           <p class="informers-item__text">
             {{ informer.name }}
           </p>
@@ -97,23 +101,44 @@ WebAppController.ready();
 
 <style lang="scss" scoped>
 .informers {
+  &-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid var(--accent-gray);
+
+    & p {
+      @extend .text-14-400;
+      color: var(--text-main);
+    }
+  }
+
   &-item {
     height: 32px;
     display: flex;
     align-items: center;
-    margin-bottom: 16px;
-    padding: 1rem;
-    background: var(--accent-gray);
+    padding: 1rem 0;
+    //background: var(--accent-gray);
     border-radius: 8px;
 
+    &:last-child .border-bottom {
+      border-bottom: 1px solid transparent;
+    }
+
     &__image {
-      min-width: 32px;
-      height: 32px;
+      min-width: 44px;
+      height: 44px;
       margin-right: 1rem;
+      background-color: var(--accent-gray);
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
 
       & img {
-        width: 100%;
-        height: 100%;
+        width: 24px;
+        height: 24px;
         object-fit: contain;
       }
     }
@@ -131,5 +156,11 @@ WebAppController.ready();
       color: #00db72;
     }
   }
+}
+
+.border-bottom {
+  height: 100%;
+  border-bottom: 1px solid var(--accent-gray);
+  padding: 1rem 0;
 }
 </style>
