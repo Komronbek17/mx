@@ -1,5 +1,11 @@
 <script setup>
-import { defineAsyncComponent, onMounted, reactive } from "vue";
+import {
+  computed,
+  defineAsyncComponent,
+  onMounted,
+  reactive,
+  watch,
+} from "vue";
 import { coinApi } from "@/services/coin.service";
 import { toastErrorMessage } from "@/utils/error.util";
 import { sortResultByDate } from "@/utils/sort.util";
@@ -8,6 +14,9 @@ import AppLoader from "@/components/elements/loader/AppLoader.vue";
 import MonitoringCard from "@/views/monitoring/elements/MonitoringCard.vue";
 import { useI18n } from "vue-i18n";
 import { dateProperties, monthsNameList } from "@/utils/date.formatter";
+import { useRoute, useRouter } from "vue-router";
+import { hasOwnProperty } from "@/utils/object.util";
+import { isUndefined } from "@/utils/inspect.util";
 
 const iconsList = {
   level: defineAsyncComponent(
@@ -49,6 +58,8 @@ const iconsList = {
 };
 
 const { t } = useI18n();
+const route = useRoute();
+const router = useRouter();
 
 const mn = reactive({
   items: [] /* { time:String, result:Array } */,
@@ -75,10 +86,33 @@ const {
   finishLoading,
 } = loadingComposable();
 
+const debit = computed(() => {
+  if (hasOwnProperty(route.query, "debit")) {
+    return typeof route.query.debit === "string"
+      ? parseInt(route.query.debit)
+      : route.query.debit;
+  }
+
+  return undefined;
+});
+
+watch(
+  () => debit.value,
+  async () => {
+    try {
+      startLoading();
+      await getMonitoringDetails();
+    } catch (e) {
+      toastErrorMessage(e);
+    } finally {
+      finishLoading();
+    }
+  }
+);
+
 function infiniteScroll() {
   const listElm = document.getElementById("infinite-list");
   listElm.addEventListener("scroll", () => {
-    console.log("lll");
     if (listElm.scrollTop + listElm.clientHeight >= listElm.scrollHeight) {
       if (mn.pagination.next) {
         loadMore();
@@ -109,12 +143,18 @@ async function getProfitDetails() {
 async function getMonitoringDetails(
   { page = 1, limit = 10 } = { page: 1, limit: 10 }
 ) {
+  let body = {
+    page,
+    limit,
+  };
+
+  if (!isUndefined(debit.value)) {
+    body.debit = !!debit.value;
+  }
+
   try {
     const response = await coinApi.transactionFindAll({
-      body: {
-        page,
-        limit,
-      },
+      body,
     });
 
     mn.items = sortResultByDate({
@@ -135,6 +175,34 @@ async function fetchMonitoringDetails() {
   } finally {
     finishLoading();
   }
+}
+
+function filterByOutcome() {
+  let debitQuery = 0;
+
+  if (debit.value === 0) {
+    debitQuery = undefined;
+  }
+
+  router.push({
+    query: {
+      debit: debitQuery,
+    },
+  });
+}
+
+function filterByIncome() {
+  let debitQuery = 1;
+
+  if (debit.value === 1) {
+    debitQuery = undefined;
+  }
+
+  router.push({
+    query: {
+      debit: debitQuery,
+    },
+  });
 }
 
 function showMonitoringTime(time) {
@@ -182,13 +250,25 @@ fetchMonitoringDetails();
       <div id="infinite-list">
         <div>
           <div class="flex column-gap-2 mb-1-5">
-            <div class="ol-profits-card">
+            <div
+              class="ol-profits-card"
+              @click="filterByIncome"
+              :class="{
+                'ol-profits-active-card': debit !== undefined && debit,
+              }"
+            >
               <div>Поступление</div>
               <div>+{{ mn.total.debit_total }} FitCoin</div>
             </div>
-            <div class="ol-profits-card">
+            <div
+              class="ol-profits-card"
+              @click="filterByOutcome"
+              :class="{
+                'ol-profits-active-card': debit !== undefined && !debit,
+              }"
+            >
               <div>Расходы</div>
-              <div>{{ mn.total.total_amount }} FitCoin</div>
+              <div>{{ mn.total.credit_total }} FitCoin</div>
             </div>
           </div>
           <div>
@@ -222,5 +302,10 @@ fetchMonitoringDetails();
   flex-direction: column;
   row-gap: 1rem;
   width: 100%;
+  white-space: nowrap;
+}
+
+.ol-profits-active-card {
+  background-color: var(--gf-p-main-gray);
 }
 </style>
