@@ -1,17 +1,26 @@
 <script setup>
-import { useI18n } from "vue-i18n";
+import "@dotlottie/player-component";
 
-const { t } = useI18n();
+import {useI18n} from "vue-i18n";
+
+const {t} = useI18n();
+
 </script>
 
 <template>
   <div class="order-success">
     <div class="layout-container flex flex-column align-center justify-center">
-      <img src="@/assets/images/success.svg" alt="" />
+<!--      <img src="@/assets/images/success.svg" alt=""/>-->
+      <dotlottie-player
+          ref="success"
+          src="/img/animations/success.json"
+          :autoplay="true"
+          loop="10"
+      />
       <h4>{{ t("market_page.ordered_successfully") }}</h4>
       <p>{{ t("market_page.order_status") }}</p>
       <router-link :to="{ name: 'home' }">
-        <img src="@/assets/images/arrow-left.svg" alt="" />
+        <img src="@/assets/images/arrow-left.svg" alt=""/>
         <span>{{ t("back_to_main") }}</span>
       </router-link>
     </div>
