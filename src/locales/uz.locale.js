@@ -8,6 +8,8 @@ export default {
   internet_package: "Internet to'plamlari",
   premium_gifts_title: "Sizning tarifingiz bo'yicha mavjud bonuslar",
   ok: "Ha",
+  to_pay: "To'lash",
+  checkout_products: "Tanlangan mahsulotlarni rasmiylashtirish",
   approve: "Yaxshi",
   cancel: "Bekor qilish",
   price: "Narxi %{msg} so'm",
@@ -156,6 +158,8 @@ export default {
     go_to_market: "Marketga o'tish",
     not_enough_money: "Mablag' yetarli emas",
     your_balance: "Sizning balansingiz",
+    order: "Buyurtma",
+    passport_image_yup: "Pasport fotosurati",
 
     form: {
       your_pinfl: "JShShIR ni kiriting",
@@ -230,6 +234,7 @@ export default {
     min: "{_field_} maydoni kamida {length} belgidan iborat bo'lishi kerak",
     min_value: "{_field_} maydoni {min} yoki kattaroq bo'lishi kerak",
     required: "{_field_} maydonini kiritish shart",
+    choose: "{_field_}ni tanlash shart",
   },
   number_copied: "Telefon raqamdan nusxa olindi",
   number_not_copied: "Raqam aniqlanmadi",

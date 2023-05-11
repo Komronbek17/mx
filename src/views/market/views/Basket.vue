@@ -29,6 +29,28 @@ const isBalanceInsufficient = computed(
   () => marketStore.total > marketStore.balance
 );
 
+watch(
+  () => marketStore.total,
+  (total) => {
+    if (total) {
+      MainButtonController.run();
+      MainButtonController.setText(`${t("checkout_products")}`);
+      MainButtonController.onClick(openCheckoutPage);
+    } else {
+      MainButtonController.deactivate();
+    }
+
+    sessionStorageController.set(BASKET_TOTAL_PRICE, JSON.stringify(total));
+    sessionStorageController.set(
+      BASKET_PRODUCTS,
+      JSON.stringify(marketStore.products)
+    );
+  },
+  {
+    immediate: true,
+  }
+);
+
 async function getBasketItems() {
   try {
     startLoading();
@@ -48,34 +70,12 @@ async function getBasketItems() {
 }
 
 function openCheckoutPage() {
-  if (!isBalanceInsufficient.value) {
+  if (!isBalanceInsufficient.value && marketStore.hasAvailableProducts) {
     router.push({
       name: "market-checkout",
     });
   }
 }
-
-watch(
-  () => marketStore.total,
-  (total) => {
-    if (total) {
-      MainButtonController.run();
-      MainButtonController.setText("Оформить выбранные товары");
-      MainButtonController.onClick(openCheckoutPage);
-    } else {
-      MainButtonController.deactivate();
-    }
-
-    sessionStorageController.set(BASKET_TOTAL_PRICE, JSON.stringify(total));
-    sessionStorageController.set(
-      BASKET_PRODUCTS,
-      JSON.stringify(marketStore.products)
-    );
-  },
-  {
-    immediate: true,
-  }
-);
 
 WebAppController.ready();
 
