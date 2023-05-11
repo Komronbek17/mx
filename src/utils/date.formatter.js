@@ -155,3 +155,22 @@ export function datesAreOnSameDay(first, second) {
     first.getDate() === second.getDate()
   );
 }
+
+export function isGivenDay(date, day = 1) {
+  if (!(date instanceof Date)) {
+    throw new Error('Invalid argument: you must provide a "date" instance');
+  }
+
+  const yesterday = new Date();
+  yesterday.setDate(yesterday.getDate() - day);
+
+  return (
+    date.getDate() === yesterday.getDate() &&
+    date.getMonth() === yesterday.getMonth() &&
+    date.getFullYear() === yesterday.getFullYear()
+  );
+}
+
+export function isYesterday(date) {
+  return isGivenDay(date);
+}

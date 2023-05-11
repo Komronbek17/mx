@@ -1,34 +1,23 @@
 <script setup>
-import { defineAsyncComponent, onMounted, reactive } from "vue";
+import {
+  computed,
+  defineAsyncComponent,
+  onMounted,
+  reactive,
+  watch,
+} from "vue";
 import { coinApi } from "@/services/coin.service";
 import { toastErrorMessage } from "@/utils/error.util";
 import { sortResultByDate } from "@/utils/sort.util";
 import { loadingComposable } from "@/composables/loading.composable";
 import AppLoader from "@/components/elements/loader/AppLoader.vue";
 import MonitoringCard from "@/views/monitoring/elements/MonitoringCard.vue";
+import { useI18n } from "vue-i18n";
+import { dateProperties, monthsNameList } from "@/utils/date.formatter";
+import { useRoute, useRouter } from "vue-router";
+import { hasOwnProperty } from "@/utils/object.util";
+import { isUndefined } from "@/utils/inspect.util";
 
-// const PrizeIcon = defineAsyncComponent(
-//   () =>
-//     new Promise((resolve) =>
-//       resolve(import("@/components/icons/PrizeIcon.vue"))
-//     )
-// );
-// const AdsOneIcon = defineAsyncComponent(() =>
-//   import("@/components/icons/monitoring/AdsOneIcon.vue")
-// );
-// const OrderCartIcon = defineAsyncComponent(() =>
-//   import("@/components/icons/monitoring/OrderCartIcon.vue")
-// );
-// const ReferralIcon = defineAsyncComponent(() =>
-//   import("@/components/icons/monitoring/ReferralIcon.vue")
-// );
-// const VuexyBoldStarIcon = defineAsyncComponent(() =>
-//   import("@/components/icons/monitoring/VuexyBoldStarIcon.vue")
-// );
-// const ChecklistIcon = defineAsyncComponent(() =>
-//   import("@/components/icons/monitoring/ChecklistIcon.vue.vue")
-// );
-// types: ["level", "ads", "referral", "premium", "shop", "vote"],
 const iconsList = {
   level: defineAsyncComponent(
     () =>
@@ -68,8 +57,18 @@ const iconsList = {
   ),
 };
 
+const { t } = useI18n();
+const route = useRoute();
+const router = useRouter();
+
 const mn = reactive({
   items: [] /* { time:String, result:Array } */,
+  total: {
+    total_items: 0,
+    total_amount: 0,
+    debit_total: 0,
+    credit_total: 0,
+  },
   loading: false,
   pagination: {
     current: 1,
@@ -79,7 +78,6 @@ const mn = reactive({
     totalPage: 0,
     totalItem: 0,
   },
-  types: ["level", "ads", "referral", "premium", "shop", "vote"],
 });
 
 const {
@@ -87,6 +85,30 @@ const {
   startLoading,
   finishLoading,
 } = loadingComposable();
+
+const debit = computed(() => {
+  if (hasOwnProperty(route.query, "debit")) {
+    return typeof route.query.debit === "string"
+      ? parseInt(route.query.debit)
+      : route.query.debit;
+  }
+
+  return undefined;
+});
+
+watch(
+  () => debit.value,
+  async () => {
+    try {
+      startLoading();
+      await getMonitoringDetails();
+    } catch (e) {
+      toastErrorMessage(e);
+    } finally {
+      finishLoading();
+    }
+  }
+);
 
 function infiniteScroll() {
   const listElm = document.getElementById("infinite-list");
@@ -109,16 +131,30 @@ function loadMore() {
   }, 500);
 }
 
+async function getProfitDetails() {
+  try {
+    const response = await coinApi.transactionTotal();
+    mn.total = response.data.result;
+  } catch (e) {
+    toastErrorMessage(e);
+  }
+}
+
 async function getMonitoringDetails(
   { page = 1, limit = 10 } = { page: 1, limit: 10 }
 ) {
+  let body = {
+    page,
+    limit,
+  };
+
+  if (!isUndefined(debit.value)) {
+    body.debit = !!debit.value;
+  }
+
   try {
-    startLoading();
     const response = await coinApi.transactionFindAll({
-      body: {
-        page,
-        limit,
-      },
+      body,
     });
 
     mn.items = sortResultByDate({
@@ -127,38 +163,192 @@ async function getMonitoringDetails(
     mn.pagination = response.data.pagination;
   } catch (e) {
     toastErrorMessage(e);
+  }
+}
+
+async function fetchMonitoringDetails() {
+  try {
+    startLoading();
+    await Promise.allSettled([getProfitDetails(), getMonitoringDetails()]);
+  } catch (e) {
+    console.error(e);
   } finally {
     finishLoading();
   }
+}
+
+function filterByOutcome() {
+  let debitQuery = 0;
+
+  if (debit.value === 0) {
+    debitQuery = undefined;
+  }
+
+  router.push({
+    query: {
+      debit: debitQuery,
+    },
+  });
+}
+
+function filterByIncome() {
+  let debitQuery = 1;
+
+  if (debit.value === 1) {
+    debitQuery = undefined;
+  }
+
+  router.push({
+    query: {
+      debit: debitQuery,
+    },
+  });
+}
+
+function showMonitoringTime(time) {
+  const { year, month, dayOfMonth: day } = dateProperties(time, "string");
+  const {
+    year: cYear,
+    month: cMonth,
+    dayOfMonth: cDay,
+  } = dateProperties(new Date());
+
+  const monthName = monthsNameList[month];
+  const monthI18n = t(`months.${monthName}`);
+  const dayWithMonth = `${day} ${monthI18n}`;
+
+  if (year === cYear) {
+    if (month === cMonth) {
+      const difference = cDay - day;
+      switch (difference) {
+        case 0: {
+          return `${t("monitoring.today")}, ${dayWithMonth}`;
+        }
+        case 1: {
+          return `${t("monitoring.yesterday")}, ${dayWithMonth}`;
+        }
+      }
+    }
+
+    return dayWithMonth;
+  }
+
+  return `${day} ${monthI18n}, ${year}`;
 }
 
 onMounted(() => {
   infiniteScroll();
 });
 
-getMonitoringDetails();
+fetchMonitoringDetails();
 </script>
 
 <template>
-  <div style="color: black">
+  <div>
     <app-loader :active="isFetching" />
-    <div>
+    <div class="layout-container">
       <div id="infinite-list">
-        <div
-          v-for="item in mn.items"
-          :key="item.id"
-          class="flex flex-column row-gap-1 mb-1"
-        >
-          <div>{{ item.time }}</div>
-          <div v-for="detail in item.result" :key="detail.id">
-            <monitoring-card :detail="detail">
-              <template #icon>
-                <component :is="iconsList[detail.type]"></component>
-              </template>
-            </monitoring-card>
+        <div>
+          <div class="ol-profits-cards mb-1-5">
+            <div
+              class="ol-profits-card debit"
+              @click="filterByIncome"
+              :class="{
+                'ol-profits-active-card': debit !== undefined && debit,
+              }"
+            >
+              <div class="ol-profits-card-title">
+                {{ t("monitoring.debit") }}
+              </div>
+              <div class="ol-profits-card-value">
+                +{{ mn.total.debit_total }} FitCoin
+              </div>
+            </div>
+            <div
+              class="ol-profits-card credit"
+              @click="filterByOutcome"
+              :class="{
+                'ol-profits-active-card': debit !== undefined && !debit,
+              }"
+            >
+              <div class="ol-profits-card-title">
+                {{ t("monitoring.credit") }}
+              </div>
+              <div class="ol-profits-card-value">
+                {{ mn.total.total_amount }} FitCoin
+              </div>
+            </div>
+          </div>
+          <div>
+            <div
+              v-for="item in mn.items"
+              :key="item.id"
+              class="flex flex-column row-gap-1 mb-1"
+            >
+              <div class="monitoring-date">
+                {{ showMonitoringTime(item.time) }}
+              </div>
+              <div v-for="detail in item.result" :key="detail.id">
+                <monitoring-card :detail="detail">
+                  <template #icon>
+                    <component :is="iconsList[detail.type]"></component>
+                  </template>
+                </monitoring-card>
+              </div>
+            </div>
           </div>
         </div>
       </div>
     </div>
   </div>
 </template>
+
+<style lang="scss" scoped>
+.ol-profits-cards {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  grid-template-rows: 1fr;
+  grid-column-gap: 1rem;
+  grid-row-gap: 0;
+}
+
+.ol-profits-card {
+  padding: 12px 16px;
+  border-radius: 8px;
+  border: 1px solid var(--gf-p-main-gray);
+  display: flex;
+  flex-direction: column;
+  row-gap: 0.5rem;
+}
+
+.ol-profits-card-title {
+  @extend .text-14-400;
+  color: var(--text-secondary);
+}
+
+.ol-profits-card-value {
+  @extend .text-14-500;
+  color: var(--text-secondary);
+}
+
+.debit {
+  & .ol-profits-card-value {
+    color: var(--gf-p-green);
+  }
+}
+.credit {
+  & .ol-profits-card-value {
+    @extend .text-14-500;
+    color: var(--accent-red);
+  }
+}
+
+.monitoring-date {
+  @extend .text-12-500;
+  color: var(--text-secondary);
+}
+
+.ol-profits-active-card {
+  background: var(--accent-gray) !important;
+}
+</style>

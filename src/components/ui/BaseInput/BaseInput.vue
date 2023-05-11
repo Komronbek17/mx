@@ -51,6 +51,7 @@ const value = computed({
 .cd-form-control {
   background: transparent;
   border-bottom: 1px solid var(--gf-input-border);
+  border-radius: 0 !important;
   padding: 6px 0 6px !important;
   font-weight: 400;
   font-size: 16px;
