@@ -85,6 +85,7 @@ export default {
     premium: "Premium",
     level: "Bosqich",
     news: "Yangiliklar",
+    monitoring: "Monitoring",
     shop: "Do'kon",
     profile: "Profil",
     bonuses: "Bonuslar",
