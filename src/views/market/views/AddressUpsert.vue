@@ -45,10 +45,10 @@ const { value: region, errorMessage: regionErrorMessage } = useField(
 
 const { value: city, errorMessage: cityErrorMessage } = useField(
   "olAdsDistrict",
-    yup
-        .object()
-        .required(t("yup.required", { _field_: t("market_page.city") }))
-        .label("District"),
+  yup
+    .object()
+    .required(t("yup.required", { _field_: t("market_page.city") }))
+    .label("District"),
   {
     validateOnValueUpdate: false,
   }

@@ -6,17 +6,18 @@ import {
   reactive,
   watch,
 } from "vue";
+import { useI18n } from "vue-i18n";
+import { useRoute, useRouter } from "vue-router";
 import { coinApi } from "@/services/coin.service";
+import { isUndefined } from "@/utils/inspect.util";
+import { hasOwnProperty } from "@/utils/object.util";
 import { toastErrorMessage } from "@/utils/error.util";
 import { sortResultByDate } from "@/utils/sort.util";
+import { dateProperties, monthsNameList } from "@/utils/date.formatter";
 import { loadingComposable } from "@/composables/loading.composable";
 import AppLoader from "@/components/elements/loader/AppLoader.vue";
 import MonitoringCard from "@/views/monitoring/elements/MonitoringCard.vue";
-import { useI18n } from "vue-i18n";
-import { dateProperties, monthsNameList } from "@/utils/date.formatter";
-import { useRoute, useRouter } from "vue-router";
-import { hasOwnProperty } from "@/utils/object.util";
-import { isUndefined } from "@/utils/inspect.util";
+import { useInfiniteScroll } from "@/composables/useInfiniteScroll";
 
 const iconsList = {
   level: defineAsyncComponent(
@@ -63,13 +64,14 @@ const router = useRouter();
 
 const mn = reactive({
   items: [] /* { time:String, result:Array } */,
+  rawItems: [],
   total: {
     total_items: 0,
     total_amount: 0,
     debit_total: 0,
     credit_total: 0,
   },
-  loading: false,
+  fetching: false,
   pagination: {
     current: 1,
     previous: 0,
@@ -110,25 +112,12 @@ watch(
   }
 );
 
-function infiniteScroll() {
-  const listElm = document.getElementById("infinite-list");
-  listElm.addEventListener("scroll", () => {
-    if (listElm.scrollTop + listElm.clientHeight >= listElm.scrollHeight) {
-      if (mn.pagination.next) {
-        loadMore();
-      }
-    }
-  });
+function beginFetching() {
+  mn.fetching = true;
 }
 
-function loadMore() {
-  mn.loading = true;
-  setTimeout(() => {
-    for (let i = 0; i < 1; i++) {
-      getMonitoringDetails();
-    }
-    mn.loading = false;
-  }, 500);
+function finishFetching() {
+  mn.fetching = false;
 }
 
 async function getProfitDetails() {
@@ -141,8 +130,13 @@ async function getProfitDetails() {
 }
 
 async function getMonitoringDetails(
-  { page = 1, limit = 10 } = { page: 1, limit: 10 }
+  { page = 1, limit = 10, infinite = false } = {
+    page: 1,
+    limit: 10,
+    infinite: false,
+  }
 ) {
+  beginFetching();
   let body = {
     page,
     limit,
@@ -157,12 +151,56 @@ async function getMonitoringDetails(
       body,
     });
 
-    mn.items = sortResultByDate({
-      arr: response.data.result,
-    });
+    const result = response.data.result;
+
+    if (infinite) {
+      const topItem = mn.items[mn.items.length - 1];
+
+      const {
+        day: topItemDay,
+        month: topItemMonth,
+        year: topItemYear,
+      } = dateProperties(topItem.created_at, "string");
+
+      const indexOfLastItem = result.findLastIndex((r) => {
+        const { day, month, year } = dateProperties(r.created_at, "string");
+        return (
+          year === topItemYear && month === topItemMonth && day === topItemDay
+        );
+      });
+
+      if (indexOfLastItem !== -1) {
+        const addingResult = result.slice(0, indexOfLastItem + 1);
+        for (let i = 0; i < addingResult.length; i++) {
+          mn.items[mn.items.length - 1].result.push(addingResult[i]);
+        }
+
+        const newResult = sortResultByDate({
+          arr: result.slice(indexOfLastItem + 1),
+        });
+        for (let i = 0; i < newResult.length; i++) {
+          mn.items.push(newResult[i]);
+        }
+      } else {
+        const items = sortResultByDate({
+          arr: result,
+        });
+
+        for (let i = 0; i < items.length; i++) {
+          mn.items.push(items[i]);
+        }
+      }
+    } else {
+      mn.items = sortResultByDate({
+        arr: response.data.result,
+      });
+    }
+
     mn.pagination = response.data.pagination;
   } catch (e) {
     toastErrorMessage(e);
+  } finally {
+    finishFetching();
   }
 }
 
@@ -174,6 +212,15 @@ async function fetchMonitoringDetails() {
     console.error(e);
   } finally {
     finishLoading();
+  }
+}
+
+async function infiniteFetching() {
+  if (!mn.fetching) {
+    await getMonitoringDetails({
+      infinite: true,
+      page: mn.pagination.next,
+    });
   }
 }
 
@@ -237,19 +284,27 @@ function showMonitoringTime(time) {
 }
 
 onMounted(() => {
-  infiniteScroll();
+  const { mountInfiniteScroll } = useInfiniteScroll({
+    fn: infiniteFetching,
+    el: "infinite-list",
+  });
+
+  mountInfiniteScroll({});
 });
 
 fetchMonitoringDetails();
 </script>
 
 <template>
-  <div style="color: black; padding: 1rem">
+  <div
+    id="infinite-list"
+    style="color: black; overflow-y: scroll; height: 95vh"
+  >
     <app-loader :active="isFetching" />
     <div class="layout-container">
-      <div id="infinite-list">
+      <div>
         <div>
-          <div class="flex column-gap-2 mb-1-5">
+          <div class="flex column-gap-1 mb-1-5">
             <div
               class="ol-profits-card"
               @click="filterByIncome"

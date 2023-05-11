@@ -1,45 +1,44 @@
 <script setup>
-import {defineProps, ref} from "vue";
+import { defineProps, ref } from "vue";
 import EyeIcon from "@/components/icons/EyeIcon.vue";
 import ShareIcon from "@/components/icons/ShareIcon.vue";
 import AppLoader from "@/components/elements/loader/AppLoader.vue";
 
-
 const props = defineProps({
   property: {
     type: Object,
-    required: true
+    required: true,
   },
   relatedList: {
     type: Array,
-    default: []
+    default: [],
   },
   loading: {
     type: Boolean,
-    default: false
-  }
+    default: false,
+  },
 });
 
-const inputType = ref('password')
+const inputType = ref("password");
 
 function triggerInputType() {
-  inputType.value = inputType.value === 'password' ? inputType.value = 'text' : inputType.value = 'password'
+  inputType.value =
+    inputType.value === "password"
+      ? (inputType.value = "text")
+      : (inputType.value = "password");
 }
-
 </script>
 
 <template>
   <div class="referral-index">
-    <h4 class="referral-index__title">
-      Ваша реферальная ссылка:
-    </h4>
+    <h4 class="referral-index__title">Ваша реферальная ссылка:</h4>
     <div class="referral-index__link">
       <button class="referral-index__link-hide">
-        <eye-icon color="var(--gf-text-33)" @click="triggerInputType"/>
+        <eye-icon color="var(--gf-text-33)" @click="triggerInputType" />
       </button>
-      <input :type="inputType" :value="props.property.link" :disabled="true"/>
+      <input :type="inputType" :value="props.property.link" :disabled="true" />
       <button class="referral-index__link-share">
-        <share-icon/>
+        <share-icon />
       </button>
     </div>
 
@@ -56,11 +55,11 @@ function triggerInputType() {
     </div>
 
     <div id="infinite-list" class="referral-index__related">
-      <app-loader :active="loading"/>
+      <app-loader :active="loading" />
       <div class="related-list">
-<!--        <div v-for="item in relatedList" :key="item.id" class="related-item">-->
-<!--          {{ item }}-->
-<!--        </div>-->
+        <!--        <div v-for="item in relatedList" :key="item.id" class="related-item">-->
+        <!--          {{ item }}-->
+        <!--        </div>-->
       </div>
     </div>
   </div>
