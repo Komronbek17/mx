@@ -140,7 +140,7 @@ function showMainButton() {
   MainButtonController.run();
   MainButtonController.onClick(openBasketPage);
   MainButtonController.setBackgroundColor("#16A34A");
-  MainButtonController.setText(`Показать заказ`);
+  MainButtonController.setText(`${t("market_page.show_order")}`);
 }
 
 WebAppController.ready();

@@ -107,7 +107,7 @@ async function getClientDetails() {
 
 WebAppController.ready();
 MainButtonController.run();
-MainButtonController.setText("Подтвердить");
+MainButtonController.setText(`${t("login_page.confirm_btn")}`);
 MainButtonController.onClick(saveRecord);
 
 onBeforeRouteLeave(() => {

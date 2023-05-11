@@ -30,7 +30,7 @@ const getPrizeBonuses = async () => {
     },
   };
   const { data } = await historyApi.fetchPrizeHistories(body);
-  prizeBonuses.value = data.items;
+  prizeBonuses.value = [...prizeBonuses.value, ...data.items];
   pagination.value = Object.assign(pagination.value, data.pagination);
 };
 

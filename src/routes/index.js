@@ -128,19 +128,20 @@ const router = createRouter({
     },
     {
       path: "/referral",
+      name: "referral-view",
       component: AppReferral,
-      children: [
-        {
-          path: "/referral-view",
-          name: "referral-view",
-          component: AppReferralIndex,
-        },
-        {
-          path: "/referral-bonus",
-          name: "referral-bonus",
-          component: AppReferralBonus,
-        },
-      ],
+      // children: [
+      //   {
+      //     path: "/referral-view",
+      //     name: "referral-view",
+      //     component: AppReferralIndex,
+      //   },
+      //   {
+      //     path: "/referral-bonus",
+      //     name: "referral-bonus",
+      //     component: AppReferralBonus,
+      //   },
+      // ],
     },
     {
       path: "/bonus",

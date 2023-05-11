@@ -37,12 +37,18 @@ const { validate, setValues } = useForm();
 
 const { value: region, errorMessage: regionErrorMessage } = useField(
   "olAdsRegion",
-  yup.object().required().label("Region")
+  yup
+    .object()
+    .required(t("yup.required", { _field_: t("market_page.region") }))
+    .label("Region")
 );
 
 const { value: city, errorMessage: cityErrorMessage } = useField(
   "olAdsDistrict",
-  yup.object().required().label("District"),
+    yup
+        .object()
+        .required(t("yup.required", { _field_: t("market_page.city") }))
+        .label("District"),
   {
     validateOnValueUpdate: false,
   }
@@ -50,7 +56,10 @@ const { value: city, errorMessage: cityErrorMessage } = useField(
 
 const { value: address, errorMessage: addressErrorMessage } = useField(
   "olAdsAddress",
-  yup.string().required().label("Address")
+  yup
+    .string()
+    .required(t("yup.required", { _field_: t("market_page.address") }))
+    .label("Address")
 );
 
 const { value: entrance, errorMessage: entranceErrorMessage } = useField(
@@ -246,7 +255,7 @@ async function updateAddressHandler(bodyCtx) {
 
 WebAppController.ready();
 MainButtonController.run();
-MainButtonController.setText("Create Address");
+MainButtonController.setText(`${t("add")}`);
 MainButtonController.onClick(saveAddressRecord);
 onBeforeRouteLeave(() => {
   MainButtonController.makeInvisible();
