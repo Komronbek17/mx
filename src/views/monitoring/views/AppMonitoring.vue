@@ -13,11 +13,12 @@ import { isUndefined } from "@/utils/inspect.util";
 import { hasOwnProperty } from "@/utils/object.util";
 import { toastErrorMessage } from "@/utils/error.util";
 import { sortResultByDate } from "@/utils/sort.util";
+import { useInfiniteScroll } from "@/composables/useInfiniteScroll";
 import { dateProperties, monthsNameList } from "@/utils/date.formatter";
 import { loadingComposable } from "@/composables/loading.composable";
 import AppLoader from "@/components/elements/loader/AppLoader.vue";
 import MonitoringCard from "@/views/monitoring/elements/MonitoringCard.vue";
-import { useInfiniteScroll } from "@/composables/useInfiniteScroll";
+import AppSpinnerLoader from "@/components/elements/loader/AppSpinnerLoader.vue";
 
 const iconsList = {
   level: defineAsyncComponent(
@@ -155,21 +156,27 @@ async function getMonitoringDetails(
 
     if (infinite) {
       const topItem = mn.items[mn.items.length - 1];
-
       const {
-        day: topItemDay,
+        dayOfMonth: topItemDay,
         month: topItemMonth,
         year: topItemYear,
-      } = dateProperties(topItem.created_at, "string");
+      } = dateProperties(topItem.time, "string");
 
       const indexOfLastItem = result.findLastIndex((r) => {
-        const { day, month, year } = dateProperties(r.created_at, "string");
+        const {
+          dayOfMonth: day,
+          month,
+          year,
+        } = dateProperties(r.created_at, "string");
         return (
           year === topItemYear && month === topItemMonth && day === topItemDay
         );
       });
 
       if (indexOfLastItem !== -1) {
+        console.log("index", indexOfLastItem);
+        console.log(result.slice(0, indexOfLastItem + 1));
+        console.log(result.slice(indexOfLastItem + 1));
         const addingResult = result.slice(0, indexOfLastItem + 1);
         for (let i = 0; i < addingResult.length; i++) {
           mn.items[mn.items.length - 1].result.push(addingResult[i]);
@@ -296,64 +303,73 @@ fetchMonitoringDetails();
 </script>
 
 <template>
-  <div
-    id="infinite-list"
-    style="color: black; overflow-y: scroll; height: 95vh"
-  >
-    <app-loader :active="isFetching" />
-    <div class="layout-container">
-      <div>
+  <div>
+    <div
+      id="infinite-list"
+      style="color: black; overflow-y: scroll; height: 95vh"
+    >
+      <app-loader :active="isFetching" />
+      <div class="layout-container">
         <div>
-          <div class="ol-profits-cards mb-1-5">
-            <div
-              class="ol-profits-card debit"
-              @click="filterByIncome"
-              :class="{
-                'ol-profits-active-card': debit !== undefined && debit,
-              }"
-            >
-              <div class="ol-profits-card-title">
-                {{ t("monitoring.debit") }}
-              </div>
-              <div class="ol-profits-card-value">
-                +{{ mn.total.debit_total }} FitCoin
-              </div>
-            </div>
-            <div
-              class="ol-profits-card credit"
-              @click="filterByOutcome"
-              :class="{
-                'ol-profits-active-card': debit !== undefined && !debit,
-              }"
-            >
-              <div class="ol-profits-card-title">
-                {{ t("monitoring.credit") }}
-              </div>
-              <div class="ol-profits-card-value">
-                {{ mn.total.total_amount }} FitCoin
-              </div>
-            </div>
-          </div>
           <div>
-            <div
-              v-for="item in mn.items"
-              :key="item.id"
-              class="flex flex-column row-gap-1 mb-1"
-            >
-              <div class="monitoring-date">
-                {{ showMonitoringTime(item.time) }}
+            <div class="ol-profits-cards mb-1-5">
+              <div
+                class="ol-profits-card debit"
+                @click="filterByIncome"
+                :class="{
+                  'ol-profits-active-card': debit !== undefined && debit,
+                }"
+              >
+                <div class="ol-profits-card-title">
+                  {{ t("monitoring.debit") }}
+                </div>
+                <div class="ol-profits-card-value">
+                  +{{ mn.total.debit_total }} FitCoin
+                </div>
               </div>
-              <div v-for="detail in item.result" :key="detail.id">
-                <monitoring-card :detail="detail">
-                  <template #icon>
-                    <component :is="iconsList[detail.type]"></component>
-                  </template>
-                </monitoring-card>
+              <div
+                class="ol-profits-card credit"
+                @click="filterByOutcome"
+                :class="{
+                  'ol-profits-active-card': debit !== undefined && !debit,
+                }"
+              >
+                <div class="ol-profits-card-title">
+                  {{ t("monitoring.credit") }}
+                </div>
+                <div class="ol-profits-card-value">
+                  {{ mn.total.total_amount }} FitCoin
+                </div>
+              </div>
+            </div>
+            <div>
+              <div
+                v-for="item in mn.items"
+                :key="item.id"
+                class="flex flex-column row-gap-1 mb-1"
+              >
+                <div class="monitoring-date">
+                  {{ showMonitoringTime(item.time) }}
+                </div>
+                <div v-for="detail in item.result" :key="detail.id">
+                  <monitoring-card :detail="detail">
+                    <template #icon>
+                      <component :is="iconsList[detail.type]"></component>
+                    </template>
+                  </monitoring-card>
+                </div>
               </div>
             </div>
           </div>
         </div>
       </div>
+    </div>
+    <div class="flex justify-center align-center">
+      <app-spinner-loader
+        size="36"
+        color="var(--gf-p-loader-color)"
+        v-if="mn.fetching"
+      />
     </div>
   </div>
 </template>
