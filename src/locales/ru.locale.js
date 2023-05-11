@@ -89,6 +89,7 @@ export default {
     premium: "Премиум",
     level: "Левел",
     news: "Новости",
+    monitoring: "Мониторинг",
     shop: "Магазин",
     profile: "Профиль",
     bonuses: "Бонусы",

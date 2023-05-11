@@ -24,7 +24,7 @@ function isBoolean(val) {
 function generateImageClass() {
   if (props.to["name"] === "daily" || props.to["name"] === "premium") {
     return "category-card__bg-large";
-  } else if (props.to["name"] === "news") {
+  } else if (props.to["name"] === "news" || props.to["name"] === "monitoring") {
     return "category-card__bg-news";
   }
 }
