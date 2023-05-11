@@ -167,8 +167,8 @@ class CoinService extends Core {
     return this.post("order/remove", { id });
   }
 
-  transactionFindAll({ body: { page = 1, limit = 10 } }) {
-    return this.post("transaction/findAll", { page, limit });
+  transactionFindAll({ body }) {
+    return this.post("transaction/findAll", body);
   }
 
   transactionTotal() {
