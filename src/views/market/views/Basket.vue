@@ -29,32 +29,6 @@ const isBalanceInsufficient = computed(
   () => marketStore.total > marketStore.balance
 );
 
-async function getBasketItems() {
-  try {
-    startLoading();
-    const response = await coinApi.basketFindAll({
-      body: { limit: 50 },
-    });
-
-    marketStore.initializeBasket({
-      summary: response.data.summary,
-      products: response.data.products,
-    });
-  } catch (e) {
-    toast.error(e.response.data.message ?? e.message);
-  } finally {
-    finishLoading();
-  }
-}
-
-function openCheckoutPage() {
-  if (!isBalanceInsufficient.value) {
-    router.push({
-      name: "market-checkout",
-    });
-  }
-}
-
 watch(
   () => marketStore.total,
   (total) => {
@@ -76,6 +50,32 @@ watch(
     immediate: true,
   }
 );
+
+async function getBasketItems() {
+  try {
+    startLoading();
+    const response = await coinApi.basketFindAll({
+      body: { limit: 50 },
+    });
+
+    marketStore.initializeBasket({
+      summary: response.data.summary,
+      products: response.data.products,
+    });
+  } catch (e) {
+    toast.error(e.response.data.message ?? e.message);
+  } finally {
+    finishLoading();
+  }
+}
+
+function openCheckoutPage() {
+  if (!isBalanceInsufficient.value && marketStore.hasAvailableProducts) {
+    router.push({
+      name: "market-checkout",
+    });
+  }
+}
 
 WebAppController.ready();
 

@@ -12,7 +12,7 @@ export const useMarketStore = defineStore("market", () => {
 
   const total = computed(() =>
     basketThing.products.reduce((acc, item) => {
-      if (item?.isActive) {
+      if (item?.isActive && item["is_available"]) {
         return acc + item?.quantity * item?.product?.price;
       }
       return acc;
@@ -22,6 +22,12 @@ export const useMarketStore = defineStore("market", () => {
   const balance = computed(() => basketThing.summary.balance);
 
   const products = computed(() => basketThing.products);
+  const availableProducts = computed(() =>
+    basketThing.products.filter((p) => p["is_available"])
+  );
+  const hasAvailableProducts = computed(
+    () => availableProducts.value.length > 0
+  );
   const activeProducts = computed(() =>
     basketThing.products.filter((p) => p["isActive"])
   );
@@ -73,6 +79,8 @@ export const useMarketStore = defineStore("market", () => {
     products,
     basketThing,
     activeProducts,
+    availableProducts,
+    hasAvailableProducts,
     initializeBasket,
     setBasketProducts,
     updateBasketProduct,
