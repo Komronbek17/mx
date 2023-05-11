@@ -10,11 +10,13 @@ import { MainButtonController } from "@/utils/telegram/main.button.controller";
 
 import ReceiverForm from "@/views/market/elements/ReceiverForm.vue";
 import AppLoader from "@/components/elements/loader/AppLoader.vue";
+import { useI18n } from "vue-i18n";
 
 const toast = useToast();
 const route = useRoute();
 const router = useRouter();
 const receiverFormRef = ref(null);
+const { t } = useI18n();
 
 const {
   loading: isTransferring,

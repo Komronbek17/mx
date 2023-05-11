@@ -243,10 +243,13 @@ label {
   align-items: center;
   justify-content: center;
   border: 1px solid #00aee8;
-  color: #00aee8;
   width: 100%;
   height: 44px;
   border-radius: 8px;
+
+  & span {
+    color: #00aee8;
+  }
 
   & img {
     width: 24px;
