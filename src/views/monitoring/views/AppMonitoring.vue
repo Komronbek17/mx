@@ -304,10 +304,7 @@ fetchMonitoringDetails();
 
 <template>
   <div>
-    <div
-      id="infinite-list"
-      style="color: black; overflow-y: scroll; height: 95vh"
-    >
+    <div id="infinite-list" style="overflow-y: scroll; height: 95vh">
       <app-loader :active="isFetching" />
       <div class="layout-container">
         <div>
