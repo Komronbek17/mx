@@ -16,6 +16,8 @@ export default {
   add: "Добавить",
   continue: "Продолжить",
   back_to_main: "Вернуться на главную",
+  action: "Действие",
+  award: "Награда",
   packages: {
     internet: "Интернет пакет",
     voice: "Голосовой пакет",
