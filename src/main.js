@@ -9,13 +9,13 @@ import vSelect from "vue-select";
 import "vue-select/dist/vue-select.css";
 import myToast from "@/libs/my-toast";
 
+import Popper from "vue3-popper";
+
 import "@/assets/scss/main.scss";
-import ToastErrorIcon from "@/components/icons/ToastErrorIcon.vue";
 
 const app = createApp(App);
 
-app.component("toast-error", ToastErrorIcon);
-app.component("toast-success", ToastErrorIcon);
+app.component("Popper", Popper);
 
 const vMaskV2 = VueMaskDirective;
 const vMaskV3 = {

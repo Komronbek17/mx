@@ -5,20 +5,23 @@ import {referralService} from "@/services/referral.service";
 import {defineAsyncComponent, onMounted, ref} from "vue";
 import {loadingComposable} from "@/composables/loading.composable";
 import {useToast} from "vue-toastification";
-// import AppReferralBonus from "@/views/profile/AppReferralBonus.vue";
-// import AppReferralIndex from "@/views/profile/AppReferralIndex.vue";
+import {useUserStore} from "@/stores/user.store";
 
+import userAvatar from "@/assets/images/profile-image.svg";
 
 const route = useRoute();
 const toast = useToast()
 
-const ReferralBonus = defineAsyncComponent(() => {
-  return import("@/views/profile/AppReferralBonus.vue");
-});
+// const ReferralBonus = defineAsyncComponent(() => {
+//   return import("@/views/profile/AppReferralBonus.vue");
+// });
 
 const ReferralIndex = defineAsyncComponent(() => {
   return import("@/views/profile/AppReferralIndex.vue");
 });
+
+
+const {user, initUser} = useUserStore();
 
 
 const {
@@ -28,28 +31,32 @@ const {
 } = loadingComposable();
 
 
-const referralTabs = [
-  {
-    name: 'Рефералы',
-    route: 'referral-index',
-    component: ReferralIndex
-  },
-  {
-    name: 'Бонусы',
-    route: 'referral-bonus',
-    component: ReferralBonus
-  }
-]
+// const referralTabs = [
+//   {
+//     name: 'Рефералы',
+//     route: 'referral-index',
+//     component: ReferralIndex
+//   },
+//   {
+//     name: 'Бонусы',
+//     route: 'referral-bonus',
+//     component: ReferralBonus
+//   }
+// ]
 
-const activeTab = ref(referralTabs[0])
-
-
-function selectTab(tab) {
-  activeTab.value = tab
-}
+// const activeTab = ref(referralTabs[0])
 
 
-const referralData = ref({});
+// function selectTab(tab) {
+//   activeTab.value = tab
+// }
+
+
+const referralData = ref({
+  link: null,
+  coins: 0,
+  count: 0
+});
 const relatedReferralData = ref([]);
 
 
@@ -112,7 +119,11 @@ async function fetchRelatedReferrals() {
 onMounted(async () => {
   try {
     startLoading();
-    await Promise.allSettled([await fetchReferral(), await checkScrollFunction()]);
+    if (!(user && user.id)) {
+      await initUser();
+    }
+    await Promise.allSettled([await fetchReferral(), await fetchRelatedReferrals()]);
+    checkScrollFunction()
   } finally {
     finishLoading();
   }
@@ -127,12 +138,11 @@ WebAppController.ready();
     <div class="layout-container">
       <div class="referral-user">
         <div class="referral-image">
-          <img src="@/assets/images/profile-image.svg" alt=""/>
+          <img :src="user?.avatar || userAvatar" alt="avatar"/>
         </div>
 
-        <p class="referral-name">Отабек Каримов</p>
-<!--        <span class="referral-score">120 баллов</span>-->
-
+        <p class="referral-name">{{ user.fullName }}</p>
+        <!--        <span class="referral-score">120 баллов</span>-->
       </div>
 
       <!--      <div class="referral-tabs">-->
