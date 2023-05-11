@@ -269,7 +269,7 @@ init();
     width: 100%;
     pointer-events: all;
     position: fixed;
-    background: white;
+    background: var(--neutral-background);
     border-radius: 14px 14px 0 0;
     left: 50%;
     z-index: 9999;
