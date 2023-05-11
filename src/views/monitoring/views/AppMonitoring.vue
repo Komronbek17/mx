@@ -142,7 +142,7 @@ getMonitoringDetails();
 <template>
   <div style="color: black">
     <app-loader :active="isFetching" />
-    <div>
+    <div class="layout-container">
       <div id="infinite-list">
         <div
           v-for="item in mn.items"
@@ -162,3 +162,5 @@ getMonitoringDetails();
     </div>
   </div>
 </template>
+
+<style lang="scss" scoped></style>

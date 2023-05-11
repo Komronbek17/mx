@@ -24,7 +24,7 @@ function exactEarningTime() {
 
 <template>
   <div class="flex column-gap-1">
-    <div>
+    <div class="icon">
       <slot name="icon"></slot>
     </div>
     <div class="flex flex-column ol-m-card-main pb-1 w-100">
@@ -43,5 +43,16 @@ function exactEarningTime() {
 <style lang="scss" scoped>
 .ol-m-card-main {
   border-bottom: 1px solid var(--gf-p-main-gray);
+}
+
+.icon {
+  width: 44px;
+  min-width: 44px;
+  height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 8px;
+  background-color: var(--accent-gray);
 }
 </style>
