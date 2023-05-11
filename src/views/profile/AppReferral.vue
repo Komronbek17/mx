@@ -1,23 +1,28 @@
 <script setup>
-import { useRoute } from "vue-router";
-import { WebAppController } from "@/utils/telegram/web.app.util";
-import { referralService } from "@/services/referral.service";
-import { defineAsyncComponent, onMounted, ref } from "vue";
-import { loadingComposable } from "@/composables/loading.composable";
-import { useToast } from "vue-toastification";
-// import AppReferralBonus from "@/views/profile/AppReferralBonus.vue";
-// import AppReferralIndex from "@/views/profile/AppReferralIndex.vue";
+import {useRoute} from "vue-router";
+import {WebAppController} from "@/utils/telegram/web.app.util";
+import {referralService} from "@/services/referral.service";
+import {defineAsyncComponent, onMounted, ref} from "vue";
+import {loadingComposable} from "@/composables/loading.composable";
+import {useToast} from "vue-toastification";
+import {useUserStore} from "@/stores/user.store";
+
+import userAvatar from "@/assets/images/profile-image.svg";
 
 const route = useRoute();
-const toast = useToast();
+const toast = useToast()
 
-const ReferralBonus = defineAsyncComponent(() => {
-  return import("@/views/profile/AppReferralBonus.vue");
-});
+// const ReferralBonus = defineAsyncComponent(() => {
+//   return import("@/views/profile/AppReferralBonus.vue");
+// });
 
 const ReferralIndex = defineAsyncComponent(() => {
   return import("@/views/profile/AppReferralIndex.vue");
 });
+
+
+const {user, initUser} = useUserStore();
+
 
 const {
   loading: isFetching,
@@ -25,27 +30,35 @@ const {
   finishLoading,
 } = loadingComposable();
 
-const referralTabs = [
-  {
-    name: "Рефералы",
-    route: "referral-index",
-    component: ReferralIndex,
-  },
-  {
-    name: "Бонусы",
-    route: "referral-bonus",
-    component: ReferralBonus,
-  },
-];
 
-const activeTab = ref(referralTabs[0]);
+// const referralTabs = [
+//   {
+//     name: 'Рефералы',
+//     route: 'referral-index',
+//     component: ReferralIndex
+//   },
+//   {
+//     name: 'Бонусы',
+//     route: 'referral-bonus',
+//     component: ReferralBonus
+//   }
+// ]
 
-function selectTab(tab) {
-  activeTab.value = tab;
-}
+// const activeTab = ref(referralTabs[0])
 
-const referralData = ref({});
+
+// function selectTab(tab) {
+//   activeTab.value = tab
+// }
+
+
+const referralData = ref({
+  link: null,
+  coins: 0,
+  count: 0
+});
 const relatedReferralData = ref([]);
+
 
 const pagination = ref({
   current: 1,
@@ -54,10 +67,11 @@ const pagination = ref({
 
 const loading = ref(false);
 
+
 async function fetchReferral() {
   try {
-    const { data } = await referralService.getLink();
-    referralData.value = data.result;
+    const {data} = await referralService.getLink();
+    referralData.value = data.result
   } catch (e) {
     toast.error(e?.response?.data?.message ?? e.message);
   }
@@ -73,6 +87,7 @@ function loadMore() {
     loading.value = false;
   }, 500);
 }
+
 
 const checkScrollFunction = () => {
   const listElm = document.getElementById("infinite-list");
@@ -94,8 +109,8 @@ async function fetchRelatedReferrals() {
       page: pagination.value.current,
       limit: pagination.value.limit,
     };
-    const { data } = await referralService.getRelatedReferrals(body);
-    relatedReferralData.value = [...data.result, ...relatedReferralData.value];
+    const {data} = await referralService.getRelatedReferrals(body);
+    relatedReferralData.value = [...data.result, ...relatedReferralData.value]
   } catch (e) {
     toast.error(e?.response?.data?.message ?? e.message);
   }
@@ -104,14 +119,16 @@ async function fetchRelatedReferrals() {
 onMounted(async () => {
   try {
     startLoading();
-    await Promise.allSettled([
-      await fetchReferral(),
-      await checkScrollFunction(),
-    ]);
+    if (!(user && user.id)) {
+      await initUser();
+    }
+    await Promise.allSettled([await fetchReferral(), await fetchRelatedReferrals()]);
+    checkScrollFunction()
   } finally {
     finishLoading();
   }
-});
+})
+
 
 WebAppController.ready();
 </script>
@@ -121,10 +138,10 @@ WebAppController.ready();
     <div class="layout-container">
       <div class="referral-user">
         <div class="referral-image">
-          <img src="@/assets/images/profile-image.svg" alt="" />
+          <img :src="user?.avatar || userAvatar" alt="avatar"/>
         </div>
 
-        <p class="referral-name">Отабек Каримов</p>
+        <p class="referral-name">{{ user.fullName }}</p>
         <!--        <span class="referral-score">120 баллов</span>-->
       </div>
 
@@ -145,11 +162,8 @@ WebAppController.ready();
       <!--          :related-property="relatedReferralData"-->
       <!--      />-->
 
-      <referral-index
-        :property="referralData"
-        :related-list="relatedReferralData"
-        :loading="loading"
-      />
+      <referral-index :property="referralData" :related-list="relatedReferralData" :loading="loading"/>
+
     </div>
   </div>
 </template>

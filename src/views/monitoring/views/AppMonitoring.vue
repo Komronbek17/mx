@@ -266,13 +266,13 @@ function showMonitoringTime(time) {
 
   if (year === cYear) {
     if (month === cMonth) {
-      const difference = day - cDay;
+      const difference = cDay - day;
       switch (difference) {
         case 0: {
-          return `Сегодня, ${dayWithMonth}`;
+          return `${t("monitoring.today")}, ${dayWithMonth}`;
         }
         case 1: {
-          return `Вчера, ${dayWithMonth}`;
+          return `${t("monitoring.yesterday")}, ${dayWithMonth}`;
         }
       }
     }
@@ -304,26 +304,34 @@ fetchMonitoringDetails();
     <div class="layout-container">
       <div>
         <div>
-          <div class="flex column-gap-1 mb-1-5">
+          <div class="ol-profits-cards mb-1-5">
             <div
-              class="ol-profits-card"
+              class="ol-profits-card debit"
               @click="filterByIncome"
               :class="{
                 'ol-profits-active-card': debit !== undefined && debit,
               }"
             >
-              <div>Поступление</div>
-              <div>+{{ mn.total.debit_total }} FitCoin</div>
+              <div class="ol-profits-card-title">
+                {{ t("monitoring.debit") }}
+              </div>
+              <div class="ol-profits-card-value">
+                +{{ mn.total.debit_total }} FitCoin
+              </div>
             </div>
             <div
-              class="ol-profits-card"
+              class="ol-profits-card credit"
               @click="filterByOutcome"
               :class="{
                 'ol-profits-active-card': debit !== undefined && !debit,
               }"
             >
-              <div>Расходы</div>
-              <div>{{ mn.total.credit_total }} FitCoin</div>
+              <div class="ol-profits-card-title">
+                {{ t("monitoring.credit") }}
+              </div>
+              <div class="ol-profits-card-value">
+                {{ mn.total.total_amount }} FitCoin
+              </div>
             </div>
           </div>
           <div>
@@ -332,7 +340,9 @@ fetchMonitoringDetails();
               :key="item.id"
               class="flex flex-column row-gap-1 mb-1"
             >
-              <div>{{ showMonitoringTime(item.time) }}</div>
+              <div class="monitoring-date">
+                {{ showMonitoringTime(item.time) }}
+              </div>
               <div v-for="detail in item.result" :key="detail.id">
                 <monitoring-card :detail="detail">
                   <template #icon>
@@ -349,18 +359,51 @@ fetchMonitoringDetails();
 </template>
 
 <style lang="scss" scoped>
+.ol-profits-cards {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  grid-template-rows: 1fr;
+  grid-column-gap: 1rem;
+  grid-row-gap: 0;
+}
+
 .ol-profits-card {
-  padding: 1.5rem;
+  padding: 12px 16px;
   border-radius: 8px;
   border: 1px solid var(--gf-p-main-gray);
   display: flex;
   flex-direction: column;
-  row-gap: 1rem;
-  width: 100%;
-  white-space: nowrap;
+  row-gap: 0.5rem;
+}
+
+.ol-profits-card-title {
+  @extend .text-14-400;
+  color: var(--text-secondary);
+}
+
+.ol-profits-card-value {
+  @extend .text-14-500;
+  color: var(--text-secondary);
+}
+
+.debit {
+  & .ol-profits-card-value {
+    color: var(--gf-p-green);
+  }
+}
+.credit {
+  & .ol-profits-card-value {
+    @extend .text-14-500;
+    color: var(--accent-red);
+  }
+}
+
+.monitoring-date {
+  @extend .text-12-500;
+  color: var(--text-secondary);
 }
 
 .ol-profits-active-card {
-  background-color: var(--gf-p-main-gray);
+  background: var(--accent-gray) !important;
 }
 </style>

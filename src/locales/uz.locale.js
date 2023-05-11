@@ -16,6 +16,8 @@ export default {
   add: "Qo'shish",
   continue: "Davom ettirish",
   back_to_main: "Asosiy sahifaga qaytish",
+  action: "Harakat",
+  award: "Mukofot",
   packages: {
     internet: "Internet paket",
     voice: "Daqiqalar",
@@ -269,5 +271,12 @@ export default {
     friday: "Juma",
     saturday: "Shanba",
     sunday: "Yakshanba",
+  },
+
+  monitoring: {
+    debit: "Kirim",
+    credit: "Chiqim",
+    today: "Bugun",
+    yesterday: "Kecha",
   },
 };

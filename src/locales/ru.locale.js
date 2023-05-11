@@ -16,6 +16,8 @@ export default {
   add: "Добавить",
   continue: "Продолжить",
   back_to_main: "Вернуться на главную",
+  action: "Действие",
+  award: "Награда",
   packages: {
     internet: "Интернет пакет",
     voice: "Голосовой пакет",
@@ -270,5 +272,12 @@ export default {
     friday: "Пятница",
     saturday: "Суббота",
     sunday: "Воскресенье",
+  },
+
+  monitoring: {
+    debit: "Поступление",
+    credit: "Расходы",
+    today: "Сегодня",
+    yesterday: "Вчера",
   },
 };
