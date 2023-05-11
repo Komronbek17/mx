@@ -219,7 +219,7 @@ function showMonitoringTime(time) {
 
   if (year === cYear) {
     if (month === cMonth) {
-      const difference = day - cDay;
+      const difference = cDay - day;
       switch (difference) {
         case 0: {
           return `${t("monitoring.today")}, ${dayWithMonth}`;
@@ -244,15 +244,19 @@ fetchMonitoringDetails();
 </script>
 
 <template>
-  <div style="color: black">
+  <div>
     <app-loader :active="isFetching" />
     <div class="layout-container">
       <div id="infinite-list">
         <div>
           <div class="ol-profits-cards mb-1-5">
-            <div class="ol-profits-card debit" @click="filterByIncome" :class="{
+            <div
+              class="ol-profits-card debit"
+              @click="filterByIncome"
+              :class="{
                 'ol-profits-active-card': debit !== undefined && debit,
-              }">
+              }"
+            >
               <div class="ol-profits-card-title">
                 {{ t("monitoring.debit") }}
               </div>
@@ -260,10 +264,13 @@ fetchMonitoringDetails();
                 +{{ mn.total.debit_total }} FitCoin
               </div>
             </div>
-            <div class="ol-profits-card credit" @click="filterByOutcome"
-                 :class="{
+            <div
+              class="ol-profits-card credit"
+              @click="filterByOutcome"
+              :class="{
                 'ol-profits-active-card': debit !== undefined && !debit,
-              }">
+              }"
+            >
               <div class="ol-profits-card-title">
                 {{ t("monitoring.credit") }}
               </div>
@@ -339,5 +346,9 @@ fetchMonitoringDetails();
 .monitoring-date {
   @extend .text-12-500;
   color: var(--text-secondary);
+}
+
+.ol-profits-active-card {
+  background: var(--accent-gray) !important;
 }
 </style>
