@@ -154,10 +154,10 @@ function showMonitoringTime(time) {
       const difference = day - cDay;
       switch (difference) {
         case 0: {
-          return `Сегодня, ${dayWithMonth}`;
+          return `${t("monitoring.today")}, ${dayWithMonth}`;
         }
         case 1: {
-          return `Вчера, ${dayWithMonth}`;
+          return `${t("monitoring.yesterday")}, ${dayWithMonth}`;
         }
       }
     }
@@ -176,19 +176,27 @@ fetchMonitoringDetails();
 </script>
 
 <template>
-  <div style="color: black; padding: 1rem">
+  <div style="color: black">
     <app-loader :active="isFetching" />
     <div class="layout-container">
       <div id="infinite-list">
         <div>
-          <div class="flex column-gap-2 mb-1-5">
-            <div class="ol-profits-card">
-              <div>Поступление</div>
-              <div>+{{ mn.total.debit_total }} FitCoin</div>
+          <div class="ol-profits-cards mb-1-5">
+            <div class="ol-profits-card debit">
+              <div class="ol-profits-card-title">
+                {{ t("monitoring.debit") }}
+              </div>
+              <div class="ol-profits-card-value">
+                +{{ mn.total.debit_total }} FitCoin
+              </div>
             </div>
-            <div class="ol-profits-card">
-              <div>Расходы</div>
-              <div>{{ mn.total.total_amount }} FitCoin</div>
+            <div class="ol-profits-card credit">
+              <div class="ol-profits-card-title">
+                {{ t("monitoring.credit") }}
+              </div>
+              <div class="ol-profits-card-value">
+                {{ mn.total.total_amount }} FitCoin
+              </div>
             </div>
           </div>
           <div>
@@ -197,7 +205,9 @@ fetchMonitoringDetails();
               :key="item.id"
               class="flex flex-column row-gap-1 mb-1"
             >
-              <div>{{ showMonitoringTime(item.time) }}</div>
+              <div class="monitoring-date">
+                {{ showMonitoringTime(item.time) }}
+              </div>
               <div v-for="detail in item.result" :key="detail.id">
                 <monitoring-card :detail="detail">
                   <template #icon>
@@ -214,13 +224,47 @@ fetchMonitoringDetails();
 </template>
 
 <style lang="scss" scoped>
+.ol-profits-cards {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  grid-template-rows: 1fr;
+  grid-column-gap: 1rem;
+  grid-row-gap: 0;
+}
+
 .ol-profits-card {
-  padding: 1.5rem;
+  padding: 12px 16px;
   border-radius: 8px;
   border: 1px solid var(--gf-p-main-gray);
   display: flex;
   flex-direction: column;
-  row-gap: 1rem;
-  width: 100%;
+  row-gap: 0.5rem;
+}
+
+.ol-profits-card-title {
+  @extend .text-14-400;
+  color: var(--text-secondary);
+}
+
+.ol-profits-card-value {
+  @extend .text-14-500;
+  color: var(--text-secondary);
+}
+
+.debit {
+  & .ol-profits-card-value {
+    color: var(--gf-p-green);
+  }
+}
+.credit {
+  & .ol-profits-card-value {
+    @extend .text-14-500;
+    color: var(--accent-red);
+  }
+}
+
+.monitoring-date {
+  @extend .text-12-500;
+  color: var(--text-secondary);
 }
 </style>

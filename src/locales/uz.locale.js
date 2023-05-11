@@ -270,4 +270,11 @@ export default {
     saturday: "Shanba",
     sunday: "Yakshanba",
   },
+
+  monitoring: {
+    debit: "Kirim",
+    credit: "Chiqim",
+    today: "Bugun",
+    yesterday: "Kecha",
+  },
 };

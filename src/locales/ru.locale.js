@@ -271,4 +271,11 @@ export default {
     saturday: "Суббота",
     sunday: "Воскресенье",
   },
+
+  monitoring: {
+    debit: "Поступление",
+    credit: "Расходы",
+    today: "Сегодня",
+    yesterday: "Вчера",
+  },
 };
