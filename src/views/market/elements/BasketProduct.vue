@@ -118,9 +118,11 @@ async function decreaseBasketItem({ count = -1 }) {
 }
 
 function toggleSelect() {
-  emits("inactivate-product", {
-    productId: basketId.value,
-  });
+  if (isAvailable.value) {
+    emits("inactivate-product", {
+      productId: basketId.value,
+    });
+  }
 }
 </script>
 
