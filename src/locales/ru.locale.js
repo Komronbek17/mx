@@ -247,4 +247,28 @@ export default {
     minutes: "Минут",
     seconds: "Секунд",
   },
+  months: {
+    january: "Январь",
+    february: "Февраль",
+    march: "Март",
+    april: "Апрель",
+    may: "Май",
+    june: "Июнь",
+    july: "Июль",
+    august: "Август",
+    september: "Сентябрь",
+    october: "Октябрь",
+    november: "Ноябрь",
+    december: "Декабрь",
+  },
+
+  weeks: {
+    monday: "Понедельник",
+    tuesday: "Вторник",
+    wednesday: "Среда",
+    thursday: "Четверг",
+    friday: "Пятница",
+    saturday: "Суббота",
+    sunday: "Воскресенье",
+  },
 };

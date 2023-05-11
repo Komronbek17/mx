@@ -6,29 +6,9 @@ import { sortResultByDate } from "@/utils/sort.util";
 import { loadingComposable } from "@/composables/loading.composable";
 import AppLoader from "@/components/elements/loader/AppLoader.vue";
 import MonitoringCard from "@/views/monitoring/elements/MonitoringCard.vue";
+import { useI18n } from "vue-i18n";
+import { dateProperties, monthsNameList } from "@/utils/date.formatter";
 
-// const PrizeIcon = defineAsyncComponent(
-//   () =>
-//     new Promise((resolve) =>
-//       resolve(import("@/components/icons/PrizeIcon.vue"))
-//     )
-// );
-// const AdsOneIcon = defineAsyncComponent(() =>
-//   import("@/components/icons/monitoring/AdsOneIcon.vue")
-// );
-// const OrderCartIcon = defineAsyncComponent(() =>
-//   import("@/components/icons/monitoring/OrderCartIcon.vue")
-// );
-// const ReferralIcon = defineAsyncComponent(() =>
-//   import("@/components/icons/monitoring/ReferralIcon.vue")
-// );
-// const VuexyBoldStarIcon = defineAsyncComponent(() =>
-//   import("@/components/icons/monitoring/VuexyBoldStarIcon.vue")
-// );
-// const ChecklistIcon = defineAsyncComponent(() =>
-//   import("@/components/icons/monitoring/ChecklistIcon.vue.vue")
-// );
-// types: ["level", "ads", "referral", "premium", "shop", "vote"],
 const iconsList = {
   level: defineAsyncComponent(
     () =>
@@ -67,7 +47,7 @@ const iconsList = {
       )
   ),
 };
-
+const { t } = useI18n();
 const mn = reactive({
   items: [] /* { time:String, result:Array } */,
   loading: false,
@@ -132,6 +112,37 @@ async function getMonitoringDetails(
   }
 }
 
+function showMonitoringTime(time) {
+  const { year, month, dayOfMonth: day } = dateProperties(time, "string");
+  const {
+    year: cYear,
+    month: cMonth,
+    dayOfMonth: cDay,
+  } = dateProperties(new Date());
+
+  const monthName = monthsNameList[month];
+  const monthI18n = t(`months.${monthName}`);
+  const dayWithMonth = `${day} ${monthI18n}`;
+
+  if (year === cYear) {
+    if (month === cMonth) {
+      const difference = day - cDay;
+      switch (difference) {
+        case 0: {
+          return `Сегодня, ${dayWithMonth}`;
+        }
+        case 1: {
+          return `Вчера, ${dayWithMonth}`;
+        }
+      }
+    }
+
+    return dayWithMonth;
+  }
+
+  return `${day} ${monthI18n}, ${year}`;
+}
+
 onMounted(() => {
   infiniteScroll();
 });
@@ -149,7 +160,7 @@ getMonitoringDetails();
           :key="item.id"
           class="flex flex-column row-gap-1 mb-1"
         >
-          <div>{{ item.time }}</div>
+          <div>{{ showMonitoringTime(item.time) }}</div>
           <div v-for="detail in item.result" :key="detail.id">
             <monitoring-card :detail="detail">
               <template #icon>
