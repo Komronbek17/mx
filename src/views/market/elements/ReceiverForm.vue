@@ -72,17 +72,27 @@ const { validate, values, setValues } = useForm();
 
 const { value: firstName, errorMessage: firstNameEMessage } = useField(
   "clientFirstName",
-  yup.string().required().label("Имя получателя")
+  yup
+    .string()
+    .required(t("yup.required", { _field_: t("market_page.receiver_name") }))
+    .label("Имя получателя")
 );
 
 const { value: lastName, errorMessage: lastNameEMessage } = useField(
   "clientLastName",
-  yup.string().required().label("Фамилия получателя")
+  yup
+    .string()
+    .required(t("yup.required", { _field_: t("market_page.receiver_surname") }))
+    .label("Фамилия получателя")
 );
 
 const { value: pinfl, errorMessage: pinflEMessage } = useField(
   "clientPinfl",
-  yup.string().length(14).required().label("Введите ПИНФЛ получателя")
+  yup
+    .string()
+    .length(14)
+    .required(t("yup.required", { _field_: t("market_page.receiver_pinfl") }))
+    .label("Введите ПИНФЛ получателя")
 );
 
 const {
@@ -90,7 +100,15 @@ const {
   errorMessage: identifyErrorMessage,
   setValue: setPassportFile,
   errors,
-} = useField("passportFile", yup.object().required().label("Passport file"));
+} = useField(
+  "passportFile",
+  yup
+    .object()
+    .required(
+      t("yup.required", { _field_: t("market_page.passport_image_yup") })
+    )
+    .label("Passport file")
+);
 
 function onPickFile() {
   uploadInput.value.click();
@@ -288,7 +306,7 @@ defineExpose({
         @click="onPickFile"
       >
         <span class="mr-0-5">
-          <attach-icon />
+          <attach-icon fill="var(--gf-text-33)" />
         </span>
         <span>{{ t("market_page.form.upload_passport") }}</span>
       </div>
@@ -342,7 +360,7 @@ defineExpose({
     padding: 0.75rem 0;
     border-radius: 0.5rem;
     color: var(--gf-text-33);
-    background-color: var(--gf-p-main-gray);
+    background-color: var(--accent-gray);
   }
 }
 

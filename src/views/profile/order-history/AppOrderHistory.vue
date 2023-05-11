@@ -28,7 +28,7 @@ const getOrderHistory = async () => {
     is_active: 0,
   };
   const { data } = await ordersApi.fetchOrdersHistory(body);
-  prizeBonuses.value = data.items;
+  prizeBonuses.value = [...data.result, ...prizeBonuses.value];
   pagination.value = Object.assign(pagination.value, data.pagination);
 };
 
@@ -51,7 +51,7 @@ function loadMore() {
 const checkScrollFunction = () => {
   const listElm = document.getElementById("infinite-list");
   // eslint-disable-next-line no-unused-vars
-  listElm.addEventListener("scroll", (e) => {
+  listElm.addEventListener("scroll", () => {
     if (listElm.scrollTop + listElm.clientHeight >= listElm.scrollHeight) {
       if (pagination.value.next) {
         loadMore();
@@ -80,20 +80,17 @@ WebAppController.ready();
     <app-loader :active="isFetching" />
     <div class="layout-container">
       <div class="prize-items" id="infinite-list">
-        <div
-          v-for="item in prizeBonuses"
-          :key="item.id"
-          class="prize-item"
-          :class="'prize-item-' + `${item.level}`"
-        >
+        <div v-for="item in prizeBonuses" :key="item.id" class="prize-item">
           <div class="prize-image">
             <img src="@/assets/images/bonus-prize.svg" alt="" />
           </div>
           <div class="prize-item__details">
-            <p>{{ item.name }}</p>
-            <span>{{ filterPrizeLevel(item.level) }}</span>
+            <p>{{ t("market_page.order") }} №{{ item.id }}</p>
+            <p class="prize-level">{{ formatCreatedTime(item.date) }}</p>
           </div>
-          <p class="prize-level">{{ formatCreatedTime(item.created_at) }}</p>
+          <p class="prize-status" :style="`color: ${item.color}`">
+            {{ item.status }}
+          </p>
         </div>
       </div>
     </div>
@@ -120,7 +117,7 @@ WebAppController.ready();
       display: flex;
       flex-direction: column;
       justify-content: center;
-      width: 100%;
+      width: 70%;
 
       & p {
         @extend .text-15-600;
@@ -188,6 +185,11 @@ WebAppController.ready();
   &-level {
     @extend .text-14-500;
     color: var(--text-secondary);
+  }
+
+  &-status {
+    @extend .text-14-500;
+    text-align: right;
   }
 }
 </style>

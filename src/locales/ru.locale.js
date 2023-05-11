@@ -8,6 +8,8 @@ export default {
   internet_package: "Интернет-пакет",
   premium_gifts_title: "По вашему тарифу доступны бонусы",
   ok: "Да",
+  to_pay: "Оплатить",
+  checkout_products: "Оформить выбранные товары",
   approve: "Хорошо",
   cancel: "Отмена",
   price: "Стоимость %{msg} сум",
@@ -155,6 +157,8 @@ export default {
     go_to_market: "Перейти в маркет",
     not_enough_money: "Недостаточно средств",
     your_balance: "Ваш баланс",
+    order: "Заказ",
+    passport_image_yup: "Фото паспорта",
 
     form: {
       your_pinfl: "Введите ПИНФЛ",
@@ -229,6 +233,7 @@ export default {
     min: "Поле {_field_} должно быть не менее {length} символов",
     min_value: "Поле {_field_} должно быть {min} или больше",
     required: "Поле {_field_} обязательно для заполнения",
+    choose: "Вы должны выбрать {_field_}",
   },
   number_copied: "Номер телефона скопирован",
   number_not_copied: "Номер не скопирован ",

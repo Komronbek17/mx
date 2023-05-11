@@ -19,8 +19,10 @@ import ClientDetails from "@/views/market/elements/ClientDetails.vue";
 import CheckoutSelectAddress from "@/views/market/elements/SelectAddress.vue";
 import { isArray } from "@/utils/inspect.util";
 import { useMarketStore } from "@/views/market/market.store";
+import { useI18n } from "vue-i18n";
 
 const marketStore = useMarketStore();
+const { t } = useI18n();
 
 const {
   loading: isFetching,
@@ -40,13 +42,25 @@ const {
   value: address,
   errorMessage: addressEMessage,
   validate: validateAddress,
-} = useField("selectAddress", yup.object().required().label("Address"));
+} = useField(
+  "selectAddress",
+  yup
+    .object()
+    .required(t("yup.choose", { _field_: t("market_page.address") }))
+    .label("Address")
+);
 
 const {
   value: client,
   errorMessage: clientEMessage,
   validate: validateClient,
-} = useField("selectAddress", yup.object().required().label("Client"));
+} = useField(
+  "receiverFormRef",
+  yup
+    .object()
+    .required(t("yup.choose", { _field_: t("market_page.form.receiver") }))
+    .label("Client")
+);
 
 const hasClientDetails = computed(() => checkoutStuff.clientList.length > 0);
 
@@ -199,7 +213,7 @@ async function submitOrder() {
 
 WebAppController.ready();
 MainButtonController.run();
-MainButtonController.setText("Оплатить");
+MainButtonController.setText(`${t("to_pay")}`);
 MainButtonController.onClick(submitOrder);
 
 onBeforeRouteLeave(() => {
@@ -228,6 +242,7 @@ initialize();
     <client-details
       v-if="hasClientDetails"
       :client-list="checkoutStuff.clientList"
+      ref="receiverFormRef"
       v-model="client"
     >
       <template #default>

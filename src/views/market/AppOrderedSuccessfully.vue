@@ -22,6 +22,7 @@ const { t } = useI18n();
 .order-success {
   & img {
     margin-bottom: 40px;
+    background-color: transparent;
   }
 
   & h4 {

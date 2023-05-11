@@ -60,7 +60,7 @@ watch(
   (total) => {
     if (total) {
       MainButtonController.run();
-      MainButtonController.setText("Оформить выбранные товары");
+      MainButtonController.setText(`${t("checkout_products")}`);
       MainButtonController.onClick(openCheckoutPage);
     } else {
       MainButtonController.deactivate();
