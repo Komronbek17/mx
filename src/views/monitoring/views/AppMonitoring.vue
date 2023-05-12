@@ -346,6 +346,12 @@ fetchMonitoringDetails();
                 </div>
               </div>
             </div>
+
+            <router-link :to="{ name: 'informers' }" class="profile-button">
+              <img src="@/assets/images/fitcoin.svg" alt="" />
+              <p>{{ t("profile_page.earn_fitcoin") }}</p>
+            </router-link>
+
             <div>
               <div
                 v-for="item in mn.items"
@@ -389,6 +395,7 @@ fetchMonitoringDetails();
   grid-template-rows: 1fr;
   grid-column-gap: 1rem;
   grid-row-gap: 0;
+  margin-bottom: 1rem;
 }
 
 .ol-profits-card {
@@ -436,5 +443,34 @@ fetchMonitoringDetails();
   bottom: 0;
   left: 50%;
   transform: translateX(-50%);
+}
+
+.profile-button {
+  display: flex;
+  align-items: center;
+  text-align: center;
+  justify-content: center;
+  padding: 12px;
+  column-gap: 10px;
+  background: var(--gf-blue-gradient-01) !important;
+  border-radius: 8px;
+  max-height: 48px;
+  cursor: pointer;
+  margin-bottom: 2rem;
+
+  p {
+    @extend .text-16-600;
+    text-align: center;
+    letter-spacing: -0.4px;
+    color: var(--neutral-white) !important;
+  }
+
+  &.disabled {
+    background: var(--accent-gray) !important;
+
+    p {
+      color: var(--text-secondary) !important;
+    }
+  }
 }
 </style>
