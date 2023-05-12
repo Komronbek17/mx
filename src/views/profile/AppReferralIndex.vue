@@ -1,11 +1,11 @@
 <script setup>
 import { computed, defineProps, ref } from "vue";
 import EyeIcon from "@/components/icons/EyeIcon.vue";
+import EyeCloseIcon from "@/components/icons/EyeCloseIcon.vue";
 import ShareIcon from "@/components/icons/ShareIcon.vue";
-import AppLoader from "@/components/elements/loader/AppLoader.vue";
 import userAvatar from "@/assets/images/profile-image.svg";
-import Popover from "@/components/ui/Popover/Popover.vue";
 import { useI18n } from "vue-i18n";
+import AppSpinnerLoader from "@/components/elements/loader/AppSpinnerLoader.vue";
 
 const { t } = useI18n();
 const props = defineProps({
@@ -34,9 +34,9 @@ function triggerInputType() {
 
 const computedMaxBalance = computed(() => {
   if (
-    props.relatedList &&
-    props.relatedList[0] &&
-    props.relatedList[0].balance
+      props.relatedList &&
+      props.relatedList[0] &&
+      props.relatedList[0].balance
   ) {
     return Math.round(props.relatedList[0].balance * 1.5);
   }
@@ -56,8 +56,9 @@ function generateUserName(name) {
   <div class="referral-index">
     <h4 class="referral-index__title">{{ t("referral_page.title") }}:</h4>
     <div class="referral-index__link">
-      <button class="referral-index__link-hide m-0">
-        <eye-icon color="var(--gf-text-33)" @click="triggerInputType" />
+      <button class="referral-index__link-hide"  @click="triggerInputType">
+        <eye-icon v-if="inputType === 'password'" color="var(--gf-text-33)"/>
+        <eye-close-icon v-else color="var(--gf-text-33)"/>
       </button>
       <input :type="inputType" :value="props.property.link" :disabled="true" />
       <a
@@ -85,7 +86,6 @@ function generateUserName(name) {
     </div>
 
     <div id="infinite-list" class="referral-index__related">
-      <app-loader :active="loading" />
       <div class="related-list">
         <div v-for="item in relatedList" :key="item.id" class="related-item">
           <div class="related-item__chart">
@@ -124,6 +124,9 @@ function generateUserName(name) {
           </p>
         </div>
       </div>
+      <div v-if="loading" class="d-flex align-center justify-center">
+        <app-spinner-loader size="24" color="var(--gf-p-loader-color)"/>
+      </div>
     </div>
   </div>
 </template>
@@ -155,6 +158,7 @@ function generateUserName(name) {
       padding: 0 1rem;
       background-color: var(--gf-basket-product-image-bg);
       border: none;
+      margin: 0;
 
       & img {
         width: 24px;
@@ -260,7 +264,7 @@ function generateUserName(name) {
     user-select: none;
     border: 0;
     height: 24px !important;
-    background: #00cc6a;
+    background: #00CC6A;
     border-radius: 0 4px 4px 0;
   }
 

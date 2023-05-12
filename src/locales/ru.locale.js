@@ -1,4 +1,5 @@
 export default {
+  delete: "Удалить",
   public_offer: "Публичная оферта",
   edit_profile: "Редактировать профиль",
   connect_premium_service_message:
@@ -115,6 +116,7 @@ export default {
     to_basket: "В корзину",
     activate: "Активировать",
     activated: "Активировано",
+    detail: "Подробный",
     text: "Активировать {level}?",
     bonus: "Бонус",
     bonus_description:

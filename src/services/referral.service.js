@@ -1,10 +1,10 @@
 import Core from "@/services/axios/core.axios";
-import { axiosVersion } from "@/services/axios/axios";
+import {axiosV1, axiosVersion} from "@/services/axios/axios";
 
 class ReferralService extends Core {
   constructor() {
     super({
-      axios: axiosVersion({ version: "v1", endpoint: "referral/" }),
+      axios: axiosV1({ version: "v1", endpoint: "api/referral/" }),
     });
   }
 

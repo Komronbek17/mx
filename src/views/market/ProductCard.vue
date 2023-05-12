@@ -1,10 +1,7 @@
 <script setup>
-import { useRouter } from "vue-router";
-import { useToast } from "vue-toastification";
-import { coinApi } from "@/services/coin.service";
-import { loadingComposable } from "@/composables/loading.composable";
-import AppSpinnerLoader from "@/components/elements/loader/AppSpinnerLoader.vue";
-import { computed, reactive } from "vue";
+import {useRouter} from "vue-router";
+import {useToast} from "vue-toastification";
+import {computed, reactive} from "vue";
 
 const router = useRouter();
 const toast = useToast();
@@ -16,17 +13,6 @@ const props = defineProps({
   },
 });
 
-const {
-  loading: isSavingToBasket,
-  startLoading: startSaving,
-  finishLoading: finishSaving,
-} = loadingComposable();
-
-const {
-  loading: isBasketUpdating,
-  startLoading: startBasketUpdating,
-  finishLoading: finishBasketUpdating,
-} = loadingComposable();
 
 const card = reactive({
   basket: null,
@@ -43,98 +29,18 @@ const card = reactive({
   ...Object.assign({}, props.item),
   quantity: props.item?.basket?.quantity ?? 0,
 });
-const basketId = computed(() => card?.basket?.id ?? null);
+
 const isProductType = computed(() => card.type === "product");
-const savedInBasket = computed(() => isProductType.value && card.basket);
-const limitQuantity = computed(() => card.qty);
-const isBasketQtyFull = computed(() => limitQuantity.value === card.quantity);
 
 function askActivate() {
   emits("ask-activate");
-}
-
-async function addToBasket({ quantity = 1 }) {
-  if (isSavingToBasket.value) {
-    return;
-  }
-
-  try {
-    startSaving();
-    const response = await coinApi.basketAddItem({
-      body: {
-        quantity,
-        product_id: props.item["id"],
-      },
-    });
-    card.basket = {
-      ...response.data.result,
-      product_id: response.data.result.product.id,
-    };
-    card.quantity = quantity;
-  } catch (e) {
-    toast.error(e.response.data.message ?? e.message);
-  } finally {
-    finishSaving();
-  }
-}
-
-async function increaseBasketItem({ count = 1 }) {
-  if (isBasketUpdating.value) {
-    return;
-  }
-
-  try {
-    startBasketUpdating();
-    if (limitQuantity.value >= card.quantity + count) {
-      await addToBasket({
-        quantity: card.quantity + count,
-      });
-    }
-  } catch (e) {
-    card.quantity -= count;
-    toast.error(e.response.data.message ?? e.message);
-  } finally {
-    finishBasketUpdating();
-  }
-}
-
-async function decreaseBasketItem({ count = -1 }) {
-  if (isBasketUpdating.value) {
-    return;
-  }
-
-  const basket = Object.assign(card.basket);
-  try {
-    startBasketUpdating();
-    if (card.quantity + count === 0) {
-      await coinApi
-        .basketRemoveItem({
-          body: {
-            id: basketId.value,
-          },
-        })
-        .then(() => {
-          card.basket = null;
-        });
-    } else {
-      await addToBasket({
-        quantity: card.quantity + count,
-      });
-    }
-  } catch (e) {
-    card.basket = basket;
-    card.quantity -= count;
-    toast.error(e?.response?.data?.message ?? e.message);
-  } finally {
-    finishBasketUpdating();
-  }
 }
 
 function viewProduct() {
   if (isProductType.value) {
     router.push({
       name: "market-product",
-      params: { id: props.item["id"] },
+      params: {id: props.item["id"]},
     });
   }
 }
@@ -144,45 +50,20 @@ function viewProduct() {
   <div class="gift-card">
     <div @click="viewProduct" class="gift-card__image">
       <img
-        :src="props.item.images[0]?.path || '@/assets/images/no-photo.svg'"
-        alt=""
+          :src="props.item.images[0]?.path || '@/assets/images/no-photo.svg'"
+          alt=""
       />
     </div>
     <div @click="viewProduct" class="gift-card__content">
       <h5>{{ props.item.name }}</h5>
       <div class="price">
-        <img src="@/assets/icons/coin.svg" alt="" />
+        <img src="@/assets/icons/coin.svg" alt=""/>
         <p>{{ props.item.price }}</p>
       </div>
     </div>
-    <div v-if="savedInBasket" class="gift-card__counter">
-      <div @click="decreaseBasketItem" class="gift-card__button">
-        <img src="@/assets/icons/minus.svg" alt="minus" />
-      </div>
-      <p v-if="isBasketUpdating" class="flex align-center justify-center">
-        <app-spinner-loader size="24" color="var(--gf-p-loader-color)" />
-      </p>
-      <p v-else>{{ card.quantity }}</p>
-      <div
-        @click="increaseBasketItem"
-        class="gift-card__button"
-        :class="{ 'full-qty': isBasketQtyFull }"
-      >
-        <img src="@/assets/icons/add.svg" alt="add" />
-      </div>
-    </div>
-    <div
-      v-else-if="isProductType"
-      @click="addToBasket"
-      class="gift-card__button flex"
-    >
-      <p>{{ $t("market_page.to_basket") }}</p>
-      <app-spinner-loader
-        v-if="isSavingToBasket"
-        size="20"
-        class="ml-0-5"
-        color="#FFFFFF"
-      />
+
+    <div v-if="isProductType" @click="viewProduct" class="gift-card__button flex">
+      <p>{{ $t("market_page.detail") }}</p>
     </div>
     <div v-else @click="askActivate" class="gift-card__button">
       <p>{{ $t("market_page.activate") }}</p>
@@ -238,7 +119,7 @@ function viewProduct() {
       p {
         @extend .font-15;
         @include text-gradient(
-          linear-gradient(122.82deg, #f2d207 0%, #ffa329 100%)
+                linear-gradient(122.82deg, #f2d207 0%, #ffa329 100%)
         );
       }
 

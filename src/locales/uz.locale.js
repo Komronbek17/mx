@@ -1,4 +1,5 @@
 export default {
+  delete: "Oʻchirish",
   public_offer: "Ommaviy oferta",
   edit_profile: "Profilni tahrirlash",
   connect_premium_service_message:
@@ -113,6 +114,7 @@ export default {
     to_basket: "Savatga",
     activate: "Faollashtirish",
     activated: "Faollashtirildi",
+    detail: "Batafsil",
     text: "Активировать {level}?",
     bonus: "Bonus",
     bonus_description:

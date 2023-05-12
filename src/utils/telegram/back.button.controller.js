@@ -54,6 +54,8 @@ export class BackButtonController {
       "bonus-prize": "home",
       "bonus-recent": "home",
       "bonus-active": "home",
+      "orders-active": "profile",
+      "orders-history": "profile",
 
       "settings-language": "settings",
       "settings-sound": "settings",

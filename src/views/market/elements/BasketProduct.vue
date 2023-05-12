@@ -8,7 +8,7 @@ import { coinApi } from "@/services/coin.service";
 import { loadingComposable } from "@/composables/loading.composable";
 import { useToast } from "vue-toastification";
 
-const emits = defineEmits(["update-quantity", "inactivate-product"]);
+const emits = defineEmits(["update-quantity", "inactivate-product", "remove"]);
 const { t } = useI18n();
 const toast = useToast();
 const props = defineProps({
@@ -172,7 +172,11 @@ function toggleSelect() {
           <p v-else class="unavailable">{{ t("market_page.unavailable") }}</p>
         </div>
 
-        <div class="product-block__amount" :class="productBlockClass">
+        <div
+          v-if="isAvailable"
+          class="product-block__amount"
+          :class="productBlockClass"
+        >
           <div class="badge minus" @click="decreaseBasketItem">
             <minus-icon color="var(--gf-text-33-gray)" />
           </div>
@@ -196,6 +200,9 @@ function toggleSelect() {
             />
           </div>
         </div>
+        <span @click="$emit('remove')" class="ol-remove-button" v-else>
+          {{ t("delete") }}
+        </span>
       </div>
 
       <div class="limit-warning mt-1" v-if="isBasketQtyFull">
@@ -354,5 +361,13 @@ function toggleSelect() {
 
 .increment-button.full-qty {
   background: var(--gf-text-secondary-gray);
+}
+
+.ol-remove-button {
+  color: var(--accent-red);
+  border: 1px solid var(--accent-red);
+  padding: 0.5rem 1rem;
+  border-radius: 1rem;
+  cursor: pointer;
 }
 </style>

@@ -8,6 +8,7 @@ import { useToast } from "vue-toastification";
 import { useUserStore } from "@/stores/user.store";
 
 import userAvatar from "@/assets/images/profile-image.svg";
+import AppLoader from "@/components/elements/loader/AppLoader.vue";
 
 const route = useRoute();
 const toast = useToast();
@@ -52,6 +53,7 @@ const referralData = ref({
   coins: 0,
   count: 0,
 });
+
 const relatedReferralData = ref([]);
 
 const pagination = ref({
@@ -60,24 +62,28 @@ const pagination = ref({
 });
 
 const loading = ref(false);
+const relatedLoading = ref(false);
 
 async function fetchReferral() {
+  loading.value = true
   try {
     const { data } = await referralService.getLink();
     referralData.value = data.result;
   } catch (e) {
     toast.error(e?.response?.data?.message ?? e.message);
+  }finally {
+    loading.value = false
   }
 }
 
 function loadMore() {
-  loading.value = true;
+  relatedLoading.value = true;
   setTimeout(() => {
     for (let i = 0; i < 1; i++) {
       pagination.value.current++;
       fetchRelatedReferrals();
     }
-    loading.value = false;
+    relatedLoading.value = false;
   }, 500);
 }
 
@@ -160,7 +166,7 @@ WebAppController.ready();
       <referral-index
         :property="referralData"
         :related-list="relatedReferralData"
-        :loading="loading"
+        :loading="relatedLoading"
       />
     </div>
   </div>
