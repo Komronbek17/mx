@@ -18,6 +18,16 @@ export function formatDateWithDot(rawDate) {
   return `${day}.${month}.${year}`;
 }
 
+export function formatDateWithSlash(rawDate) {
+  const date = new Date(rawDate.toString());
+  const year = date.getFullYear();
+  const baseMonth = date.getMonth() + 1;
+  const month = baseMonth < 10 ? `0${baseMonth}` : baseMonth;
+  const day = date.getDate() < 10 ? `0${date.getDate()}` : date.getDate();
+  const { hours, minutes } = dateProperties(rawDate, "string");
+  return `${day}/${month}/${year} ${hours}:${minutes}`;
+}
+
 export const monthsNameList = [
   "january",
   "february",

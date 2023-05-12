@@ -18,6 +18,7 @@ export default {
   back_to_main: "Вернуться на главную",
   action: "Действие",
   award: "Награда",
+  status: "Статус",
   packages: {
     internet: "Интернет пакет",
     voice: "Голосовой пакет",
@@ -134,7 +135,7 @@ export default {
     add_new_address: "Добавить новый адрес",
     add_new_receiver: "Добавить нового получателя",
     choose_receiver: "ВЫБЕРИТЕ ПОЛУЧАТЕЛЯ",
-    order_details: "ПОДРОБНОСТИ ЗАКАЗА",
+    order_details: "Подробности заказа",
     in_cart: "В корзине",
     delivery: "Доставка",
     sum: "Итого",
@@ -285,4 +286,11 @@ export default {
     title: "Ваша реферальная ссылка",
     income: "Доход",
   },
+
+  order_time: "Дата и время заказа",
+  comments: "Комментарии",
+  no_comment: "Без комментариев",
+  products: "Товары",
+  subtotal: "Итого",
+  total_with_delivery: "Итого (с доставкой)",
 };

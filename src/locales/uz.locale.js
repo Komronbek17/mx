@@ -18,6 +18,7 @@ export default {
   back_to_main: "Asosiy sahifaga qaytish",
   action: "Harakat",
   award: "Mukofot",
+  status: "Holati",
   packages: {
     internet: "Internet paket",
     voice: "Daqiqalar",
@@ -283,4 +284,11 @@ export default {
     title: "Sizning referal havolangiz",
     income: "Daromad",
   },
+
+  order_time: "Buyurtma sanasi va vaqti",
+  comments: "Izohlar",
+  no_comment: "Izoh yo'q",
+  products: "Mahsulotlar",
+  subtotal: "Jami",
+  total_with_delivery: "Jami (xizmatlar bilan)",
 };

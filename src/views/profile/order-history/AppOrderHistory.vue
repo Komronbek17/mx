@@ -1,12 +1,18 @@
 <script setup>
-import { onMounted, ref } from "vue";
+import { computed, onMounted, reactive, ref } from "vue";
 import { useI18n } from "vue-i18n";
 import { formatDateWithDot } from "@/utils/date.formatter";
 import { WebAppController } from "@/utils/telegram/web.app.util";
 import { loadingComposable } from "@/composables/loading.composable";
 
 import AppLoader from "@/components/elements/loader/AppLoader.vue";
+import AppBottomSheet from "@/components/elements/bottomSheet/AppBottomSheet.vue";
+import AppOrderPreview from "@/views/profile/order-history/AppOrderPreview.vue";
+
 import { ordersApi } from "@/services/orders.service";
+import { keys } from "@/utils/object.util";
+import { coinApi } from "@/services/coin.service";
+import { toastErrorMessage } from "@/utils/error.util";
 
 const { t } = useI18n();
 let prizeBonuses = ref([]);
@@ -19,7 +25,42 @@ const pagination = ref({
   current: 1,
   limit: 10,
 });
+const orders = reactive({
+  previewItem: {},
+});
+const {
+  loading: isOrderItemFetching,
+  startLoading: startLoadingOrderItem,
+  finishLoading: finishLoadingOrderItem,
+} = loadingComposable();
+
 const loading = ref(false);
+const orderDetailsSheet = ref(null);
+const showPreviewItem = computed(() => keys(orders.previewItem).length);
+function openBottomSheet() {
+  orderDetailsSheet.value.open();
+}
+
+function closeBottomSheet() {
+  orderDetailsSheet.value.close();
+}
+
+async function viewOrderDetails(orderItemId) {
+  try {
+    openBottomSheet();
+    orders.previewItem = {};
+    startLoadingOrderItem();
+    const response = await coinApi.orderFindOne({
+      body: { id: orderItemId },
+    });
+    orders.previewItem = response.data.result;
+  } catch (e) {
+    closeBottomSheet();
+    toastErrorMessage(e);
+  } finally {
+    finishLoadingOrderItem();
+  }
+}
 
 const getOrderHistory = async () => {
   const body = {
@@ -80,7 +121,12 @@ WebAppController.ready();
     <app-loader :active="isFetching" />
     <div class="layout-container">
       <div class="prize-items" id="infinite-list">
-        <div v-for="item in prizeBonuses" :key="item.id" class="prize-item">
+        <div
+          v-for="item in prizeBonuses"
+          :key="item.id"
+          @click="viewOrderDetails(item.id)"
+          class="prize-item"
+        >
           <div class="prize-image">
             <img src="@/assets/images/bonus-prize.svg" alt="" />
           </div>
@@ -94,6 +140,20 @@ WebAppController.ready();
         </div>
       </div>
     </div>
+    <app-bottom-sheet
+      height="100%"
+      ref="orderDetailsSheet"
+      :click-to-close="true"
+    >
+      <app-loader :active="isOrderItemFetching"></app-loader>
+
+      <div v-if="showPreviewItem">
+        <AppOrderPreview
+          @close-bottom-sheet="closeBottomSheet"
+          :preview-data="orders.previewItem"
+        />
+      </div>
+    </app-bottom-sheet>
   </div>
 </template>
 
@@ -108,6 +168,7 @@ WebAppController.ready();
     align-items: center;
     justify-content: space-between;
     margin-bottom: 1rem;
+    cursor: pointer;
 
     &:last-child {
       margin-bottom: 0;
