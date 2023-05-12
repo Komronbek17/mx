@@ -1,40 +1,39 @@
 <script setup>
 import ModalDialog from "@/components/ui/ModalDialog/ModalDialog.vue";
-import { useRouter } from "vue-router";
-import { onMounted, ref } from "vue";
+import {useRouter} from "vue-router";
 
 const router = useRouter();
 
-const startVoteModal = ref(false);
 
-function closeVoteModal() {
-  startVoteModal.value = false;
-}
+const props = defineProps({
+  active: {
+    type: Object,
+    default: false
+  }
+})
 
-function redirectVotePage() {
-  router.push({ name: "votes" });
-}
+const emit = defineEmits(['close-modal'])
 
-// onMounted(async () => {
-// })
+
+
+
 </script>
 
 <template>
   <div>
-    <modal-dialog :model-value="startVoteModal" @close-modal="closeVoteModal">
+    <modal-dialog :model-value="props.active" @close-modal="emit('close-modal')">
       <template #header>
         <div class="modal-header">
-          <img src="@/assets/icons/money.svg" alt="" />
+          <img src="@/assets/icons/award.svg" alt=""/>
         </div>
       </template>
       <template #content>
         <div class="modal-content">
           <h3 class="modal-content__title">
-            Хотите получить больше монет?
-            <!--            {{ t("market_page.activated") }}!-->
+            {{ t("vote_page.title") }}
           </h3>
           <p class="modal-content__subtitle">
-            Пройдите наш небольшой опросник и получите монеты!
+            {{ t("vote_page.price", {price: 10}) }}
             <!--            {{-->
             <!--              t("connect_premium_service_message", {-->
             <!--                level: 1,-->
@@ -45,9 +44,9 @@ function redirectVotePage() {
       </template>
       <template #footer>
         <div class="modal-footer">
-          <div @click="redirectVotePage" class="modal-footer__button btn-info">
-            Пройти опросник
-            <!--            {{ $t("ok") }}-->
+          <div @click="emit('close-modal')" class="modal-footer__button btn-info">
+            {{ // t("vote_page.start_vote")    }}
+            {{ t("ok") }}
           </div>
         </div>
       </template>

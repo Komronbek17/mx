@@ -7,7 +7,7 @@ import CatalogHome from "@/components/home/CatalogHome.vue";
 import OltinBaliqIcon from "@/components/icons/OltinBaliqIcon.vue";
 import UserCardHome from "@/components/home/UserCardHome.vue";
 import AppLoader from "@/components/elements/loader/AppLoader.vue";
-// import VoteModal from "@/views/vote/VoteModal.vue";
+// import VoteModal from "@/views/vote/VoteStartModal.vue";
 
 import { hasOwnProperty } from "@/utils/object.util";
 import { WebAppController } from "@/utils/telegram/web.app.util";

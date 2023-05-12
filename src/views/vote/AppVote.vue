@@ -1,10 +1,12 @@
 <script setup>
 import VoteProgress from "@/views/vote/VoteProgress.vue";
 import VoteAnswers from "@/views/vote/VoteAnswers.vue";
-import { computed, onMounted, ref } from "vue";
-import { voteApi } from "@/services/vote.service";
+import {computed, onMounted, ref} from "vue";
+import {voteApi} from "@/services/vote.service";
 import ModalDialog from "@/components/ui/ModalDialog/ModalDialog.vue";
-import { useRouter } from "vue-router";
+import {useRouter} from "vue-router";
+import {WebAppController} from "@/utils/telegram/web.app.util";
+import VoteFinishModal from "@/views/vote/VoteFinishModal.vue";
 
 const router = useRouter();
 
@@ -36,17 +38,17 @@ const checkValid = computed(() => {
 
 const fetchVotes = async () => {
   try {
-    const { data } = await voteApi.fetchVotes();
+    const {data} = await voteApi.fetchVotes();
     votes.value = data["questions"];
 
-    data["questions"].forEach(({ id }, index) => {
+    data["questions"].forEach(({id}, index) => {
       answerIds.value[index] = {
         id,
         values: [],
       };
     });
   } catch (e) {
-    console.log(e);
+    toast.error(e.response?.data?.message ?? e.message);
   }
 };
 
@@ -75,51 +77,58 @@ function finishVote() {
       answer_ids: filterAnswers.value,
     };
     const data = voteApi.sendAnswers(body);
-    console.log(data, "data");
+    console.log(data, 'data');
+    toast.success('success', {
+      position: "bottom-center",
+      hideProgressBar: true,
+      closeButton: false,
+    });
     activePrizeModal.value = true;
   } catch (e) {
-    console.log(e, "e");
+    toast.error(e.response?.data?.message ?? e.message);
   }
 }
 
 function closePrizeModal() {
-  router.push({ name: "home" });
+  router.push({name: "home"});
   activePrizeModal.value = false;
 }
 
 onMounted(async () => {
   await fetchVotes();
 });
+
+WebAppController.ready();
 </script>
 
 <template>
   <div class="layout-container">
     <div v-if="votes && votes.length" class="vote-class">
-      <vote-progress :total-length="votes.length" :active-index="activeVote" />
+      <vote-progress :total-length="votes.length" :active-index="activeVote"/>
 
       <vote-answers
-        :vote="votes[activeVote - 1]"
-        :active-index="activeVote"
-        v-model="answerIds[activeVote - 1].values"
+          :vote="votes[activeVote - 1]"
+          :active-index="activeVote"
+          v-model="answerIds[activeVote - 1].values"
       />
 
       <div class="vote-buttons">
         <button
-          :disabled="activeVote <= 1"
-          @click="backQuestion"
-          class="vote-btn vote-back"
+            :disabled="activeVote <= 1"
+            @click="backQuestion"
+            class="vote-btn vote-back"
         >
-          <img src="@/assets/icons/arrow-left.svg" alt="" />
+          <img src="@/assets/icons/arrow-left.svg" alt=""/>
           <p>Назад</p>
         </button>
         <button
-          v-if="!lastQuestion"
-          :disabled="!checkValid"
-          @click="nextQuestion"
-          class="vote-btn vote-next"
+            v-if="!lastQuestion"
+            :disabled="!checkValid"
+            @click="nextQuestion"
+            class="vote-btn vote-next"
         >
           <p>Дальше</p>
-          <img src="@/assets/icons/arrow-right.svg" alt="" />
+          <img src="@/assets/icons/arrow-right.svg" alt=""/>
         </button>
         <button v-else @click="finishVote" class="vote-btn vote-finish">
           <p>Завершить</p>
@@ -127,39 +136,8 @@ onMounted(async () => {
       </div>
     </div>
 
-    <modal-dialog
-      :model-value="activePrizeModal"
-      @close-modal="closePrizeModal"
-    >
-      <template #header>
-        <div class="modal-header">
-          <img src="@/assets/images/prize.png" alt="" />
-        </div>
-      </template>
-      <template #content>
-        <div class="modal-content">
-          <h3 class="modal-content__title">
-            Спасибо за прохождение нашего опроса!
-            <!--            {{ t("market_page.activated") }}!-->
-          </h3>
-          <p class="modal-content__subtitle">
-            За прохождение опроса вам начислено 10 монет
-            <!--            {{-->
-            <!--              t("connect_premium_service_message", {-->
-            <!--                level: 1,-->
-            <!--              })-->
-            <!--            }}!-->
-          </p>
-        </div>
-      </template>
-      <template #footer>
-        <div class="modal-footer">
-          <div @click="closePrizeModal" class="modal-footer__button btn-info">
-            {{ $t("ok") }}
-          </div>
-        </div>
-      </template>
-    </modal-dialog>
+
+    <vote-finish-modal :active="activePrizeModal" @close-modal="closePrizeModal"/>
   </div>
 </template>
 
@@ -197,7 +175,7 @@ onMounted(async () => {
 
     p {
       @include text-gradient(
-        linear-gradient(145.27deg, #313331 -5.05%, #181716 105.01%)
+              linear-gradient(145.27deg, #313331 -5.05%, #181716 105.01%)
       );
     }
   }
