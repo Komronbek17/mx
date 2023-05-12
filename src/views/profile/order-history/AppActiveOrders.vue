@@ -1,5 +1,5 @@
 <script setup>
-import { onMounted, ref } from "vue";
+import { computed, onMounted, reactive, ref } from "vue";
 import { useI18n } from "vue-i18n";
 import { ordersApi } from "@/services/orders.service";
 import { formatDateWithDot } from "@/utils/date.formatter";
@@ -8,19 +8,38 @@ import { loadingComposable } from "@/composables/loading.composable";
 
 import AppLoader from "@/components/elements/loader/AppLoader.vue";
 import AppBottomSheet from "@/components/elements/bottomSheet/AppBottomSheet.vue";
+import { coinApi } from "@/services/coin.service";
+import { toastErrorMessage } from "@/utils/error.util";
+import { keys } from "@/utils/object.util";
 
 const { t } = useI18n();
+
 let prizeBonuses = ref([]);
+
+const orders = reactive({
+  previewItem: {},
+});
+
 const {
   loading: isFetching,
   startLoading,
   finishLoading,
 } = loadingComposable();
+
+const {
+  loading: isOrderItemFetching,
+  startLoading: startLoadingOrderItem,
+  finishLoading: finishLoadingOrderItem,
+} = loadingComposable();
+
 const pagination = ref({
   current: 1,
   limit: 10,
 });
+
 const loading = ref(false);
+
+const showPreviewItem = computed(() => keys(orders.previewItem).length);
 
 async function getActiveOrders() {
   const body = {
@@ -47,8 +66,21 @@ function closeBottomSheet() {
   orderDetailsSheet.value.close();
 }
 
-function viewOrderDetails(orderItem) {
-  console.log(orderItem);
+async function viewOrderDetails(orderItemId) {
+  try {
+    openBottomSheet();
+    orders.previewItem = {};
+    startLoadingOrderItem();
+    const response = await coinApi.orderFindOne({
+      body: { id: orderItemId },
+    });
+    orders.previewItem = response.data.result;
+  } catch (e) {
+    closeBottomSheet();
+    toastErrorMessage(e);
+  } finally {
+    finishLoadingOrderItem();
+  }
 }
 
 function formatCreatedTime(t) {
@@ -103,7 +135,7 @@ WebAppController.ready();
           v-for="item in prizeBonuses"
           :key="item.id"
           class="prize-item"
-          @click="viewOrderDetails(item)"
+          @click="viewOrderDetails(item.id)"
         >
           <div class="prize-image">
             <img src="@/assets/images/bonus-prize.svg" alt="" />
@@ -118,7 +150,13 @@ WebAppController.ready();
         </div>
       </div>
     </div>
-    <app-bottom-sheet ref="orderDetailsSheet"></app-bottom-sheet>
+    <app-bottom-sheet ref="orderDetailsSheet" :click-to-close="true">
+      <app-loader :active="isOrderItemFetching"></app-loader>
+
+      <div v-if="showPreviewItem">
+        {{ orders.previewItem.status }}
+      </div>
+    </app-bottom-sheet>
   </div>
 </template>
 
