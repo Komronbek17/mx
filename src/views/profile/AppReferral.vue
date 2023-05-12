@@ -1,17 +1,17 @@
 <script setup>
-import {useRoute} from "vue-router";
-import {WebAppController} from "@/utils/telegram/web.app.util";
-import {referralService} from "@/services/referral.service";
-import {defineAsyncComponent, onMounted, ref} from "vue";
-import {loadingComposable} from "@/composables/loading.composable";
-import {useToast} from "vue-toastification";
-import {useUserStore} from "@/stores/user.store";
+import { useRoute } from "vue-router";
+import { WebAppController } from "@/utils/telegram/web.app.util";
+import { referralService } from "@/services/referral.service";
+import { defineAsyncComponent, onMounted, ref } from "vue";
+import { loadingComposable } from "@/composables/loading.composable";
+import { useToast } from "vue-toastification";
+import { useUserStore } from "@/stores/user.store";
 
 import userAvatar from "@/assets/images/profile-image.svg";
 import AppLoader from "@/components/elements/loader/AppLoader.vue";
 
 const route = useRoute();
-const toast = useToast()
+const toast = useToast();
 
 // const ReferralBonus = defineAsyncComponent(() => {
 //   return import("@/views/profile/AppReferralBonus.vue");
@@ -21,9 +21,7 @@ const ReferralIndex = defineAsyncComponent(() => {
   return import("@/views/profile/AppReferralIndex.vue");
 });
 
-
-const {user, initUser} = useUserStore();
-
+const { user, initUser } = useUserStore();
 
 const {
   loading: isFetching,
@@ -46,20 +44,17 @@ const {
 
 // const activeTab = ref(referralTabs[0])
 
-
 // function selectTab(tab) {
 //   activeTab.value = tab
 // }
 
-
 const referralData = ref({
   link: null,
   coins: 0,
-  count: 0
+  count: 0,
 });
 
 const relatedReferralData = ref([]);
-
 
 const pagination = ref({
   current: 1,
@@ -69,12 +64,11 @@ const pagination = ref({
 const loading = ref(false);
 const relatedLoading = ref(false);
 
-
 async function fetchReferral() {
   loading.value = true
   try {
-    const {data} = await referralService.getLink();
-    referralData.value = data.result
+    const { data } = await referralService.getLink();
+    referralData.value = data.result;
   } catch (e) {
     toast.error(e?.response?.data?.message ?? e.message);
   }finally {
@@ -92,7 +86,6 @@ function loadMore() {
     relatedLoading.value = false;
   }, 500);
 }
-
 
 const checkScrollFunction = () => {
   const listElm = document.getElementById("infinite-list");
@@ -114,8 +107,8 @@ async function fetchRelatedReferrals() {
       page: pagination.value.current,
       limit: pagination.value.limit,
     };
-    const {data} = await referralService.getRelatedReferrals(body);
-    relatedReferralData.value = [...data.result, ...relatedReferralData.value]
+    const { data } = await referralService.getRelatedReferrals(body);
+    relatedReferralData.value = [...data.result, ...relatedReferralData.value];
   } catch (e) {
     toast.error(e?.response?.data?.message ?? e.message);
   }
@@ -127,23 +120,26 @@ onMounted(async () => {
     if (!(user && user.id)) {
       await initUser();
     }
-    await Promise.allSettled([await fetchReferral(), await fetchRelatedReferrals()]);
-    checkScrollFunction()
+    await Promise.allSettled([
+      await fetchReferral(),
+      await fetchRelatedReferrals(),
+    ]);
+    checkScrollFunction();
   } finally {
     finishLoading();
   }
-})
-
+});
 
 WebAppController.ready();
 </script>
 
 <template>
   <div class="referral">
+    <app-loader :active="isFetching" />
     <div class="layout-container">
       <div class="referral-user">
         <div class="referral-image">
-          <img :src="user?.avatar || userAvatar" alt="avatar"/>
+          <img :src="user?.avatar || userAvatar" alt="avatar" />
         </div>
 
         <p class="referral-name">{{ user.fullName }}</p>
@@ -167,9 +163,11 @@ WebAppController.ready();
       <!--          :related-property="relatedReferralData"-->
       <!--      />-->
 
-      <app-loader :active="loading"/>
-      <referral-index :property="referralData" :related-list="relatedReferralData" :loading="relatedLoading"/>
-
+      <referral-index
+        :property="referralData"
+        :related-list="relatedReferralData"
+        :loading="relatedLoading"
+      />
     </div>
   </div>
 </template>
@@ -201,7 +199,7 @@ WebAppController.ready();
     line-height: 140%;
     text-align: right;
     letter-spacing: -0.4px;
-    color: var(--gf-text-09);
+    color: var(--text-main);
     margin-bottom: 0.5rem;
   }
 

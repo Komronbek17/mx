@@ -53,7 +53,6 @@ const emit = defineEmits(["closed", "opened"]);
 
 const bottomSheetCardContent = ref();
 const bottomSheetCard = ref();
-const pan = ref();
 
 const opened = ref(false);
 const moving = ref(false);
@@ -226,7 +225,13 @@ init();
         <!--        <div ref="pan" class="bottom-sheet__pan">-->
         <!--          <div class="bottom-sheet__bar"></div>-->
         <!--        </div>-->
-        <div ref="bottomSheetCardContent" class="bottom-sheet__content">
+        <div
+          ref="bottomSheetCardContent"
+          class="bottom-sheet__content"
+          :style="{
+            height: props.height,
+          }"
+        >
           <slot></slot>
         </div>
       </div>

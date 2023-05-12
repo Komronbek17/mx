@@ -33,6 +33,12 @@ const iconsList = {
         resolve(import("@/components/icons/monitoring/AdsOneIcon.vue"))
       )
   ),
+  ads_award: defineAsyncComponent(
+    () =>
+      new Promise((resolve) =>
+        resolve(import("@/components/icons/monitoring/AdsOneIcon.vue"))
+      )
+  ),
   referral: defineAsyncComponent(
     () =>
       new Promise((resolve) =>
@@ -137,6 +143,10 @@ async function getMonitoringDetails(
     infinite: false,
   }
 ) {
+  if (!page) {
+    return;
+  }
+
   beginFetching();
   let body = {
     page,
@@ -174,9 +184,6 @@ async function getMonitoringDetails(
       });
 
       if (indexOfLastItem !== -1) {
-        console.log("index", indexOfLastItem);
-        console.log(result.slice(0, indexOfLastItem + 1));
-        console.log(result.slice(indexOfLastItem + 1));
         const addingResult = result.slice(0, indexOfLastItem + 1);
         for (let i = 0; i < addingResult.length; i++) {
           mn.items[mn.items.length - 1].result.push(addingResult[i]);
@@ -303,8 +310,8 @@ fetchMonitoringDetails();
 </script>
 
 <template>
-  <div>
-    <div id="infinite-list" style="overflow-y: scroll; height: 95vh">
+  <div class="app-monitoring">
+    <div id="infinite-list" style="overflow-y: scroll; height: 100vh">
       <app-loader :active="isFetching" />
       <div class="layout-container">
         <div>
@@ -339,6 +346,12 @@ fetchMonitoringDetails();
                 </div>
               </div>
             </div>
+
+            <router-link :to="{ name: 'informers' }" class="profile-button">
+              <img src="@/assets/images/fitcoin.svg" alt="" />
+              <p>{{ t("profile_page.earn_fitcoin") }}</p>
+            </router-link>
+
             <div>
               <div
                 v-for="item in mn.items"
@@ -361,7 +374,7 @@ fetchMonitoringDetails();
         </div>
       </div>
     </div>
-    <div class="flex justify-center align-center">
+    <div class="flex justify-center align-center app-monitoring-loader">
       <app-spinner-loader
         size="36"
         color="var(--gf-p-loader-color)"
@@ -372,12 +385,17 @@ fetchMonitoringDetails();
 </template>
 
 <style lang="scss" scoped>
+.app-monitoring {
+  position: relative;
+}
+
 .ol-profits-cards {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   grid-template-rows: 1fr;
   grid-column-gap: 1rem;
   grid-row-gap: 0;
+  margin-bottom: 1rem;
 }
 
 .ol-profits-card {
@@ -418,5 +436,41 @@ fetchMonitoringDetails();
 
 .ol-profits-active-card {
   background: var(--accent-gray) !important;
+}
+
+.app-monitoring-loader {
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.profile-button {
+  display: flex;
+  align-items: center;
+  text-align: center;
+  justify-content: center;
+  padding: 12px;
+  column-gap: 10px;
+  background: var(--gf-blue-gradient-01) !important;
+  border-radius: 8px;
+  max-height: 48px;
+  cursor: pointer;
+  margin-bottom: 2rem;
+
+  p {
+    @extend .text-16-600;
+    text-align: center;
+    letter-spacing: -0.4px;
+    color: var(--neutral-white) !important;
+  }
+
+  &.disabled {
+    background: var(--accent-gray) !important;
+
+    p {
+      color: var(--text-secondary) !important;
+    }
+  }
 }
 </style>

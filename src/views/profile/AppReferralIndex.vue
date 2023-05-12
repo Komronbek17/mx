@@ -1,11 +1,13 @@
 <script setup>
-import {computed, defineProps, ref} from "vue";
+import { computed, defineProps, ref } from "vue";
 import EyeIcon from "@/components/icons/EyeIcon.vue";
 import EyeCloseIcon from "@/components/icons/EyeCloseIcon.vue";
 import ShareIcon from "@/components/icons/ShareIcon.vue";
 import userAvatar from "@/assets/images/profile-image.svg";
+import { useI18n } from "vue-i18n";
 import AppSpinnerLoader from "@/components/elements/loader/AppSpinnerLoader.vue";
 
+const { t } = useI18n();
 const props = defineProps({
   property: {
     type: Object,
@@ -25,9 +27,9 @@ const inputType = ref("password");
 
 function triggerInputType() {
   inputType.value =
-      inputType.value === "password"
-          ? (inputType.value = "text")
-          : (inputType.value = "password");
+    inputType.value === "password"
+      ? (inputType.value = "text")
+      : (inputType.value = "password");
 }
 
 const computedMaxBalance = computed(() => {
@@ -52,32 +54,32 @@ function generateUserName(name) {
 
 <template>
   <div class="referral-index">
-    <h4 class="referral-index__title">Ваша реферальная ссылка:</h4>
+    <h4 class="referral-index__title">{{ t("referral_page.title") }}:</h4>
     <div class="referral-index__link">
-      <button class="referral-index__link-hide" @click="triggerInputType">
+      <button class="referral-index__link-hide"  @click="triggerInputType">
         <eye-icon v-if="inputType === 'password'" color="var(--gf-text-33)"/>
         <eye-close-icon v-else color="var(--gf-text-33)"/>
       </button>
-      <input :type="inputType" :value="props.property.link" :disabled="true"/>
+      <input :type="inputType" :value="props.property.link" :disabled="true" />
       <a
-          :href="props.property.link"
-          target="_blank"
-          class="referral-index__link-share"
+        :href="props.property.link"
+        target="_blank"
+        class="referral-index__link-share m-0"
       >
-        <share-icon/>
+        <share-icon color="var(--gf-text-blue)" />
       </a>
     </div>
 
     <div class="referral-index__cards">
       <div class="referral-index__card">
-        <p>Рефералы</p>
+        <p>{{ t("profile_page.referrals") }}</p>
         <span>{{ props.property.count }}</span>
       </div>
 
       <div class="referral-index__card">
-        <p>Доход</p>
+        <p>{{ t("referral_page.income") }}</p>
         <span class="referral-index__card-coins">
-          <img src="@/assets/icons/coin.svg" alt="coin"/>
+          <img src="@/assets/icons/coin.svg" alt="coin" />
           {{ props.property.coins }}
         </span>
       </div>
@@ -87,15 +89,15 @@ function generateUserName(name) {
       <div class="related-list">
         <div v-for="item in relatedList" :key="item.id" class="related-item">
           <div class="related-item__chart">
-            <img :src="item.user?.avatar?.path || userAvatar" alt=""/>
+            <img :src="item.user?.avatar?.path || userAvatar" alt="" />
             <div
-                class="related-item__line"
-                :style="computedLineWidth(item.balance)"
+              class="related-item__line"
+              :style="computedLineWidth(item.balance)"
             >
               <Popper
-                  arrow
-                  placement="top"
-                  style="
+                arrow
+                placement="top"
+                style="
                   height: 100%;
                   width: 100%;
                   padding: 0;
@@ -107,9 +109,9 @@ function generateUserName(name) {
                 <template #content>
                   <div class="price">
                     <img
-                        style="width: 16px; height: 16px"
-                        src="@/assets/icons/coin.svg"
-                        alt="coin"
+                      style="width: 16px; height: 16px"
+                      src="@/assets/icons/coin.svg"
+                      alt="coin"
                     />
                     {{ item.balance }}
                   </div>
@@ -262,7 +264,7 @@ function generateUserName(name) {
     user-select: none;
     border: 0;
     height: 24px !important;
-    background: #00cc6a;
+    background: #00CC6A;
     border-radius: 0 4px 4px 0;
   }
 

@@ -279,4 +279,8 @@ export default {
     today: "Bugun",
     yesterday: "Kecha",
   },
+  referral_page: {
+    title: "Sizning referal havolangiz",
+    income: "Daromad",
+  },
 };
