@@ -10,10 +10,10 @@ const {t} = useI18n();
 <template>
   <div class="order-success">
     <div class="layout-container flex flex-column align-center justify-center">
-<!--      <img src="@/assets/images/success.svg" alt=""/>-->
+      <!--      <img src="@/assets/images/success.svg" alt=""/>-->
       <dotlottie-player
           ref="success"
-          src="/img/animations/success.json"
+          src="/img/animations/success.lottie"
           :autoplay="true"
           loop="10"
       />
