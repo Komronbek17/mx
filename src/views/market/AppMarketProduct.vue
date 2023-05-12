@@ -2,15 +2,13 @@
 import { WebAppController } from "@/utils/telegram/web.app.util";
 import { MainButtonController } from "@/utils/telegram/main.button.controller";
 import { useI18n } from "vue-i18n";
-import { onBeforeRouteLeave, useRoute, useRouter } from "vue-router";
+import { onBeforeRouteLeave, useRoute } from "vue-router";
 import { onMounted, ref } from "vue";
 import { coinApi } from "@/services/coin.service";
 import { loadingComposable } from "@/composables/loading.composable";
 
 import { Pagination } from "swiper";
-// Import Swiper Vue.js components
 import { Swiper, SwiperSlide } from "swiper/vue";
-// Import Swiper styles
 import "swiper/css";
 import "swiper/css/pagination";
 import { useToast } from "vue-toastification";
@@ -21,7 +19,6 @@ const { t } = useI18n();
 
 const toast = useToast();
 const route = useRoute();
-const router = useRouter();
 
 const { startLoading, finishLoading } = loadingComposable();
 
@@ -76,7 +73,7 @@ onMounted(async () => {
   startLoading();
   try {
     await fetchProduct();
-    await fetchBasket();
+    // await fetchBasket();
   } finally {
     finishLoading();
   }

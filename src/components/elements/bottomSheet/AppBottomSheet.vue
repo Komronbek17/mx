@@ -53,7 +53,6 @@ const emit = defineEmits(["closed", "opened"]);
 
 const bottomSheetCardContent = ref();
 const bottomSheetCard = ref();
-const pan = ref();
 
 const opened = ref(false);
 const moving = ref(false);
