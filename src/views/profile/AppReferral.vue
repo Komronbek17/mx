@@ -65,14 +65,14 @@ const loading = ref(false);
 const relatedLoading = ref(false);
 
 async function fetchReferral() {
-  loading.value = true
+  loading.value = true;
   try {
     const { data } = await referralService.getLink();
     referralData.value = data.result;
   } catch (e) {
     toast.error(e?.response?.data?.message ?? e.message);
-  }finally {
-    loading.value = false
+  } finally {
+    loading.value = false;
   }
 }
 
