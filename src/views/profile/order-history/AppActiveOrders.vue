@@ -7,6 +7,7 @@ import { WebAppController } from "@/utils/telegram/web.app.util";
 import { loadingComposable } from "@/composables/loading.composable";
 
 import AppLoader from "@/components/elements/loader/AppLoader.vue";
+import AppBottomSheet from "@/components/elements/bottomSheet/AppBottomSheet.vue";
 
 const { t } = useI18n();
 let prizeBonuses = ref([]);
@@ -21,20 +22,34 @@ const pagination = ref({
 });
 const loading = ref(false);
 
-const getActiveOrders = async () => {
+async function getActiveOrders() {
   const body = {
     page: pagination.value.current,
     limit: pagination.value.limit,
     is_active: 1,
   };
   const {
-    data: { result, pagination },
+    data: { result, pagination: restPagination },
   } = await ordersApi.fetchActiveOrders(body);
   for (let i = 0; i < result.length; i++) {
     prizeBonuses.value.push(result[i]);
   }
-  pagination.value = Object.assign(pagination.value, pagination);
-};
+  pagination.value = Object.assign(pagination.value, restPagination);
+}
+
+const orderDetailsSheet = ref(null);
+
+function openBottomSheet() {
+  orderDetailsSheet.value.open();
+}
+
+function closeBottomSheet() {
+  orderDetailsSheet.value.close();
+}
+
+function viewOrderDetails(orderItem) {
+  console.log(orderItem);
+}
 
 function formatCreatedTime(t) {
   const d = t.replace(" ", "T");
@@ -84,7 +99,12 @@ WebAppController.ready();
     <app-loader :active="isFetching" />
     <div class="layout-container">
       <div class="prize-items" id="infinite-list">
-        <div v-for="item in prizeBonuses" :key="item.id" class="prize-item">
+        <div
+          v-for="item in prizeBonuses"
+          :key="item.id"
+          class="prize-item"
+          @click="viewOrderDetails(item)"
+        >
           <div class="prize-image">
             <img src="@/assets/images/bonus-prize.svg" alt="" />
           </div>
@@ -98,6 +118,7 @@ WebAppController.ready();
         </div>
       </div>
     </div>
+    <app-bottom-sheet ref="orderDetailsSheet"></app-bottom-sheet>
   </div>
 </template>
 
