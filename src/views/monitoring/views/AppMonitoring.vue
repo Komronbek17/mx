@@ -33,6 +33,12 @@ const iconsList = {
         resolve(import("@/components/icons/monitoring/AdsOneIcon.vue"))
       )
   ),
+  ads_award: defineAsyncComponent(
+    () =>
+      new Promise((resolve) =>
+        resolve(import("@/components/icons/monitoring/AdsOneIcon.vue"))
+      )
+  ),
   referral: defineAsyncComponent(
     () =>
       new Promise((resolve) =>
@@ -137,6 +143,10 @@ async function getMonitoringDetails(
     infinite: false,
   }
 ) {
+  if (!page) {
+    return;
+  }
+
   beginFetching();
   let body = {
     page,
@@ -174,9 +184,6 @@ async function getMonitoringDetails(
       });
 
       if (indexOfLastItem !== -1) {
-        console.log("index", indexOfLastItem);
-        console.log(result.slice(0, indexOfLastItem + 1));
-        console.log(result.slice(indexOfLastItem + 1));
         const addingResult = result.slice(0, indexOfLastItem + 1);
         for (let i = 0; i < addingResult.length; i++) {
           mn.items[mn.items.length - 1].result.push(addingResult[i]);
