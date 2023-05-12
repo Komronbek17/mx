@@ -293,4 +293,6 @@ export default {
   products: "Mahsulotlar",
   subtotal: "Jami",
   total_with_delivery: "Jami (xizmatlar bilan)",
+  votes: "So'rovnoma",
+  votes_description: "So'rovnomani to'ldiring va {value} tanga oling",
 };

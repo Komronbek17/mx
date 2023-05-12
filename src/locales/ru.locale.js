@@ -295,4 +295,6 @@ export default {
   products: "Товары",
   subtotal: "Итого",
   total_with_delivery: "Итого (с доставкой)",
+  votes: "Опросник",
+  votes_description: "Пройдите опросник и получите {value} монет",
 };
