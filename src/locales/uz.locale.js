@@ -112,6 +112,7 @@ export default {
     to_basket: "Savatga",
     activate: "Faollashtirish",
     activated: "Faollashtirildi",
+    detail: "Batafsil",
     text: "Активировать {level}?",
     bonus: "Bonus",
     bonus_description:

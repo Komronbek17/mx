@@ -114,6 +114,7 @@ export default {
     to_basket: "В корзину",
     activate: "Активировать",
     activated: "Активировано",
+    detail: "Подробный",
     text: "Активировать {level}?",
     bonus: "Бонус",
     bonus_description:
