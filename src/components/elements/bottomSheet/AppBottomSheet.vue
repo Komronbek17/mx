@@ -15,6 +15,10 @@ const props = defineProps({
     type: String,
     default: "95vh",
   },
+  height: {
+    type: String,
+    default: "auto",
+  },
   clickToClose: {
     type: Boolean,
     default: true,
@@ -212,8 +216,9 @@ init();
             bottom: cardP + 'px',
             maxWidth: props.maxWidth,
             maxHeight: props.maxHeight,
+            height: props.height,
           },
-          { height: props.fullScreen ? '100vh' : 'auto' },
+          { height: props.fullScreen ? '100vh' : props.height },
           { 'pointer-events': 'all' },
         ]"
         :class="[
@@ -225,7 +230,13 @@ init();
         <!--        <div ref="pan" class="bottom-sheet__pan">-->
         <!--          <div class="bottom-sheet__bar"></div>-->
         <!--        </div>-->
-        <div ref="bottomSheetCardContent" class="bottom-sheet__content">
+        <div
+          ref="bottomSheetCardContent"
+          class="bottom-sheet__content"
+          :style="{
+            height: props.height,
+          }"
+        >
           <slot></slot>
         </div>
       </div>

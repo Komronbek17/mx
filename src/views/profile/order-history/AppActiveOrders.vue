@@ -150,11 +150,15 @@ WebAppController.ready();
         </div>
       </div>
     </div>
-    <app-bottom-sheet ref="orderDetailsSheet" :click-to-close="true">
+    <app-bottom-sheet
+      height="100%"
+      ref="orderDetailsSheet"
+      :click-to-close="true"
+    >
       <app-loader :active="isOrderItemFetching"></app-loader>
 
       <div v-if="showPreviewItem">
-        {{ orders.previewItem.status }}
+        {{ orders.previewItem }}
       </div>
     </app-bottom-sheet>
   </div>
