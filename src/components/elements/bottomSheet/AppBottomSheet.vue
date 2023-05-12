@@ -15,10 +15,6 @@ const props = defineProps({
     type: String,
     default: "95vh",
   },
-  height: {
-    type: String,
-    default: "auto",
-  },
   clickToClose: {
     type: Boolean,
     default: true,
@@ -216,9 +212,8 @@ init();
             bottom: cardP + 'px',
             maxWidth: props.maxWidth,
             maxHeight: props.maxHeight,
-            height: props.height,
           },
-          { height: props.fullScreen ? '100vh' : props.height },
+          { height: props.fullScreen ? '100vh' : 'auto' },
           { 'pointer-events': 'all' },
         ]"
         :class="[
