@@ -1,10 +1,9 @@
 <script setup>
 import "@dotlottie/player-component";
 
-import {useI18n} from "vue-i18n";
+import { useI18n } from "vue-i18n";
 
-const {t} = useI18n();
-
+const { t } = useI18n();
 </script>
 
 <template>
@@ -12,15 +11,16 @@ const {t} = useI18n();
     <div class="layout-container flex flex-column align-center justify-center">
       <!--      <img src="@/assets/images/success.svg" alt=""/>-->
       <dotlottie-player
-          ref="success"
-          src="/img/animations/success.lottie"
-          :autoplay="true"
-          loop="10"
+        ref="success"
+        src="/img/animations/success.lottie"
+        :autoplay="true"
+        loop="10"
+        style="min-height: 250px; min-width: 250px"
       />
       <h4>{{ t("market_page.ordered_successfully") }}</h4>
       <p>{{ t("market_page.order_status") }}</p>
       <router-link :to="{ name: 'home' }">
-        <img src="@/assets/images/arrow-left.svg" alt=""/>
+        <img src="@/assets/images/arrow-left.svg" alt="" />
         <span>{{ t("back_to_main") }}</span>
       </router-link>
     </div>
