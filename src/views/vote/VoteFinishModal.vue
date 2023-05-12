@@ -1,8 +1,10 @@
 <script setup>
 import ModalDialog from "@/components/ui/ModalDialog/ModalDialog.vue";
 import {useRouter} from "vue-router";
+import {useI18n} from "vue-i18n";
 
 const router = useRouter();
+const { t } = useI18n();
 
 
 const props = defineProps({
@@ -13,8 +15,6 @@ const props = defineProps({
 })
 
 const emit = defineEmits(['close-modal'])
-
-
 
 
 </script>
@@ -45,7 +45,6 @@ const emit = defineEmits(['close-modal'])
       <template #footer>
         <div class="modal-footer">
           <div @click="emit('close-modal')" class="modal-footer__button btn-info">
-            {{ // t("vote_page.start_vote")    }}
             {{ t("ok") }}
           </div>
         </div>

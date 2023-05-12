@@ -1,9 +1,11 @@
 <script setup>
 import ModalDialog from "@/components/ui/ModalDialog/ModalDialog.vue";
 import {useRouter} from "vue-router";
-import {onMounted, ref} from "vue";
+import { ref} from "vue";
+import {useI18n} from "vue-i18n";
 
 const router = useRouter();
+const { t } = useI18n();
 
 const startVoteModal = ref(false);
 
@@ -28,10 +30,10 @@ function redirectVotePage() {
       <template #content>
         <div class="modal-content">
           <h3 class="modal-content__title">
-            {{ t("vote_page.title") }}!
+            {{ t("vote_page.title") }}
           </h3>
           <p class="modal-content__subtitle">
-            {{ t("vote_page.description") }}!
+            {{ t("vote_page.description") }}
             <!--            {{-->
             <!--              t("connect_premium_service_message", {-->
             <!--                level: 1,-->

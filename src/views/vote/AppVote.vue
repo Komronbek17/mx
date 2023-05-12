@@ -3,12 +3,14 @@ import VoteProgress from "@/views/vote/VoteProgress.vue";
 import VoteAnswers from "@/views/vote/VoteAnswers.vue";
 import {computed, onMounted, ref} from "vue";
 import {voteApi} from "@/services/vote.service";
-import ModalDialog from "@/components/ui/ModalDialog/ModalDialog.vue";
 import {useRouter} from "vue-router";
 import {WebAppController} from "@/utils/telegram/web.app.util";
 import VoteFinishModal from "@/views/vote/VoteFinishModal.vue";
+import {useI18n} from "vue-i18n";
 
 const router = useRouter();
+
+const { t } = useI18n();
 
 const votes = ref([]);
 const activeVote = ref(1);
