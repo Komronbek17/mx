@@ -34,9 +34,9 @@ function triggerInputType() {
 
 const computedMaxBalance = computed(() => {
   if (
-      props.relatedList &&
-      props.relatedList[0] &&
-      props.relatedList[0].balance
+    props.relatedList &&
+    props.relatedList[0] &&
+    props.relatedList[0].balance
   ) {
     return Math.round(props.relatedList[0].balance * 1.5);
   }
@@ -56,9 +56,9 @@ function generateUserName(name) {
   <div class="referral-index">
     <h4 class="referral-index__title">{{ t("referral_page.title") }}:</h4>
     <div class="referral-index__link">
-      <button class="referral-index__link-hide"  @click="triggerInputType">
-        <eye-icon v-if="inputType === 'password'" color="var(--gf-text-33)"/>
-        <eye-close-icon v-else color="var(--gf-text-33)"/>
+      <button class="referral-index__link-hide" @click="triggerInputType">
+        <eye-icon v-if="inputType === 'password'" color="var(--gf-text-33)" />
+        <eye-close-icon v-else color="var(--gf-text-33)" />
       </button>
       <input :type="inputType" :value="props.property.link" :disabled="true" />
       <a
@@ -125,7 +125,7 @@ function generateUserName(name) {
         </div>
       </div>
       <div v-if="loading" class="d-flex align-center justify-center">
-        <app-spinner-loader size="24" color="var(--gf-p-loader-color)"/>
+        <app-spinner-loader size="24" color="var(--gf-p-loader-color)" />
       </div>
     </div>
   </div>
@@ -264,7 +264,7 @@ function generateUserName(name) {
     user-select: none;
     border: 0;
     height: 24px !important;
-    background: #00CC6A;
+    background: #00cc6a;
     border-radius: 0 4px 4px 0;
   }
 

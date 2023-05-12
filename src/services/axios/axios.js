@@ -33,11 +33,11 @@ export const axiosV1 = ({ endpoint = "" }) => {
 
 export const axiosDev = ({ endpoint = "" }) => {
   // eslint-disable-next-line
-  if (import.meta.env.MODE === "development") {
-    return instanceGenerator(
-      "https://dev.oltin-baliq.1it.uz" + "/v1/api/" + endpoint
-    );
-  }
+  // if (import.meta.env.MODE === "production") {
+  //   return axiosVersion({ endpoint });
+  // }
 
-  return axiosVersion({ endpoint });
+  return instanceGenerator(
+    "https://dev.oltin-baliq.1it.uz" + "/v1/api/" + endpoint
+  );
 };

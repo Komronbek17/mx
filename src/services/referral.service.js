@@ -1,5 +1,5 @@
 import Core from "@/services/axios/core.axios";
-import {axiosV1, axiosVersion} from "@/services/axios/axios";
+import { axiosV1, axiosVersion } from "@/services/axios/axios";
 
 class ReferralService extends Core {
   constructor() {

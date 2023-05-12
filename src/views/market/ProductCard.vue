@@ -1,7 +1,7 @@
 <script setup>
-import {useRouter} from "vue-router";
-import {useToast} from "vue-toastification";
-import {computed, reactive} from "vue";
+import { useRouter } from "vue-router";
+import { useToast } from "vue-toastification";
+import { computed, reactive } from "vue";
 
 const router = useRouter();
 const toast = useToast();
@@ -12,7 +12,6 @@ const props = defineProps({
     required: true,
   },
 });
-
 
 const card = reactive({
   basket: null,
@@ -40,7 +39,7 @@ function viewProduct() {
   if (isProductType.value) {
     router.push({
       name: "market-product",
-      params: {id: props.item["id"]},
+      params: { id: props.item["id"] },
     });
   }
 }
@@ -50,19 +49,23 @@ function viewProduct() {
   <div class="gift-card">
     <div @click="viewProduct" class="gift-card__image">
       <img
-          :src="props.item.images[0]?.path || '@/assets/images/no-photo.svg'"
-          alt=""
+        :src="props.item.images[0]?.path || '@/assets/images/no-photo.svg'"
+        alt=""
       />
     </div>
     <div @click="viewProduct" class="gift-card__content">
       <h5>{{ props.item.name }}</h5>
       <div class="price">
-        <img src="@/assets/icons/coin.svg" alt=""/>
+        <img src="@/assets/icons/coin.svg" alt="" />
         <p>{{ props.item.price }}</p>
       </div>
     </div>
 
-    <div v-if="isProductType" @click="viewProduct" class="gift-card__button flex">
+    <div
+      v-if="isProductType"
+      @click="viewProduct"
+      class="gift-card__button flex"
+    >
       <p>{{ $t("market_page.detail") }}</p>
     </div>
     <div v-else @click="askActivate" class="gift-card__button">
@@ -119,7 +122,7 @@ function viewProduct() {
       p {
         @extend .font-15;
         @include text-gradient(
-                linear-gradient(122.82deg, #f2d207 0%, #ffa329 100%)
+          linear-gradient(122.82deg, #f2d207 0%, #ffa329 100%)
         );
       }
 
