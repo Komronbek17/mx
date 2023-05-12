@@ -11,6 +11,7 @@ import AppBottomSheet from "@/components/elements/bottomSheet/AppBottomSheet.vue
 import { coinApi } from "@/services/coin.service";
 import { toastErrorMessage } from "@/utils/error.util";
 import { keys } from "@/utils/object.util";
+import AppOrderPreview from "@/views/profile/order-history/AppOrderPreview.vue";
 
 const { t } = useI18n();
 
@@ -158,7 +159,10 @@ WebAppController.ready();
       <app-loader :active="isOrderItemFetching"></app-loader>
 
       <div v-if="showPreviewItem">
-        {{ orders.previewItem }}
+        <AppOrderPreview
+          @close-bottom-sheet="closeBottomSheet"
+          :preview-data="orders.previewItem"
+        />
       </div>
     </app-bottom-sheet>
   </div>
@@ -175,6 +179,7 @@ WebAppController.ready();
     align-items: center;
     justify-content: space-between;
     margin-bottom: 1rem;
+    cursor: pointer;
 
     &:last-child {
       margin-bottom: 0;

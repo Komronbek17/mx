@@ -8,6 +8,7 @@ import { loadingComposable } from "@/composables/loading.composable";
 import AppLoader from "@/components/elements/loader/AppLoader.vue";
 
 let informers = ref([]);
+let vote = ref(null);
 const { t } = useI18n();
 const loading = ref(false);
 
@@ -29,6 +30,12 @@ const getInformers = async () => {
 
   const { data } = await informersApi.fetchInformers(body);
   informers.value = data.result;
+  vote.value = data.result.reduce((acc, v) => {
+    if (v.type === "vote") {
+      return acc + v.amount;
+    }
+    return acc;
+  }, 0);
 };
 
 function loadMore() {
@@ -73,6 +80,22 @@ WebAppController.ready();
   <div class="informers">
     <app-loader :active="isFetching" />
     <div class="layout-container">
+      <router-link :to="{ name: 'votes' }" class="votes">
+        <img src="@/assets/images/survey-icon.svg" alt="" />
+        <div class="votes-block">
+          <div class="votes-block_details">
+            <p>{{ t("votes") }}</p>
+            <span>{{
+              t("votes_description", {
+                value: vote,
+              })
+            }}</span>
+          </div>
+          <div class="votes-block_btn">
+            <img src="@/assets/images/arrow-right-votes.svg" alt="" />
+          </div>
+        </div>
+      </router-link>
       <div class="informers-header">
         <p>{{ t("action") }}</p>
         <p>{{ t("award") }}</p>
@@ -100,6 +123,53 @@ WebAppController.ready();
 </template>
 
 <style lang="scss" scoped>
+.votes {
+  border: 1px solid var(--accent-gray);
+  border-radius: 8px;
+  margin-bottom: 24px;
+  padding: 12px 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  & img {
+    margin-right: 12px;
+  }
+
+  &-block {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    & p {
+      @extend .text-16-500;
+      color: var(--text-main);
+    }
+
+    & span {
+      display: block;
+      width: 80%;
+      @extend .text-14-400;
+      color: var(--text-secondary);
+    }
+
+    &_btn {
+      width: 32px;
+      height: 32px;
+      min-width: 32px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: 1px solid var(--accent-gray);
+      border-radius: 100%;
+
+      & img {
+        margin: 0;
+      }
+    }
+  }
+}
+
 .informers {
   &-header {
     display: flex;
