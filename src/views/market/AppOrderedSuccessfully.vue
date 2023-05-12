@@ -15,7 +15,7 @@ const { t } = useI18n();
         src="/img/animations/success.lottie"
         :autoplay="true"
         loop="10"
-        style="min-height: 250px; min-width: 250px"
+        style="min-height: 300px; min-width: 300px"
       />
       <h4>{{ t("market_page.ordered_successfully") }}</h4>
       <p>{{ t("market_page.order_status") }}</p>
