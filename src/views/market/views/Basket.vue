@@ -13,6 +13,7 @@ import { sessionStorageController } from "@/utils/localstorage.util";
 import AppLoader from "@/components/elements/loader/AppLoader.vue";
 import AppBasketProduct from "@/views/market/elements/BasketProduct.vue";
 import EmptyBasket from "@/views/market/elements/EmptyBasket.vue";
+import { toastErrorMessage } from "@/utils/error.util";
 
 const { t } = useI18n();
 const router = useRouter();
@@ -77,6 +78,18 @@ function openCheckoutPage() {
   }
 }
 
+async function removeProduct(id) {
+  try {
+    startLoading();
+    await coinApi.basketRemoveItem({ body: { id } });
+    await getBasketItems();
+  } catch (e) {
+    toastErrorMessage(e);
+  } finally {
+    finishLoading();
+  }
+}
+
 WebAppController.ready();
 
 getBasketItems();
@@ -103,6 +116,7 @@ onBeforeRouteLeave(() => {
           v-for="basketItem in marketStore.basketThing.products"
           @update-quantity="marketStore.updateProductQuantity"
           @inactivate-product="marketStore.inactivateBasketProduct"
+          @remove="removeProduct(basketItem.id)"
         />
       </div>
 

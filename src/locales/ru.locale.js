@@ -1,4 +1,5 @@
 export default {
+  delete: "Удалить",
   public_offer: "Публичная оферта",
   edit_profile: "Редактировать профиль",
   connect_premium_service_message:
