@@ -49,6 +49,7 @@ export class BackButtonController {
       profile: "home",
       premium: "home",
       settings: "home",
+      monitoring: "home",
 
       "bonus-prize": "home",
       "bonus-recent": "home",

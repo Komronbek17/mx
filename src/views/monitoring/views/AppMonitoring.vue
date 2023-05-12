@@ -303,8 +303,8 @@ fetchMonitoringDetails();
 </script>
 
 <template>
-  <div>
-    <div id="infinite-list" style="overflow-y: scroll; height: 95vh">
+  <div class="app-monitoring">
+    <div id="infinite-list" style="overflow-y: scroll; height: 100vh">
       <app-loader :active="isFetching" />
       <div class="layout-container">
         <div>
@@ -361,7 +361,7 @@ fetchMonitoringDetails();
         </div>
       </div>
     </div>
-    <div class="flex justify-center align-center">
+    <div class="flex justify-center align-center app-monitoring-loader">
       <app-spinner-loader
         size="36"
         color="var(--gf-p-loader-color)"
@@ -372,6 +372,10 @@ fetchMonitoringDetails();
 </template>
 
 <style lang="scss" scoped>
+.app-monitoring {
+  position: relative;
+}
+
 .ol-profits-cards {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
@@ -418,5 +422,12 @@ fetchMonitoringDetails();
 
 .ol-profits-active-card {
   background: var(--accent-gray) !important;
+}
+
+.app-monitoring-loader {
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
 }
 </style>
