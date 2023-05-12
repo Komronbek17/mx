@@ -68,6 +68,9 @@ export class BackButtonController {
       "checkout-client-update": "market-checkout",
 
       "market-ordered-successfully": "market",
+
+      "orders-active": "profile",
+      "orders-history": "profile",
     };
 
     const hasInPagesList = hasOwnProperty(pages, name);
