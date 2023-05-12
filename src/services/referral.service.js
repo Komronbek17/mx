@@ -13,7 +13,7 @@ class ReferralService extends Core {
   }
 
   getRelatedReferrals(body) {
-    return this.post("related-referrals",body);
+    return this.post("related-referrals", body);
   }
 }
 

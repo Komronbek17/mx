@@ -60,9 +60,9 @@ function generateUserName(name) {
         <eye-icon color="var(--gf-text-33)" @click="triggerInputType" />
       </button>
       <input :type="inputType" :value="props.property.link" :disabled="true" />
-      <button class="referral-index__link-share m-0">
-        <share-icon color="var(--gf-text-blue)" />
-      </button>
+        <a :href="props.property.link" target="_blank" class="referral-index__link-share m-0">
+            <share-icon color="var(--gf-text-blue)"/>
+        </a>
     </div>
 
     <div class="referral-index__cards">
@@ -143,7 +143,7 @@ function generateUserName(name) {
     align-items: center;
     margin-bottom: 1rem;
 
-    & button {
+    & button, a {
       display: flex;
       align-items: center;
       height: 100%;

@@ -6,17 +6,19 @@ import {
   reactive,
   watch,
 } from "vue";
+import { useI18n } from "vue-i18n";
+import { useRoute, useRouter } from "vue-router";
 import { coinApi } from "@/services/coin.service";
+import { isUndefined } from "@/utils/inspect.util";
+import { hasOwnProperty } from "@/utils/object.util";
 import { toastErrorMessage } from "@/utils/error.util";
 import { sortResultByDate } from "@/utils/sort.util";
+import { useInfiniteScroll } from "@/composables/useInfiniteScroll";
+import { dateProperties, monthsNameList } from "@/utils/date.formatter";
 import { loadingComposable } from "@/composables/loading.composable";
 import AppLoader from "@/components/elements/loader/AppLoader.vue";
 import MonitoringCard from "@/views/monitoring/elements/MonitoringCard.vue";
-import { useI18n } from "vue-i18n";
-import { dateProperties, monthsNameList } from "@/utils/date.formatter";
-import { useRoute, useRouter } from "vue-router";
-import { hasOwnProperty } from "@/utils/object.util";
-import { isUndefined } from "@/utils/inspect.util";
+import AppSpinnerLoader from "@/components/elements/loader/AppSpinnerLoader.vue";
 
 const iconsList = {
   level: defineAsyncComponent(
@@ -26,6 +28,12 @@ const iconsList = {
       )
   ),
   ads: defineAsyncComponent(
+    () =>
+      new Promise((resolve) =>
+        resolve(import("@/components/icons/monitoring/AdsOneIcon.vue"))
+      )
+  ),
+  ads_award: defineAsyncComponent(
     () =>
       new Promise((resolve) =>
         resolve(import("@/components/icons/monitoring/AdsOneIcon.vue"))
@@ -63,13 +71,14 @@ const router = useRouter();
 
 const mn = reactive({
   items: [] /* { time:String, result:Array } */,
+  rawItems: [],
   total: {
     total_items: 0,
     total_amount: 0,
     debit_total: 0,
     credit_total: 0,
   },
-  loading: false,
+  fetching: false,
   pagination: {
     current: 1,
     previous: 0,
@@ -110,25 +119,12 @@ watch(
   }
 );
 
-function infiniteScroll() {
-  const listElm = document.getElementById("infinite-list");
-  listElm.addEventListener("scroll", () => {
-    if (listElm.scrollTop + listElm.clientHeight >= listElm.scrollHeight) {
-      if (mn.pagination.next) {
-        loadMore();
-      }
-    }
-  });
+function beginFetching() {
+  mn.fetching = true;
 }
 
-function loadMore() {
-  mn.loading = true;
-  setTimeout(() => {
-    for (let i = 0; i < 1; i++) {
-      getMonitoringDetails();
-    }
-    mn.loading = false;
-  }, 500);
+function finishFetching() {
+  mn.fetching = false;
 }
 
 async function getProfitDetails() {
@@ -141,8 +137,17 @@ async function getProfitDetails() {
 }
 
 async function getMonitoringDetails(
-  { page = 1, limit = 10 } = { page: 1, limit: 10 }
+  { page = 1, limit = 10, infinite = false } = {
+    page: 1,
+    limit: 10,
+    infinite: false,
+  }
 ) {
+  if (!page) {
+    return;
+  }
+
+  beginFetching();
   let body = {
     page,
     limit,
@@ -157,12 +162,59 @@ async function getMonitoringDetails(
       body,
     });
 
-    mn.items = sortResultByDate({
-      arr: response.data.result,
-    });
+    const result = response.data.result;
+
+    if (infinite) {
+      const topItem = mn.items[mn.items.length - 1];
+      const {
+        dayOfMonth: topItemDay,
+        month: topItemMonth,
+        year: topItemYear,
+      } = dateProperties(topItem.time, "string");
+
+      const indexOfLastItem = result.findLastIndex((r) => {
+        const {
+          dayOfMonth: day,
+          month,
+          year,
+        } = dateProperties(r.created_at, "string");
+        return (
+          year === topItemYear && month === topItemMonth && day === topItemDay
+        );
+      });
+
+      if (indexOfLastItem !== -1) {
+        const addingResult = result.slice(0, indexOfLastItem + 1);
+        for (let i = 0; i < addingResult.length; i++) {
+          mn.items[mn.items.length - 1].result.push(addingResult[i]);
+        }
+
+        const newResult = sortResultByDate({
+          arr: result.slice(indexOfLastItem + 1),
+        });
+        for (let i = 0; i < newResult.length; i++) {
+          mn.items.push(newResult[i]);
+        }
+      } else {
+        const items = sortResultByDate({
+          arr: result,
+        });
+
+        for (let i = 0; i < items.length; i++) {
+          mn.items.push(items[i]);
+        }
+      }
+    } else {
+      mn.items = sortResultByDate({
+        arr: response.data.result,
+      });
+    }
+
     mn.pagination = response.data.pagination;
   } catch (e) {
     toastErrorMessage(e);
+  } finally {
+    finishFetching();
   }
 }
 
@@ -174,6 +226,15 @@ async function fetchMonitoringDetails() {
     console.error(e);
   } finally {
     finishLoading();
+  }
+}
+
+async function infiniteFetching() {
+  if (!mn.fetching) {
+    await getMonitoringDetails({
+      infinite: true,
+      page: mn.pagination.next,
+    });
   }
 }
 
@@ -237,73 +298,91 @@ function showMonitoringTime(time) {
 }
 
 onMounted(() => {
-  infiniteScroll();
+  const { mountInfiniteScroll } = useInfiniteScroll({
+    fn: infiniteFetching,
+    el: "infinite-list",
+  });
+
+  mountInfiniteScroll({});
 });
 
 fetchMonitoringDetails();
 </script>
 
 <template>
-  <div>
-    <app-loader :active="isFetching" />
-    <div class="layout-container">
-      <div id="infinite-list">
+  <div class="app-monitoring">
+    <div id="infinite-list" style="overflow-y: scroll; height: 100vh">
+      <app-loader :active="isFetching" />
+      <div class="layout-container">
         <div>
-          <div class="ol-profits-cards mb-1-5">
-            <div
-              class="ol-profits-card debit"
-              @click="filterByIncome"
-              :class="{
-                'ol-profits-active-card': debit !== undefined && debit,
-              }"
-            >
-              <div class="ol-profits-card-title">
-                {{ t("monitoring.debit") }}
-              </div>
-              <div class="ol-profits-card-value">
-                +{{ mn.total.debit_total }} FitCoin
-              </div>
-            </div>
-            <div
-              class="ol-profits-card credit"
-              @click="filterByOutcome"
-              :class="{
-                'ol-profits-active-card': debit !== undefined && !debit,
-              }"
-            >
-              <div class="ol-profits-card-title">
-                {{ t("monitoring.credit") }}
-              </div>
-              <div class="ol-profits-card-value">
-                {{ mn.total.total_amount }} FitCoin
-              </div>
-            </div>
-          </div>
           <div>
-            <div
-              v-for="item in mn.items"
-              :key="item.id"
-              class="flex flex-column row-gap-1 mb-1"
-            >
-              <div class="monitoring-date">
-                {{ showMonitoringTime(item.time) }}
+            <div class="ol-profits-cards mb-1-5">
+              <div
+                class="ol-profits-card debit"
+                @click="filterByIncome"
+                :class="{
+                  'ol-profits-active-card': debit !== undefined && debit,
+                }"
+              >
+                <div class="ol-profits-card-title">
+                  {{ t("monitoring.debit") }}
+                </div>
+                <div class="ol-profits-card-value">
+                  +{{ mn.total.debit_total }} FitCoin
+                </div>
               </div>
-              <div v-for="detail in item.result" :key="detail.id">
-                <monitoring-card :detail="detail">
-                  <template #icon>
-                    <component :is="iconsList[detail.type]"></component>
-                  </template>
-                </monitoring-card>
+              <div
+                class="ol-profits-card credit"
+                @click="filterByOutcome"
+                :class="{
+                  'ol-profits-active-card': debit !== undefined && !debit,
+                }"
+              >
+                <div class="ol-profits-card-title">
+                  {{ t("monitoring.credit") }}
+                </div>
+                <div class="ol-profits-card-value">
+                  {{ mn.total.total_amount }} FitCoin
+                </div>
+              </div>
+            </div>
+            <div>
+              <div
+                v-for="item in mn.items"
+                :key="item.id"
+                class="flex flex-column row-gap-1 mb-1"
+              >
+                <div class="monitoring-date">
+                  {{ showMonitoringTime(item.time) }}
+                </div>
+                <div v-for="detail in item.result" :key="detail.id">
+                  <monitoring-card :detail="detail">
+                    <template #icon>
+                      <component :is="iconsList[detail.type]"></component>
+                    </template>
+                  </monitoring-card>
+                </div>
               </div>
             </div>
           </div>
         </div>
       </div>
     </div>
+    <div class="flex justify-center align-center app-monitoring-loader">
+      <app-spinner-loader
+        size="36"
+        color="var(--gf-p-loader-color)"
+        v-if="mn.fetching"
+      />
+    </div>
   </div>
 </template>
 
 <style lang="scss" scoped>
+.app-monitoring {
+  position: relative;
+}
+
 .ol-profits-cards {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
@@ -350,5 +429,12 @@ fetchMonitoringDetails();
 
 .ol-profits-active-card {
   background: var(--accent-gray) !important;
+}
+
+.app-monitoring-loader {
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
 }
 </style>
