@@ -190,7 +190,7 @@ function toggleSelect() {
             <plus-icon
               :color="
                 isBasketQtyFull
-                  ? 'var(--gf-text-33-gray)'
+                  ? 'var(--gf-text-white-2x)'
                   : 'var(--gf-text-33-gray)'
               "
             />

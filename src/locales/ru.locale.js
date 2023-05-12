@@ -280,4 +280,9 @@ export default {
     today: "Сегодня",
     yesterday: "Вчера",
   },
+
+  referral_page: {
+    title: "Ваша реферальная ссылка",
+    income: "Доход",
+  },
 };
