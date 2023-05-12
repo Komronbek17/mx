@@ -1,5 +1,5 @@
 <script setup>
-import { computed, ref } from "vue";
+import { computed, ref, watch } from "vue";
 import { useI18n } from "vue-i18n";
 import { useToast } from "vue-toastification";
 import { coinApi } from "@/services/coin.service";
@@ -16,6 +16,7 @@ import { WebAppController } from "@/utils/telegram/web.app.util";
 import { MainButtonController } from "@/utils/telegram/main.button.controller";
 import { onBeforeRouteLeave, useRouter } from "vue-router";
 import ToastErrorIcon from "@/components/icons/ToastErrorIcon.vue";
+import { useMarketStore } from "@/views/market/market.store";
 
 const router = useRouter();
 const { t } = useI18n();
@@ -32,8 +33,20 @@ const balance = ref(0);
 
 const modalValue = ref(false);
 const levelProduct = ref({});
+const marketStore = useMarketStore();
 
-const getProducts = async () => {
+watch(
+  () => marketStore.products,
+  () => {
+    if (marketStore.products.length) {
+      MainButtonController.setText(
+        `${t("market_page.show_order")} (${marketStore.products.length})`
+      );
+    }
+  }
+);
+
+async function getProducts() {
   try {
     const params = {
       page: 1,
@@ -44,7 +57,7 @@ const getProducts = async () => {
   } catch (e) {
     toast.error(e?.response?.data?.message);
   }
-};
+}
 
 const fetchBalance = async () => {
   try {
@@ -124,7 +137,28 @@ function updateProductBasketState({ basket }) {
 async function fetchItems() {
   try {
     startLoading();
-    await Promise.allSettled([await fetchBalance(), await getProducts()]);
+    await Promise.allSettled([
+      await fetchBalance(),
+      await getProducts(),
+      await getBasketItems(),
+    ]);
+  } finally {
+    finishLoading();
+  }
+}
+
+async function getBasketItems() {
+  try {
+    const response = await coinApi.basketFindAll({
+      body: { limit: 50 },
+    });
+
+    marketStore.initializeBasket({
+      summary: response.data.summary,
+      products: response.data.products,
+    });
+  } catch (e) {
+    toast.error(e.response.data.message ?? e.message);
   } finally {
     finishLoading();
   }

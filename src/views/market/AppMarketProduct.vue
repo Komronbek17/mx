@@ -41,18 +41,18 @@ async function fetchProduct() {
   }
 }
 
-async function fetchBasket() {
-  try {
-    const body = {
-      page: 1,
-      limit: 100,
-    };
-    const { data } = await coinApi.getBasket(body);
-    basket.value = data.result;
-  } catch (e) {
-    toast.error(e?.response?.data?.message);
-  }
-}
+// async function fetchBasket() {
+//   try {
+//     const body = {
+//       page: 1,
+//       limit: 100,
+//     };
+//     const { data } = await coinApi.getBasket(body);
+//     basket.value = data.result;
+//   } catch (e) {
+//     toast.error(e?.response?.data?.message);
+//   }
+// }
 
 if (basket.value && basket.value.products && basket.value.products.length) {
   MainButtonController.run();

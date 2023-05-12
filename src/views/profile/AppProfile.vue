@@ -26,7 +26,7 @@ import { useUserStore } from "@/stores/user.store";
 import userAvatar from "@/assets/images/profile-image.svg";
 
 const toast = useToast();
-const theme = WebAppController.webApp.colorScheme;
+// const theme = WebAppController.webApp.colorScheme;
 
 const popoverValue = ref(false);
 

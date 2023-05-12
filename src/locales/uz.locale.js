@@ -1,4 +1,5 @@
 export default {
+  delete: "Oʻchirish",
   public_offer: "Ommaviy oferta",
   edit_profile: "Profilni tahrirlash",
   connect_premium_service_message:

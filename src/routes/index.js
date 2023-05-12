@@ -5,7 +5,7 @@ import { isNUNEZ } from "@/utils/inspect.util";
 
 import AppHome from "@/views/AppHome.vue";
 import AppPremium from "@/views/premium/AppPremium.vue";
-import AppShop from "@/views/shop/AppShop.vue";
+// import AppShop from "@/views/shop/AppShop.vue";
 import AppPrize from "@/views/prize/AppPrize.vue";
 import AppSettings from "@/views/settings/AppSettings.vue";
 import AppLanguage from "@/views/settings/AppLanguage.vue";
@@ -200,11 +200,11 @@ const router = createRouter({
       name: "game",
       component: AppGame,
     },
-    {
-      path: "/shop",
-      name: "shop",
-      component: AppShop,
-    },
+    // {
+    //   path: "/shop",
+    //   name: "shop",
+    //   component: AppShop,
+    // },
     {
       path: "/news",
       name: "news",
