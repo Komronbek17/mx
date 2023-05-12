@@ -1,9 +1,10 @@
 import Core from "@/services/axios/core.axios";
+import { axiosDev } from "@/services/axios/axios";
 
 class CoinService extends Core {
   constructor() {
     super({
-      endpoint: "api/coin",
+      axios: axiosDev({ endpoint: "coin" }),
     });
   }
 
