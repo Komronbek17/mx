@@ -51,8 +51,8 @@ class CoinService extends Core {
     return this.post("address/update", body);
   }
 
-  addressRemove({ body: { id = null } }) {
-    return this.post("address/remove", { id });
+  addressRemove(id) {
+    return this.post("address/remove", id);
   }
 
   basketFindAll({ body: { page = 1, limit = 10 } }) {

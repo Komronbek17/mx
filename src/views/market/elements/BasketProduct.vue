@@ -163,7 +163,7 @@ function toggleSelect() {
           <p v-if="isAvailable">
             {{ t("market_page.quantity") }}:
             <span :class="{ 'limit-warning': isBasketQtyFull }">
-              {{ props.basketItem.product.qty }}
+              {{ props.basketItem.product.qty }} {{ t("quantity") }}
               <span v-if="props.basketItem.product.measurement">
                 {{ props.basketItem.product.measurement.name }}
               </span>
@@ -183,9 +183,7 @@ function toggleSelect() {
           <p v-if="isBasketUpdating" class="flex align-center justify-center">
             <app-spinner-loader size="24" color="var(--gf-p-loader-color)" />
           </p>
-          <p v-else>
-            {{ props.basketItem.quantity }}
-          </p>
+          <p v-else>{{ props.basketItem.quantity }}</p>
           <div
             class="badge plus increment-button"
             @click="increaseBasketItem"

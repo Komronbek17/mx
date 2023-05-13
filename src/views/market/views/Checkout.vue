@@ -303,6 +303,7 @@ initialize();
 <style lang="scss" scoped>
 .ol-market-receipt {
   padding: 0 1rem;
+  margin-top: 1.25rem;
 }
 
 .title {

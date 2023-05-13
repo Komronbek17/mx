@@ -228,6 +228,20 @@ async function createAddressHandler(bCtx) {
   }
 }
 
+async function deleteAddress() {
+  const id = route.params.id;
+  try {
+    await coinApi.addressRemove({
+      id: id,
+    });
+    await router.push({
+      name: "market-checkout",
+    });
+  } catch (e) {
+    console.error(e);
+  }
+}
+
 async function updateAddressHandler(bodyCtx) {
   try {
     startLoading();
@@ -268,7 +282,7 @@ init();
 <template>
   <div class="ol-address-create">
     <app-loader :active="loading" />
-    <h3>
+    <h3 class="mb-1">
       {{
         t(
           isUpdatingRole
@@ -333,6 +347,9 @@ init();
         {{ commentErrorMessage }}
       </span>
     </div>
+    <button @click="deleteAddress" class="delete-btn">
+      {{ $t("market_page.delete_address") }}
+    </button>
   </div>
 </template>
 
@@ -345,5 +362,19 @@ init();
 
 .error-message {
   color: #eb5757;
+}
+
+.delete-btn {
+  @extend .text-15-600;
+  color: var(--gf-text-white-2x);
+  width: 100%;
+  height: 46px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #eb5757;
+  border-radius: 8px;
+  border: none;
+  margin-top: 3rem;
 }
 </style>

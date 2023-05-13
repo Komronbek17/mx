@@ -1,35 +1,134 @@
 <script setup>
+import { onMounted, ref } from "vue";
+import { useI18n } from "vue-i18n";
 import { historyApi } from "@/services/history.service";
-let history = ref({});
+import { WebAppController } from "@/utils/telegram/web.app.util";
+
+import AppLoader from "@/components/elements/loader/AppLoader.vue";
+import { loadingComposable } from "@/composables/loading.composable";
+import { formatDateWithDot } from "@/utils/date.formatter";
+
+const { t } = useI18n();
+let recentBonuses = ref([]);
+
+const {
+  loading: isFetching,
+  startLoading,
+  finishLoading,
+} = loadingComposable();
+
+const pagination = ref({
+  current: 1,
+  limit: 10,
+});
+const loading = ref(false);
 
 const getActiveBonuses = async () => {
-  const response = await historyApi.fetchActiveHistories({
+  const body = {
+    method: "coin.get_recent_histories",
     params: {
-      page: 1,
+      page: pagination.value.current,
+      limit: pagination.value.limit,
     },
-  });
-  history.value = response.data.items;
-  console.log(history.value);
+  };
+  const { data } = await historyApi.fetchActiveHistories(body);
+  recentBonuses.value = [...recentBonuses.value, ...data.items];
+  pagination.value = Object.assign(pagination.value, data.pagination);
 };
 
-getActiveBonuses();
+function formatCreatedTime(t) {
+  const d = t.replace(" ", "T");
+  return formatDateWithDot(d);
+}
 
-import { WebAppController } from "@/utils/telegram/web.app.util";
+function filterBonusType(item) {
+  if (item === "sms") {
+    return t("bonus_types.sms");
+  } else if (item === "internet") {
+    return t("bonus_types.internet");
+  } else {
+    return t("bonus_types.minutes");
+  }
+}
+
+// function filterBonusLevel(item) {
+//   if (item === 1) {
+//     return t("prize_levels.1");
+//   } else if (item === 2) {
+//     return t("prize_levels.2");
+//   } else {
+//     return t("prize_levels.3");
+//   }
+// }
+
+function loadMore() {
+  loading.value = true;
+  setTimeout(() => {
+    for (let i = 0; i < 1; i++) {
+      pagination.value.current++;
+      getActiveBonuses();
+    }
+    loading.value = false;
+  }, 500);
+}
+
+const checkScrollFunction = () => {
+  const listElm = document.getElementById("infinite-list");
+  listElm.addEventListener("scroll", () => {
+    if (listElm.scrollTop + listElm.clientHeight >= listElm.scrollHeight) {
+      if (pagination.value.next) {
+        loadMore();
+      }
+    }
+  });
+  // Initially load some items.
+  loadMore();
+};
+
+onMounted(() => {
+  startLoading();
+  try {
+    getActiveBonuses();
+    checkScrollFunction();
+  } finally {
+    finishLoading();
+  }
+});
 
 WebAppController.ready();
 </script>
 
 <template>
-  <div class="active">
+  <div class="recent">
+    <app-loader :active="isFetching" />
     <div class="layout-container">
-      <div class="active-items">
-        <div class="active-item">
-          <img src="@/assets/images/bonus-2x-level_1.svg" alt="" />
-          <div class="active-item__details">
-            <p>2Х Мегабайты</p>
-            <span>Осталось 10 часов</span>
+      <div class="recent-items" id="infinite-list">
+        <div
+          v-for="item in recentBonuses"
+          :key="item.id"
+          class="recent-item"
+          :class="'recent-item-' + `${item.type}`"
+        >
+          <div class="recent-image">
+            <img
+              v-if="item.type === 'sms'"
+              src="@/assets/images/sms.svg"
+              alt=""
+            />
+            <img
+              v-else-if="item.type === 'internet'"
+              src="@/assets/images/internet-mb.svg"
+              alt=""
+            />
+            <img v-else src="@/assets/images/minutes.svg" alt="" />
           </div>
-          <p class="active-level"></p>
+          <div class="recent-item__details">
+            <p>{{ item.name }}</p>
+            <span>{{ filterBonusType(item.type) }}</span>
+          </div>
+          <p class="recent-level" :class="'recent-level-' + `${item.step}`">
+            {{ formatCreatedTime(item.created_at) }}
+          </p>
         </div>
       </div>
     </div>
@@ -37,9 +136,106 @@ WebAppController.ready();
 </template>
 
 <style lang="scss" scoped>
-.active {
+.recent {
   &-item {
+    display: flex;
+    align-items: center;
+    margin-bottom: 1rem;
+
+    &:last-child {
+      margin-bottom: 0;
+    }
+
+    &__details {
+      display: flex;
+      flex-wrap: nowrap;
+      flex-direction: column;
+      justify-content: center;
+      width: 100%;
+
+      & p {
+        font-weight: 600;
+        font-size: 15px;
+        line-height: 133%;
+        letter-spacing: -0.4px;
+        color: var(--gf-text-33);
+        margin-bottom: 6px;
+      }
+
+      & span {
+        font-weight: 400;
+        font-size: 14px;
+        line-height: 129%;
+        color: var(--gf-text-secondary-gray-2x);
+      }
+    }
+
+    &-level {
+      font-weight: 500;
+      font-size: 14px;
+      line-height: 129%;
+      text-align: right;
+    }
+
+    &-sms {
+      .recent-image {
+        background: rgba(250, 193, 0, 0.1);
+      }
+
+      .recent-level {
+        color: var(--gf-text-secondary-gray-2x);
+        //-webkit-background-clip: text;
+        //-webkit-text-fill-color: transparent;
+        //background-clip: text;
+        //text-fill-color: transparent;
+        //white-space: nowrap;
+      }
+    }
+
+    &-internet {
+      .recent-image {
+        background: rgba(0, 139, 255, 0.1);
+      }
+
+      .recent-level {
+        color: var(--gf-text-secondary-gray-2x);
+        //-webkit-background-clip: text;
+        //-webkit-text-fill-color: transparent;
+        //background-clip: text;
+        //text-fill-color: transparent;
+        //white-space: nowrap;
+      }
+    }
+
+    &-voice {
+      .recent-image {
+        background: rgba(0, 203, 106, 0.1);
+      }
+
+      .recent-level {
+        color: var(--gf-text-secondary-gray-2x);
+        //-webkit-background-clip: text;
+        //-webkit-text-fill-color: transparent;
+        //background-clip: text;
+        //text-fill-color: transparent;
+        //white-space: nowrap;
+      }
+    }
+  }
+
+  &-image {
+    min-width: 44px;
+    height: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 1rem;
+    border-radius: 8px;
+
     & img {
+      width: 24px;
+      height: 24px;
+      object-fit: contain;
     }
   }
 }

@@ -241,6 +241,9 @@ defineExpose({
       </span>
     </div>
 
+    <label class="passport-label">
+      {{ t("market_page.passport_image_yup") }}
+    </label>
     <div class="flex justify-between align-center mt-1-5" v-if="upload.show">
       <div class="flex align-center column-gap-1">
         <app-circle-progress
@@ -285,7 +288,7 @@ defineExpose({
       </div>
     </div>
 
-    <div v-else class="ol-upload-container mt-1-5">
+    <div v-else class="ol-upload-container mt-0-5">
       <div
         class="ol-upload-content flex flex-column justify-center align-center row-gap-1"
       >
@@ -389,5 +392,13 @@ defineExpose({
   @extend .text-15-600;
   color: var(--gf-text-33);
   text-transform: uppercase;
+}
+
+.passport-label {
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--text-secondary);
+  margin-top: 1rem;
+  display: block;
 }
 </style>

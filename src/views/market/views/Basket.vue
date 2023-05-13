@@ -121,7 +121,10 @@ onBeforeRouteLeave(() => {
       </div>
 
       <div class="basket-summary">
-        <div class="flex justify-between basket-summary-total">
+        <div
+          class="flex justify-between basket-summary-total"
+          :class="isBalanceInsufficient ? 'border-bottom' : ''"
+        >
           <h3>{{ $t("market_page.total_payment") }}:</h3>
           <p
             class="yellow-gradient-color flex align-center basket-summary-price"
@@ -282,5 +285,9 @@ onBeforeRouteLeave(() => {
     font-size: 17px;
     line-height: 22px;
   }
+}
+
+.border-bottom {
+  border: 1px solid var(--gf-basket-product-image-bg);
 }
 </style>
