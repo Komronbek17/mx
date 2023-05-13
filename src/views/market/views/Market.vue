@@ -170,6 +170,12 @@ function openBasketPage() {
   });
 }
 
+function openMonitoringPage(){
+  router.push({
+    name: "monitoring",
+  });
+}
+
 function showMainButton() {
   MainButtonController.run();
   MainButtonController.onClick(openBasketPage);
@@ -190,10 +196,10 @@ fetchItems();
   <div class="layout-container">
     <app-loader :active="isFetching" />
     <div class="bonus-block">
-      <div class="bonus-card">
+      <div @click="openMonitoringPage" class="bonus-card">
         <div class="bonus-card__title">{{ $t("market_page.balance") }}:</div>
         <div class="bonus-card__price">
-          <img src="@/assets/icons/coin.svg" alt="" />
+          <img src="@/assets/icons/fitcoin.svg" alt="" />
           <p>{{ balance }}</p>
         </div>
       </div>
@@ -246,7 +252,7 @@ fetchItems();
             </p>
             <p class="price">
               {{ t("market_page.bonus_price") }}
-              <img src="@/assets/icons/coin.svg" alt="coin" />
+              <img src="@/assets/icons/fitcoin.svg" alt="coin" />
               {{ levelProduct.price }}
             </p>
           </div>

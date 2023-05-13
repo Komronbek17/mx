@@ -129,7 +129,7 @@ onBeforeRouteLeave(() => {
             <img
               :width="24"
               :height="24"
-              src="@/assets/images/coin.png"
+              src="@/assets/icons/fitcoin.svg"
               alt="coin png"
             />
             <span class="ml-0-5">
@@ -149,7 +149,7 @@ onBeforeRouteLeave(() => {
               <img
                 :width="24"
                 :height="24"
-                src="@/assets/images/coin.png"
+                src="@/assets/icons/fitcoin.svg"
                 alt="coin png"
               />
               <span class="ml-0-5">

@@ -143,7 +143,7 @@ function toggleSelect() {
           <div class="product-block__top-details">
             <h4>{{ props.basketItem.product.name }}</h4>
             <div class="flex align-center">
-              <img src="@/assets/images/coin.png" alt="" />
+              <img src="@/assets/icons/fitcoin.svg" alt="" />
               <span>{{ props.basketItem.product.price }}</span>
             </div>
           </div>
@@ -161,7 +161,7 @@ function toggleSelect() {
       <div class="product-block__bottom">
         <div>
           <p v-if="isAvailable">
-            {{ t("market_page.product_left") }}:
+            {{ t("market_page.quantity") }}:
             <span :class="{ 'limit-warning': isBasketQtyFull }">
               {{ props.basketItem.product.qty }}
               <span v-if="props.basketItem.product.measurement">

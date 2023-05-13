@@ -79,7 +79,7 @@ function generateUserName(name) {
       <div class="referral-index__card">
         <p>{{ t("referral_page.income") }}</p>
         <span class="referral-index__card-coins">
-          <img src="@/assets/icons/coin.svg" alt="coin" />
+          <img src="@/assets/icons/fitcoin.svg" alt="coin" />
           {{ props.property.coins }}
         </span>
       </div>
@@ -110,7 +110,7 @@ function generateUserName(name) {
                   <div class="price">
                     <img
                       style="width: 16px; height: 16px"
-                      src="@/assets/icons/coin.svg"
+                      src="@/assets/icons/fitcoin.svg"
                       alt="coin"
                     />
                     {{ item.balance }}

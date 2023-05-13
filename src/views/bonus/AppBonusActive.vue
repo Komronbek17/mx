@@ -1,18 +1,18 @@
 <script setup>
-// import { historyApi } from "@/services/history.service";
-// let history = ref({});
+import { historyApi } from "@/services/history.service";
+let history = ref({});
 
-// const getActiveBonuses = async () => {
-//   const response = await historyApi.fetchActiveHistories({
-//     params: {
-//       page: 1,
-//     },
-//   });
-//   history.value = response.data.items;
-//   console.log(history.value);
-// };
+const getActiveBonuses = async () => {
+  const response = await historyApi.fetchActiveHistories({
+    params: {
+      page: 1,
+    },
+  });
+  history.value = response.data.items;
+  console.log(history.value);
+};
 
-// getActiveBonuses();
+getActiveBonuses();
 
 import { WebAppController } from "@/utils/telegram/web.app.util";
 

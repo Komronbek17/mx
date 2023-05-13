@@ -328,7 +328,7 @@ fetchMonitoringDetails();
                   {{ t("monitoring.debit") }}
                 </div>
                 <div class="ol-profits-card-value">
-                  +{{ mn.total.debit_total }} FitCoin
+                  +{{ mn.total.debit_total }} Fit-Coin
                 </div>
               </div>
               <div
@@ -342,7 +342,7 @@ fetchMonitoringDetails();
                   {{ t("monitoring.credit") }}
                 </div>
                 <div class="ol-profits-card-value">
-                  {{ mn.total.total_amount }} FitCoin
+                  {{ mn.total.credit_total }} Fit-Coin
                 </div>
               </div>
             </div>

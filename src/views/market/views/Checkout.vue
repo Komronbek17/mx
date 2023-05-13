@@ -263,7 +263,7 @@ initialize();
             :width="24"
             :height="24"
             alt="coin icon"
-            src="@/assets/images/coin.png"
+            src="@/assets/icons/fitcoin.svg"
           />
           <span class="in-cart_value">
             {{ formatToPrice(productsTotalCost) }}
@@ -278,7 +278,7 @@ initialize();
             :width="24"
             :height="24"
             alt="coin icon"
-            src="@/assets/images/coin.png"
+            src="@/assets/icons/fitcoin.svg"
           />
           <span class="delivery-value">{{ formatToPrice(deliveryCost) }}</span>
         </span>
@@ -291,7 +291,7 @@ initialize();
             :width="24"
             :height="24"
             alt="coin icon"
-            src="@/assets/images/coin.png"
+            src="@/assets/icons/fitcoin.svg"
           />
           <span class="sum-value">{{ formatToPrice(total) }}</span>
         </span>

@@ -211,7 +211,7 @@ WebAppController.ready();
       <div class="market-product__top">
         <p class="market-product__title">{{ product.name }}</p>
         <div class="market-product__price">
-          <img src="@/assets/images/coin.png" alt="" />
+          <img src="@/assets/icons/fitcoin.svg" alt="" />
           <p>{{ product.price }}</p>
         </div>
       </div>
@@ -220,7 +220,7 @@ WebAppController.ready();
         <span>{{ product.qty }} {{ product["measurement"]?.name }}</span>
       </p>
       <p class="market-product__description-title">
-        {{ t("market_page.description") }}
+        {{ t("market_page.detail") }}
       </p>
       <p class="market-product__description" v-html="product.description"></p>
 
