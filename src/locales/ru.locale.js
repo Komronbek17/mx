@@ -127,6 +127,7 @@ export default {
         show_order: "Показать заказ",
         // quantity: "Количество",
         quantity: "На складе",
+        close: "Показывай меньше",
         description: "Описание",
         your_order: "Ваш заказ",
         choose_address: "выберите адрес",

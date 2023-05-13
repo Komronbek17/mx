@@ -1,27 +1,27 @@
 <script setup>
-import { WebAppController } from "@/utils/telegram/web.app.util";
-import { MainButtonController } from "@/utils/telegram/main.button.controller";
-import { useI18n } from "vue-i18n";
-import { onBeforeRouteLeave, useRoute } from "vue-router";
-import { computed, onMounted, reactive, ref } from "vue";
-import { coinApi } from "@/services/coin.service";
-import { loadingComposable } from "@/composables/loading.composable";
+import {WebAppController} from "@/utils/telegram/web.app.util";
+import {MainButtonController} from "@/utils/telegram/main.button.controller";
+import {useI18n} from "vue-i18n";
+import {onBeforeRouteLeave, useRoute} from "vue-router";
+import {computed, onMounted, reactive, ref} from "vue";
+import {coinApi} from "@/services/coin.service";
+import {loadingComposable} from "@/composables/loading.composable";
 import AppSpinnerLoader from "@/components/elements/loader/AppSpinnerLoader.vue";
 
-import { Pagination } from "swiper";
-import { Swiper, SwiperSlide } from "swiper/vue";
+import {Pagination} from "swiper";
+import {Swiper, SwiperSlide} from "swiper/vue";
 import "swiper/css";
 import "swiper/css/pagination";
-import { useToast } from "vue-toastification";
+import {useToast} from "vue-toastification";
 
 const modules = [Pagination];
 
-const { t } = useI18n();
+const {t} = useI18n();
 
 const toast = useToast();
 const route = useRoute();
 
-const { startLoading, finishLoading } = loadingComposable();
+const {startLoading, finishLoading} = loadingComposable();
 
 async function showOrderProducts() {
   console.log(1);
@@ -30,12 +30,19 @@ async function showOrderProducts() {
 const product = ref({});
 const basket = ref([]);
 
+const textCollapsed = ref(true)
+
+
+function viewMore() {
+  textCollapsed.value = !textCollapsed.value
+}
+
 async function fetchProduct() {
   try {
     const params = {
       id: route.params.id,
     };
-    const { data } = await coinApi.getProduct({ params });
+    const {data} = await coinApi.getProduct({params});
     product.value = data.result;
     marketProduct.card = data.result;
   } catch (e) {
@@ -90,18 +97,18 @@ const {
 const basketId = computed(() => marketProduct.card?.basket?.id ?? null);
 const isProductType = computed(() => marketProduct.card.type === "product");
 const savedInBasket = computed(
-  () =>
-    isProductType.value &&
-    marketProduct.card &&
-    marketProduct.card.basket &&
-    marketProduct.card.basket.product_id === marketProduct.card.id
+    () =>
+        isProductType.value &&
+        marketProduct.card &&
+        marketProduct.card.basket &&
+        marketProduct.card.basket.product_id === marketProduct.card.id
 );
 const limitQuantity = computed(() => marketProduct.card.qty);
 const isBasketQtyFull = computed(
-  () => limitQuantity.value === marketProduct.card.basket.quantity
+    () => limitQuantity.value === marketProduct.card.basket.quantity
 );
 
-async function addToBasket({ quantity = 1 }) {
+async function addToBasket({quantity = 1}) {
   if (isSavingToBasket.value) {
     return;
   }
@@ -126,7 +133,7 @@ async function addToBasket({ quantity = 1 }) {
   }
 }
 
-async function increaseBasketItem({ count = 1 }) {
+async function increaseBasketItem({count = 1}) {
   if (isBasketUpdating.value) {
     return;
   }
@@ -146,7 +153,7 @@ async function increaseBasketItem({ count = 1 }) {
   }
 }
 
-async function decreaseBasketItem({ count = -1 }) {
+async function decreaseBasketItem({count = -1}) {
   if (isBasketUpdating.value) {
     return;
   }
@@ -157,14 +164,14 @@ async function decreaseBasketItem({ count = -1 }) {
 
     if (marketProduct.card?.basket.quantity + count === 0) {
       await coinApi
-        .basketRemoveItem({
-          body: {
-            id: basketId.value,
-          },
-        })
-        .then(() => {
-          marketProduct.card.basket = null;
-        });
+          .basketRemoveItem({
+            body: {
+              id: basketId.value,
+            },
+          })
+          .then(() => {
+            marketProduct.card.basket = null;
+          });
     } else {
       await addToBasket({
         quantity: marketProduct.card?.basket.quantity + count,
@@ -189,29 +196,30 @@ onMounted(async () => {
   }
 });
 
+
 WebAppController.ready();
 </script>
 
 <template>
   <div class="market-product">
     <swiper
-      :pagination="{
+        :pagination="{
         dynamicBullets: true,
       }"
-      :modules="modules"
-      :slides-per-view="1"
-      :space-between="16"
-      class="market-product__image"
+        :modules="modules"
+        :slides-per-view="1"
+        :space-between="16"
+        class="market-product__image"
     >
       <swiper-slide v-for="image in product.images" :key="image.id">
-        <img :src="image?.path || '@/assets/images/no-photo.svg'" alt="" />
+        <img :src="image?.path || '@/assets/images/no-photo.svg'" alt=""/>
       </swiper-slide>
     </swiper>
     <div class="layout-container">
       <div class="market-product__top">
         <p class="market-product__title">{{ product.name }}</p>
         <div class="market-product__price">
-          <img src="@/assets/icons/fitcoin.svg" alt="" />
+          <img src="@/assets/icons/fitcoin.svg" alt=""/>
           <p>{{ product.price }}</p>
         </div>
       </div>
@@ -222,37 +230,48 @@ WebAppController.ready();
       <p class="market-product__description-title">
         {{ t("market_page.detail") }}
       </p>
-      <p class="market-product__description" v-html="product.description"></p>
+      <p class="market-product__description">
+        <span v-if="textCollapsed" class="text" v-html="product.description"/>
+        <span v-else v-html="product.description"/>
+        <a class="collapse" @click="viewMore">
+          <template v-if="textCollapsed">
+            {{ t("market_page.detail") }}...
+          </template>
+          <template v-else>
+            {{ t("market_page.close") }}
+          </template>
+        </a>
+      </p>
 
       <!--      BUTTON START-->
       <div v-if="savedInBasket" class="gift-card__counter">
         <div @click="decreaseBasketItem" class="gift-card__button">
-          <img src="@/assets/icons/minus.svg" alt="minus" />
+          <img src="@/assets/icons/minus.svg" alt="minus"/>
         </div>
         <p v-if="isBasketUpdating" class="flex align-center justify-center">
-          <app-spinner-loader size="24" color="var(--gf-p-loader-color)" />
+          <app-spinner-loader size="24" color="var(--gf-p-loader-color)"/>
         </p>
         <p v-else>{{ marketProduct.card.basket.quantity }}</p>
         <div
-          @click="increaseBasketItem"
-          class="gift-card__button"
-          :class="{ 'full-qty': isBasketQtyFull }"
+            @click="increaseBasketItem"
+            class="gift-card__button"
+            :class="{ 'full-qty': isBasketQtyFull }"
         >
-          <img src="@/assets/icons/add.svg" alt="add" />
+          <img src="@/assets/icons/add.svg" alt="add"/>
         </div>
       </div>
       <div
-        v-else-if="isProductType"
-        @click="addToBasket"
-        class="market-product__btn flex"
+          v-else-if="isProductType"
+          @click="addToBasket"
+          class="market-product__btn flex"
       >
         <!--        <img src="@/assets/images/add.svg" alt="" />-->
         <p>{{ $t("market_page.to_basket") }}</p>
         <app-spinner-loader
-          v-if="isSavingToBasket"
-          size="20"
-          class="ml-0-5"
-          color="#FFFFFF"
+            v-if="isSavingToBasket"
+            size="20"
+            class="ml-0-5"
+            color="#FFFFFF"
         />
       </div>
 
@@ -311,7 +330,7 @@ WebAppController.ready();
       p {
         @extend .font-15;
         @include text-gradient(
-          linear-gradient(122.82deg, #f2d207 0%, #ffa329 100%)
+                linear-gradient(122.82deg, #f2d207 0%, #ffa329 100%)
         );
       }
 

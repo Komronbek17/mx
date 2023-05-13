@@ -116,6 +116,7 @@ export default {
         activate: "Faollashtirish",
         activated: "Faollashtirildi",
         detail: "Batafsil",
+        close: "Kamroq ko'rsatish",
         text: "Активировать {level}?",
         bonus: "Bonus",
         bonus_description:

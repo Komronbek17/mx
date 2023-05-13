@@ -76,7 +76,20 @@
     color: var(--gf-text-gray-2x);
     opacity: 0.7;
     margin-bottom: 1.5rem;
-    overflow: auto;
+
+    .text {
+      //display: -webkit-box;
+      //max-width: 100%;
+      //-webkit-line-clamp: 10;
+      //-webkit-box-orient: vertical;
+      height: 100px;
+      overflow: hidden;
+    }
+
+    .collapse {
+      color: var(--gf-text-blue);
+      text-decoration: underline;
+    }
   }
 
   &__btn {
