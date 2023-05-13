@@ -78,11 +78,11 @@
     margin-bottom: 1.5rem;
 
     .text {
-      //display: -webkit-box;
-      //max-width: 100%;
-      //-webkit-line-clamp: 10;
-      //-webkit-box-orient: vertical;
-      height: 100px;
+      display: -webkit-box;
+      max-width: 100%;
+      -webkit-line-clamp: 10;
+      -webkit-box-orient: vertical;
+      //height: 100px;
       overflow: hidden;
     }
 
