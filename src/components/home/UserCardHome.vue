@@ -104,24 +104,20 @@ function openUserAccount() {
 }
 
 .ol-home-username {
+  @extend .text-20-600;
   min-height: 28px;
   -webkit-box-orient: vertical;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
   width: 180px;
-  font-weight: 600;
-  font-size: 20px;
-  line-height: 28px;
   letter-spacing: -0.4px;
   //text-align: right;
   color: var(--gf-text-09);
 }
 
 .ol-home-userid {
-  font-weight: 400;
-  font-size: 14px;
-  line-height: 18px;
+  @extend .text-14-400;
   color: var(--gf-text-gray);
 }
 

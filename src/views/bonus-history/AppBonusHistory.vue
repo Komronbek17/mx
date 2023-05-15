@@ -44,9 +44,8 @@
   }
 
   &-tab {
+    @extend .text-17-600;
     position: relative;
-    font-weight: 600;
-    font-size: 17px;
     line-height: 129%;
     background: linear-gradient(107.32deg, #4adaff -22.08%, #0062ca 122.03%);
     -webkit-background-clip: text;

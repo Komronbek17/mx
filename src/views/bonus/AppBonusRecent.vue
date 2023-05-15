@@ -154,26 +154,20 @@ WebAppController.ready();
       width: 100%;
 
       & p {
-        font-weight: 600;
-        font-size: 15px;
-        line-height: 133%;
+        @extend .text-15-600;
         letter-spacing: -0.4px;
         color: var(--gf-text-33);
         margin-bottom: 6px;
       }
 
       & span {
-        font-weight: 400;
-        font-size: 14px;
-        line-height: 129%;
+        @extend .text-14-400;
         color: var(--gf-text-secondary-gray-2x);
       }
     }
 
     &-level {
-      font-weight: 500;
-      font-size: 14px;
-      line-height: 129%;
+      @extend .text-14-500;
       text-align: right;
     }
 

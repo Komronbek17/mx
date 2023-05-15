@@ -49,13 +49,11 @@ const value = computed({
 
 <style lang="scss" scoped>
 .cd-form-control {
+  @extend .text-16-400;
   background: transparent;
   border-bottom: 1px solid var(--gf-input-border);
   border-radius: 0 !important;
   padding: 6px 0 6px !important;
-  font-weight: 400;
-  font-size: 16px;
-  line-height: 22px;
   letter-spacing: -0.5px;
   transition: 0.2s;
   color: var(--gf-text-09);
@@ -77,10 +75,8 @@ const value = computed({
 }
 
 .floating-label {
+  @extend .text-13-500;
   background: transparent;
-  font-weight: 500;
-  font-size: 13px;
-  line-height: 15px;
   color: var(--gf-input-text);
   position: absolute;
   top: -3px;

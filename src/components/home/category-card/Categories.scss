@@ -40,9 +40,7 @@
   }
 
   &__title {
-    font-weight: 700;
-    font-size: 18px;
-    line-height: 22px;
+    @extend .text-18-700;
     letter-spacing: -0.4px;
     color: var(--gf-text-white-2x);
     max-width: 125px;
