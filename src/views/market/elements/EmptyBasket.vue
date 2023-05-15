@@ -44,9 +44,7 @@ function openMarketPage() {
     }
 
     & h3 {
-      font-size: 20px;
-      font-weight: 600;
-      line-height: 28px;
+      @extend .text-20-600;
       color: var(--gf-text-33);
       margin-bottom: 8px;
       margin-top: 24px;
