@@ -1,10 +1,10 @@
 import Core from "@/services/axios/core.axios";
-import { axiosVersion } from "@/services/axios/axios";
+import { axiosDev } from "@/services/axios/axios";
 
 class VoteService extends Core {
   constructor() {
     super({
-      axios: axiosVersion({ endpoint: "votes" }),
+      axios: axiosDev({ endpoint: "votes" }),
     });
   }
 
@@ -12,7 +12,7 @@ class VoteService extends Core {
     return this.get("");
   }
 
-  checkExists(){
+  checkExists() {
     return this.get("/question-exists");
   }
 
