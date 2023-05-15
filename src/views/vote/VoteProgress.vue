@@ -15,7 +15,6 @@ const props = defineProps({
 const activePercent = computed(() => {
   return (props.activeIndex / props.totalLength) * 100;
 });
-
 </script>
 
 <template>

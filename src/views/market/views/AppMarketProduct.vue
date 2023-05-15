@@ -2,8 +2,8 @@
 import { WebAppController } from "@/utils/telegram/web.app.util";
 import { MainButtonController } from "@/utils/telegram/main.button.controller";
 import { useI18n } from "vue-i18n";
-import { onBeforeRouteLeave, useRoute } from "vue-router";
-import { computed, onMounted, reactive, ref } from "vue";
+import { onBeforeRouteLeave, useRoute, useRouter } from "vue-router";
+import { computed, onMounted, reactive, ref, watch } from "vue";
 import { coinApi } from "@/services/coin.service";
 import { loadingComposable } from "@/composables/loading.composable";
 import AppSpinnerLoader from "@/components/elements/loader/AppSpinnerLoader.vue";
@@ -13,74 +13,27 @@ import { Swiper, SwiperSlide } from "swiper/vue";
 import "swiper/css";
 import "swiper/css/pagination";
 import { useToast } from "vue-toastification";
+import { useMarketStore } from "@/views/market/market.store";
+import { toastErrorMessage } from "@/utils/error.util";
 
 const modules = [Pagination];
 
 const { t } = useI18n();
-
 const toast = useToast();
 const route = useRoute();
+const router = useRouter();
 
 const { startLoading, finishLoading } = loadingComposable();
 
-async function showOrderProducts() {
-  console.log(1);
-}
-
 const product = ref({});
-const basket = ref([]);
-
-const textCollapsed = ref(true);
-
-function viewMore() {
-  textCollapsed.value = !textCollapsed.value;
-}
-
-async function fetchProduct() {
-  try {
-    const params = {
-      id: route.params.id,
-    };
-    const { data } = await coinApi.getProduct({ params });
-    product.value = data.result;
-    marketProduct.card = data.result;
-  } catch (e) {
-    toast.error(e?.response?.data?.message);
-  }
-}
 
 let marketProduct = reactive({
   card: {},
 });
 
-// async function fetchBasket() {
-//   try {
-//     const body = {
-//       page: 1,
-//       limit: 100,
-//     };
-//     const { data } = await coinApi.(body);
-//     basket.value = data.result;
-//   } catch (e) {
-//     toast.error(e?.response?.data?.message);
-//   }
-// }
+const textCollapsed = ref(true);
 
-if (basket.value && basket.value.products && basket.value.products.length) {
-  MainButtonController.run();
-  MainButtonController.setBackgroundColor("#555333");
-} else {
-  MainButtonController.run();
-}
-
-MainButtonController.setText(`${t("market_page.show_order")}`);
-MainButtonController.setBackgroundColor("#01E075");
-MainButtonController.onClick(showOrderProducts);
-
-onBeforeRouteLeave(() => {
-  MainButtonController.makeInvisible();
-});
-
+const marketStore = useMarketStore();
 const {
   loading: isSavingToBasket,
   startLoading: startSaving,
@@ -102,10 +55,78 @@ const savedInBasket = computed(
     marketProduct.card.basket &&
     marketProduct.card.basket.product_id === marketProduct.card.id
 );
-const limitQuantity = computed(() => marketProduct.card.qty);
+const limitQuantity = computed(() => marketProduct.card?.qty);
 const isBasketQtyFull = computed(
-  () => limitQuantity.value === marketProduct.card.basket.quantity
+  () => limitQuantity.value === marketProduct.card?.basket?.quantity
 );
+
+watch(
+  () => marketStore.products,
+  () => {
+    if (marketStore.products.length) {
+      MainButtonController.setText(
+        `${t("market_page.show_order")} (${marketStore.products.length})`
+      );
+      MainButtonController.run();
+    } else {
+      MainButtonController.makeInvisible();
+    }
+  }
+);
+
+async function getBasketItems() {
+  try {
+    if (marketStore.products.length) {
+      MainButtonController.run();
+      MainButtonController.setText(`${t("market_page.show_order")}`);
+      MainButtonController.showProgress();
+    }
+
+    const response = await coinApi.basketFindAll({
+      body: { limit: 50 },
+    });
+
+    marketStore.initializeBasket({
+      summary: response.data.summary,
+      products: response.data.products,
+    });
+  } catch (e) {
+    toastErrorMessage(e);
+  } finally {
+    finishLoading();
+    MainButtonController.hideProgress();
+  }
+}
+
+function viewMore() {
+  textCollapsed.value = !textCollapsed.value;
+}
+
+async function fetchProduct() {
+  try {
+    const params = {
+      id: route.params.id,
+    };
+    const { data } = await coinApi.getProduct({ params });
+    product.value = data.result;
+    marketProduct.card = data.result;
+  } catch (e) {
+    toast.error(e?.response?.data?.message);
+  }
+}
+
+// async function fetchBasket() {
+//   try {
+//     const body = {
+//       page: 1,
+//       limit: 100,
+//     };
+//     const { data } = await coinApi.(body);
+//     basket.value = data.result;
+//   } catch (e) {
+//     toast.error(e?.response?.data?.message);
+//   }
+// }
 
 async function addToBasket({ quantity = 1 }) {
   if (isSavingToBasket.value) {
@@ -126,9 +147,13 @@ async function addToBasket({ quantity = 1 }) {
     };
     marketProduct.card.basket.quantity = quantity;
   } catch (e) {
-    toast.error(e.response?.data?.message ?? e.message);
+    toastErrorMessage(e);
   } finally {
     finishSaving();
+
+    if (quantity === 1) {
+      await getBasketItems();
+    }
   }
 }
 
@@ -157,7 +182,7 @@ async function decreaseBasketItem({ count = -1 }) {
     return;
   }
 
-  const basket = Object.assign(marketProduct.card.basket);
+  // const basket = Object.assign(marketProduct.card.basket);
   try {
     startBasketUpdating();
 
@@ -168,8 +193,9 @@ async function decreaseBasketItem({ count = -1 }) {
             id: basketId.value,
           },
         })
-        .then(() => {
+        .then(async () => {
           marketProduct.card.basket = null;
+          await getBasketItems();
         });
     } else {
       await addToBasket({
@@ -177,9 +203,9 @@ async function decreaseBasketItem({ count = -1 }) {
       });
     }
   } catch (e) {
-    marketProduct.card.basket = basket;
-    marketProduct.card.basket.quantity -= count;
-    toast.error(e?.response?.data?.message ?? e.message);
+    // marketProduct.card.basket = basket;
+    // marketProduct.card.basket.quantity -= count;
+    toastErrorMessage(e);
   } finally {
     finishBasketUpdating();
   }
@@ -188,14 +214,34 @@ async function decreaseBasketItem({ count = -1 }) {
 onMounted(async () => {
   startLoading();
   try {
-    await fetchProduct();
-    // await fetchBasket();
+    await Promise.allSettled([getBasketItems(), fetchProduct()]);
+  } catch (e) {
+    toastErrorMessage(e);
   } finally {
     finishLoading();
   }
 });
 
+function openBasketPage() {
+  router.push({
+    name: "market-basket",
+  });
+}
+
+function showMainButton() {
+  MainButtonController.run();
+  MainButtonController.onClick(openBasketPage);
+  MainButtonController.setBackgroundColor("#16A34A");
+  MainButtonController.setText(`${t("market_page.show_order")}`);
+}
+
 WebAppController.ready();
+showMainButton();
+
+onBeforeRouteLeave(() => {
+  MainButtonController.makeInvisible();
+  MainButtonController.offClick(openBasketPage);
+});
 </script>
 
 <template>
@@ -282,7 +328,7 @@ WebAppController.ready();
 </template>
 
 <style lang="scss" scoped>
-@import "market-product-styles.scss";
+@import "src/views/market/market-product-styles";
 
 .gift-card {
   display: flex;
@@ -364,6 +410,7 @@ WebAppController.ready();
     display: flex;
     align-items: center;
     column-gap: 0.5rem;
+    cursor: pointer;
 
     p {
       @extend .heading-3;

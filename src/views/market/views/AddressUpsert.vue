@@ -1,11 +1,9 @@
 <script setup>
-import { computed, reactive, watch } from "vue";
-import { onBeforeRouteLeave, useRoute, useRouter } from "vue-router";
 import * as yup from "yup";
+import { useI18n } from "vue-i18n";
+import { computed, reactive, watch } from "vue";
 import { useField, useForm } from "vee-validate";
-import { useToast } from "vue-toastification";
-
-import { isArray } from "@/utils/inspect.util";
+import { onBeforeRouteLeave, useRoute, useRouter } from "vue-router";
 import { coinApi } from "@/services/coin.service";
 import { locationApi } from "@/services/location.service";
 import { WebAppController } from "@/utils/telegram/web.app.util";
@@ -15,7 +13,7 @@ import AppLoader from "@/components/elements/loader/AppLoader.vue";
 import BaseInput from "@/components/ui/BaseInput/BaseInput.vue";
 import InputSelectBySheet from "@/components/elements/input/InputSelectBySheet.vue";
 import { useTelegramStore } from "@/stores/telegram.store";
-import { useI18n } from "vue-i18n";
+import { toastErrorMessage } from "@/utils/error.util";
 
 const route = useRoute();
 const router = useRouter();
@@ -25,11 +23,15 @@ const location = reactive({
   regionOptions: [],
 });
 
-const telegramStore = useTelegramStore();
 const { t } = useI18n();
-const toast = useToast();
+const telegramStore = useTelegramStore();
 
 const { loading, startLoading, finishLoading } = loadingComposable();
+const {
+  loading: isCityFetching,
+  startLoading: startCityFetching,
+  finishLoading: finishCityFetching,
+} = loadingComposable();
 const clientUnique = computed(() => route.params.id);
 const isUpdatingRole = computed(() => route.name === "checkout-address-update");
 
@@ -94,18 +96,21 @@ async function fetchRegions() {
     const response = await locationApi.regionFindAll({ body: {} });
     location.regionOptions = response.data.result;
   } catch (e) {
-    toast.error(e?.response.data.message ?? e.message);
+    toastErrorMessage(e);
   }
 }
 
 async function fetchCities({ regionId }) {
   try {
+    startCityFetching();
     const response = await locationApi.cityFindAll({
       body: { region_id: regionId },
     });
     location.cityOptions = response.data.result;
   } catch (e) {
-    toast.error(e?.response.data.message ?? e.message);
+    toastErrorMessage(e);
+  } finally {
+    finishCityFetching();
   }
 }
 
@@ -149,7 +154,7 @@ async function getAddressDetails() {
 
     setValues({ ...vs });
   } catch (e) {
-    toast.error(e?.response?.data?.message ?? e.message);
+    toastErrorMessage(e);
   } finally {
     finishLoading();
   }
@@ -212,16 +217,7 @@ async function createAddressHandler(bCtx) {
         });
       }
     } catch (e) {
-      if (e?.response?.data?.message) {
-        const { message } = e.response.data;
-        if (isArray(message) && message.length) {
-          toast.error(message[0]);
-        } else {
-          toast.error(message);
-        }
-      } else {
-        toast.error(e.message);
-      }
+      toastErrorMessage(e);
     } finally {
       finishLoading();
     }
@@ -231,6 +227,7 @@ async function createAddressHandler(bCtx) {
 async function deleteAddress() {
   const id = route.params.id;
   try {
+    startLoading();
     await coinApi.addressRemove({
       id: id,
     });
@@ -238,7 +235,9 @@ async function deleteAddress() {
       name: "market-checkout",
     });
   } catch (e) {
-    console.error(e);
+    toastErrorMessage(e);
+  } finally {
+    finishLoading();
   }
 }
 
@@ -252,16 +251,7 @@ async function updateAddressHandler(bodyCtx) {
       name: "market-checkout",
     });
   } catch (e) {
-    if (e?.response?.data?.message) {
-      const { message } = e.response.data;
-      if (isArray(message) && message.length) {
-        toast.error(message[0]);
-      } else {
-        toast.error(message);
-      }
-    } else {
-      toast.error(e.message);
-    }
+    toastErrorMessage(e);
   } finally {
     finishLoading();
   }
@@ -312,7 +302,11 @@ init();
         input-name="OlCityOptions"
         v-model="city"
         :options="location.cityOptions"
-      />
+      >
+        <template #sheet-top>
+          <app-loader :active="isCityFetching" />
+        </template>
+      </input-select-by-sheet>
       <span v-if="cityErrorMessage" class="error-message d-block mt-0-5">
         {{ cityErrorMessage }}
       </span>
@@ -347,7 +341,7 @@ init();
         {{ commentErrorMessage }}
       </span>
     </div>
-    <button @click="deleteAddress" class="delete-btn">
+    <button v-if="isUpdatingRole" @click="deleteAddress" class="delete-btn">
       {{ $t("market_page.delete_address") }}
     </button>
   </div>

@@ -1,8 +1,8 @@
 <script setup>
 import ModalDialog from "@/components/ui/ModalDialog/ModalDialog.vue";
-import {useRouter} from "vue-router";
-import { ref} from "vue";
-import {useI18n} from "vue-i18n";
+import { useRouter } from "vue-router";
+import { ref } from "vue";
+import { useI18n } from "vue-i18n";
 
 const router = useRouter();
 const { t } = useI18n();
@@ -14,9 +14,8 @@ function closeVoteModal() {
 }
 
 function redirectVotePage() {
-  router.push({name: "votes"});
+  router.push({ name: "votes" });
 }
-
 </script>
 
 <template>
@@ -24,7 +23,7 @@ function redirectVotePage() {
     <modal-dialog :model-value="startVoteModal" @close-modal="closeVoteModal">
       <template #header>
         <div class="modal-header">
-          <img src="@/assets/icons/money.svg" alt=""/>
+          <img src="@/assets/icons/money.svg" alt="" />
         </div>
       </template>
       <template #content>
