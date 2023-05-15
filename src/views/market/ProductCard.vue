@@ -1,10 +1,8 @@
 <script setup>
-import { useRouter } from "vue-router";
-import { useToast } from "vue-toastification";
 import { computed, reactive } from "vue";
+import { useRouter } from "vue-router";
 
 const router = useRouter();
-const toast = useToast();
 const emits = defineEmits(["update-product-basket", "ask-activate"]);
 const props = defineProps({
   item: {

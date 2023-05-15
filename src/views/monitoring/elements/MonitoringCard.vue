@@ -1,6 +1,6 @@
 <script setup>
-import {computed} from "vue";
-import {addZero, dateProperties} from "@/utils/date.formatter";
+import { computed } from "vue";
+import { addZero, dateProperties } from "@/utils/date.formatter";
 
 const props = defineProps({
   detail: {
@@ -17,7 +17,7 @@ const earningPrice = computed(() => {
 });
 
 function exactEarningTime() {
-  const {hours, minutes} = dateProperties(props.detail.created_at, "string");
+  const { hours, minutes } = dateProperties(props.detail.created_at, "string");
   return addZero(hours) + ":" + addZero(minutes);
 }
 </script>
@@ -30,16 +30,10 @@ function exactEarningTime() {
     <div class="flex flex-column row-gap-0-25 ol-m-card-main pb-1 w-100">
       <div class="flex justify-between">
         <div class="monitoring-title">{{ props.detail.title }}</div>
-        <div
-            v-if="props.detail.debit"
-            class="monitoring-value debit"
-        >
+        <div v-if="props.detail.debit" class="monitoring-value debit">
           +{{ earningPrice }} Fit-Coin
         </div>
-        <div
-            v-else
-            class="monitoring-value credit"
-        >
+        <div v-else class="monitoring-value credit">
           {{ earningPrice }} Fit-Coin
         </div>
       </div>

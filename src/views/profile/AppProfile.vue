@@ -1,10 +1,10 @@
 <script setup>
-import {onMounted, reactive, ref} from "vue";
-import {useRouter} from "vue-router";
-import {useI18n} from "vue-i18n";
-import {loadingComposable} from "@/composables/loading.composable";
-import {localStorageController} from "@/utils/localstorage.util";
-import {WebAppController} from "@/utils/telegram/web.app.util";
+import { onMounted, reactive, ref } from "vue";
+import { useRouter } from "vue-router";
+import { useI18n } from "vue-i18n";
+import { loadingComposable } from "@/composables/loading.composable";
+import { localStorageController } from "@/utils/localstorage.util";
+import { WebAppController } from "@/utils/telegram/web.app.util";
 
 import AppLoader from "@/components/elements/loader/AppLoader.vue";
 import ModalDialog from "@/components/ui/ModalDialog/ModalDialog.vue";
@@ -12,16 +12,16 @@ import LogoutIcon from "@/components/icons/LogoutIcon.vue";
 import SupportIcon from "@/components/icons/SupportIcon.vue";
 import Popover from "@/components/ui/Popover/Popover.vue";
 
-import {OLTIN_BALIQ_BOT_TKN} from "@/constants";
-import {authApi} from "@/services/auth.service";
-import {useToast} from "vue-toastification";
+import { OLTIN_BALIQ_BOT_TKN } from "@/constants";
+import { authApi } from "@/services/auth.service";
+import { useToast } from "vue-toastification";
 
-const {t} = useI18n();
+const { t } = useI18n();
 const router = useRouter();
 const profileState = reactive({
   showLogoutWarn: false,
 });
-import {useUserStore} from "@/stores/user.store";
+import { useUserStore } from "@/stores/user.store";
 
 import userAvatar from "@/assets/images/profile-image.svg";
 
@@ -30,7 +30,7 @@ const toast = useToast();
 
 const popoverValue = ref(false);
 
-const {user, initUser} = useUserStore();
+const { user, initUser } = useUserStore();
 
 const {
   loading: isFetching,
@@ -81,12 +81,12 @@ WebAppController.ready();
 <template>
   <div>
     <div class="profile">
-      <app-loader :active="isFetching"/>
+      <app-loader :active="isFetching" />
       <div class="layout-container">
         <!--   PROFILE DETAILS   -->
         <div class="flex flex-column align-center">
           <div class="profile-image">
-            <img :src="user?.avatar || userAvatar" alt="avatar"/>
+            <img :src="user?.avatar || userAvatar" alt="avatar" />
           </div>
 
           <p class="profile-name">
@@ -101,7 +101,7 @@ WebAppController.ready();
         </div>
 
         <router-link :to="{ name: 'informers' }" class="profile-button">
-          <img src="@/assets/icons/fitcoin.svg" alt=""/>
+          <img src="@/assets/icons/fitcoin.svg" alt="" />
           <p>{{ t("profile_page.earn_fitcoin") }}</p>
         </router-link>
       </div>
@@ -126,18 +126,18 @@ WebAppController.ready();
         <div class="profile-cards">
           <router-link :to="{ name: 'referral-view' }" class="profile-card">
             <img
-                class="profile-card__image"
-                src="@/assets/images/profile-referal-icon.svg"
-                alt=""
+              class="profile-card__image"
+              src="@/assets/images/profile-referal-icon.svg"
+              alt=""
             />
             <p class="profile-card__title">{{ t("profile_page.referrals") }}</p>
           </router-link>
 
           <router-link :to="{ name: 'orders-active' }" class="profile-card">
             <img
-                class="profile-card__image"
-                src="@/assets/images/profile-orders-icon.svg"
-                alt=""
+              class="profile-card__image"
+              src="@/assets/images/profile-orders-icon.svg"
+              alt=""
             />
             <p class="profile-card__title">{{ t("profile_page.my_orders") }}</p>
           </router-link>
@@ -148,9 +148,9 @@ WebAppController.ready();
       <div class="profile-list">
         <router-link :to="{ name: 'profile-edit' }" class="profile-item">
           <img
-              class="profile-item__icon"
-              src="@/assets/images/profile-edit-icon.svg"
-              alt=""
+            class="profile-item__icon"
+            src="@/assets/images/profile-edit-icon.svg"
+            alt=""
           />
           <div class="flex align-center justify-between b-bottom">
             <div>
@@ -159,9 +159,9 @@ WebAppController.ready();
 
             <div class="flex align-center">
               <img
-                  class="profile-item__arrow"
-                  src="@/assets/images/profile-arrow-right.svg"
-                  alt=""
+                class="profile-item__arrow"
+                src="@/assets/images/profile-arrow-right.svg"
+                alt=""
               />
             </div>
           </div>
@@ -211,7 +211,7 @@ WebAppController.ready();
         <!--      </router-link>-->
         <!--        href="tel:712051548"-->
         <div @click="openPopover" class="profile-item">
-          <support-icon class="profile-item__icon"/>
+          <support-icon class="profile-item__icon" />
           <div class="flex align-center justify-between b-bottom">
             <div>
               <p class="profile-item__title">Call center (71) 205-15-48</p>
@@ -219,9 +219,9 @@ WebAppController.ready();
 
             <div class="flex align-center">
               <img
-                  class="profile-item__arrow"
-                  src="@/assets/images/profile-arrow-right.svg"
-                  alt=""
+                class="profile-item__arrow"
+                src="@/assets/images/profile-arrow-right.svg"
+                alt=""
               />
             </div>
           </div>
@@ -269,9 +269,9 @@ WebAppController.ready();
 
         <div class="profile-item" @click="showLogoutModal">
           <img
-              class="profile-item__icon"
-              src="@/assets/images/profile-exit-icon.svg"
-              alt=""
+            class="profile-item__icon"
+            src="@/assets/images/profile-exit-icon.svg"
+            alt=""
           />
           <div class="flex align-center justify-between b-bottom">
             <div>
@@ -280,9 +280,9 @@ WebAppController.ready();
 
             <div class="flex align-center">
               <img
-                  class="profile-item__arrow"
-                  src="@/assets/images/profile-arrow-right.svg"
-                  alt=""
+                class="profile-item__arrow"
+                src="@/assets/images/profile-arrow-right.svg"
+                alt=""
               />
             </div>
           </div>
@@ -290,11 +290,11 @@ WebAppController.ready();
       </div>
     </div>
     <modal-dialog
-        v-model="profileState.showLogoutWarn"
-        @close-modal="hideLogoutModal"
+      v-model="profileState.showLogoutWarn"
+      @close-modal="hideLogoutModal"
     >
       <template #header>
-        <logout-icon/>
+        <logout-icon />
         <h3 class="ol-md-title">{{ t("profile_page.exit_title") }}</h3>
       </template>
       <template #content>
@@ -306,8 +306,8 @@ WebAppController.ready();
             {{ t("profile_page.exit_yes") }}
           </button>
           <button
-              class="ol-md-button ol-md-close-button"
-              @click="hideLogoutModal"
+            class="ol-md-button ol-md-close-button"
+            @click="hideLogoutModal"
           >
             {{ t("profile_page.exit_no") }}
           </button>

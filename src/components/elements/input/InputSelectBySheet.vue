@@ -1,10 +1,11 @@
 <script setup>
 import { computed, ref } from "vue";
-import BaseInput from "@/components/ui/BaseInput/BaseInput.vue";
-import AppBottomSheet from "@/components/elements/bottomSheet/AppBottomSheet.vue";
-import InputRadio from "@/components/elements/input/InputRadio.vue";
-import { isObject, isString } from "@/utils/inspect.util";
 import { hasOwnProperty } from "@/utils/object.util";
+import { isObject, isString } from "@/utils/inspect.util";
+import BaseInput from "@/components/ui/BaseInput/BaseInput.vue";
+import InputRadio from "@/components/elements/input/InputRadio.vue";
+import AppBottomSheet from "@/components/elements/bottomSheet/AppBottomSheet.vue";
+
 const props = defineProps({
   modelValue: {
     type: [String, Number, Object],
@@ -93,7 +94,8 @@ function closeBottomSheet() {
         {{ props.chooseText }}
       </span>
     </div>
-    <app-bottom-sheet v-if="props.options.length" ref="bottomOptionList">
+    <app-bottom-sheet ref="bottomOptionList">
+      <slot name="sheet-top"></slot>
       <ul class="ol-input-option-list">
         <li v-for="(option, index) in props.options" :key="index">
           <input-radio
