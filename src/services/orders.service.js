@@ -1,9 +1,9 @@
 import Core from "@/services/axios/core.axios";
-import { axiosVersion } from "@/services/axios/axios";
+import { axiosV1 } from "@/services/axios/axios";
 
 class OrdersService extends Core {
   constructor() {
-    super({ axios: axiosVersion({}) });
+    super({ axios: axiosV1({}) });
   }
 
   fetchActiveOrders(body) {
