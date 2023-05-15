@@ -116,15 +116,13 @@ function openAddNewAddressPage() {
     padding: 12px 0;
 
     & p {
-      font-size: 15px;
-      font-weight: 600;
+      @extend .text-15-600;
       color: var(--gf-text-33);
       text-transform: uppercase;
     }
 
     & a {
-      font-size: 15px;
-      font-weight: 600;
+      @extend .text-15-600;
       background: var(--gf-green-gradient);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
@@ -206,25 +204,22 @@ label {
     }
 
     & span {
-      font-size: 15px;
-      font-weight: 600;
+      @extend .text-15-600;
       color: var(--gf-text-33);
       margin-bottom: 6px;
     }
 
     & p {
-      font-size: 14px;
-      font-weight: 400;
+      @extend .text-14-400;
       color: var(--gf-text-secondary-gray-2x);
     }
   }
 }
 
 .no-address_title {
+  @extend .text-18-600;
   color: var(--gf-text-33);
   text-align: center;
-  font-size: 18px;
-  font-weight: 600;
 }
 
 .error-message {

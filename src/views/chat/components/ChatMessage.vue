@@ -110,11 +110,9 @@ const receivedTime = computed(() => {
 }
 
 .message__time {
+  @extend .text-10-400;
   text-align: right;
   color: var(--gf-text-secondary-gray);
-  font-weight: 400;
-  font-size: 10px;
-  line-height: 14px;
   margin-top: 2px;
 }
 </style>

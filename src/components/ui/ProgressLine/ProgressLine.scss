@@ -22,9 +22,7 @@
   }
 
   &__percentage {
-    font-weight: 700;
-    font-size: 12px;
-    line-height: 16px;
+    @extend .text-12-700;
     letter-spacing: -0.4px;
     color: #FFFFFF;
     margin-top: 5px;
