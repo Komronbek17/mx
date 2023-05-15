@@ -1,5 +1,5 @@
 <script setup>
-import { computed } from "vue";
+import {computed} from "vue";
 
 const emit = defineEmits(["update:modelValue"]);
 const props = defineProps({
@@ -12,8 +12,7 @@ const props = defineProps({
     required: true,
   },
   modelValue: {
-    type: Array,
-    default: [],
+    type: [Number, String, Array]
   },
 });
 
@@ -35,30 +34,30 @@ const answerIds = computed({
 
     <div class="answer-list">
       <label
-        v-for="answer in vote.answers"
-        :key="answer.id + '_answer'"
-        class="answer-item"
+          v-for="answer in vote.answers"
+          :key="answer.id + '_answer'"
+          class="answer-item"
       >
         <p>
           {{ answer.name }}
         </p>
         <input
-          v-model="answerIds"
-          :value="answer.id"
-          :type="vote.is_multiple ? 'checkbox' : 'radio'"
-          :name="vote.id + '_question'"
-          class="checkbox"
+            v-model="answerIds"
+            :value="answer.id"
+            :type="vote.is_multiple ? 'checkbox' : 'radio'"
+            :name="vote.id + '_question'"
+            class="checkbox"
         />
         <div class="checkmark">
           <img
-            class="default"
-            src="@/assets/icons/checkbox-default.svg"
-            alt="checkbox"
+              class="default"
+              src="@/assets/icons/checkbox-default.svg"
+              alt="checkbox"
           />
           <img
-            class="checked"
-            src="@/assets/icons/checkbox-fill.svg"
-            alt="checkbox"
+              class="checked"
+              src="@/assets/icons/checkbox-fill.svg"
+              alt="checkbox"
           />
         </div>
       </label>

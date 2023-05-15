@@ -12,6 +12,10 @@ class VoteService extends Core {
     return this.get("");
   }
 
+  checkExists(){
+    return this.get("/question-exists");
+  }
+
   sendAnswers(body) {
     return this.post("/answers", body);
   }
