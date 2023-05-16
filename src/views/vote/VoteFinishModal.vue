@@ -35,7 +35,7 @@ const emit = defineEmits(["close-modal"]);
       <template #content>
         <div class="modal-content">
           <h3 class="modal-content__title">
-            {{ t("vote_page.title") }}
+            {{ t("vote_page.finish_title") }}
           </h3>
           <p class="modal-content__subtitle">
             {{ t("vote_page.price", { price: awardCoin }) }}

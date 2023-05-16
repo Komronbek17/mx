@@ -188,6 +188,7 @@ export default {
     title: "Ko'proq tanga olishni xohlaysizmi?",
     description: "Qisqa viktorinani yakunlang va tangalarni oling!",
     price: "Siz so'rovnomani to'ldirganingiz uchun { price} tanga oldingiz",
+    finish_title: "So'rovnomamizda qatnashganingiz uchun tashakkur!",
   },
   profile_page: {
     change_photo: "Profil rasmini tanlang",
