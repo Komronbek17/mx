@@ -1,18 +1,18 @@
 <script setup>
-import {useI18n} from "vue-i18n";
-import {WebAppController} from "@/utils/telegram/web.app.util";
-import {informersApi} from "@/services/informers.service";
-import {onMounted, ref} from "vue";
-import {loadingComposable} from "@/composables/loading.composable";
+import { useI18n } from "vue-i18n";
+import { WebAppController } from "@/utils/telegram/web.app.util";
+import { informersApi } from "@/services/informers.service";
+import { onMounted, ref } from "vue";
+import { loadingComposable } from "@/composables/loading.composable";
 
 import AppLoader from "@/components/elements/loader/AppLoader.vue";
-import {voteApi} from "@/services/vote.service";
-import {useToast} from "vue-toastification";
+import { voteApi } from "@/services/vote.service";
+import { useToast } from "vue-toastification";
 
 let informers = ref([]);
 let vote = ref(0);
-const {t} = useI18n();
-const toast = useToast()
+const { t } = useI18n();
+const toast = useToast();
 const loading = ref(false);
 
 const {
@@ -30,12 +30,12 @@ const getInformers = async () => {
     page: pagination.value.current,
     limit: pagination.value.limit,
   };
-  const {data} = await informersApi.fetchInformers(body);
+  const { data } = await informersApi.fetchInformers(body);
   informers.value = [...data.result, ...informers.value];
   if (!vote.value) {
     vote.value = informers.value.reduce((acc, v) => {
-      if (v['type'] === "vote") {
-        return acc + v['amount'];
+      if (v["type"] === "vote") {
+        return acc + v["amount"];
       }
       return acc;
     }, 0);
@@ -66,23 +66,22 @@ const checkScrollFunction = () => {
   loadMore();
 };
 
-const voteExists = ref(false)
+const voteExists = ref(false);
 
 async function checkVoteExists() {
   try {
-    const {data} = await voteApi.checkExists()
-    voteExists.value = data?.question_exists
+    const { data } = await voteApi.checkExists();
+    voteExists.value = data?.question_exists;
   } catch (e) {
     toast.error(e.response.data.message ?? e.message);
   }
 }
 
-
 onMounted(async () => {
   startLoading();
   try {
     await getInformers();
-    await checkVoteExists()
+    await checkVoteExists();
     checkScrollFunction();
   } finally {
     finishLoading();
@@ -94,21 +93,21 @@ WebAppController.ready();
 
 <template>
   <div class="informers">
-    <app-loader :active="isFetching"/>
+    <app-loader :active="isFetching" />
     <div class="layout-container">
       <router-link v-if="voteExists" :to="{ name: 'votes' }" class="votes">
-        <img src="@/assets/images/survey-icon.svg" alt=""/>
+        <img src="@/assets/images/survey-icon.svg" alt="" />
         <div class="votes-block">
           <div class="votes-block_details">
             <p>{{ t("votes") }}</p>
             <span>{{
-                t("votes_description", {
-                  value: vote,
-                })
-              }}</span>
+              t("votes_description", {
+                value: vote,
+              })
+            }}</span>
           </div>
           <div class="votes-block_btn">
-            <img src="@/assets/images/arrow-right-votes.svg" alt=""/>
+            <img src="@/assets/images/arrow-right-votes.svg" alt="" />
           </div>
         </div>
       </router-link>
@@ -117,20 +116,20 @@ WebAppController.ready();
         <p>{{ t("award") }}</p>
       </div>
       <div
-          id="infinite-list"
-          class="informers-item"
-          v-for="informer in informers"
-          :key="informer.id"
+        id="infinite-list"
+        class="informers-item"
+        v-for="informer in informers"
+        :key="informer.id"
       >
         <div class="informers-item__image">
-          <img :src="informer.upload.path" alt=""/>
+          <img :src="informer.upload.path" alt="" />
         </div>
         <div class="border-bottom w-100 flex align-center justify-between">
           <p class="informers-item__text">
             {{ informer.name }}
           </p>
           <span class="informers-item__sum"
-          >{{ informer.amount }}
+            >{{ informer.amount }}
             {{ t("profile_page.informers.coin_amount") }}
           </span>
         </div>

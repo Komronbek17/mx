@@ -1,22 +1,19 @@
 <script setup>
 import ModalDialog from "@/components/ui/ModalDialog/ModalDialog.vue";
-import {useRouter} from "vue-router";
-import {useI18n} from "vue-i18n";
+import { useRouter } from "vue-router";
+import { useI18n } from "vue-i18n";
 
 const router = useRouter();
-const {t} = useI18n();
+const { t } = useI18n();
 
 const props = defineProps({
   active: {
     type: Boolean,
     default: false,
-  }
+  },
 });
 
 const emit = defineEmits(["close-modal", "start-vote"]);
-
-
-
 </script>
 
 <template>
@@ -24,7 +21,7 @@ const emit = defineEmits(["close-modal", "start-vote"]);
     <modal-dialog :model-value="active" @close-modal="emit('close-modal')">
       <template #header>
         <div class="modal-header">
-          <img src="@/assets/icons/money.svg" alt=""/>
+          <img src="@/assets/icons/money.svg" alt="" />
         </div>
       </template>
       <template #content>
@@ -44,7 +41,10 @@ const emit = defineEmits(["close-modal", "start-vote"]);
       </template>
       <template #footer>
         <div class="modal-footer">
-          <div @click="emit('start-vote')" class="modal-footer__button btn-info">
+          <div
+            @click="emit('start-vote')"
+            class="modal-footer__button btn-info"
+          >
             {{ t("vote_page.start_vote") }}
             <!--            {{ $t("ok") }}-->
           </div>

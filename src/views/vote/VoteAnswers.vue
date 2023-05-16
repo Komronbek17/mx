@@ -1,6 +1,6 @@
 <script setup>
-import {computed} from "vue";
-import {isArray} from "@/utils/inspect.util";
+import { computed } from "vue";
+import { isArray } from "@/utils/inspect.util";
 
 const emit = defineEmits(["update:modelValue"]);
 const props = defineProps({
@@ -26,17 +26,15 @@ const answerIds = computed({
   },
 });
 
-
 const checkActiveItem = (item) => {
-  let active = false
+  let active = false;
   if (isArray(answerIds.value) && answerIds.value.length) {
-    active = answerIds.value.includes(item)
+    active = answerIds.value.includes(item);
   } else if (answerIds.value) {
-    active = parseInt(answerIds.value) === parseInt(item)
+    active = parseInt(answerIds.value) === parseInt(item);
   }
-  return active ? 'answer-item__active' : ''
-}
-
+  return active ? "answer-item__active" : "";
+};
 </script>
 
 <template>
@@ -47,10 +45,10 @@ const checkActiveItem = (item) => {
 
     <div class="answer-list">
       <label
-          v-for="answer in vote.answers"
-          :key="answer.id + '_answer'"
-          class="answer-item"
-          :class="checkActiveItem(answer.id)"
+        v-for="answer in vote.answers"
+        :key="answer.id + '_answer'"
+        class="answer-item"
+        :class="checkActiveItem(answer.id)"
       >
         <p>
           {{ answer.name }}
@@ -113,10 +111,7 @@ const checkActiveItem = (item) => {
     color: var(--text-main);
     letter-spacing: -0.32px;
   }
-
-
 }
-
 
 /* Hide the browser's default checkbox */
 .answer-item input {
@@ -168,5 +163,4 @@ const checkActiveItem = (item) => {
     @include text-gradient(linear-gradient(180deg, #00bbf9 0%, #00a3ff 100%));
   }
 }
-
 </style>
