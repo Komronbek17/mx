@@ -90,6 +90,7 @@ async function finishVote() {
     });
     awardCoin.value = data.data["award_coin"];
     activePrizeModal.value = true;
+    setSessionStorageVariable('vote_approved', true)
   } catch (e) {
     toast.error(e.response?.data?.message ?? e.message);
   }
