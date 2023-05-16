@@ -10,6 +10,7 @@ import { useI18n } from "vue-i18n";
 import { useToast } from "vue-toastification";
 import ArrowRightIcon from "@/components/icons/ArrowRightIcon.vue";
 import ArrowLeftIcon from "@/components/icons/ArrowLeftIcon.vue";
+import { setSessionStorageVariable } from "@/utils/localstorage.util";
 
 const router = useRouter();
 const { t } = useI18n();
@@ -90,7 +91,7 @@ async function finishVote() {
     });
     awardCoin.value = data.data["award_coin"];
     activePrizeModal.value = true;
-    setSessionStorageVariable('vote_approved', true)
+    setSessionStorageVariable("vote_approved", true);
   } catch (e) {
     toast.error(e.response?.data?.message ?? e.message);
   }
