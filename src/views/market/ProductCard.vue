@@ -66,7 +66,7 @@ function viewProduct() {
     >
       <p>{{ $t("market_page.detail") }}</p>
     </div>
-    <div v-else @click="askActivate" class="gift-card__button">
+    <div v-else @click.once="askActivate" class="gift-card__button">
       <p>{{ $t("market_page.activate") }}</p>
     </div>
   </div>
