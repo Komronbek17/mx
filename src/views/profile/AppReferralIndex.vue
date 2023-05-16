@@ -51,6 +51,7 @@ function generateUserName(user) {
   if (user.name.trim()) return user.name
   return `Id: ${user.id}`
 }
+
 </script>
 
 <template>
