@@ -16,10 +16,10 @@ const router = useRouter();
 import { useUserStore } from "@/stores/user.store";
 import { voteApi } from "@/services/vote.service";
 import VoteStartModal from "@/views/vote/VoteStartModal.vue";
-import {useRouter} from "vue-router";
+import { useRouter } from "vue-router";
 import {
   getSessionStorageVariable,
-  setSessionStorageVariable
+  setSessionStorageVariable,
 } from "@/utils/localstorage.util";
 
 const { user, initUser } = useUserStore();
@@ -99,7 +99,6 @@ const homeMenu = ref([
   },
 ]);
 
-
 async function getDailyInfo() {
   try {
     await infoApi.fetchDaily().then(({ data }) => {
@@ -120,13 +119,13 @@ async function getPremiumInfo() {
   });
 }
 
-
 const voteExists = ref(false);
 
 async function checkVoteExists() {
   try {
     const { data } = await voteApi.checkExists();
-    voteExists.value = (data?.question_exists && !(getSessionStorageVariable('vote_approved')))
+    voteExists.value =
+      data?.question_exists && !getSessionStorageVariable("vote_approved");
   } catch (e) {
     toast.error(e.response.data.message ?? e.message);
   }
@@ -137,10 +136,9 @@ function redirectVotePage() {
 }
 
 function cancelVote() {
-  setSessionStorageVariable('vote_approved', true)
-  voteExists.value = false
+  setSessionStorageVariable("vote_approved", true);
+  voteExists.value = false;
 }
-
 
 onMounted(async () => {
   try {
@@ -155,8 +153,7 @@ onMounted(async () => {
   }
 });
 
-
-checkVoteExists()
+checkVoteExists();
 
 WebAppController.ready();
 </script>
@@ -183,10 +180,10 @@ WebAppController.ready();
     </div>
 
     <vote-start-modal
-        v-if="voteExists"
-        :active="voteExists"
-        @start-vote="redirectVotePage"
-        @close-modal="cancelVote"
+      v-if="voteExists"
+      :active="voteExists"
+      @start-vote="redirectVotePage"
+      @close-modal="cancelVote"
     />
   </div>
 </template>
