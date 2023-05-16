@@ -121,7 +121,7 @@ WebAppController.ready();
           class="vote-btn vote-back"
         >
           <img src="@/assets/icons/arrow-left.svg" alt="" />
-          <p>Назад</p>
+          <p>{{ t("vote.back") }}</p>
         </button>
         <button
           v-if="!lastQuestion"
@@ -129,11 +129,11 @@ WebAppController.ready();
           @click="nextQuestion"
           class="vote-btn vote-next"
         >
-          <p>Дальше</p>
+          <p>{{ t("vote.next") }}</p>
           <img src="@/assets/icons/arrow-right.svg" alt="" />
         </button>
         <button v-else @click="finishVote" class="vote-btn vote-finish">
-          <p>Завершить</p>
+          <p>{{ t("vote.complete") }}</p>
         </button>
       </div>
     </div>

@@ -19,7 +19,15 @@ const activePercent = computed(() => {
 
 <template>
   <div class="vote-progress">
-    <h5 class="vote-count">Вопрос {{ activeIndex }} из {{ totalLength }}</h5>
+    <h5 class="vote-count">
+      <!--      Вопрос {{ activeIndex }} из {{ totalLength }}-->
+      {{
+        t("vote.questions_title", {
+          active: activeIndex,
+          total: totalLength,
+        })
+      }}
+    </h5>
     <div class="vote-bar">
       <div class="vote-bar__line" />
       <div class="vote-bar__line-active" :style="`width:${activePercent}%`" />

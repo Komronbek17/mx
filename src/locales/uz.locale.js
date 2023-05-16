@@ -299,6 +299,13 @@ export default {
     income: "Daromad",
   },
 
+  vote: {
+    next: "Keyingisi",
+    complete: "Yakunlash",
+    back: "Orqaga",
+    questions_title: "Savol {active}/{total}",
+  },
+
   order_time: "Buyurtma sanasi va vaqti",
   comments: "Izohlar",
   no_comment: "Izoh yo'q",
