@@ -19,7 +19,7 @@ import { WebAppController } from "@/utils/telegram/web.app.util";
 import { localStorageController } from "@/utils/localstorage.util";
 import { useI18n } from "vue-i18n";
 import { AmplitudeTracker } from "@/libs/amplitude/analyticsBrowser";
-import VoteStartModal from "@/views/vote/VoteStartModal.vue";
+// import VoteStartModal from "@/views/vote/VoteStartModal.vue";
 
 const route = useRoute();
 const router = useRouter();
