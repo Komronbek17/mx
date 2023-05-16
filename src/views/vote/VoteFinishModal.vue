@@ -1,10 +1,10 @@
 <script setup>
 import ModalDialog from "@/components/ui/ModalDialog/ModalDialog.vue";
-import {useRouter} from "vue-router";
-import {useI18n} from "vue-i18n";
+import { useRouter } from "vue-router";
+import { useI18n } from "vue-i18n";
 
 const router = useRouter();
-const {t} = useI18n();
+const { t } = useI18n();
 
 const props = defineProps({
   active: {
@@ -13,24 +13,23 @@ const props = defineProps({
   },
   awardCoin: {
     type: [Number, String],
-    required: true
-  }
+    required: true,
+  },
 });
 
 const emit = defineEmits(["close-modal"]);
-
 </script>
 
 <template>
   <div>
     <modal-dialog
-        :model-value="props.active"
-        :show-close-icon="false"
-        @close-modal="emit('close-modal')"
+      :model-value="props.active"
+      :show-close-icon="false"
+      @close-modal="emit('close-modal')"
     >
       <template #header>
         <div class="modal-header">
-          <img src="@/assets/icons/award.svg" alt=""/>
+          <img src="@/assets/icons/award.svg" alt="" />
         </div>
       </template>
       <template #content>
@@ -39,7 +38,7 @@ const emit = defineEmits(["close-modal"]);
             {{ t("vote_page.title") }}
           </h3>
           <p class="modal-content__subtitle">
-            {{ t("vote_page.price", {price: awardCoin}) }}
+            {{ t("vote_page.price", { price: awardCoin }) }}
             <!--            {{-->
             <!--              t("connect_premium_service_message", {-->
             <!--                level: 1,-->
@@ -51,8 +50,8 @@ const emit = defineEmits(["close-modal"]);
       <template #footer>
         <div class="modal-footer">
           <div
-              @click="emit('close-modal')"
-              class="modal-footer__button btn-info"
+            @click="emit('close-modal')"
+            class="modal-footer__button btn-info"
           >
             {{ t("ok") }}
           </div>

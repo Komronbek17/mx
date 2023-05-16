@@ -301,6 +301,13 @@ export default {
     income: "Доход",
   },
 
+  vote: {
+    next: "Дальше",
+    complete: "Завершить",
+    back: "Назад",
+    questions_title: "Вопрос {active} из {total}",
+  },
+
   order_time: "Дата и время заказа",
   comments: "Комментарии",
   no_comment: "Без комментариев",

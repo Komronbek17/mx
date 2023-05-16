@@ -13,7 +13,7 @@ const props = defineProps({
     required: true,
   },
   modelValue: {
-    type: [Number, String, Array]
+    type: [Number, String, Array],
   },
 });
 
@@ -28,23 +28,13 @@ const answerIds = computed({
 
 
 const checkActiveItem = (item) => {
-  console.log(item, 'item');
-  console.log(answerIds.value, 'answerIds.value');
-  // console.log(answerIds.value.includes(item), 'answerIds.value.includes(item)');
   let active = false
   if (isArray(answerIds.value) && answerIds.value.length) {
-    console.log('first')
     active = answerIds.value.includes(item)
   } else if (answerIds.value) {
-    console.log('second')
     active = parseInt(answerIds.value) === parseInt(item)
   }
-
-  console.log(active, 'active');
-
   return active ? 'answer-item__active' : ''
-
-
 }
 
 </script>
@@ -66,22 +56,22 @@ const checkActiveItem = (item) => {
           {{ answer.name }}
         </p>
         <input
-            v-model="answerIds"
-            :value="answer.id"
-            :type="vote.is_multiple ? 'checkbox' : 'radio'"
-            :name="vote.id + '_question'"
-            class="checkbox"
+          v-model="answerIds"
+          :value="answer.id"
+          :type="vote.is_multiple ? 'checkbox' : 'radio'"
+          :name="vote.id + '_question'"
+          class="checkbox"
         />
         <div class="checkmark">
           <img
-              class="default"
-              src="@/assets/icons/checkbox-default.svg"
-              alt="checkbox"
+            class="default"
+            src="@/assets/icons/checkbox-default.svg"
+            alt="checkbox"
           />
           <img
-              class="checked"
-              src="@/assets/icons/checkbox-fill.svg"
-              alt="checkbox"
+            class="checked"
+            src="@/assets/icons/checkbox-fill.svg"
+            alt="checkbox"
           />
         </div>
       </label>
@@ -110,7 +100,7 @@ const checkActiveItem = (item) => {
   align-items: center;
   column-gap: 1rem;
   padding: 12px 10px;
-  background: var(--gf-accent-bg);
+  background: var(--accent-gray);
   border-radius: 8px;
   cursor: pointer;
   -webkit-user-select: none;
@@ -119,8 +109,8 @@ const checkActiveItem = (item) => {
   user-select: none;
 
   p {
-    @extend .font-16;
-    color: var(--gf-text-33);
+    @extend .text-16-500;
+    color: var(--text-main);
     letter-spacing: -0.32px;
   }
 
@@ -161,7 +151,8 @@ const checkActiveItem = (item) => {
 }
 
 .answer-item input:checked ~ p {
-  @include text-gradient(linear-gradient(180deg, #00bbf9 0%, #00a3ff 100%));
+  @extend .text-16-500;
+  color: var(--gf-blue-gradient-01);
 }
 
 .answer-item input:checked ~ .checkmark .checked {
