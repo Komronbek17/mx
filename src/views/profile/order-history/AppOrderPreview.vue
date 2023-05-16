@@ -2,7 +2,7 @@
 import { defineProps } from "vue";
 import { useI18n } from "vue-i18n";
 import BotCloseIcon from "@/components/icons/BotCloseIcon.vue";
-import { formatDateWithSlash } from "@/utils/date.formatter";
+import { getCreatedDate } from "@/utils/date.formatter";
 
 const { t } = useI18n();
 const emit = defineEmits(["close-bottom-sheet"]);
@@ -61,7 +61,7 @@ console.log("lll", props.previewData);
         <div class="order-body_details">
           <p>{{ t("order_time") }}</p>
           <div class="flex flex-column align-end">
-            <span>{{ formatDateWithSlash(props.previewData.date) }}</span>
+            <span>{{ getCreatedDate(props.previewData.date) }}</span>
           </div>
         </div>
 

@@ -85,7 +85,7 @@ const { value: comment, errorMessage: commentErrorMessage } = useField(
 );
 
 watch(region, (nRegion) => {
-  if (nRegion?.id) {
+  if (!loading && nRegion?.id) {
     city.value = undefined;
     fetchCities({ regionId: nRegion?.id });
   }
