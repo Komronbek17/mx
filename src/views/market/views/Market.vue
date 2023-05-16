@@ -200,7 +200,7 @@ fetchItems();
         <div class="bonus-card__title">{{ $t("market_page.balance") }}:</div>
         <div class="bonus-card__price">
           <img src="@/assets/icons/fitcoin.svg" alt="" />
-          <p>{{ balance }}</p> Fit-Coin
+          <p>{{ balance }} Fit-Coin</p>
         </div>
       </div>
     </div>
