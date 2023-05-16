@@ -72,6 +72,8 @@ function generateUserName(user) {
       </a>
     </div>
 
+    <p class="referral-link-p">{{ props.property.link }}</p>
+
     <div class="referral-index__cards">
       <div class="referral-index__card">
         <p>{{ t("profile_page.referrals") }}</p>
@@ -277,5 +279,11 @@ function generateUserName(user) {
     color: var(--text-main);
     margin-bottom: 0;
   }
+}
+
+.referral-link-p {
+  @extend .text-15-600;
+  color: var(--text-main);
+  margin-bottom: 1rem;
 }
 </style>
