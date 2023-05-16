@@ -1,5 +1,5 @@
 <script setup>
-import {computed} from "vue";
+import { computed } from "vue";
 
 const emit = defineEmits(["update:modelValue"]);
 const props = defineProps({
@@ -12,7 +12,7 @@ const props = defineProps({
     required: true,
   },
   modelValue: {
-    type: [Number, String, Array]
+    type: [Number, String, Array],
   },
 });
 
@@ -34,30 +34,30 @@ const answerIds = computed({
 
     <div class="answer-list">
       <label
-          v-for="answer in vote.answers"
-          :key="answer.id + '_answer'"
-          class="answer-item"
+        v-for="answer in vote.answers"
+        :key="answer.id + '_answer'"
+        class="answer-item"
       >
         <p>
           {{ answer.name }}
         </p>
         <input
-            v-model="answerIds"
-            :value="answer.id"
-            :type="vote.is_multiple ? 'checkbox' : 'radio'"
-            :name="vote.id + '_question'"
-            class="checkbox"
+          v-model="answerIds"
+          :value="answer.id"
+          :type="vote.is_multiple ? 'checkbox' : 'radio'"
+          :name="vote.id + '_question'"
+          class="checkbox"
         />
         <div class="checkmark">
           <img
-              class="default"
-              src="@/assets/icons/checkbox-default.svg"
-              alt="checkbox"
+            class="default"
+            src="@/assets/icons/checkbox-default.svg"
+            alt="checkbox"
           />
           <img
-              class="checked"
-              src="@/assets/icons/checkbox-fill.svg"
-              alt="checkbox"
+            class="checked"
+            src="@/assets/icons/checkbox-fill.svg"
+            alt="checkbox"
           />
         </div>
       </label>
@@ -86,7 +86,7 @@ const answerIds = computed({
   align-items: center;
   column-gap: 1rem;
   padding: 12px 10px;
-  background: #f5f5f5;
+  background: var(--accent-gray);
   border-radius: 8px;
   cursor: pointer;
   -webkit-user-select: none;
@@ -95,7 +95,8 @@ const answerIds = computed({
   user-select: none;
 
   p {
-    @extend .font-16-dark;
+    @extend .text-16-500;
+    color: var(--text-main);
     letter-spacing: -0.32px;
   }
 }
@@ -133,7 +134,8 @@ const answerIds = computed({
 }
 
 .answer-item input:checked ~ p {
-  @include text-gradient(linear-gradient(180deg, #00bbf9 0%, #00a3ff 100%));
+  @extend .text-16-500;
+  color: var(--gf-blue-gradient-01);
 }
 
 .answer-item input:checked ~ .checkmark .checked {

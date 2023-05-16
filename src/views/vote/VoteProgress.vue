@@ -1,5 +1,7 @@
 <script setup>
 import { computed } from "vue";
+import { useI18n } from "vue-i18n";
+const { t } = useI18n();
 
 const props = defineProps({
   activeIndex: {
@@ -43,7 +45,8 @@ const activePercent = computed(() => {
 }
 
 .vote-count {
-  @extend .font-15-dark;
+  @extend .text-15-600;
+  color: var(--text-main);
 }
 
 .vote-bar {
@@ -53,13 +56,13 @@ const activePercent = computed(() => {
   &__line {
     height: 10px;
     width: 100%;
-    background: #f5f5f5;
+    background: var(--accent-gray);
     border-radius: 16px;
 
     &-active {
       position: absolute;
       height: 10px;
-      background: linear-gradient(180deg, #00bbf9 0%, #00a3ff 100%);
+      background: var(--gf-blue-gradient-01);
       border-radius: 16px;
       top: 0;
       left: 0;

@@ -1,16 +1,18 @@
 <script setup>
 import VoteProgress from "@/views/vote/VoteProgress.vue";
 import VoteAnswers from "@/views/vote/VoteAnswers.vue";
-import {computed, onMounted, ref} from "vue";
-import {voteApi} from "@/services/vote.service";
-import {useRouter} from "vue-router";
-import {WebAppController} from "@/utils/telegram/web.app.util";
+import { computed, onMounted, ref } from "vue";
+import { voteApi } from "@/services/vote.service";
+import { useRouter } from "vue-router";
+import { WebAppController } from "@/utils/telegram/web.app.util";
 import VoteFinishModal from "@/views/vote/VoteFinishModal.vue";
-import {useI18n} from "vue-i18n";
-import {useToast} from "vue-toastification";
+import { useI18n } from "vue-i18n";
+import { useToast } from "vue-toastification";
+import ArrowRightIcon from "@/components/icons/ArrowRightIcon.vue";
+import ArrowLeftIcon from "@/components/icons/ArrowLeftIcon.vue";
 
 const router = useRouter();
-const {t} = useI18n();
+const { t } = useI18n();
 const toast = useToast();
 
 const votes = ref([]);
@@ -20,7 +22,7 @@ const activePrizeModal = ref(false);
 const answerIds = ref([]);
 
 let filterAnswers = ref([]);
-const awardCoin = ref(null)
+const awardCoin = ref(null);
 
 const lastQuestion = computed(() => {
   return votes.value.length === activeVote.value;
@@ -42,10 +44,10 @@ const checkValid = computed(() => {
 
 const fetchVotes = async () => {
   try {
-    const {data} = await voteApi.fetchVotes();
+    const { data } = await voteApi.fetchVotes();
     votes.value = data["questions"];
 
-    data["questions"].forEach(({id}, index) => {
+    data["questions"].forEach(({ id }, index) => {
       answerIds.value[index] = {
         id,
         values: [],
@@ -80,22 +82,21 @@ async function finishVote() {
     const body = {
       answer_ids: filterAnswers.value,
     };
-    const {data} = await voteApi.sendAnswers(body);
+    const { data } = await voteApi.sendAnswers(body);
     toast.success("success", {
       position: "bottom-center",
       hideProgressBar: true,
       closeButton: false,
     });
-    awardCoin.value = data.data['award_coin']
+    awardCoin.value = data.data["award_coin"];
     activePrizeModal.value = true;
-
   } catch (e) {
     toast.error(e.response?.data?.message ?? e.message);
   }
 }
 
 function closePrizeModal() {
-  router.push({name: "home"});
+  router.push({ name: "home" });
   activePrizeModal.value = false;
 }
 
@@ -109,31 +110,31 @@ WebAppController.ready();
 <template>
   <div class="layout-container">
     <div v-if="votes && votes.length" class="vote-class">
-      <vote-progress :total-length="votes.length" :active-index="activeVote"/>
+      <vote-progress :total-length="votes.length" :active-index="activeVote" />
 
       <vote-answers
-          :vote="votes[activeVote - 1]"
-          :active-index="activeVote"
-          v-model="answerIds[activeVote - 1].values"
+        :vote="votes[activeVote - 1]"
+        :active-index="activeVote"
+        v-model="answerIds[activeVote - 1].values"
       />
 
       <div class="vote-buttons">
         <button
-            :disabled="activeVote <= 1"
-            @click="backQuestion"
-            class="vote-btn vote-back"
+          :disabled="activeVote <= 1"
+          @click="backQuestion"
+          class="vote-btn vote-back"
         >
-          <img src="@/assets/icons/arrow-left.svg" alt="" />
+          <ArrowLeftIcon size="20" fill="var(--text-main)" />
           <p>{{ t("vote.back") }}</p>
         </button>
         <button
-            v-if="!lastQuestion"
-            :disabled="!checkValid"
-            @click="nextQuestion"
-            class="vote-btn vote-next"
+          v-if="!lastQuestion"
+          :disabled="!checkValid"
+          @click="nextQuestion"
+          class="vote-btn vote-next"
         >
           <p>{{ t("vote.next") }}</p>
-          <img src="@/assets/icons/arrow-right.svg" alt="" />
+          <ArrowRightIcon size="20" fill="var(--gf-text-white-2x)" />
         </button>
         <button v-else @click="finishVote" class="vote-btn vote-finish">
           <p>{{ t("vote.complete") }}</p>
@@ -142,10 +143,10 @@ WebAppController.ready();
     </div>
 
     <vote-finish-modal
-        v-if="activePrizeModal"
-        :active="activePrizeModal"
-        :awardCoin="awardCoin"
-        @close-modal="closePrizeModal"
+      v-if="activePrizeModal"
+      :active="activePrizeModal"
+      :awardCoin="awardCoin"
+      @close-modal="closePrizeModal"
     />
   </div>
 </template>
@@ -155,7 +156,7 @@ WebAppController.ready();
   display: flex;
   flex-direction: column;
   row-gap: 1rem;
-  color: #333;
+  color: var(--text-main);
 }
 
 .vote-buttons {
@@ -175,22 +176,21 @@ WebAppController.ready();
     p {
       @extend .font-16;
       line-height: 20px;
-      color: #ffffff;
+      color: var(--gf-text-white-2x);
     }
   }
 
   .vote-back {
-    background: #f5f5f5;
+    background: var(--accent-gray);
 
     p {
-      @include text-gradient(
-              linear-gradient(145.27deg, #313331 -5.05%, #181716 105.01%)
-      );
+      @extend .text-16-500;
+      color: var(--text-main);
     }
   }
 
   .vote-next {
-    background: linear-gradient(180deg, #00bbf9 0%, #00a3ff 100%);
+    background: var(--gf-blue-gradient-01);
 
     &:disabled {
       opacity: 0.65;
