@@ -87,24 +87,24 @@ const { value: lastName, errorMessage: lastNameEMessage } = useField(
 );
 
 const { value: pinfl, errorMessage: pinflEMessage } = useField(
-    "clientPinfl",
-    yup
-        .string()
-        .max(
-            14,
-            t("yup.max_value", { _field_: t("market_page.receiver_pinfl"), max: 14 })
-        )
-        .min(
-            14,
-            t("yup.min_value", { _field_: t("market_page.receiver_pinfl"), min: 14 })
-        )
-        .required(
-            t("yup.required", {
-              _field_: t("market_page.receiver_pinfl"),
-              min: "14",
-            })
-        )
-        .label("Введите ПИНФЛ получателя")
+  "clientPinfl",
+  yup
+    .string()
+    .max(
+      14,
+      t("yup.max_value", { _field_: t("market_page.receiver_pinfl"), max: 14 })
+    )
+    .min(
+      14,
+      t("yup.min_value", { _field_: t("market_page.receiver_pinfl"), min: 14 })
+    )
+    .required(
+      t("yup.required", {
+        _field_: t("market_page.receiver_pinfl"),
+        min: "14",
+      })
+    )
+    .label("Введите ПИНФЛ получателя")
 );
 
 const {
