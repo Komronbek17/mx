@@ -305,7 +305,7 @@ export default {
     next: "Дальше",
     complete: "Завершить",
     back: "Назад",
-    questions_title: "Вопрос {active}/{total}",
+    questions_title: "Вопрос {active} из {total}",
   },
 
   order_time: "Дата и время заказа",
