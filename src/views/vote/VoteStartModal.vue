@@ -1,29 +1,30 @@
 <script setup>
 import ModalDialog from "@/components/ui/ModalDialog/ModalDialog.vue";
-import { useRouter } from "vue-router";
-import { ref } from "vue";
-import { useI18n } from "vue-i18n";
+import {useRouter} from "vue-router";
+import {useI18n} from "vue-i18n";
 
 const router = useRouter();
-const { t } = useI18n();
+const {t} = useI18n();
 
-const startVoteModal = ref(false);
+const props = defineProps({
+  active: {
+    type: Boolean,
+    default: false,
+  }
+});
 
-function closeVoteModal() {
-  startVoteModal.value = false;
-}
+const emit = defineEmits(["close-modal", "start-vote"]);
 
-function redirectVotePage() {
-  router.push({ name: "votes" });
-}
+
+
 </script>
 
 <template>
   <div>
-    <modal-dialog :model-value="startVoteModal" @close-modal="closeVoteModal">
+    <modal-dialog :model-value="active" @close-modal="emit('close-modal')">
       <template #header>
         <div class="modal-header">
-          <img src="@/assets/icons/money.svg" alt="" />
+          <img src="@/assets/icons/money.svg" alt=""/>
         </div>
       </template>
       <template #content>
@@ -43,7 +44,7 @@ function redirectVotePage() {
       </template>
       <template #footer>
         <div class="modal-footer">
-          <div @click="redirectVotePage" class="modal-footer__button btn-info">
+          <div @click="emit('start-vote')" class="modal-footer__button btn-info">
             {{ t("vote_page.start_vote") }}
             <!--            {{ $t("ok") }}-->
           </div>
