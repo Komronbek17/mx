@@ -113,6 +113,7 @@ export default {
   market_page: {
     balance: "Balans",
     prize: "Sovg'alar",
+    products: "Tovarlar",
     to_basket: "Savatga",
     activate: "Faollashtirish",
     activated: "Faollashtirildi",

@@ -200,13 +200,13 @@ fetchItems();
         <div class="bonus-card__title">{{ $t("market_page.balance") }}:</div>
         <div class="bonus-card__price">
           <img src="@/assets/icons/fitcoin.svg" alt="" />
-          <p>{{ balance }}</p>
+          <p>{{ balance }}</p> Fit-Coin
         </div>
       </div>
     </div>
 
     <div class="gifts-block">
-      <div class="gift-title">{{ t("market_page.prize") }}</div>
+      <div class="gift-title">{{ t("market_page.products") }}</div>
       <div class="gift-list">
         <product-card
           v-for="gift in gifts"

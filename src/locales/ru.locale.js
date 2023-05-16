@@ -115,6 +115,7 @@ export default {
   market_page: {
     balance: "Баланс",
     prize: "Призы",
+    products: "Товары",
     to_basket: "В корзину",
     activate: "Активировать",
     activated: "Активировано",
