@@ -83,7 +83,7 @@ async function finishVote() {
       answer_ids: filterAnswers.value,
     };
     const { data } = await voteApi.sendAnswers(body);
-    toast.success("success", {
+    toast.success(`${t("vote_page.price", { price: awardCoin })}`, {
       position: "bottom-center",
       hideProgressBar: true,
       closeButton: false,
