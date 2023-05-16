@@ -1,5 +1,6 @@
 <script setup>
 import {computed} from "vue";
+import {isArray} from "@/utils/inspect.util";
 
 const emit = defineEmits(["update:modelValue"]);
 const props = defineProps({
@@ -24,6 +25,28 @@ const answerIds = computed({
     emit("update:modelValue", value);
   },
 });
+
+
+const checkActiveItem = (item) => {
+  console.log(item, 'item');
+  console.log(answerIds.value, 'answerIds.value');
+  // console.log(answerIds.value.includes(item), 'answerIds.value.includes(item)');
+  let active = false
+  if (isArray(answerIds.value) && answerIds.value.length) {
+    console.log('first')
+    active = answerIds.value.includes(item)
+  } else if (answerIds.value) {
+    console.log('second')
+    active = parseInt(answerIds.value) === parseInt(item)
+  }
+
+  console.log(active, 'active');
+
+  return active ? 'answer-item__active' : ''
+
+
+}
+
 </script>
 
 <template>
@@ -37,6 +60,7 @@ const answerIds = computed({
           v-for="answer in vote.answers"
           :key="answer.id + '_answer'"
           class="answer-item"
+          :class="checkActiveItem(answer.id)"
       >
         <p>
           {{ answer.name }}
@@ -86,7 +110,7 @@ const answerIds = computed({
   align-items: center;
   column-gap: 1rem;
   padding: 12px 10px;
-  background: #f5f5f5;
+  background: var(--gf-accent-bg);
   border-radius: 8px;
   cursor: pointer;
   -webkit-user-select: none;
@@ -95,10 +119,14 @@ const answerIds = computed({
   user-select: none;
 
   p {
-    @extend .font-16-dark;
+    @extend .font-16;
+    color: var(--gf-text-33);
     letter-spacing: -0.32px;
   }
+
+
 }
+
 
 /* Hide the browser's default checkbox */
 .answer-item input {
@@ -143,4 +171,11 @@ const answerIds = computed({
 .answer-item input:checked ~ .checkmark .default {
   display: none;
 }
+
+.answer-item__active {
+  p {
+    @include text-gradient(linear-gradient(180deg, #00bbf9 0%, #00a3ff 100%));
+  }
+}
+
 </style>

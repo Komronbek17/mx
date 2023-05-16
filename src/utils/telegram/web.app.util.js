@@ -1,4 +1,5 @@
 import { entries } from "@/utils/object.util";
+import {setLocalStorageVariable} from "@/utils/localstorage.util";
 
 export class WebAppController {
   static webApp = null;
@@ -206,6 +207,8 @@ export class WebAppController {
   }
 
   static closingConfirmationEnable() {
+    console.log('closed')
+    // setLocalStorageVariable('vote_approved', true)
     this.webApp.isClosingConfirmationEnabled = true;
   }
 

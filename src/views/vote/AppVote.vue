@@ -155,7 +155,7 @@ WebAppController.ready();
   display: flex;
   flex-direction: column;
   row-gap: 1rem;
-  color: #333;
+  color: var(--gf-text-33);
 }
 
 .vote-buttons {
@@ -175,12 +175,12 @@ WebAppController.ready();
     p {
       @extend .font-16;
       line-height: 20px;
-      color: #ffffff;
+      color: var(--gf-bg-main);
     }
   }
 
   .vote-back {
-    background: #f5f5f5;
+    background: var(--gf-p-main-gray);
 
     p {
       @include text-gradient(

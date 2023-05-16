@@ -35,7 +35,8 @@ const activePercent = computed(() => {
 }
 
 .vote-count {
-  @extend .font-15-dark;
+  @extend .font-15;
+  color: var(--gf-text-33);
 }
 
 .vote-bar {
