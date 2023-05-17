@@ -1,7 +1,7 @@
 <script setup>
 import { computed, onMounted, reactive, ref } from "vue";
 import { useI18n } from "vue-i18n";
-import { formatDateWithDot } from "@/utils/date.formatter";
+import { getCreatedDate } from "@/utils/date.formatter";
 import { WebAppController } from "@/utils/telegram/web.app.util";
 import { loadingComposable } from "@/composables/loading.composable";
 
@@ -75,7 +75,7 @@ const getOrderHistory = async () => {
 
 function formatCreatedTime(t) {
   const d = t.replace(" ", "T");
-  return formatDateWithDot(d);
+  return getCreatedDate(d);
 }
 
 function loadMore() {

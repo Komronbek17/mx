@@ -2,7 +2,7 @@
 import { computed, onMounted, reactive, ref } from "vue";
 import { useI18n } from "vue-i18n";
 import { ordersApi } from "@/services/orders.service";
-import { formatDateWithDot } from "@/utils/date.formatter";
+import { getCreatedDate } from "@/utils/date.formatter";
 import { WebAppController } from "@/utils/telegram/web.app.util";
 import { loadingComposable } from "@/composables/loading.composable";
 
@@ -86,7 +86,7 @@ async function viewOrderDetails(orderItemId) {
 
 function formatCreatedTime(t) {
   const d = t.replace(" ", "T");
-  return formatDateWithDot(d);
+  return getCreatedDate(d);
 }
 
 function loadMore() {

@@ -1,5 +1,12 @@
 import { isString } from "@/utils/inspect.util";
 
+export function subtractFiveHours(date) {
+  const TIME_STAMP_DIF = 5 * 60 * 60 * 1000;
+  const _time = new Date(date);
+  const _delta = _time.setTime(_time.getTime() + TIME_STAMP_DIF);
+  return new Date(_delta);
+}
+
 export default function formatDate(item) {
   const date = new Date(item);
   const year = date.getFullYear();
@@ -18,14 +25,21 @@ export function formatDateWithDot(rawDate) {
   return `${day}.${month}.${year}`;
 }
 
-export function formatDateWithSlash(rawDate) {
-  const date = new Date(rawDate.toString());
-  const year = date.getFullYear();
-  const baseMonth = date.getMonth() + 1;
-  const month = baseMonth < 10 ? `0${baseMonth}` : baseMonth;
-  const day = date.getDate() < 10 ? `0${date.getDate()}` : date.getDate();
-  const { hours, minutes } = dateProperties(rawDate, "string");
-  return `${day}/${month}/${year} ${hours}:${minutes}`;
+// export function formatDateWithSlash(rawDate) {
+//     const date = new Date(rawDate.toString());
+//     const year = date.getFullYear();
+//     const baseMonth = date.getMonth() + 1;
+//     const month = baseMonth < 10 ? `0${baseMonth}` : baseMonth;
+//     const day = date.getDate() < 10 ? `0${date.getDate()}` : date.getDate();
+//     const {hours, minutes} = dateProperties(rawDate, "string");
+//     return `${day}/${month}/${year} ${hours}:${minutes}`;
+// }
+
+export function getCreatedDate(time) {
+  const _sTime = subtractFiveHours(time);
+  const _slashTime = formatDateWithDot(_sTime);
+  const {hours, minutes} = dateProperties(_sTime);
+  return _slashTime + ` ${addZero(hours)}:${addZero(minutes)}`;
 }
 
 export const monthsNameList = [
