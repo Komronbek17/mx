@@ -1,6 +1,6 @@
 <script setup>
 import * as yup from "yup";
-import { reactive, watch } from "vue";
+import { computed, reactive, watch } from "vue";
 import { useField } from "vee-validate";
 import { useToast } from "vue-toastification";
 import { onBeforeRouteLeave, useRouter } from "vue-router";
@@ -23,22 +23,22 @@ const loginState = reactive({
 
 const { updateSignPhone, getSignPhone } = useSignStore();
 
+const phoneYup = computed(() =>
+  yup
+    .string()
+    .required(t("yup.required", { _field_: t("login_page.phone_number") }))
+    .min(17, t("yup.min", { _field_: t("login_page.phone_number"), length: 9 }))
+    .label(t("login_page.phone_number"))
+);
+
 const {
   value: signPhone,
   errors,
   meta,
   validate,
-} = useField(
-  "ol-signin-phone",
-  yup
-    .string()
-    .required(t("yup.required", { _field_: t("login_page.phone_number") }))
-    .min(17, t("yup.min", { _field_: t("login_page.phone_number"), length: 9 }))
-    .label(t("login_page.phone_number")),
-  {
-    initialValue: getSignPhone,
-  }
-);
+} = useField("ol-signin-phone", phoneYup, {
+  initialValue: getSignPhone,
+});
 
 watch([() => loginState.agreement, () => meta.valid], ([agreement, valid]) => {
   if (agreement && valid) {

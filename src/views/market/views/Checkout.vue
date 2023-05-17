@@ -20,6 +20,7 @@ import CheckoutSelectAddress from "@/views/market/elements/SelectAddress.vue";
 import { isArray } from "@/utils/inspect.util";
 import { useMarketStore } from "@/views/market/market.store";
 import { useI18n } from "vue-i18n";
+import { toastErrorMessage } from "@/utils/error.util";
 
 const marketStore = useMarketStore();
 const { t } = useI18n();
@@ -100,6 +101,8 @@ const total = computed(() => {
   return Math.floor(sum);
 });
 
+const isBalanceInsufficient = computed(() => total.value > marketStore.balance);
+
 async function fetchUserLocations({ page = 1, limit = 20 }) {
   try {
     const response = await coinApi.addressFindAll({
@@ -155,7 +158,11 @@ async function initialize() {
   try {
     startLoading();
     setBasketProducts();
-    await Promise.allSettled([fetchUserLocations({}), fetchClientDetails({})]);
+    await Promise.allSettled([
+      fetchUserLocations({}),
+      fetchClientDetails({}),
+      marketStore.fetchBasketItems(),
+    ]);
   } finally {
     finishLoading();
   }
@@ -163,49 +170,52 @@ async function initialize() {
 
 async function submitOrder() {
   try {
-    const { valid: hasAddressSelect } = await validateAddress();
+    if (!isBalanceInsufficient.value) {
+      const { valid: hasAddressSelect } = await validateAddress();
 
-    let vc;
-    let clientId;
+      let vc;
+      let clientId;
 
-    if (hasClientDetails.value) {
-      const { valid } = await validateClient();
-      vc = valid;
-      if (vc) {
-        clientId = client.value.id;
+      if (hasClientDetails.value) {
+        const { valid } = await validateClient();
+        vc = valid;
+        if (vc) {
+          clientId = client.value.id;
+        }
+      } else {
+        const { valid: hasReceiverFill } =
+          await receiverFormRef.value.validate();
+        if (hasReceiverFill) {
+          const savedClient = await saveClient();
+          clientId = savedClient.id;
+        }
       }
-    } else {
-      const { valid: hasReceiverFill } = await receiverFormRef.value.validate();
-      if (hasReceiverFill) {
-        const savedClient = await saveClient();
-        clientId = savedClient.id;
+
+      if (hasAddressSelect && vc) {
+        startLoading();
+        const bodyCtx = {
+          client_detail_id: clientId,
+          address_id: address.value.id,
+          basket_ids: marketStore.activeProducts
+            .filter((p) => p["is_available"])
+            .map((p) => p.id),
+        };
+
+        console.table(marketStore.activeProducts);
+        console.table(bodyCtx);
+
+        await coinApi.orderCreate({
+          body: bodyCtx,
+        });
+
+        await router.push({
+          name: "market-ordered-successfully",
+        });
       }
-    }
-
-    if (hasAddressSelect && vc) {
-      startLoading();
-      const bodyCtx = {
-        client_detail_id: clientId,
-        address_id: address.value.id,
-        basket_ids: marketStore.activeProducts
-          .filter((p) => p["is_available"])
-          .map((p) => p.id),
-      };
-
-      console.table(marketStore.activeProducts);
-      console.table(bodyCtx);
-
-      await coinApi.orderCreate({
-        body: bodyCtx,
-      });
-
-      await router.push({
-        name: "market-ordered-successfully",
-      });
     }
   } catch (e) {
     console.error(e);
-    toast.error(e?.response?.data?.message ?? e.message);
+    toastErrorMessage(e);
   } finally {
     finishLoading();
   }
@@ -271,7 +281,10 @@ initialize();
         </span>
       </div>
 
-      <div class="delivery flex justify-between align-center">
+      <div
+        class="delivery flex justify-between align-center"
+        :class="isBalanceInsufficient ? '' : 'border-bottom'"
+      >
         <span class="delivery-title">{{ $t("market_page.delivery") }}</span>
         <span class="delivery-img">
           <img
@@ -284,7 +297,10 @@ initialize();
         </span>
       </div>
 
-      <div class="sum flex justify-between align-center">
+      <div
+        class="sum flex justify-between align-center"
+        :class="isBalanceInsufficient ? 'border-bottom pb-1' : ''"
+      >
         <span class="sum-title">{{ $t("market_page.sum") }}</span>
         <span class="sum-img">
           <img
@@ -295,6 +311,28 @@ initialize();
           />
           <span class="sum-value">{{ formatToPrice(total) }}</span>
         </span>
+      </div>
+
+      <div class="mt-1" v-if="isBalanceInsufficient">
+        <div class="basket-summary-total" style="color: red">
+          {{ t("market_page.not_enough_money") }}
+        </div>
+        <div class="flex justify-between basket-summary-total">
+          <h3 class="">{{ t("market_page.your_balance") }}:</h3>
+          <p
+            class="yellow-gradient-color flex align-center basket-summary-price"
+          >
+            <img
+              :width="24"
+              :height="24"
+              src="@/assets/icons/fitcoin.svg"
+              alt="coin png"
+            />
+            <span class="ml-0-5">
+              {{ marketStore.balance }}
+            </span>
+          </p>
+        </div>
       </div>
     </div>
   </div>
@@ -342,7 +380,6 @@ initialize();
 .delivery {
   padding-bottom: 24px;
   margin-bottom: 1rem;
-  border-bottom: 1px solid var(--gf-hover-bg);
 
   &-title {
     @extend .text-16-400;
@@ -393,5 +430,9 @@ initialize();
     font-weight: 600;
     color: var(--accent-yellow);
   }
+}
+
+.border-bottom {
+  border-bottom: 1px solid var(--gf-hover-bg);
 }
 </style>

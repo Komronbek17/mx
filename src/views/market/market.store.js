@@ -1,5 +1,7 @@
 import { computed, reactive } from "vue";
 import { defineStore } from "pinia";
+import { coinApi } from "@/services/coin.service";
+import { toastErrorMessage } from "@/utils/error.util";
 
 export const useMarketStore = defineStore("market", () => {
   const basketThing = reactive({
@@ -39,6 +41,21 @@ export const useMarketStore = defineStore("market", () => {
   function initializeBasket({ products, summary }) {
     basketThing.summary = summary;
     basketThing.products = products.map((p) => ({ ...p, isActive: true }));
+  }
+
+  async function fetchBasketItems() {
+    try {
+      const response = await coinApi.basketFindAll({
+        body: { limit: 50 },
+      });
+
+      initializeBasket({
+        summary: response.data.summary,
+        products: response.data.products,
+      });
+    } catch (e) {
+      toastErrorMessage(e);
+    }
   }
 
   function setBasketProducts({ products }) {
@@ -83,6 +100,7 @@ export const useMarketStore = defineStore("market", () => {
     hasAvailableProducts,
     initializeBasket,
     setBasketProducts,
+    fetchBasketItems,
     updateBasketProduct,
     updateProductQuantity,
     inactivateBasketProduct,
