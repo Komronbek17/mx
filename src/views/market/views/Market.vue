@@ -8,6 +8,7 @@ import { loadingComposable } from "@/composables/loading.composable";
 import ProductCard from "@/views/market/ProductCard.vue";
 import AppLoader from "@/components/elements/loader/AppLoader.vue";
 import ModalDialog from "@/components/ui/ModalDialog/ModalDialog.vue";
+import MarketPolicyModal from "@/views/market/elements/MarketPolicyModal.vue";
 // import levelImage_1 from "@/assets/images/bonus-2x-level_1.svg";
 // import levelImage_2 from "@/assets/images/bonus-2x-level_2.svg";
 import levelImage_3 from "@/assets/images/bonus-2x-level_3.svg";
@@ -200,7 +201,7 @@ fetchItems();
         <div class="bonus-card__title">{{ $t("market_page.balance") }}:</div>
         <div class="bonus-card__price">
           <img src="@/assets/icons/fitcoin.svg" alt="" />
-          <p>{{ balance }}</p> Fit-Coin
+          <p>{{ balance }} Fit-Coin</p>
         </div>
       </div>
     </div>
@@ -217,6 +218,8 @@ fetchItems();
         />
       </div>
     </div>
+
+    <market-policy-modal />
 
     <modal-dialog
       design-class="bonus-modal"

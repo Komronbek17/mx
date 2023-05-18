@@ -37,7 +37,7 @@ const props = defineProps({
   },
 });
 
-const emit = defineEmits(["update:modelValue"]);
+const emit = defineEmits(["update:modelValue", "select"]);
 
 const value = computed({
   get() {
@@ -54,8 +54,10 @@ const value = computed({
       (option) => option[props.label] === nValue
     );
     if (gIdx !== -1) {
+      emit("select", props.options[gIdx]);
       emit("update:modelValue", props.options[gIdx]);
     } else {
+      emit("select", nValue);
       emit("update:modelValue", nValue);
     }
 

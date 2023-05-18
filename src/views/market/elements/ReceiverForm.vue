@@ -90,8 +90,20 @@ const { value: pinfl, errorMessage: pinflEMessage } = useField(
   "clientPinfl",
   yup
     .string()
-    .length(14)
-    .required(t("yup.required", { _field_: t("market_page.receiver_pinfl") }))
+    .max(
+      14,
+      t("yup.max_value", { _field_: t("market_page.receiver_pinfl"), max: 14 })
+    )
+    .min(
+      14,
+      t("yup.min_value", { _field_: t("market_page.receiver_pinfl"), min: 14 })
+    )
+    .required(
+      t("yup.required", {
+        _field_: t("market_page.receiver_pinfl"),
+        min: "14",
+      })
+    )
     .label("Введите ПИНФЛ получателя")
 );
 

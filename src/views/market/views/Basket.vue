@@ -2,7 +2,6 @@
 import { computed, watch } from "vue";
 import { onBeforeRouteLeave, useRouter } from "vue-router";
 import { useI18n } from "vue-i18n";
-import { useToast } from "vue-toastification";
 import { coinApi } from "@/services/coin.service";
 import { BASKET_PRODUCTS, BASKET_TOTAL_PRICE } from "@/constants";
 import { useMarketStore } from "@/views/market/market.store";
@@ -23,8 +22,6 @@ const {
   startLoading,
   finishLoading,
 } = loadingComposable();
-
-const toast = useToast();
 
 const isBalanceInsufficient = computed(
   () => marketStore.total > marketStore.balance
@@ -55,16 +52,7 @@ watch(
 async function getBasketItems() {
   try {
     startLoading();
-    const response = await coinApi.basketFindAll({
-      body: { limit: 50 },
-    });
-
-    marketStore.initializeBasket({
-      summary: response.data.summary,
-      products: response.data.products,
-    });
-  } catch (e) {
-    toast.error(e.response.data.message ?? e.message);
+    await marketStore.fetchBasketItems();
   } finally {
     finishLoading();
   }

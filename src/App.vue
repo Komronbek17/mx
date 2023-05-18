@@ -19,7 +19,7 @@ import { WebAppController } from "@/utils/telegram/web.app.util";
 import { localStorageController } from "@/utils/localstorage.util";
 import { useI18n } from "vue-i18n";
 import { AmplitudeTracker } from "@/libs/amplitude/analyticsBrowser";
-import VoteStartModal from "@/views/vote/VoteStartModal.vue";
+// import VoteStartModal from "@/views/vote/VoteStartModal.vue";
 
 const route = useRoute();
 const router = useRouter();
@@ -63,7 +63,10 @@ MainButtonController.getInstance({
 });
 
 telegramStore.initApp({ webApp: getWebApp() });
-
+// localStorage.setItem(
+//   "cd7e678d-7d38-4e1e-b94f-c432e690abb3",
+//   "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOlwvXC9kZXYub2x0aW4tYmFsaXEuMWl0LnV6XC92MVwvb2F1dGhcL3ZlcmlmeSIsImlhdCI6MTY4Mzg4MjAzMCwiZXhwIjoxNzE1NDE4MDMwLCJuYmYiOjE2ODM4ODIwMzAsImp0aSI6InJ3RUsxY2ZoZERtMmxkdksiLCJzdWIiOjEsInBydiI6IjIzYmQ1Yzg5NDlmNjAwYWRiMzllNzAxYzQwMDg3MmRiN2E1OTc2ZjcifQ.dDQAUJz0jsZC0wD6dgFOjx_m9fbUNZ0t4rW9HidQaGU"
+// );
 watch(
   () => route.name,
   () => {

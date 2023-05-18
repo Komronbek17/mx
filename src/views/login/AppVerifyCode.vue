@@ -1,5 +1,5 @@
 <script setup>
-import { onMounted, reactive, watch } from "vue";
+import { computed, onMounted, reactive, watch } from "vue";
 import { onBeforeRouteLeave, useRouter } from "vue-router";
 import { useField } from "vee-validate";
 import { useToast } from "vue-toastification";
@@ -34,13 +34,7 @@ const verifyState = reactive({
   showResendButton: false,
 });
 
-const {
-  value: olVerifyCode,
-  meta,
-  errors,
-  validate,
-} = useField(
-  "ol-verify-code",
+const verifyYup = computed(() =>
   yup
     .string()
     .required(t("yup.required", { _field_: t("login_page.verify_code") }))
@@ -48,6 +42,13 @@ const {
     .max(4, t("yup.max", { _field_: t("login_page.verify_code"), length: 4 }))
     .label(t("login_page.verify_code"))
 );
+
+const {
+  value: olVerifyCode,
+  meta,
+  errors,
+  validate,
+} = useField("ol-verify-code", verifyYup);
 
 watch(
   () => meta.valid,

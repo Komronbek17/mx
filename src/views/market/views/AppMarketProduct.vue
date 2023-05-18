@@ -269,10 +269,9 @@ onBeforeRouteLeave(() => {
       </div>
       <p class="market-product__amount">
         {{ t("market_page.quantity") }}:
-        <span
-          >{{ product.qty }} {{ product["measurement"]?.name }}
-          {{ t("quantity") }}</span
-        >
+        <span>
+          {{ product.qty }} {{ product["measurement"]?.name }}
+        </span>
       </p>
       <p class="market-product__description-title">
         {{ t("market_page.detail") }}

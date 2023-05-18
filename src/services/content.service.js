@@ -3,24 +3,24 @@ import Core from "@/services/axios/core.axios";
 class ContentService extends Core {
   constructor() {
     super({
-      endpoint: "content",
+      endpoint: "",
     });
   }
 
   guides() {
-    return this.get("guides");
+    return this.get("content/guides");
   }
 
   policy() {
-    return this.get("policy");
+    return this.get("content/policy");
   }
 
   prizes() {
-    return this.get("prizes");
+    return this.get("content/prizes");
   }
 
   socials() {
-    return this.get("socials");
+    return this.get("content/socials");
   }
 }
 
