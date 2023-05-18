@@ -112,7 +112,7 @@ WebAppController.ready();
       />
       <span class="ml-0-5 ol-accept-privacy">
         {{ t("login_page.privacy_policy") }}
-        <router-link :to="{ name: 'profile-privacy' }">
+        <router-link :to="{ name: 'profile-policy' }">
           {{ t("login_page.privacy_agree") }}
         </router-link>
       </span>

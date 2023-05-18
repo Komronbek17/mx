@@ -12,9 +12,8 @@ import LogoutIcon from "@/components/icons/LogoutIcon.vue";
 import SupportIcon from "@/components/icons/SupportIcon.vue";
 import Popover from "@/components/ui/Popover/Popover.vue";
 
-import { OLTIN_BALIQ_BOT_TKN } from "@/constants";
+import { MARKET_POLICY_VIEWED, OLTIN_BALIQ_BOT_TKN } from "@/constants";
 import { authApi } from "@/services/auth.service";
-import { useToast } from "vue-toastification";
 
 const { t } = useI18n();
 const router = useRouter();
@@ -24,8 +23,8 @@ const profileState = reactive({
 import { useUserStore } from "@/stores/user.store";
 
 import userAvatar from "@/assets/images/profile-image.svg";
+import { toastErrorMessage } from "@/utils/error.util";
 
-const toast = useToast();
 // const theme = WebAppController.webApp.colorScheme;
 
 const popoverValue = ref(false);
@@ -48,11 +47,14 @@ const openPopover = () => {
 
 async function logout() {
   try {
+    startLoading();
     await authApi.logout();
   } catch (e) {
-    toast.error(e.response.data.message ?? e.message);
+    toastErrorMessage(e);
   } finally {
+    finishLoading();
     localStorageController.remove(OLTIN_BALIQ_BOT_TKN);
+    localStorageController.remove(MARKET_POLICY_VIEWED);
     await router.push({
       name: "login",
     });
@@ -250,7 +252,7 @@ WebAppController.ready();
         <!--          </div>-->
         <!--        </router-link>-->
 
-        <!--        <router-link :to="{ name: 'profile-privacy' }" class="profile-item">-->
+        <!--        <router-link :to="{ name: 'profile-policy' }" class="profile-item">-->
         <!--          <document-text-icon fill="#00BBF9" class="profile-item__icon"/>-->
         <!--          <div class="flex align-center justify-between b-bottom">-->
         <!--            <div>-->
