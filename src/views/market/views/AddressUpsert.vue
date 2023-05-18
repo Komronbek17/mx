@@ -21,6 +21,7 @@ const router = useRouter();
 const location = reactive({
   cityOptions: [],
   regionOptions: [],
+  initialize: false,
 });
 
 const { t } = useI18n();
@@ -85,7 +86,7 @@ const { value: comment, errorMessage: commentErrorMessage } = useField(
 );
 
 watch(region, (nRegion) => {
-  if (!loading && nRegion?.id) {
+  if (location.initialize && nRegion?.id) {
     city.value = undefined;
     fetchCities({ regionId: nRegion?.id });
   }
@@ -168,6 +169,7 @@ async function init() {
     }
     await Promise.allSettled([fetchRegions()]);
   } finally {
+    location.initialize = true;
     finishLoading();
   }
 }

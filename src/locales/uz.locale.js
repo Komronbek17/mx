@@ -1,4 +1,7 @@
 export default {
+  bonus_service: "Bonusli xizmat",
+  shop_and_referral_program: "Do'kon va yo'llanma dasturi",
+  agree: "Roziman",
   delete: "Oʻchirish",
   public_offer: "Ommaviy oferta",
   edit_profile: "Profilni tahrirlash",
@@ -235,7 +238,7 @@ export default {
     privacy_agree: "qabul qilaman",
     confirm_btn: "Tasdiqlash",
     text_3:
-      "Abonent uchun “Al-Chiroq” xizmatidan foydalanish QQS bilan birga kuniga 500 so‘m.",
+      "Abonent uchun “Oltin Baliq” xizmatidan foydalanish QQS bilan birga kuniga 500 so‘m.",
     verify_1: "Sizning raqamingizga faollashtirish kodi SMS orqali yuborildi",
     verify_2: "Kodni kiriting",
     code: "Kod",
@@ -316,4 +319,9 @@ export default {
   total_with_delivery: "Jami (xizmatlar bilan)",
   votes: "So'rovnoma",
   votes_description: "So'rovnomani to'ldiring va {value} tanga oling",
+
+  market: {
+    policy_description:
+      "Bizning do'konimiz bilan ishlash uchun {link} shartlari bilan tanishib chiqing",
+  },
 };

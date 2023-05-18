@@ -3,13 +3,15 @@ import { onMounted, ref } from "vue";
 import { useI18n } from "vue-i18n";
 
 import AppLoader from "@/components/elements/loader/AppLoader.vue";
-
+import AppBottomSheet from "@/components/elements/bottomSheet/AppBottomSheet.vue";
+import BotCloseIcon from "@/components/icons/BotCloseIcon.vue";
 import { subscribeApi } from "@/services/subscribe.service";
 import { WebAppController } from "@/utils/telegram/web.app.util";
 import { loadingComposable } from "@/composables/loading.composable";
 
 const { t } = useI18n();
 const isSubscribed = ref(null);
+const policyBottomSheet = ref(null);
 const {
   loading: isFetching,
   startLoading,
@@ -24,6 +26,14 @@ const getStatus = async () => {
     finishLoading();
   }
 };
+
+function openPolicySheet() {
+  policyBottomSheet.value.open();
+}
+
+function closePolicySheet() {
+  policyBottomSheet.value.close();
+}
 
 onMounted(async () => {
   await getStatus();
@@ -56,10 +66,39 @@ WebAppController.ready();
       <!--          <p>Публичная оферта</p>-->
       <!--        </router-link>-->
 
-      <router-link :to="{ name: 'profile-privacy' }" class="settings-card">
+      <div @click="openPolicySheet" class="settings-card">
         <img src="@/assets/images/document-icon.svg" alt="" />
         <p>{{ t("public_offer") }}</p>
-      </router-link>
+      </div>
+
+      <app-bottom-sheet ref="policyBottomSheet" max-height="225px">
+        <div class="p-1 pt-0-5">
+          <div class="flex justify-between align-center mb-2">
+            <p class="policy-sheet-title">{{ t("public_offer") }}</p>
+            <div class="flex align-center justify-center">
+              <bot-close-icon
+                @click="closePolicySheet"
+                :size="20"
+                fill="var(--gf-text-09)"
+                class="mr-0-5"
+              />
+            </div>
+          </div>
+
+          <router-link
+            :to="{ name: 'profile-policy' }"
+            class="settings-card mb-1"
+          >
+            <span>{{ t("bonus_service") }}</span>
+          </router-link>
+          <router-link
+            :to="{ name: 'profile-market-policy' }"
+            class="settings-card"
+          >
+            <span>{{ t("shop_and_referral_program") }}</span>
+          </router-link>
+        </div>
+      </app-bottom-sheet>
 
       <router-link :to="{ name: 'settings-unsubscribe' }" class="settings-card">
         <!--          <div class="card-belt" :class="isSubscribed ? 'active' : 'deActive'">-->
@@ -130,6 +169,13 @@ WebAppController.ready();
       }
     }
   }
+}
+
+.policy-sheet-title {
+  font-style: normal;
+  font-weight: 500;
+  font-size: 18px;
+  line-height: 20px;
 }
 
 //.card-belt {

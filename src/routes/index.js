@@ -18,11 +18,11 @@ import AppInformers from "@/views/profile/AppInformers.vue";
 import AppDaily from "@/views/daily/AppDaily.vue";
 import _id from "@/views/news/_id.vue";
 import AppReferral from "@/views/profile/AppReferral.vue";
-import AppReferralBonus from "@/views/profile/AppReferralBonus.vue";
-import AppReferralIndex from "@/views/profile/AppReferralIndex.vue";
+// import AppReferralBonus from "@/views/profile/AppReferralBonus.vue";
+// import AppReferralIndex from "@/views/profile/AppReferralIndex.vue";
 import AppSoundController from "@/views/settings/AppSoundController.vue";
 import AppUnsubscribe from "@/views/settings/AppUnsubscribe.vue";
-import AppPrivacyPolicy from "@/views/profile/AppPrivacyPolicy.vue";
+import AppPrivacyPolicy from "@/views/profile/policy/AppPrivacyPolicy.vue";
 import AppBonus from "@/views/bonus/AppBonus.vue";
 import AppBonusActive from "@/views/bonus/AppBonusActive.vue";
 import AppBonusRecent from "@/views/bonus/AppBonusRecent.vue";
@@ -41,6 +41,7 @@ import { localStorageController } from "@/utils/localstorage.util";
 import AppOrders from "@/views/profile/order-history/AppOrders.vue";
 import AppActiveOrders from "@/views/profile/order-history/AppActiveOrders.vue";
 import AppOrderHistory from "@/views/profile/order-history/AppOrderHistory.vue";
+import AppMarketPolicy from "@/views/profile/policy/AppMarketPolicy.vue";
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -102,9 +103,14 @@ const router = createRouter({
       component: AppUnsubscribe,
     },
     {
-      path: "/profile/privacy-policy",
-      name: "profile-privacy",
+      path: "/profile/policy-policy",
+      name: "profile-policy",
       component: AppPrivacyPolicy,
+    },
+    {
+      path: "/profile/policy/market",
+      name: "profile-market-policy",
+      component: AppMarketPolicy,
     },
     {
       path: "/profile",
@@ -232,7 +238,7 @@ router.beforeEach(async (to, from, next) => {
   if (
     to.name === "login" ||
     to.name === "verification" ||
-    to.name === "profile-privacy"
+    to.name === "profile-policy"
   ) {
     return next();
   }

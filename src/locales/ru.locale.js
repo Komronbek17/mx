@@ -1,4 +1,7 @@
 export default {
+  bonus_service: "Бонусный сервис",
+  shop_and_referral_program: "Магазин и реферальная программа",
+  agree: "Согласен",
   delete: "Удалить",
   public_offer: "Публичная оферта",
   edit_profile: "Редактировать профиль",
@@ -318,4 +321,9 @@ export default {
   total_with_delivery: "Итого (с доставкой)",
   votes: "Опросник",
   votes_description: "Пройдите опросник и получите {value} монет",
+
+  market: {
+    policy_description:
+      "Для работы с нашим магазином, пожалуйста, ознакомьтесь с условиями {link}",
+  },
 };
