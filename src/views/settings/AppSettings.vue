@@ -75,12 +75,14 @@ WebAppController.ready();
         <div class="p-1 pt-0-5">
           <div class="flex justify-between align-center mb-2">
             <p class="policy-sheet-title">{{ t("public_offer") }}</p>
-            <bot-close-icon
-              @click="closePolicySheet"
-              :size="20"
-              fill="var(--gf-text-09)"
-              class="mr-0-5"
-            />
+            <div class="flex align-center justify-center">
+              <bot-close-icon
+                @click="closePolicySheet"
+                :size="20"
+                fill="var(--gf-text-09)"
+                class="mr-0-5"
+              />
+            </div>
           </div>
 
           <router-link
