@@ -91,12 +91,12 @@ WebAppController.ready();
           >
             <span>{{ t("bonus_service") }}</span>
           </router-link>
-          <router-link
-            :to="{ name: 'profile-market-policy' }"
-            class="settings-card"
-          >
-            <span>{{ t("shop_and_referral_program") }}</span>
-          </router-link>
+          <!--          <router-link-->
+          <!--            :to="{ name: 'profile-market-policy' }"-->
+          <!--            class="settings-card"-->
+          <!--          >-->
+          <!--            <span>{{ t("shop_and_referral_program") }}</span>-->
+          <!--          </router-link>-->
         </div>
       </app-bottom-sheet>
 
