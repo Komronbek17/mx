@@ -174,6 +174,7 @@ export default {
     order: "Заказ",
     passport_image_yup: "Фото паспорта",
     delete_address: "Удалить адрес",
+    delete_client: "Удалить клиент",
 
     form: {
       your_pinfl: "Введите ПИНФЛ",

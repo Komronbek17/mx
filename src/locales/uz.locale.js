@@ -174,6 +174,7 @@ export default {
     order: "Buyurtma",
     passport_image_yup: "Pasport fotosurati",
     delete_address: "Manzilni o'chirish",
+    delete_client: "Foydalanuvchini o'chirish",
 
     form: {
       your_pinfl: "JShShIR ni kiriting",
