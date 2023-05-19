@@ -63,7 +63,7 @@ async function sendCode() {
         name: "verification",
       });
     } catch (e) {
-      toast.error(e?.response?.data?.message ?? e.message);
+      toast.error(e?.response?.data?.phone[0] ?? e.message);
     } finally {
       MainButtonController.hideProgress();
     }

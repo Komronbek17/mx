@@ -89,7 +89,7 @@ const modalCancel = () => {
   closeDialogModal();
   setTimeout(() => {
     levelProduct.value = {};
-  }, 500);
+  }, 100);
 };
 
 const submitActive = async (item) => {
@@ -222,6 +222,7 @@ fetchItems();
     <market-policy-modal />
 
     <modal-dialog
+      v-if="modalValue"
       design-class="bonus-modal"
       :model-value="modalValue"
       @close-modal="closeDialogModal"
@@ -262,7 +263,7 @@ fetchItems();
       </template>
       <template #footer>
         <div class="modal-footer">
-          <div @click="modalApply" class="modal-footer__button btn-info">
+          <div @click.once="modalApply" class="modal-footer__button btn-info">
             {{ t("market_page.activate") }}
           </div>
 
