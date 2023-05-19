@@ -4,7 +4,7 @@ import { axiosVersion } from "@/services/axios/axios";
 class ProfileService extends Core {
   constructor() {
     super({
-      axios: axiosVersion({ version: "v1", endpoint: "user/" }),
+      axios: axiosVersion({ endpoint: "user/" }),
     });
   }
 

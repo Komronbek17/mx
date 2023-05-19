@@ -21,7 +21,6 @@ import {
   getSessionStorageVariable,
   setSessionStorageVariable,
 } from "@/utils/localstorage.util";
-import { TELEGRAM, WEB_APP } from "@/constants";
 
 const { user, initUser } = useUserStore();
 
@@ -141,25 +140,6 @@ function cancelVote() {
   voteExists.value = false;
 }
 
-console.log(window[TELEGRAM]);
-function openLink() {
-  // window[TELEGRAM][WEB_APP].HapticFeedback.impactOccurred("heavy");
-  // window[TELEGRAM][WEB_APP].HapticFeedback.impactOccurred("rigid");
-
-  // setInterval(() => {
-  // }, 100);
-  window[TELEGRAM][WEB_APP].HapticFeedback.notificationOccurred("error");
-  // window[TELEGRAM][WEB_APP].HapticFeedback.impactOccurred("soft");
-  // window[TELEGRAM][WEB_APP].HapticFeedback.impactOccurred("light");
-  // window[TELEGRAM][WEB_APP].HapticFeedback.impactOccurred("medium");
-  // Get the text field
-
-  // Copy the text inside the text field
-  navigator.clipboard.writeText("sultonov_komron");
-
-  // Alert the copied text
-}
-
 onMounted(async () => {
   try {
     startLoading();
@@ -187,7 +167,6 @@ WebAppController.ready();
       :user-avatar="user.avatar"
       class="mb-1"
     />
-    <div @click="openLink" class="p-1 m-2">link</div>
     <div class="home__menu grid-menu">
       <category-card
         v-for="(item, index) in homeMenu"

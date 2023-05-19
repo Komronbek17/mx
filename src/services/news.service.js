@@ -4,7 +4,7 @@ import { axiosVersion } from "@/services/axios/axios";
 class NewsService extends Core {
   constructor() {
     super({
-      axios: axiosVersion({ version: "v1", endpoint: "news/" }),
+      axios: axiosVersion({ endpoint: "news/" }),
     });
   }
 
