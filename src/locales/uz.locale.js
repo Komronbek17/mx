@@ -194,6 +194,7 @@ export default {
     description: "Qisqa viktorinani yakunlang va tangalarni oling!",
     price: "Siz so'rovnomani to'ldirganingiz uchun { price} tanga oldingiz",
     finish_title: "So'rovnomamizda qatnashganingiz uchun tashakkur!",
+    votes_empty: "Hozirda so‘rovnomalar yo‘q",
   },
   profile_page: {
     change_photo: "Profil rasmini tanlang",
@@ -221,6 +222,8 @@ export default {
     earn_fitcoin: "Fit-Coin ishlash",
     referrals: "Referallar",
     my_orders: "Mening buyurtmalarim",
+    referral_title: "Yo'naltiruvchi dastur",
+    referral_description: "Do'stni taklif qilish",
   },
   bonus_page: {
     recent: "Yaqinda",

@@ -8,7 +8,9 @@ import { loadingComposable } from "@/composables/loading.composable";
 import AppLoader from "@/components/elements/loader/AppLoader.vue";
 import { voteApi } from "@/services/vote.service";
 import { useToast } from "vue-toastification";
+import { useRouter } from "vue-router";
 
+const router = useRouter();
 let informers = ref([]);
 let vote = ref(0);
 const { t } = useI18n();
@@ -73,9 +75,21 @@ async function checkVoteExists() {
     const { data } = await voteApi.checkExists();
     voteExists.value = data?.question_exists;
   } catch (e) {
-    toast.error(e.response.data.message ?? e.message);
+    toast.error(e.response?.data?.message ?? e.message);
   }
 }
+
+const redirectVotes = () => {
+  if (voteExists.value) {
+    router.push({ name: "votes" });
+  } else {
+    toast.error(t("vote_page.votes_empty"));
+  }
+};
+
+const redirectReferral = () => {
+  router.push({ name: "referral-view" });
+};
 
 onMounted(async () => {
   startLoading();
@@ -95,7 +109,7 @@ WebAppController.ready();
   <div class="informers">
     <app-loader :active="isFetching" />
     <div class="layout-container">
-      <router-link v-if="voteExists" :to="{ name: 'votes' }" class="votes">
+      <div @click="redirectVotes" class="votes">
         <img src="@/assets/images/survey-icon.svg" alt="" />
         <div class="votes-block">
           <div class="votes-block_details">
@@ -110,7 +124,24 @@ WebAppController.ready();
             <img src="@/assets/images/arrow-right-votes.svg" alt="" />
           </div>
         </div>
-      </router-link>
+      </div>
+
+      <div @click="redirectReferral" class="votes">
+        <img src="@/assets/images/referral-icon-1.svg" alt="" />
+        <div class="votes-block">
+          <div class="votes-block_details">
+            <p class="votes-block_details-title">
+              {{ t("profile_page.referral_title") }}
+            </p>
+            <span class="votes-block_details-description">{{
+              t("profile_page.referral_description")
+            }}</span>
+          </div>
+          <div class="votes-block_btn">
+            <img src="@/assets/images/arrow-right-votes.svg" alt="" />
+          </div>
+        </div>
+      </div>
       <div class="informers-header">
         <p>{{ t("action") }}</p>
         <p>{{ t("award") }}</p>
@@ -156,6 +187,7 @@ WebAppController.ready();
     display: flex;
     align-items: center;
     justify-content: space-between;
+    width: 100%;
 
     & p {
       @extend .text-16-500;

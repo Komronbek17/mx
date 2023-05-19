@@ -194,6 +194,7 @@ export default {
     description: "Пройдите наш небольшой опросник и получите монеты!",
     price: "За прохождение опроса вам начислено { price } монет",
     finish_title: "Спасибо за прохождение нашего опроса!",
+    votes_empty: "На данный момент опросов нет",
   },
   profile_page: {
     change_photo: "Выбрать фото профиля",
@@ -221,6 +222,8 @@ export default {
     earn_fitcoin: "Заработать Fit-Coin",
     referrals: "Рефералы",
     my_orders: "Мои заказы",
+    referral_title: "Реферальная программа",
+    referral_description: "Пригласить друга",
   },
   bonus_page: {
     recent: "Недавние",
