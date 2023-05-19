@@ -206,7 +206,6 @@ export class WebAppController {
   }
 
   static closingConfirmationEnable() {
-    console.log("closed");
     // setLocalStorageVariable('vote_approved', true)
     this.webApp.isClosingConfirmationEnabled = true;
   }
