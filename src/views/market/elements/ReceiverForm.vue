@@ -1,6 +1,6 @@
 <script setup>
 import * as yup from "yup";
-import { reactive, ref } from "vue";
+import { computed, reactive, ref } from "vue";
 import { useField, useForm } from "vee-validate";
 import { useToast } from "vue-toastification";
 import { isArray } from "@/utils/inspect.util";
@@ -13,10 +13,16 @@ import DocumentUploadIcon from "@/components/icons/DocumentUploadIcon.vue";
 import DocumentTextIcon from "@/components/icons/document/DocumentTextIcon.vue";
 import AppCircleProgress from "@/components/elements/progress/AppCircleProgress.vue";
 import { useI18n } from "vue-i18n";
+import { useRoute, useRouter } from "vue-router";
+import { toastErrorMessage } from "@/utils/error.util";
+import { coinApi } from "@/services/coin.service";
+import { loadingComposable } from "@/composables/loading.composable";
 
 const uploadInput = ref(null);
 const toast = useToast();
 const { t } = useI18n();
+const route = useRoute();
+const router = useRouter();
 const upload = reactive({
   percentCompleted: 0,
   file: null,
@@ -68,7 +74,13 @@ const upload = reactive({
   },
 });
 
+const { startLoading, finishLoading } = loadingComposable();
+
 const { validate, values, setValues } = useForm();
+
+const isUpdatingClient = computed(
+  () => route.name === "checkout-client-update"
+);
 
 const { value: firstName, errorMessage: firstNameEMessage } = useField(
   "clientFirstName",
@@ -184,6 +196,23 @@ function startUploadEvent() {
 
 function finishUploadEvent() {
   upload.show = false;
+}
+
+async function deleteClient() {
+  const id = route.params.id;
+  try {
+    startLoading();
+    await coinApi.clientRemove({
+      id: id,
+    });
+    await router.push({
+      name: "market-checkout",
+    });
+  } catch (e) {
+    toastErrorMessage(e);
+  } finally {
+    finishLoading();
+  }
 }
 
 function byteToMegabyte(b) {
@@ -330,6 +359,10 @@ defineExpose({
         {{ identifyErrorMessage }}
       </span>
     </div>
+
+    <button v-if="isUpdatingClient" @click="deleteClient" class="delete-btn">
+      {{ $t("market_page.delete_client") }}
+    </button>
   </div>
 </template>
 
@@ -412,5 +445,19 @@ defineExpose({
   color: var(--text-secondary);
   margin-top: 1rem;
   display: block;
+}
+
+.delete-btn {
+  @extend .text-15-600;
+  color: var(--gf-text-white-2x);
+  width: 100%;
+  height: 46px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #eb5757;
+  border-radius: 8px;
+  border: none;
+  margin-top: 3rem;
 }
 </style>

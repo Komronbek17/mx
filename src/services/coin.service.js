@@ -109,8 +109,8 @@ class CoinService extends Core {
     });
   }
 
-  clientRemove({ body: { id = null } }) {
-    return this.post("client/remove", { id });
+  clientRemove(id) {
+    return this.post("client/remove", id);
   }
 
   orderItemFindAll({ body: { order_id = null, page = 1, limit = 10 } }) {
