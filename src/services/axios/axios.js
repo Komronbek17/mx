@@ -38,6 +38,6 @@ export const axiosDev = ({ endpoint = "" }) => {
   // }
 
   return instanceGenerator(
-    "https://dev.oltin-baliq.1it.uz" + "/v1/api/" + endpoint
+      import.meta.env.VITE_APP_URL + "/v1/api/" + endpoint
   );
 };
