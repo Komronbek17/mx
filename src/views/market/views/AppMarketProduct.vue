@@ -277,16 +277,16 @@ onBeforeRouteLeave(() => {
         {{ t("market_page.detail") }}
       </p>
       <p class="market-product__description">
-        <span v-if="textCollapsed" class="text" v-html="product.description" />
-        <span v-else v-html="product.description" />
-        <a class="collapse" @click="viewMore">
-          <template v-if="textCollapsed">
-            {{ t("market_page.detail") }}...
-          </template>
-          <template v-else>
-            {{ t("market_page.close") }}
-          </template>
-        </a>
+<!--        <span v-if="textCollapsed" class="text" v-html="product.description" />-->
+        <span  v-html="product.description" />
+<!--        <a class="collapse" @click="viewMore">-->
+<!--          <template v-if="textCollapsed">-->
+<!--            {{ t("market_page.detail") }}...-->
+<!--          </template>-->
+<!--          <template v-else>-->
+<!--            {{ t("market_page.close") }}-->
+<!--          </template>-->
+<!--        </a>-->
       </p>
 
       <!--      BUTTON START-->
