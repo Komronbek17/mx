@@ -190,9 +190,9 @@ export default {
   },
   vote_page: {
     start_vote: "Пройти опросник!",
-    title: "Хотите получить больше монет?",
-    description: "Пройдите наш небольшой опросник и получите монеты!",
-    price: "За прохождение опроса вам начислено { price } монет",
+    title: "Хотите получить больше Fit-Coin?",
+    description: "Пройдите наш небольшой опросник и получите Fit-Coin!",
+    price: "За прохождение опроса вам начислено { price } Fit-Coin",
     finish_title: "Спасибо за прохождение нашего опроса!",
     votes_empty: "На данный момент опросов нет",
   },
@@ -212,7 +212,7 @@ export default {
       ads: "Просмотр рекламы",
       rec_app: "Рекомендация приложения",
       rec_bot: "Рекомендация телеграм бота",
-      coin_amount: "монет",
+      coin_amount: "Fit-Coin",
     },
     exit: "Выйти из аккаунта",
     exit_title: "Выход",
@@ -324,7 +324,7 @@ export default {
   subtotal: "Итого",
   total_with_delivery: "Итого (с доставкой)",
   votes: "Опросник",
-  votes_description: "Пройдите опросник и получите {value} монет",
+  votes_description: "Пройдите опросник и получите {value} Fit-Coin",
 
   market: {
     policy_description:

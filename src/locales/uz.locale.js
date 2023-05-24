@@ -190,9 +190,9 @@ export default {
   },
   vote_page: {
     start_vote: "Anketani to'ldiring!",
-    title: "Ko'proq tanga olishni xohlaysizmi?",
-    description: "Qisqa viktorinani yakunlang va tangalarni oling!",
-    price: "Siz so'rovnomani to'ldirganingiz uchun { price} tanga oldingiz",
+    title: "Ko'proq Fit-Coin olishni xohlaysizmi?",
+    description: "Qisqa viktorinani yakunlang va Fit-Coin oling!",
+    price: "Siz so'rovnomani to'ldirganingiz uchun { price} Fit-Coin oldingiz",
     finish_title: "So'rovnomamizda qatnashganingiz uchun tashakkur!",
     votes_empty: "Hozirda so‘rovnomalar yo‘q",
   },
@@ -212,7 +212,7 @@ export default {
       ads: "Reklama ko'rish",
       rec_app: "Dastur tavsiyasi",
       rec_bot: "Telegram bot tavsiyasi",
-      coin_amount: "tanga",
+      coin_amount: "Fit-Coin",
     },
     exit: "Akkauntdan chiqish",
     exit_title: "Chiqish",
@@ -322,7 +322,7 @@ export default {
   subtotal: "Jami",
   total_with_delivery: "Jami (xizmatlar bilan)",
   votes: "So'rovnoma",
-  votes_description: "So'rovnomani to'ldiring va {value} tanga oling",
+  votes_description: "So'rovnomani to'ldiring va {value} Fit-Coin oling",
 
   market: {
     policy_description:
