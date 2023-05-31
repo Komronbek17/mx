@@ -60,7 +60,7 @@ const router = createRouter({
     {
       path: "/login",
       name: "login",
-      component: () => import("@/views/login/AppSignIn.vue"),
+      component: () => import("@/views/adsense/Testify.vue"),
     },
     {
       path: "/verification",
