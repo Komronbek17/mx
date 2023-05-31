@@ -9,9 +9,7 @@ adsenseScript.setAttribute(
 
 document.head.appendChild(adsenseScript);
 
-let adsByGoogle = document.createElement("script");
-adsByGoogle.value = "(adsbygoogle = window.adsbygoogle || []).push({})";
-document.head.appendChild(adsByGoogle);
+(adsbygoogle = window.adsbygoogle || []).push({});
 </script>
 
 <template>
