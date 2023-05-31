@@ -314,7 +314,7 @@ initialize();
       </div>
 
       <div class="mt-1" v-if="isBalanceInsufficient">
-        <div class="basket-summary-total" style="color: red">
+        <div class="basket-summary-total mb-1" style="color: red">
           {{ t("market_page.not_enough_money") }}
         </div>
         <div class="flex justify-between basket-summary-total">
