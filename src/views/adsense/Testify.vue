@@ -1,14 +1,17 @@
 <script setup>
-let autocompleteScript = document.createElement("script");
-autocompleteScript.async = true;
-autocompleteScript.crossorigin = "anonymous";
-autocompleteScript.setAttribute(
+let adsenseScript = document.createElement("script");
+adsenseScript.async = true;
+adsenseScript.crossorigin = "anonymous";
+adsenseScript.setAttribute(
   "src",
   "https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7057542095098946"
 );
-document.head.appendChild(autocompleteScript);
 
-(adsbygoogle = window.adsbygoogle || []).push({});
+document.head.appendChild(adsenseScript);
+
+let adsByGoogle = document.createElement("script");
+adsByGoogle.value = "(adsbygoogle = window.adsbygoogle || []).push({})";
+document.head.appendChild(adsByGoogle);
 </script>
 
 <template>
