@@ -373,4 +373,10 @@ WebAppController.ready();
   border-bottom: 1px solid var(--accent-gray);
   padding: 1rem 0;
 }
+
+.votes-image{
+  width: 44px;
+  height: 44px;
+  //object-fit: contain;
+}
 </style>

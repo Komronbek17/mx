@@ -6,11 +6,13 @@ import { ACCEPT_LANGUAGE, USER_DATA } from "@/constants";
 import { useTelegram } from "@/composables/telegram.composable";
 import { useI18n } from "vue-i18n";
 import { useTelegramStore } from "@/stores/telegram.store";
+import {useToast} from "vue-toastification";
 
 export const useUserStore = defineStore("user", () => {
   const { tUserFullName, tUser } = useTelegramStore();
   const { tUserUniqueId } = useTelegram();
   const { locale } = useI18n();
+  const toast = useToast()
 
   const user = ref({
     id: "",
