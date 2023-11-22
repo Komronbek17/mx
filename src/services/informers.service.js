@@ -17,8 +17,6 @@ class InformersService extends Core {
   fetchChannelLink() {
     return this.post("/ads-channel/getLink");
   }
-
-
 }
 
 export const informersApi = new InformersService();

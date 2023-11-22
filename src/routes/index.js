@@ -33,6 +33,7 @@ import AppVote from "@/views/vote/AppVote.vue";
 import AppMonitoring from "@/views/monitoring/views/AppMonitoring.vue";
 
 import { marketRoutes } from "@/routes/market/market.routes";
+import { flashRoutes } from "@/routes/flash/flash.routes";
 
 import { ACCEPT_LANGUAGE, OLTIN_BALIQ_BOT_TKN } from "@/constants";
 import { telegramApi } from "@/services/telegram.service";
@@ -47,6 +48,7 @@ const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
     ...marketRoutes,
+    ...flashRoutes,
     {
       path: "/",
       name: "home",

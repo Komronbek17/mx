@@ -160,7 +160,9 @@ const checkActiveItem = (item) => {
 
 .answer-item__active {
   p {
-    @include text-gradient(linear-gradient(145.01deg, #7243A0 0%, #9530EB 100%));
+    @include text-gradient(
+      linear-gradient(145.01deg, #7243a0 0%, #9530eb 100%)
+    );
   }
 }
 </style>

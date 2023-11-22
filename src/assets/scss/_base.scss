@@ -19,6 +19,8 @@
   --star-color1: #FFA329;
   --star-color2: #00CB6A;
   --star-opacity: 0.5;
+  --light-gradients-blue-variant: rgba(0, 174, 232, 0.10);
+  --light-gradients-blue: #00AEE8;
 
   //  JAMSHID LIGHT
   --gf-bg-main: #FFFFFF;
@@ -71,14 +73,12 @@
   --gradient-purple: linear-gradient(145.01deg, #7243A0 0%, #9530EB 100%);
   --gradient-orange: linear-gradient(145.66deg, #FCA305 -2.12%, #FF8130 101.98%);
   --gradient-lime: linear-gradient(315deg, #FFE072 31.01%, #FDA085 100%);
-  --gradient-radial: radial-gradient(111.8% 111.8% at 100% 0%, #D52865 0%, #F7B55A 100%) /* warning: gradient uses a rotation that is not supported by CSS and may not behave as expected */;
+  --gradient-radial: radial-gradient(111.8% 111.8% at 100% 0%, #D52865 0%, #F7B55A 100%) /* warning: gradient uses a rotation that is not supported by CSS and may not behave as expected */
+;
   --gradient-green: linear-gradient(142.74deg, #00FF85 -18.06%, #00B05C 110.27%);
   --gradient-dark-green: linear-gradient(142.74deg, #21AA68 -18.06%, #07C569 110.27%);
   --gradient-gray: linear-gradient(108.24deg, #95C0C8 -2.2%, #6F9EA9 -2.19%);
   --exit-btn: rgba(235, 87, 87, 0.1);
-
-
-
 
 
 }
@@ -159,7 +159,8 @@
     --gradient-purple: linear-gradient(145.01deg, #7243A0 0%, #9530EB 100%);
     --gradient-orange: linear-gradient(145.66deg, #FCA305 -2.12%, #FF8130 101.98%);
     --gradient-lime: linear-gradient(315deg, #FFE072 31.01%, #FDA085 100%);
-    --gradient-radial: radial-gradient(111.8% 111.8% at 100% 0%, #D52865 0%, #F7B55A 100%) /* warning: gradient uses a rotation that is not supported by CSS and may not behave as expected */;
+    --gradient-radial: radial-gradient(111.8% 111.8% at 100% 0%, #D52865 0%, #F7B55A 100%) /* warning: gradient uses a rotation that is not supported by CSS and may not behave as expected */
+  ;
     --gradient-green: linear-gradient(142.74deg, #00FF85 -18.06%, #00B05C 110.27%);
     --gradient-dark-green: linear-gradient(142.74deg, #21AA68 -18.06%, #07C569 110.27%);
     --gradient-gray: linear-gradient(108.24deg, #95C0C8 -2.2%, #6F9EA9 -2.19%);

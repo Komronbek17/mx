@@ -1,4 +1,24 @@
 export default {
+  sms: "СМС",
+  mb: "МБ",
+  coin: "Fit-coin",
+
+  activate_flash: "Активировать Flash",
+  select_min_options: "Выберите {min} опции",
+  go_main_page: "Перейти на главную",
+  all_chances_are_taken: "Все шансы использованы",
+  flash_come_back_desc:
+    "Вы использовали все бонусы на сегодня, возвращайтесь завтра!",
+  swipe_right: "Проведите направо",
+  you_are_missing: "Вам не хватает",
+  insufficient_funds: "Недостаточно средств",
+  total_to_be_paid: "Итого к оплате",
+  reset: "Сбросить",
+  available_options: "Доступные опции",
+  uzs: "сум",
+  in_balance: "На балансе",
+  group: "Группа",
+
   bonus_service: "Бонусный сервис",
   shop_and_referral_program: "Магазин и реферальная программа",
   agree: "Согласен",

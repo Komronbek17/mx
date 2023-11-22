@@ -6,6 +6,7 @@ import CategoryCard from "@/components/home/category-card/CategoryCard.vue";
 import { loadingComposable } from "@/composables/loading.composable";
 import { infoApi } from "@/services/info.service";
 import UserCardHome from "@/components/home/UserCardHome.vue";
+import HomeFlashCard from "@/components/home/HomeFlashCard.vue";
 import AppLoader from "@/components/elements/loader/AppLoader.vue";
 import { useToast } from "vue-toastification";
 
@@ -167,6 +168,9 @@ WebAppController.ready();
       :user-avatar="user.avatar"
       class="mb-1"
     />
+
+    <home-flash-card class="mb-1" @click="$router.push({ name: 'flash' })" />
+
     <div class="home__menu grid-menu">
       <category-card
         v-for="(item, index) in homeMenu"
