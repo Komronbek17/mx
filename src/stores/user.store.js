@@ -21,6 +21,7 @@ export const useUserStore = defineStore("user", () => {
     fullName: "",
     avatar: null,
     region: null,
+    phone: null,
   });
 
   const meUniqueId = computed(() => user.value.id);
@@ -29,6 +30,7 @@ export const useUserStore = defineStore("user", () => {
     user.value.id = result.id || tUserUniqueId;
     user.value.first_name = result.first_name || tUser.first_name || "";
     user.value.last_name = result.last_name || tUser.last_name || "";
+    user.value.phone = result.phone;
     user.value.fullName =
       result.first_name || result.last_name
         ? result.first_name + " " + result.last_name

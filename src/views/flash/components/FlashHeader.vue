@@ -26,11 +26,7 @@ const phoneNumber = computed(() => {
       p = p.replace("998", "");
     }
 
-    return `${p.slice(0, 2)}
-            ${p.slice(2, 5)}-
-            ${p.slice(5, 7)}-
-            ${p.slice(7)}
-            `;
+    return `${p.slice(0, 2)} ${p.slice(2, 5)}-${p.slice(5, 7)}-${p.slice(7)}`;
   }
 
   return "99 xxx-xx-xx";
