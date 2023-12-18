@@ -4,14 +4,15 @@ import { useRouter } from "vue-router";
 import { useI18n } from "vue-i18n";
 
 import AppLoader from "@/components/elements/loader/AppLoader.vue";
-
-import { subscribeApi } from "@/services/subscribe.service";
 import { WebAppController } from "@/utils/telegram/web.app.util";
 import { loadingComposable } from "@/composables/loading.composable";
+import { subscribeV2Api } from "@/services/subscribeV2.service";
+import {useToast} from "vue-toastification";
 
 const { t } = useI18n();
 const isSubscribed = ref(null);
 const router = useRouter();
+const toast = useToast()
 
 const {
   loading: isFetching,
@@ -22,8 +23,8 @@ const {
 const getStatus = async () => {
   startLoading();
   try {
-    const response = await subscribeApi.fetchStatus();
-    isSubscribed.value = response.data.isSubscribed;
+    const response = await subscribeV2Api.status();
+    isSubscribed.value = response.data.data.is_subscriber;
   } finally {
     finishLoading();
   }
@@ -31,25 +32,25 @@ const getStatus = async () => {
 
 async function toggleSubscribing() {
   if (isSubscribed.value === true) {
-    await subscribeApi
-      .subscribeStop()
+    await subscribeV2Api
+      .deactivate()
       .then((res) => {
         console.log(res);
       })
-      .catch((err) => {
-        console.error(err);
+      .catch((e) => {
+        toast.error(e.response.data.message ?? e.message);
       })
       .finally(() => {
         router.push({ name: "settings" });
       });
   } else {
-    await subscribeApi
-      .subscribeActivate()
+    await subscribeV2Api
+      .activate({ subscriptionId: 1 })
       .then((res) => {
         console.log(res);
       })
-      .catch((err) => {
-        console.error(err);
+      .catch((e) => {
+        toast.error(e.response.data.message ?? e.message);
       })
       .finally(() => {
         router.push({ name: "settings" });
