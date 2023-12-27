@@ -57,8 +57,8 @@ function generateImageClass() {
       {{ title }}
     </h2>
     <span class="category-card__badge" v-if="badge">
-        {{ badge }}
-      </span>
+      {{ badge }}
+    </span>
     <img
       :src="image"
       alt=""
