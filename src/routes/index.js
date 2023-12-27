@@ -50,6 +50,11 @@ const router = createRouter({
     ...marketRoutes,
     ...flashRoutes,
     {
+      path: "/vip",
+      name: "vip",
+      component: () => import("@/views/vip/AppVip.vue"),
+    },
+    {
       path: "/",
       name: "home",
       component: AppHome,

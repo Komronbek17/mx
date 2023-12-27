@@ -39,7 +39,7 @@ import lightningLottie from "@/assets/lottie/lightning.json";
   cursor: pointer;
   user-select: none;
   position: relative;
-  min-width: 20rem;
+  //min-width: 20rem;
   width: 100%;
   height: 5.625rem;
   //height: 5.625rem;

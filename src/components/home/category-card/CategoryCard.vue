@@ -10,6 +10,10 @@ const props = defineProps({
   title: String,
   image: String,
   notification: [String, Number, Boolean],
+  badge: {
+    type: String,
+    default: null,
+  },
 });
 const router = useRouter();
 
@@ -52,6 +56,9 @@ function generateImageClass() {
     <h2 class="category-card__title">
       {{ title }}
     </h2>
+    <span class="category-card__badge" v-if="badge">
+        {{ badge }}
+      </span>
     <img
       :src="image"
       alt=""

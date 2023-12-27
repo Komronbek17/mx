@@ -123,6 +123,8 @@ export default {
     prizes: "Sovrinlar",
     settings: "Sozlamalar",
     market: "Market",
+    flash: "Flash",
+    vip: "VIP",
   },
   settings_page: {
     change_lang: "Tilni o'zgartirish",

@@ -125,6 +125,8 @@ export default {
     prizes: "Призы",
     settings: "Настройки",
     market: "Маркет",
+    flash: "Флаш",
+    vip: "VIP",
   },
   settings_page: {
     change_lang: "Сменить язык",
