@@ -274,6 +274,8 @@ export default {
   },
   level_page: {
     take_prize: "Получить приз",
+    sheet_title: "Подождите",
+    sheet_description: "Ваш запрос обрабатывается, скоро вы получите ответ!",
   },
   yup: {
     max: "Поле {_field_} не может быть более {length} символов",

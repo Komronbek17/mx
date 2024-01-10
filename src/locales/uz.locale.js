@@ -274,6 +274,9 @@ export default {
   },
   level_page: {
     take_prize: "Sovg'ani olish",
+    sheet_title: "Kutib turing",
+    sheet_description:
+      "Sizning so'rovingiz ko'rib chiqilmoqda, sizga tez orada javob beriladi!",
   },
   yup: {
     max: "{_field_} maydoni {length} belgisidan oshmasligi kerak",

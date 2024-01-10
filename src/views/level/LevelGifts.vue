@@ -25,12 +25,12 @@ WebAppController.ready();
     <div class="gift-list">
         <div v-for="gift in props.levels " :key="gift.id + '_level_1'" class="gift-card">
             <div class="gift-card__image">
-                <img :src="gift.image" :alt="gift.name">
+                <img :src="gift.upload.path" :alt="gift.name">
             </div>
             <div class="gift-card__content">
                 <h5>{{ gift.name }}</h5>
-                <p v-if="gift.type !== 'prize'" class="infinity">&#x221e</p>
-                <p v-else>{{ gift.count }} {{ t("quantity") }}</p>
+                <p v-if="gift['is_unlimited']" class="infinity">&#x221e</p>
+                <p v-else>{{ gift.qty }} {{ t("quantity") }}</p>
             </div>
         </div>
     </div>

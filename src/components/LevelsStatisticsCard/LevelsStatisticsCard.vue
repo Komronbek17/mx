@@ -23,14 +23,14 @@ const checkLevelName = (name) => {
       <progress-star
         :index="index"
         :active-index="activeIndex"
-        :percent="props.level.percent"
+        :percent="parseInt(props.level.score)"
       />
     </div>
     <div class="level-content">
       <div class="level-card__name">
         {{ checkLevelName(props.level.name) }}
       </div>
-      <div class="level-card__percent">{{ props.level.percent || 0 }} %</div>
+      <div class="level-card__percent">{{ props.level.score || 0 }} %</div>
     </div>
   </div>
 </template>

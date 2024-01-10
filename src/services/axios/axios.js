@@ -41,3 +41,12 @@ export const axiosDev = ({ endpoint = "" }) => {
     import.meta.env.VITE_APP_URL + "/v1/api/" + endpoint
   );
 };
+
+export const axiosDevV2 = ({ endpoint = "" }) => {
+  // eslint-disable-next-line
+  // if (import.meta.env.MODE === "production") {
+  //   return axiosVersion({ endpoint });
+  // }
+
+  return instanceGenerator("https://goldenfish.1it.uz/" + endpoint);
+};
