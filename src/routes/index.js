@@ -64,10 +64,15 @@ const router = createRouter({
       name: "chat",
       component: () => import("@/views/chat/AppChat.vue"),
     },
+    // {
+    //   path: "/login",
+    //   name: "login",
+    //   component: () => import("@/views/adsense/Testify.vue"),
+    // },
     {
       path: "/login",
       name: "login",
-      component: () => import("@/views/adsense/Testify.vue"),
+      component: () => import("@/views/login/AppSignIn.vue"),
     },
     {
       path: "/verification",
