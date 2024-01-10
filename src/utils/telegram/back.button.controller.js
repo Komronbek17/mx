@@ -55,6 +55,8 @@ export class BackButtonController {
       "bonus-recent": "home",
       "bonus-active": "home",
 
+      "flash-successfully": "home",
+
       "settings-language": "settings",
       "settings-sound": "settings",
       "settings-unsubscribe": "settings",

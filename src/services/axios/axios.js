@@ -26,9 +26,9 @@ export const axiosVersion = ({
   return instanceGenerator(baseUrl + `/v1/api/` + endpoint);
 };
 
-export const axiosV1 = ({ endpoint = "" }) => {
+export const axiosV1 = ({ endpoint = "", version = "v1" }) => {
   // eslint-disable-next-line
-    return instanceGenerator(import.meta.env.VITE_APP_URL + '/v1/' + endpoint);
+    return instanceGenerator(import.meta.env.VITE_APP_URL + `/${version}/` + endpoint);
 };
 
 export const axiosDev = ({ endpoint = "" }) => {
@@ -38,6 +38,6 @@ export const axiosDev = ({ endpoint = "" }) => {
   // }
 
   return instanceGenerator(
-      import.meta.env.VITE_APP_URL + "/v1/api/" + endpoint
+    import.meta.env.VITE_APP_URL + "/v1/api/" + endpoint
   );
 };

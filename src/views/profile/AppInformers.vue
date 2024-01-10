@@ -10,12 +10,16 @@ import { voteApi } from "@/services/vote.service";
 import { useToast } from "vue-toastification";
 import { useRouter } from "vue-router";
 
-const router = useRouter();
-let informers = ref([]);
-let vote = ref(0);
 const { t } = useI18n();
 const toast = useToast();
 const loading = ref(false);
+const router = useRouter();
+let informers = ref([]);
+let actions = ref([]);
+let vote = ref(null);
+let channel = ref({
+  link: null,
+});
 
 const {
   loading: isFetching,
@@ -34,14 +38,24 @@ const getInformers = async () => {
   };
   const { data } = await informersApi.fetchInformers(body);
   informers.value = [...data.result, ...informers.value];
-  if (!vote.value) {
-    vote.value = informers.value.reduce((acc, v) => {
-      if (v["type"] === "vote") {
-        return acc + v["amount"];
-      }
-      return acc;
-    }, 0);
-  }
+
+  vote.value = informers.value.reduce((acc, v) => {
+    if (v["type"] === "vote") {
+      return acc + v["amount"];
+    }
+    return acc;
+  }, 0);
+
+  informers.value.forEach((item) => {
+    if (item["type"] === "channel") {
+      channel.value.is_published = item["is_published"];
+      channel.value.amount = item["amount"];
+      channel.value.name = item["name"];
+      channel.value.image = item.upload?.path;
+    } else {
+      channel.value.is_published = false;
+    }
+  });
 };
 
 function loadMore() {
@@ -70,12 +84,55 @@ const checkScrollFunction = () => {
 
 const voteExists = ref(false);
 
+const getActions = async () => {
+  const body = {
+    page: pagination.value.current,
+    limit: pagination.value.limit,
+  };
+
+  const { data } = await informersApi.fetchActions(body);
+  actions.value = data.result;
+  actions.value = actions.value.filter((item) => item["type"] !== "ads_reward");
+};
+
+async function getChannelLink() {
+  try {
+    const { data } = await informersApi.fetchChannelLink();
+    channel.value.link = data?.result.link;
+  } catch (e) {
+    toast.error(e.response?.data?.message ?? e.message);
+  }
+}
+
 async function checkVoteExists() {
   try {
     const { data } = await voteApi.checkExists();
     voteExists.value = data?.question_exists;
   } catch (e) {
     toast.error(e.response?.data?.message ?? e.message);
+  }
+}
+
+function actionTrigger(type) {
+  switch (type) {
+    case "referral": {
+      router.push({ name: "referral-view" });
+      break;
+    }
+    case "vote": {
+      if (voteExists.value) {
+        router.push({ name: "votes" });
+      } else {
+        toast.error(t("vote_page.votes_empty"));
+      }
+      break;
+    }
+    case "channel": {
+      window.open(channel.value.link, "_blank");
+      break;
+    }
+    default: {
+    }
   }
 }
 
@@ -95,12 +152,15 @@ onMounted(async () => {
   startLoading();
   try {
     await getInformers();
-    await checkVoteExists();
+    await getActions();
     checkScrollFunction();
   } finally {
     finishLoading();
   }
 });
+
+checkVoteExists();
+getChannelLink();
 
 WebAppController.ready();
 </script>
@@ -109,39 +169,64 @@ WebAppController.ready();
   <div class="informers">
     <app-loader :active="isFetching" />
     <div class="layout-container">
-      <div @click="redirectVotes" class="votes">
-        <img src="@/assets/images/survey-icon.svg" alt="" />
-        <div class="votes-block">
-          <div class="votes-block_details">
-            <p>{{ t("votes") }}</p>
-            <span>{{
-              t("votes_description", {
-                value: vote,
-              })
-            }}</span>
-          </div>
-          <div class="votes-block_btn">
-            <img src="@/assets/images/arrow-right-votes.svg" alt="" />
-          </div>
-        </div>
-      </div>
+      <!--      <div @click="redirectVotes" class="votes">-->
+      <!--        <img src="@/assets/images/survey-icon.svg" alt="" />-->
+      <!--        <div class="votes-block">-->
+      <!--          <div class="votes-block_details">-->
+      <!--            <p>{{ t("votes") }}</p>-->
+      <!--            <span>{{-->
+      <!--              t("votes_description", {-->
+      <!--                value: vote,-->
+      <!--              })-->
+      <!--            }}</span>-->
+      <!--          </div>-->
+      <!--          <div class="votes-block_btn">-->
+      <!--            <img src="@/assets/images/arrow-right-votes.svg" alt="" />-->
+      <!--          </div>-->
+      <!--        </div>-->
+      <!--      </div>-->
 
-      <div @click="redirectReferral" class="votes">
-        <img src="@/assets/images/referral-icon-1.svg" alt="" />
-        <div class="votes-block">
-          <div class="votes-block_details">
-            <p class="votes-block_details-title">
-              {{ t("profile_page.referral_title") }}
-            </p>
-            <span class="votes-block_details-description">{{
-              t("profile_page.referral_description")
-            }}</span>
-          </div>
-          <div class="votes-block_btn">
-            <img src="@/assets/images/arrow-right-votes.svg" alt="" />
+      <!--      <div @click="redirectReferral" class="votes">-->
+      <!--        <img src="@/assets/images/referral-icon-1.svg" alt="" />-->
+      <!--        <div class="votes-block">-->
+      <!--          <div class="votes-block_details">-->
+      <!--            <p class="votes-block_details-title">-->
+      <!--              {{ t("profile_page.referral_title") }}-->
+      <!--            </p>-->
+      <!--            <span class="votes-block_details-description">{{-->
+      <!--              t("profile_page.referral_description")-->
+      <!--            }}</span>-->
+      <!--          </div>-->
+      <!--          <div class="votes-block_btn">-->
+      <!--            <img src="@/assets/images/arrow-right-votes.svg" alt="" />-->
+      <!--          </div>-->
+      <!--        </div>-->
+      <!--      </div>-->
+
+      <template v-for="action in actions" :key="action.id">
+        <div
+          v-if="action.is_published"
+          @click="actionTrigger(action.type)"
+          class="votes"
+        >
+          <img
+            v-if="action.upload"
+            :src="action.upload.path"
+            :alt="action.upload.name"
+            class="votes-image"
+          />
+          <div class="votes-block">
+            <div class="votes-block_details">
+              <p>{{ action.name }}</p>
+              <span>{{ action.description }}</span>
+            </div>
+            <div class="votes-block_btn">
+              <img src="@/assets/images/arrow-right-votes.svg" alt="" />
+            </div>
           </div>
         </div>
-      </div>
+      </template>
+
       <div class="informers-header">
         <p>{{ t("action") }}</p>
         <p>{{ t("award") }}</p>
@@ -189,14 +274,21 @@ WebAppController.ready();
     justify-content: space-between;
     width: 100%;
 
+    &-image {
+      width: 50px;
+      height: 50px;
+      object-fit: contain;
+      margin-right: 12px;
+    }
+
     & p {
       @extend .text-16-500;
       color: var(--text-main);
     }
 
     & span {
-      display: block;
-      width: 80%;
+      display: flex;
+      //width: 80%;
       @extend .text-14-400;
       color: var(--text-secondary);
     }
@@ -280,5 +372,11 @@ WebAppController.ready();
   height: 100%;
   border-bottom: 1px solid var(--accent-gray);
   padding: 1rem 0;
+}
+
+.votes-image {
+  width: 44px;
+  height: 44px;
+  //object-fit: contain;
 }
 </style>

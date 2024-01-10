@@ -356,6 +356,8 @@ WebAppController.ready();
 
   &__content {
     width: 100%;
+    max-height: 100%;
+    overflow: auto;
     display: grid;
     grid-template-columns: repeat(5, 1fr);
     gap: 1rem;

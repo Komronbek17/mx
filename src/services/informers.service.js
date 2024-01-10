@@ -9,6 +9,14 @@ class InformersService extends Core {
   fetchInformers(body) {
     return this.post("/award/findAll", body);
   }
+
+  fetchActions(body) {
+    return this.post("/awardType/findAll", body);
+  }
+
+  fetchChannelLink() {
+    return this.post("/ads-channel/getLink");
+  }
 }
 
 export const informersApi = new InformersService();

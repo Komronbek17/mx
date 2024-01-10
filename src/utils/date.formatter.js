@@ -38,7 +38,7 @@ export function formatDateWithDot(rawDate) {
 export function getCreatedDate(time) {
   const _sTime = subtractFiveHours(time);
   const _slashTime = formatDateWithDot(_sTime);
-  const {hours, minutes} = dateProperties(_sTime);
+  const { hours, minutes } = dateProperties(_sTime);
   return _slashTime + ` ${addZero(hours)}:${addZero(minutes)}`;
 }
 

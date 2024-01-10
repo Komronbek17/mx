@@ -8,11 +8,6 @@ import { infoApi } from "@/services/info.service";
 import UserCardHome from "@/components/home/UserCardHome.vue";
 import AppLoader from "@/components/elements/loader/AppLoader.vue";
 import { useToast } from "vue-toastification";
-
-const { t } = useI18n();
-const toast = useToast();
-const router = useRouter();
-
 import { useUserStore } from "@/stores/user.store";
 import { voteApi } from "@/services/vote.service";
 import VoteStartModal from "@/views/vote/VoteStartModal.vue";
@@ -21,6 +16,10 @@ import {
   getSessionStorageVariable,
   setSessionStorageVariable,
 } from "@/utils/localstorage.util";
+
+const { t } = useI18n();
+const toast = useToast();
+const router = useRouter();
 
 const { user, initUser } = useUserStore();
 
@@ -44,6 +43,26 @@ const homeMenu = ref([
     notification: null,
     routeName: "premium",
     style: [{ gridRow: "1/3" }, { height: "218px" }],
+  },
+  {
+    title: t("home_page.vip"),
+    image: "/img/categories/vip.png",
+    routeName: "vip",
+    badge: "New!",
+    // style: [
+    //   {gridRow: '3/5'},
+    //   {height: '218px'}
+    // ]
+  },
+  {
+    title: t("home_page.flash"),
+    image: "/img/categories/flash.png",
+    routeName: "flash",
+    badge: "New!",
+    // style: [
+    //   {gridRow: '3/5'},
+    //   {height: '218px'}
+    // ]
   },
   {
     title: t("home_page.market"),
@@ -167,6 +186,9 @@ WebAppController.ready();
       :user-avatar="user.avatar"
       class="mb-1"
     />
+
+    <!--      <home-flash-card class="flash" @click="$router.push({ name: 'flash' })" />-->
+
     <div class="home__menu grid-menu">
       <category-card
         v-for="(item, index) in homeMenu"
@@ -175,6 +197,7 @@ WebAppController.ready();
         :title="item.title"
         :image="item.image"
         :notification="item.notification"
+        :badge="item.badge"
         :style="item.style"
       />
     </div>

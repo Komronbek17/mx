@@ -5,9 +5,9 @@ import { useI18n } from "vue-i18n";
 import AppLoader from "@/components/elements/loader/AppLoader.vue";
 import AppBottomSheet from "@/components/elements/bottomSheet/AppBottomSheet.vue";
 import BotCloseIcon from "@/components/icons/BotCloseIcon.vue";
-import { subscribeApi } from "@/services/subscribe.service";
 import { WebAppController } from "@/utils/telegram/web.app.util";
 import { loadingComposable } from "@/composables/loading.composable";
+import { subscribeV2Api } from "@/services/subscribeV2.service";
 
 const { t } = useI18n();
 const isSubscribed = ref(null);
@@ -20,8 +20,8 @@ const {
 const getStatus = async () => {
   startLoading();
   try {
-    const response = await subscribeApi.fetchStatus();
-    isSubscribed.value = response.data.isSubscribed || null;
+    const response = await subscribeV2Api.status();
+    isSubscribed.value = response.data.data.is_subscriber || null;
   } finally {
     finishLoading();
   }

@@ -1,4 +1,24 @@
 export default {
+  sms: "SMS",
+  mb: "MB",
+  coin: "Fit-coin",
+
+  activate_flash: "Flashni faollashtirish",
+  select_min_options: "{min} ta variantni tanlang",
+  go_main_page: "Asosiy sahifaga o'ting",
+  flash_come_back_desc:
+    "Bugun barcha bonuslaringizdan foydalandingiz, ertaga qaytib keling!",
+  all_chances_are_taken: "Barcha imkoniyatlardan foydalanilgan",
+  swipe_right: "O‘ngga suring",
+  you_are_missing: "Sizga yetishmayapti",
+  insufficient_funds: "Mablag' yetarli emas",
+  total_to_be_paid: "Jami to'lov",
+  reset: "Tozalash",
+  available_options: "Mavjud imkoniyatlar",
+  uzs: "UZS",
+  in_balance: "Balansda",
+  group: "Guruh",
+
   bonus_service: "Bonusli xizmat",
   shop_and_referral_program: "Do'kon va yo'llanma dasturi",
   agree: "Roziman",
@@ -103,6 +123,8 @@ export default {
     prizes: "Sovrinlar",
     settings: "Sozlamalar",
     market: "Market",
+    flash: "Flash",
+    vip: "VIP",
   },
   settings_page: {
     change_lang: "Tilni o'zgartirish",
