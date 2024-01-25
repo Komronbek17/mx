@@ -1,7 +1,7 @@
 <script setup>
 import { onMounted, ref } from "vue";
 import { useToast } from "vue-toastification";
-import { levelApi } from "@/services/level.service";
+// import { levelApi } from "@/services/level.service";
 import { levelV2Api } from "@/services/levelV2.service";
 
 import LevelGifts from "@/views/level/LevelGifts.vue";
@@ -144,17 +144,17 @@ const getMe = async () => {
   }
 };
 
-async function sendRefreshLevel() {
-  startLoading();
-  try {
-    const { data } = await levelApi.refreshLevels();
-    levels.value = data;
-  } catch (e) {
-    toast.error(e?.response.data.message ?? e.message);
-  } finally {
-    finishLoading();
-  }
-}
+// async function sendRefreshLevel() {
+//   startLoading();
+//   try {
+//     const { data } = await levelApi.refreshLevels();
+//     levels.value = data;
+//   } catch (e) {
+//     toast.error(e?.response.data.message ?? e.message);
+//   } finally {
+//     finishLoading();
+//   }
+// }
 
 const balance = ref(null);
 
@@ -193,7 +193,7 @@ WebAppController.ready();
         :user-unique-id="user.id"
         :user-avatar="user.avatar"
         :refresh-level="true"
-        @send-refresh="sendRefreshLevel()"
+        @send-refresh="getLevelV2()"
         class="mb-1"
       />
 
