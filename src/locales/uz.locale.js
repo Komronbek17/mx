@@ -2,7 +2,9 @@ export default {
   sms: "SMS",
   mb: "MB",
   coin: "Fit-coin",
-
+  modal_text_price: "Imkoniyat narxi {price} so'm",
+  order_accept_waiting_msg:
+    "Sizning so'rovingiz ko'rib chiqilmoqda, sizga tez orada javob keladi!",
   activate_flash: "Flashni faollashtirish",
   select_min_options: "{min} ta variantni tanlang",
   go_main_page: "Asosiy sahifaga o'ting",
@@ -251,6 +253,10 @@ export default {
     recent: "Yaqinda",
     prizes: "Sovg'alar",
     active: "Faol",
+    special_prizes: "Maxsus sovg'alar",
+    source: "Manba",
+    received: "Faollashtirildi",
+    active_to: "Amal qilish muddati",
   },
   orders_page: {
     active: "Faol buyurtmalar",

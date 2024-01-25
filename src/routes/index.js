@@ -4,7 +4,7 @@ import { getToken } from "@/utils/auth.util";
 import { isNUNEZ } from "@/utils/inspect.util";
 
 import AppHome from "@/views/AppHome.vue";
-import AppPremium from "@/views/premium/AppPremium.vue";
+import AppPremium from "@/views/premium/AppPremiumV2.vue";
 // import AppShop from "@/views/shop/AppShop.vue";
 import AppPrize from "@/views/prize/AppPrize.vue";
 import AppSettings from "@/views/settings/AppSettings.vue";
@@ -15,7 +15,7 @@ import AppProfile from "@/views/profile/AppProfile.vue";
 import AppNotification from "@/views/profile/AppNotification.vue";
 import AppProfileEdit from "@/views/profile/AppProfileEdit.vue";
 import AppInformers from "@/views/profile/AppInformers.vue";
-import AppDaily from "@/views/daily/AppDaily.vue";
+import AppDaily from "@/views/daily/AppDailyV2.vue";
 import _id from "@/views/news/_id.vue";
 import AppReferral from "@/views/profile/AppReferral.vue";
 // import AppReferralBonus from "@/views/profile/AppReferralBonus.vue";

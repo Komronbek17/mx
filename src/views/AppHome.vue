@@ -16,6 +16,7 @@ import {
   getSessionStorageVariable,
   setSessionStorageVariable,
 } from "@/utils/localstorage.util";
+import { bonusApiV2 } from "@/services/bonusV2.service";
 
 const { t } = useI18n();
 const toast = useToast();
@@ -118,24 +119,44 @@ const homeMenu = ref([
   },
 ]);
 
-async function getDailyInfo() {
+// async function getDailyInfo() {
+//   try {
+//     await infoApi.fetchDaily().then(({ data }) => {
+//       homeMenu.value[0].notification = data.step;
+//       homeMenu.value[0].notification =
+//         4 - +homeMenu.value[0].notification || null;
+//     });
+//   } catch (e) {
+//     toast.error(e.response.data.message ?? e.message);
+//   }
+// }
+
+async function getDailyBonusesStatus() {
   try {
-    await infoApi.fetchDaily().then(({ data }) => {
-      homeMenu.value[0].notification = data.step;
-      homeMenu.value[0].notification =
-        4 - +homeMenu.value[0].notification || null;
-    });
+    const { data } = await bonusApiV2.dailyStatus();
+    const filteredItems = data.data.steps.filter((item) => item.status !== 3);
+    homeMenu.value[0].notification = filteredItems.length;
   } catch (e) {
     toast.error(e.response.data.message ?? e.message);
   }
 }
 
-async function getPremiumInfo() {
-  await infoApi.fetchPremium().then(({ data }) => {
-    homeMenu.value[1].notification = data.step;
-    homeMenu.value[1].notification =
-      4 - +homeMenu.value[1].notification || null;
-  });
+// async function getPremiumInfo() {
+//   await infoApi.fetchPremium().then(({ data }) => {
+//     homeMenu.value[1].notification = data.step;
+//     homeMenu.value[1].notification =
+//       4 - +homeMenu.value[1].notification || null;
+//   });
+// }
+
+async function getPremiumBonusesStatus() {
+  try {
+    const { data } = await bonusApiV2.premiumStatus();
+    const filteredItems = data.data.steps.filter((item) => item.status !== 3);
+    homeMenu.value[1].notification = filteredItems.length;
+  } catch (e) {
+    toast.error(e.response.data.message ?? e.message);
+  }
 }
 
 const voteExists = ref(false);
@@ -165,8 +186,10 @@ onMounted(async () => {
     if (!(user && user.id)) {
       await initUser();
     }
-    await getPremiumInfo();
-    await getDailyInfo();
+    // await getDailyInfo();
+    await getDailyBonusesStatus();
+    // await getPremiumInfo();
+    await getPremiumBonusesStatus();
   } finally {
     finishLoading();
   }

@@ -5,6 +5,7 @@ import { historyApi } from "@/services/history.service";
 import { formatDateWithDot } from "@/utils/date.formatter";
 import { WebAppController } from "@/utils/telegram/web.app.util";
 import { loadingComposable } from "@/composables/loading.composable";
+import { bonusHistory } from "@/services/bonusHistory.service";
 
 import AppLoader from "@/components/elements/loader/AppLoader.vue";
 
@@ -17,21 +18,31 @@ const {
 } = loadingComposable();
 const pagination = ref({
   current: 1,
-  limit: 10,
+  limit: 15,
 });
 const loading = ref(false);
 
+// const getPrizeBonuses = async () => {
+//   const body = {
+//     method: "coin.get_prize_histories",
+//     params: {
+//       page: pagination.value.current,
+//       limit: pagination.value.limit,
+//     },
+//   };
+//   const { data } = await historyApi.fetchPrizeHistories(body);
+//   prizeBonuses.value = [...prizeBonuses.value, ...data.items];
+//   pagination.value = Object.assign(pagination.value, data.pagination);
+// };
+
 const getPrizeBonuses = async () => {
   const body = {
-    method: "coin.get_prize_histories",
-    params: {
-      page: pagination.value.current,
-      limit: pagination.value.limit,
-    },
+    page: pagination.value.current,
+    limit: pagination.value.limit,
   };
-  const { data } = await historyApi.fetchPrizeHistories(body);
-  prizeBonuses.value = [...prizeBonuses.value, ...data.items];
-  pagination.value = Object.assign(pagination.value, data.pagination);
+  const { data } = await bonusHistory.fetchSpecPrizes(body);
+  prizeBonuses.value = [...prizeBonuses.value, ...data.data.list];
+  pagination.value = Object.assign(pagination.value, data.data.pagination);
 };
 
 function filterPrizeLevel(item) {
@@ -47,6 +58,10 @@ function filterPrizeLevel(item) {
 function formatCreatedTime(t) {
   const d = t.replace(" ", "T");
   return formatDateWithDot(d);
+}
+
+function detectStep(str) {
+  return str[str.length - 1];
 }
 
 function loadMore() {
@@ -96,16 +111,25 @@ WebAppController.ready();
           v-for="item in prizeBonuses"
           :key="item.id"
           class="prize-item"
-          :class="'prize-item-' + `${item.level}`"
+          :class="'prize-item-' + `${item.level.id}`"
         >
           <div class="prize-image">
             <img src="@/assets/images/bonus-prize.svg" alt="" />
           </div>
-          <div class="prize-item__details">
-            <p>{{ item.name }}</p>
-            <span>{{ filterPrizeLevel(item.level) }}</span>
+          <div class="w-100">
+            <div class="prize-item__details">
+              <p>{{ item.prize.name }}</p>
+            </div>
+            <div class="prize-item__details">
+              <p>{{ $t("bonus_page.source") }}:</p>
+              <span>{{ item.level.name }}</span>
+            </div>
+            <div class="prize-item__details">
+              <p>{{ $t("bonus_page.received") }}:</p>
+              <span>{{ item.created_at }}</span>
+            </div>
           </div>
-          <p class="prize-level">{{ formatCreatedTime(item.created_at) }}</p>
+          <!--          <p class="prize-level">{{ formatCreatedTime(item.created_at) }}</p>-->
         </div>
       </div>
     </div>
@@ -120,18 +144,26 @@ WebAppController.ready();
 
   &-item {
     display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin-bottom: 1rem;
+    align-items: flex-start;
+    margin-top: 0.75rem;
+    padding-bottom: 0.75rem;
+    border-bottom: 1px dashed var(--gf-text-secondary-gray-2x);
+
+    &:first-child {
+      margin-top: 0;
+    }
 
     &:last-child {
       margin-bottom: 0;
+      border-bottom: none;
     }
 
     &__details {
       display: flex;
-      flex-direction: column;
-      justify-content: center;
+      flex-wrap: nowrap;
+      flex-direction: row;
+      justify-content: space-between;
+      align-items: flex-start;
       width: 100%;
 
       & p {
@@ -142,7 +174,7 @@ WebAppController.ready();
       }
 
       & span {
-        @extend .text-14-400;
+        @extend .text-15-600;
       }
     }
 

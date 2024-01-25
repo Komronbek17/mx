@@ -2,7 +2,9 @@ export default {
   sms: "СМС",
   mb: "МБ",
   coin: "Fit-coin",
-
+  modal_text_price: "Стоимость шанса {price} сум",
+  order_accept_waiting_msg:
+    "Ваш запрос обрабатывается, скоро вы получите ответ!",
   activate_flash: "Активировать Flash",
   select_min_options: "Выберите {min} опции",
   go_main_page: "Перейти на главную",
@@ -251,6 +253,10 @@ export default {
     recent: "Недавние",
     prizes: "Призы",
     active: "Активные",
+    special_prizes: "Специальные призы",
+    source: "Источник",
+    received: "Получен",
+    active_to: "Активен до",
   },
   orders_page: {
     active: "Активные",
