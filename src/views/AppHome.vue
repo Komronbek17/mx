@@ -75,7 +75,7 @@ const homeMenu = ref([
   {
     title: t("home_page.bonuses"),
     image: "/img/categories/bonuses.png",
-    routeName: "bonus-recent",
+    routeName: "bonus-active",
     // style: [
     //   {gridRow: '3/5'},
     //   {height: '218px'}

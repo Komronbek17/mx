@@ -20,18 +20,18 @@ WebAppController.ready();
         <!--          Активные-->
         <!--        </router-link>-->
         <router-link
-          :to="{ name: 'bonus-recent', params: {} }"
-          class="history-tab"
-          :class="route.name === 'bonus-recent' ? 'router-link-active' : ''"
-        >
-          {{ t("bonus_page.recent") }}
-        </router-link>
-        <router-link
           :to="{ name: 'bonus-active', params: {} }"
           class="history-tab"
           :class="route.name === 'bonus-active' ? 'router-link-active' : ''"
         >
           {{ t("bonus_page.active") }}
+        </router-link>
+        <router-link
+          :to="{ name: 'bonus-recent', params: {} }"
+          class="history-tab"
+          :class="route.name === 'bonus-recent' ? 'router-link-active' : ''"
+        >
+          {{ t("bonus_page.recent") }}
         </router-link>
         <router-link
           :to="{ name: 'bonus-prize', params: {} }"
