@@ -103,6 +103,7 @@ const getDailyBonus = async () => {
     showModal();
     const { data } = await bonusApiV2.dailyAppoint({
       step: staticNumber.value,
+      service: "web_app",
     });
     responseHandler(data);
   } catch (e) {

@@ -148,6 +148,7 @@ async function fetchPremiumBonus() {
     const response = await bonusApiV2.premiumAppoint({
       step: staticNumber.value,
       type: state.giftType,
+      service: "web_app",
     });
     modalState.status = response.data.statusCode;
     modalState.name = response?.data?.name || t("order_accept_waiting_msg");
