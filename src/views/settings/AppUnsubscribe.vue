@@ -7,12 +7,12 @@ import AppLoader from "@/components/elements/loader/AppLoader.vue";
 import { WebAppController } from "@/utils/telegram/web.app.util";
 import { loadingComposable } from "@/composables/loading.composable";
 import { subscribeV2Api } from "@/services/subscribeV2.service";
-import {useToast} from "vue-toastification";
+import { useToast } from "vue-toastification";
 
 const { t } = useI18n();
 const isSubscribed = ref(null);
 const router = useRouter();
-const toast = useToast()
+const toast = useToast();
 
 const {
   loading: isFetching,

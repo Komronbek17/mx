@@ -169,27 +169,27 @@ WebAppController.ready();
           </div>
         </router-link>
 
-        <!--      <router-link :to="{ name: 'notification' }" class="profile-item">-->
-        <!--        <img-->
-        <!--          class="profile-item__icon"-->
-        <!--          src="@/assets/images/profile-notification-icon.svg"-->
-        <!--          alt=""-->
-        <!--        />-->
-        <!--        <div class="flex align-center justify-between b-bottom">-->
-        <!--          <div>-->
-        <!--            <p class="profile-item__title">Уведомления</p>-->
-        <!--          </div>-->
+        <router-link :to="{ name: 'notification' }" class="profile-item">
+          <img
+            class="profile-item__icon"
+            src="@/assets/images/profile-notification-icon.svg"
+            alt=""
+          />
+          <div class="flex align-center justify-between b-bottom">
+            <div>
+              <p class="profile-item__title">Уведомления</p>
+            </div>
 
-        <!--          <div class="flex align-center">-->
-        <!--            <span class="profile-item__length">2</span>-->
-        <!--            <img-->
-        <!--              class="profile-item__arrow"-->
-        <!--              src="@/assets/images/profile-arrow-right.svg"-->
-        <!--              alt=""-->
-        <!--            />-->
-        <!--          </div>-->
-        <!--        </div>-->
-        <!--      </router-link>-->
+            <div class="flex align-center">
+              <span class="profile-item__length">2</span>
+              <img
+                class="profile-item__arrow"
+                src="@/assets/images/profile-arrow-right.svg"
+                alt=""
+              />
+            </div>
+          </div>
+        </router-link>
 
         <!--      <router-link to="#" class="profile-item">-->
         <!--        <img-->

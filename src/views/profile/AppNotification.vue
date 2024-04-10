@@ -2,127 +2,176 @@
 // import { useTelegramStore } from "@/stores/telegram.store";
 //
 // const telegramStore = useTelegramStore();
-//
+//x1
 // console.log(telegramStore.webApp, "asd");
 // telegramStore.webApp.showPopup.PopupButton;
-import { ref } from "vue";
-import Popover from "@/components/ui/Popover/Popover.vue";
+
+// import axios from "axios";
+//
+// const { data } = await axios.post(
+//   "https://goldenfish.1it.uz/gwt/v2/notification/findAll"
+// );
+// console.log("data", data);
+
+import { onMounted, ref } from "vue";
 import { WebAppController } from "@/utils/telegram/web.app.util";
+import { notificationApi } from "@/services/notification.service";
 
-const popoverValue = ref(false);
+import NotificationItem from "@/components/notification/NotificationItem.vue";
+import AppLoader from "@/components/elements/loader/AppLoader.vue";
+// import { newsApi } from "@/services/news.service";
+import AppBottomSheet from "@/components/elements/bottomSheet/AppBottomSheet.vue";
+import AppOrderPreview from "@/views/profile/order-history/AppOrderPreview.vue";
+import BotCloseIcon from "@/components/icons/BotCloseIcon.vue";
 
-const closePopover = () => {
-  popoverValue.value = false;
-};
+const isFetching = ref(false);
+const isItemFetching = ref(false);
+const notificationItemSheet = ref(null);
+const previewItem = ref({
+  id: 0,
+  title: "",
+  description: "",
+  link: "",
+  link_type: "",
+  created_at: "",
+  service: "",
+  image: "",
+  is_viewed: true,
+});
 
-const openPopover = () => {
-  console.log("opened");
-  popoverValue.value = true;
-};
-const popoverApply = () => {
-  popoverValue.value = false;
-  console.log("apply");
-};
+const items = ref([]);
+const pagination = ref({
+  current: 1,
+  perPage: 10,
+  next: 2,
+});
+
+function openBottomSheet() {
+  notificationItemSheet.value.open();
+}
+
+function closeBottomSheet() {
+  notificationItemSheet.value.close();
+
+  pagination.value.current = 1;
+  getNotifications();
+}
+
+async function viewDetails(id) {
+  try {
+    isItemFetching.value = true;
+    openBottomSheet();
+
+    previewItem.value = {
+      id: 0,
+      title: "",
+      description: "",
+      link: "",
+      link_type: "",
+      created_at: "",
+      service: "",
+      image: "",
+      is_viewed: true,
+    };
+
+    const response = await notificationApi.getOne({ notification_id: id });
+    previewItem.value = response.data.result;
+  } finally {
+    isItemFetching.value = false;
+  }
+}
+
+async function getNotifications() {
+  try {
+    isFetching.value = true;
+
+    if (pagination.value.next === 0) {
+      return;
+    }
+
+    const response = await notificationApi.getAll({
+      page: pagination.value.current,
+      limit: pagination.value.perPage,
+    });
+
+    // const body = {
+    //   method: "news.get_all",
+    //   params: {
+    //     page: pagination.value.current,
+    //     limit: pagination.value.perPage,
+    //   },
+    // };
+    //
+    // const response = await newsApi.fetchNews(body);
+
+    items.value = [...items.value, ...response.data.result];
+    pagination.value = response.data.pagination;
+  } finally {
+    isFetching.value = false;
+  }
+}
+
+function loadMore() {
+  setTimeout(async () => {
+    pagination.value.current++;
+    await getNotifications();
+  }, 500);
+}
 
 WebAppController.ready();
+
+onMounted(async () => {
+  const listElm = document.getElementById("infinite-list");
+  listElm.addEventListener("scroll", () => {
+    if (listElm.scrollTop + listElm.clientHeight + 10 >= listElm.scrollHeight) {
+      loadMore();
+    }
+  });
+});
+
+getNotifications();
 </script>
 
 <template>
-  <div class="notification">
+  <div
+    class="notification"
+    id="infinite-list"
+    style="height: 90vh; overflow-y: scroll"
+  >
+    <app-loader :active="isFetching" />
     <div class="layout-container">
       <div class="notification-date">
-        <p class="notification-title">Сегодня</p>
-
-        <PopupButton id="1" style="color: black" @click="openPopover" />
-
-        <div class="notification-item">
-          <div class="notification-item__image">
-            <img src="@/assets/images/notification-support-icon.svg" alt="" />
-          </div>
-          <div class="notification-item__details">
-            <div>
-              <p class="notification-item__title">Тех поддержка</p>
-              <span class="notification-item__description">
-                Здравствуйте Alisher Rasulov, мы...
-              </span>
-            </div>
-            <div>
-              <img src="@/assets/images/arrow-down.svg" alt="" />
-            </div>
-          </div>
-        </div>
-
-        <div class="notification-item">
-          <div class="notification-item__image">
-            <img src="@/assets/images/notification-income-icon.svg" alt="" />
-          </div>
-          <div class="notification-item__details">
-            <div>
-              <p class="notification-item__title">Пополнение баланса</p>
-              <span class="notification-item__description">
-                Ваш баланс пополнен на 500 ...
-              </span>
-            </div>
-            <div>
-              <img src="@/assets/images/arrow-down.svg" alt="" />
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div class="notification-date">
-        <p class="notification-title">Вчера</p>
-
-        <div class="notification-item">
-          <div class="notification-item__image">
-            <img src="@/assets/images/notification-income-icon.svg" alt="" />
-          </div>
-          <div class="notification-item__details">
-            <div>
-              <p class="notification-item__title">Пополнение баланса</p>
-              <span class="notification-item__description">
-                Ваш баланс пополнен на 500 ...
-              </span>
-            </div>
-            <div>
-              <img src="@/assets/images/arrow-down.svg" alt="" />
-            </div>
-          </div>
-        </div>
-
-        <div class="notification-item">
-          <div class="notification-item__image">
-            <img src="@/assets/images/notification-support-icon.svg" alt="" />
-          </div>
-          <div class="notification-item__details">
-            <div>
-              <p class="notification-item__title">Тех поддержка</p>
-              <span class="notification-item__description">
-                Здравствуйте Alisher Rasulov, мы...
-              </span>
-            </div>
-            <div>
-              <img src="@/assets/images/arrow-down.svg" alt="" />
-            </div>
-          </div>
-        </div>
+        <NotificationItem
+          v-for="item in items"
+          :key="item.id"
+          :item="item"
+          @click="viewDetails(item.id)"
+        />
       </div>
     </div>
 
-    <popover :popover-value="popoverValue" @close-popover="closePopover">
-      <template #header>
-        <h5 class="ntc-popover__header-title">25.12.2022 01:20</h5>
-      </template>
-      <template #content>
-        <div class="ntc-popover__content">
-          <h3>Пополнение баланса</h3>
-          <p>
-            Баланс вашего аккаунта был пополнен на 50 000 сум. Текущий баланс:
-            150 000 сум
-          </p>
+    <app-bottom-sheet
+      height="100%"
+      ref="notificationItemSheet"
+      :click-to-close="true"
+    >
+      <app-loader :active="isItemFetching"></app-loader>
+
+      <div style="color: black">
+        <div class="order-header">
+          <h3 class="order-header_title">TITLE</h3>
+          <button class="order-header_close">
+            <BotCloseIcon
+              @click="closeBottomSheet"
+              size="28"
+              fill="var(--text-main)"
+            />
+          </button>
         </div>
-      </template>
-    </popover>
+        <div>{{ previewItem.title }}</div>
+        <div>{{ previewItem.description }}</div>
+      </div>
+    </app-bottom-sheet>
   </div>
 </template>
 
